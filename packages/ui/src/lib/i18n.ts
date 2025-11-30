@@ -30,7 +30,7 @@ export function initializeI18n(i18nConfig?: InitOptions) {
 
       // HTTP backend configuration
       backend: {
-        loadPath: "/locales/{{lng}}/{{ns}}.json", // Translation files path template
+        loadPath: "./assets/locales/{{lng}}/{{ns}}.json", // Translation files path template
         crossDomain: false, // Disable cross-domain requests
         withCredentials: false, // Don't send credentials with requests
         allowMultiLoading: true, // Load namespaces individually

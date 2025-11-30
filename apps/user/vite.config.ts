@@ -9,7 +9,7 @@ import { defineConfig } from "vite";
 export default defineConfig({
   base: "./",
   plugins: [
-    devtools(),
+    devtools({ eventBusConfig: { port: 42_069 } }),
     tanstackRouter({
       target: "react",
       autoCodeSplitting: true,
@@ -31,5 +31,8 @@ export default defineConfig({
         rewrite: (path) => path.replace(/^\/v1/, "/v1"),
       },
     },
+  },
+  build: {
+    assetsDir: "static",
   },
 });

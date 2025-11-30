@@ -37,7 +37,7 @@ export default function Auth() {
               autoplay
               className="mx-auto hidden w-full lg:block"
               loop
-              src="./lotties/login.json"
+              src="./assets/lotties/login.json"
             />
             <p className="hidden w-[275px] text-center md:w-1/2 lg:block xl:w-[500px]">
               {site.site_desc}

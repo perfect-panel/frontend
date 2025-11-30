@@ -248,7 +248,7 @@ export default function Order() {
                 </p>
                 <QRCodeCanvas
                   imageSettings={{
-                    src: "/payment/alipay_f2f.svg",
+                    src: "./assets/payment/alipay_f2f.svg",
                     width: 24,
                     height: 24,
                     excavate: true,

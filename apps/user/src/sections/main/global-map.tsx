@@ -45,7 +45,7 @@ export function GlobalMap() {
           autoplay
           className="w-full scale-150"
           loop
-          src="/lotties/global-map.json"
+          src="./assets/lotties/global-map.json"
         />
       </motion.div>
     </motion.section>

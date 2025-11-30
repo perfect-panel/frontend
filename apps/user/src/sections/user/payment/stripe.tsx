@@ -352,7 +352,7 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
     <>
       <QRCodeCanvas
         imageSettings={{
-          src: `/payment/${method}.svg`,
+          src: `./assets/payment/${method}.svg`,
           width: 24,
           height: 24,
           excavate: true,

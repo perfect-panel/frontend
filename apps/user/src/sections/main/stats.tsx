@@ -14,7 +14,7 @@ export function Stats() {
           autoplay
           className="size-24"
           loop
-          src="/lotties/users.json"
+          src="./assets/lotties/users.json"
         />
       ),
     },
@@ -29,7 +29,7 @@ export function Stats() {
           autoplay
           className="size-24"
           loop
-          src="/lotties/servers.json"
+          src="./assets/lotties/servers.json"
         />
       ),
     },
@@ -41,7 +41,7 @@ export function Stats() {
           autoplay
           className="size-24"
           loop
-          src="/lotties/locations.json"
+          src="./assets/lotties/locations.json"
         />
       ),
     },

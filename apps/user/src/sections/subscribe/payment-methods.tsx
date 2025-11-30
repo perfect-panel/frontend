@@ -67,7 +67,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
                 <img
                   alt={item.name}
                   height={48}
-                  src={item.icon || "/payment/balance.svg"}
+                  src={item.icon || "./assets/payment/balance.svg"}
                   width={48}
                 />
               </div>

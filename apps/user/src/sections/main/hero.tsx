@@ -52,7 +52,11 @@ export function Hero() {
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <DotLottieReact autoplay loop src="/lotties/network-security.json" />
+        <DotLottieReact
+          autoplay
+          loop
+          src="./assets/lotties/network-security.json"
+        />
       </motion.div>
     </motion.div>
   );
