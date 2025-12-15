@@ -1,5 +1,6 @@
 "use client";
 
+import { Link } from "@tanstack/react-router";
 import { Separator } from "@workspace/ui/components/separator";
 import { Icon } from "@workspace/ui/composed/icon";
 import { Fragment, useMemo } from "react";
@@ -112,12 +113,12 @@ export default function Footer() {
           <strong className="text-foreground">{site.site_name}</strong> ©{" "}
           {t("footer.copyright", "All rights reserved")}.
           <div>
-            <a className="underline" href="/tos">
+            <Link className="underline" to="/tos">
               {t("footer.tos", "Terms of Service")}
-            </a>
-            <a className="ml-2 underline" href="/privacy-policy">
+            </Link>
+            <Link className="ml-2 underline" to="/privacy-policy">
               {t("footer.privacyPolicy", "Privacy Policy")}
-            </a>
+            </Link>
           </div>
         </div>
       </div>

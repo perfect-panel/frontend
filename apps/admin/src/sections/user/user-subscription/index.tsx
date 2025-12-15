@@ -1,3 +1,4 @@
+import { Link } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
@@ -207,32 +208,36 @@ function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
           <DropdownMenuItem asChild>
-            <a
-              href={`/dashboard/log/subscribe?user_id=${userId}&user_subscribe_id=${subId}`}
+            <Link
+              search={{ user_id: userId, user_subscribe_id: subId }}
+              to="/dashboard/log/subscribe"
             >
               {t("subscriptionLogs", "Subscription Logs")}
-            </a>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <a
-              href={`/dashboard/log/reset-subscribe?user_id=${userId}&user_subscribe_id=${subId}`}
+            <Link
+              search={{ user_id: userId, user_subscribe_id: subId }}
+              to="/dashboard/log/reset-subscribe"
             >
               {t("resetLogs", "Reset Logs")}
-            </a>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <a
-              href={`/dashboard/log/subscribe-traffic?user_id=${userId}&user_subscribe_id=${subId}`}
+            <Link
+              search={{ user_id: userId, user_subscribe_id: subId }}
+              to="/dashboard/log/subscribe-traffic"
             >
               {t("trafficStats", "Traffic Stats")}
-            </a>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
-            <a
-              href={`/dashboard/log/traffic-details?user_id=${userId}&subscribe_id=${subId}`}
+            <Link
+              search={{ user_id: userId, subscribe_id: subId }}
+              to="/dashboard/log/traffic-details"
             >
               {t("trafficDetails", "Traffic Details")}
-            </a>
+            </Link>
           </DropdownMenuItem>
           <DropdownMenuItem
             onSelect={(e) => {
