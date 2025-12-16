@@ -21,7 +21,7 @@ export default function LoginForm({
   loading,
   onSubmit,
   initialValues,
-  setInitialValues,
+  // setInitialValues,
   onSwitchForm,
 }: {
   loading?: boolean;
@@ -35,7 +35,7 @@ export default function LoginForm({
   const { verify } = common;
 
   const formSchema = z.object({
-    email: z.string().email(t("login.email", "Email")),
+    email: z.email(t("login.email", "Email")),
     password: z.string(),
     cf_token:
       verify.enable_login_verify && verify.turnstile_site_key
@@ -131,7 +131,7 @@ export default function LoginForm({
         >
           {t("login.forgotPassword", "Forgot Password?")}
         </Button>
-        <Button
+        {/* <Button
           className="p-0"
           onClick={() => {
             setInitialValues(undefined);
@@ -140,7 +140,7 @@ export default function LoginForm({
           variant="link"
         >
           {t("login.registerAccount", "Register Account")}
-        </Button>
+        </Button> */}
       </div>
     </>
   );

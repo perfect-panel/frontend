@@ -37,7 +37,7 @@ export default function ResetForm({
   const { verify, auth } = common;
 
   const formSchema = z.object({
-    email: z.string().email(t("reset.email", "Email")),
+    email: z.email(t("reset.email", "Email")),
     password: z.string(),
     code: auth?.email?.enable_verify ? z.string() : z.string().nullish(),
     cf_token:
