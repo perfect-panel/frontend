@@ -15,7 +15,7 @@ export default function Auth() {
   const navigate = useNavigate();
   useEffect(() => {
     if (user) {
-      // navigate({ to: "/dashboard" });
+      navigate({ to: "/dashboard" });
     }
   }, [navigate, user]);
 
