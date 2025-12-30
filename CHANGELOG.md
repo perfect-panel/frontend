@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.6](https://github.com/perfect-panel/frontend/compare/v1.3.5...v1.3.6) (2025-12-30)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Update server and web version update descriptions to remove version prefix for clarity ([cbd6e29](https://github.com/perfect-panel/frontend/commit/cbd6e29deda1c7a913fae4edb169e0a0a43a3dd9))
+
 ## [1.3.5](https://github.com/perfect-panel/frontend/compare/v1.3.4...v1.3.5) (2025-12-30)
 
 ### 🐛 Bug Fixes / 问题修复
