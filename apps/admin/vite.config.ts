@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -18,6 +18,8 @@ function versionLockPlugin(): Plugin {
       );
       const rootPkg = JSON.parse(readFileSync(rootPkgPath, "utf-8"));
       const version = rootPkg.version || "0.0.0";
+
+      mkdirSync(distDir, { recursive: true });
       writeFileSync(`${distDir}/version.lock`, version);
     },
   };

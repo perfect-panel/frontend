@@ -64,7 +64,6 @@ export default function UserSubscription({ userId }: { userId: number }) {
             row={row}
             token={row.token}
             userId={userId}
-          />
           />,
         ],
       }}
