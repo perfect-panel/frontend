@@ -13,9 +13,9 @@
   "systemServices": "系统服务",
   "update": "更新",
   "updateFailed": "更新失败",
-  "updateServerDescription": "确定要将服务器版本从 V{{current}} 更新到 V{{latest}} 吗？",
+  "updateServerDescription": "确定要将服务器版本从 {{current}} 更新到 {{latest}} 吗？",
   "updateSuccess": "更新成功",
-  "updateWebDescription": "确定要将前端版本从 V{{current}} 更新到 V{{latest}} 吗？",
+  "updateWebDescription": "确定要将前端版本从 {{current}} 更新到 {{latest}} 吗？",
   "userUpdateSuccess": "用户端更新成功",
   "webVersion": "前端版本"
 }

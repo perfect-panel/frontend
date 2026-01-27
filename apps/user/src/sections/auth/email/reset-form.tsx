@@ -98,7 +98,7 @@ export default function ResetForm({
                     />
                     <SendCode
                       params={{
-                        ...form.getValues(),
+                        email: form.watch("email"),
                         type: 2,
                       }}
                       type="email"

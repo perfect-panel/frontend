@@ -13,9 +13,9 @@
   "systemServices": "System Services",
   "update": "Update",
   "updateFailed": "Update failed",
-  "updateServerDescription": "Are you sure you want to update the server version from V{{current}} to V{{latest}}?",
+  "updateServerDescription": "Are you sure you want to update the server version from {{current}} to {{latest}}?",
   "updateSuccess": "Update completed successfully",
-  "updateWebDescription": "Are you sure you want to update the web version from V{{current}} to V{{latest}}?",
+  "updateWebDescription": "Are you sure you want to update the web version from {{current}} to {{latest}}?",
   "userUpdateSuccess": "User updated successfully",
   "webVersion": "Web Version"
 }

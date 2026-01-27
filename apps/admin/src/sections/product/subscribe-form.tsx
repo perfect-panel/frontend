@@ -63,7 +63,7 @@ interface SubscribeFormProps<T> {
 }
 
 const defaultValues = {
-  inventory: 0,
+  inventory: -1,
   speed_limit: 0,
   device_limit: 0,
   traffic: 0,
@@ -278,7 +278,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
           {trigger}
         </Button>
       </SheetTrigger>
-      <SheetContent className="w-[800px] max-w-full gap-0 md:max-w-screen-md">
+      <SheetContent className="w-[800px] max-w-full gap-0 md:max-w-3xl">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
@@ -446,11 +446,10 @@ export default function SubscribeForm<T extends Record<string, any>>({
                             <FormLabel>{t("form.inventory")}</FormLabel>
                             <FormControl>
                               <EnhancedInput
-                                min={0}
                                 onValueChange={(value) => {
                                   form.setValue(field.name, value);
                                 }}
-                                placeholder={t("form.noLimit")}
+                                placeholder={t("form.unlimitedInventory")}
                                 step={1}
                                 type="number"
                                 value={field.value}
@@ -886,6 +885,33 @@ export default function SubscribeForm<T extends Record<string, any>>({
                               </FormLabel>
                               <FormDescription>
                                 {t("form.purchaseWithDiscountDescription")}
+                              </FormDescription>
+                            </div>
+                            <FormControl>
+                              <Switch
+                                checked={!!field.value}
+                                onCheckedChange={(value) => {
+                                  form.setValue(field.name, value);
+                                }}
+                              />
+                            </FormControl>
+                          </div>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                    <FormField
+                      control={form.control}
+                      name="show_original_price"
+                      render={({ field }) => (
+                        <FormItem>
+                          <div className="flex items-center justify-between">
+                            <div className="space-y-0.5">
+                              <FormLabel>
+                                {t("form.showOriginalPrice")}
+                              </FormLabel>
+                              <FormDescription>
+                                {t("form.showOriginalPriceDescription")}
                               </FormDescription>
                             </div>
                             <FormControl>

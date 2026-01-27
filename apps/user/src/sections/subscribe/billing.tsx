@@ -10,6 +10,7 @@ interface SubscribeBillingProps {
       unit_price: number;
       unit_time: string;
       subscribe_discount: number;
+      show_original_price?: boolean;
     }
   >;
 }
@@ -33,7 +34,19 @@ export function SubscribeBilling({ order }: Readonly<SubscribeBillingProps>) {
               {t(order?.unit_time || "Month", order?.unit_time || "Month")}
             </span>
           </li>
-        )}
+        )}{" "}
+        {order?.show_original_price !== false &&
+          order?.type &&
+          [1, 2].includes(order?.type) && (
+            <li>
+              <span className="text-muted-foreground">
+                {t("billing.originalPrice", "Original Price (Monthly)")}
+              </span>
+              <span>
+                <Display type="currency" value={order?.unit_price} />
+              </span>
+            </li>
+          )}{" "}
         <li>
           <span className="text-muted-foreground">
             {t("billing.price", "Price")}

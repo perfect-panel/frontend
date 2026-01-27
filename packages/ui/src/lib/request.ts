@@ -135,6 +135,14 @@ function handleError(response: {
       "components:error.60005",
       "Single subscription mode has exceeded user limit"
     ),
+    60006: t(
+      "components:error.60006",
+      "User quota limit has been reached, unable to continue."
+    ),
+    60007: t(
+      "components:error.60007",
+      "Insufficient inventory, please try again later or contact the administrator."
+    ),
     70001: t(
       "components:error.70001",
       "Incorrect verification code, please re-enter."
@@ -185,7 +193,7 @@ request.interceptors.request.use(
 request.interceptors.response.use(
   (response) => {
     const { code } = response.data;
-    if (code !== 200) {
+    if (code !== 200 && code !== 0) {
       handleError({
         data: response.data,
         config: {

@@ -8,7 +8,7 @@ export interface GlobalStore {
   setCommon: (common: Partial<API.GetGlobalConfigResponse>) => void;
   setUser: (user?: API.User) => void;
   getUserInfo: () => Promise<void>;
-  getUserSubscribe: (uuid: string, type?: string) => string[];
+  getUserSubscribe: (short: string, token: string, type?: string) => string[];
   getAppSubLink: (url: string, schema?: string) => string;
 }
 
@@ -120,7 +120,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       console.error("Failed to refresh user:", error);
     }
   },
-  getUserSubscribe: (uuid: string, type?: string) => {
+  getUserSubscribe: (short: string, token: string, type?: string) => {
     const { pan_domain, subscribe_domain, subscribe_path } =
       get().common.subscribe || {};
     const domains = subscribe_domain
@@ -129,12 +129,13 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
 
     return domains.map((domain) => {
       if (pan_domain) {
-        if (type) return `https://${uuid}.${type}.${domain}`;
-        return `https://${uuid}.${domain}`;
+        if (type)
+          return `https://${short}.${type}.${domain}${subscribe_path}?token=${token}&type=${type}`;
+        return `https://${short}.${domain}${subscribe_path}?token=${token}`;
       }
       if (type)
-        return `https://${domain}${subscribe_path}?token=${uuid}&type=${type}`;
-      return `https://${domain}${subscribe_path}?token=${uuid}`;
+        return `https://${domain}${subscribe_path}?token=${token}&type=${type}`;
+      return `https://${domain}${subscribe_path}?token=${token}`;
     });
   },
   getAppSubLink: (url: string, schema?: string) => {

@@ -4,7 +4,7 @@ import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
-import { defineConfig, type Plugin } from "vite";
+import { defineConfig, loadEnv, type Plugin } from "vite";
 
 // Plugin to generate version.lock file after build
 function versionLockPlugin(): Plugin {
@@ -24,33 +24,37 @@ function versionLockPlugin(): Plugin {
 }
 
 // https://vitejs.dev/config/
-export default defineConfig({
-  base: "./",
-  plugins: [
-    devtools({ eventBusConfig: { port: 42_069 } }),
-    tanstackRouter({
-      target: "react",
-      autoCodeSplitting: true,
-    }),
-    viteReact(),
-    tailwindcss(),
-    versionLockPlugin(),
-  ],
-  resolve: {
-    alias: {
-      "@": fileURLToPath(new URL("./src", import.meta.url)),
-    },
-  },
-  server: {
-    proxy: {
-      "/api": {
-        target: "https://api.ppanel.dev",
-        changeOrigin: true,
-        secure: false,
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), "");
+
+  return {
+    base: "./",
+    plugins: [
+      devtools({ eventBusConfig: { port: 42_069 } }),
+      tanstackRouter({
+        target: "react",
+        autoCodeSplitting: true,
+      }),
+      viteReact(),
+      tailwindcss(),
+      versionLockPlugin(),
+    ],
+    resolve: {
+      alias: {
+        "@": fileURLToPath(new URL("./src", import.meta.url)),
       },
     },
-  },
-  build: {
-    assetsDir: "static",
-  },
+    server: {
+      proxy: {
+        "/api": {
+          target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",
+          changeOrigin: true,
+          secure: false,
+        },
+      },
+    },
+    build: {
+      assetsDir: "static",
+    },
+  };
 });

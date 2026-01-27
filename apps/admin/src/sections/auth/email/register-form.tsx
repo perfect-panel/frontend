@@ -179,7 +179,7 @@ export default function RegisterForm({
                         />
                         <SendCode
                           params={{
-                            ...form.getValues(),
+                            email: form.watch("email"),
                             type: 1,
                           }}
                           type="email"

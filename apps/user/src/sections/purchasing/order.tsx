@@ -178,6 +178,7 @@ export default function Order() {
               order={{
                 ...data,
                 unit_price: data?.subscribe?.unit_price,
+                show_original_price: data?.subscribe?.show_original_price,
               }}
             />
           </CardContent>

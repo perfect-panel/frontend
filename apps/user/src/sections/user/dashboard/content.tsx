@@ -218,337 +218,354 @@ export default function Content() {
               </Tabs>
             )}
           </div>
-          {userSubscribe.map((item) => (
-            <Card
-              className={cn("relative", {
-                "relative opacity-80 grayscale": item.status === 3,
-                "relative hidden opacity-60 blur-[0.3px] grayscale":
-                  item.status === 4,
-              })}
-              key={item.id}
-            >
-              {item.status >= 2 && (
-                <div
-                  className={cn(
-                    "pointer-events-none absolute top-0 left-0 z-10 h-full w-full overflow-hidden mix-blend-difference brightness-150 contrast-200 invert-[0.2]",
-                    {
-                      "text-destructive": item.status === 2,
-                      "text-white": item.status === 3 || item.status === 4,
-                    }
-                  )}
-                >
-                  <div className="absolute inset-0">
-                    {Array.from({ length: 16 }).map((_, i) => {
-                      const row = Math.floor(i / 4);
-                      const col = i % 4;
-                      const top = 10 + row * 25 + (col % 2 === 0 ? 5 : -5);
-                      const left = 5 + col * 30 + (row % 2 === 0 ? 0 : 10);
+          {userSubscribe.map((item) => {
+            // 如果过期时间为0，说明是永久订阅，不应该显示过期状态
+            const isActuallyExpired =
+              item.status === 3 && item.expire_time !== 0;
+            const shouldShowWatermark =
+              item.status === 2 || item.status === 4 || isActuallyExpired;
 
-                      return (
-                        <span
-                          className="absolute rotate-[-30deg] whitespace-nowrap font-black text-lg opacity-40 shadow-[0px_0px_1px_rgba(255,255,255,0.5)]"
-                          key={i}
-                          style={{
-                            top: `${top}%`,
-                            left: `${left}%`,
-                          }}
-                        >
-                          {
-                            statusWatermarks[
-                              item.status as keyof typeof statusWatermarks
-                            ]
-                          }
-                        </span>
-                      );
-                    })}
-                  </div>
-                </div>
-              )}
-              <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 space-y-0">
-                <CardTitle className="font-medium">
-                  {item.subscribe.name}
-                  <p className="mt-1 text-foreground/50 text-sm">
-                    {formatDate(item.start_time)}
-                  </p>
-                </CardTitle>
-                {item.status !== 4 && (
-                  <div className="flex flex-wrap gap-2">
-                    <AlertDialog>
-                      <AlertDialogTrigger asChild>
-                        <Button size="sm" variant="destructive">
-                          {t("resetSubscription", "Reset Subscription")}
-                        </Button>
-                      </AlertDialogTrigger>
-                      <AlertDialogContent>
-                        <AlertDialogHeader>
-                          <AlertDialogTitle>
-                            {t("prompt", "Prompt")}
-                          </AlertDialogTitle>
-                          <AlertDialogDescription>
-                            {t(
-                              "confirmResetSubscription",
-                              "Are you sure you want to reset your subscription?"
-                            )}
-                          </AlertDialogDescription>
-                        </AlertDialogHeader>
-                        <AlertDialogFooter>
-                          <AlertDialogCancel>
-                            {t("cancel", "Cancel")}
-                          </AlertDialogCancel>
-                          <AlertDialogAction
-                            onClick={async () => {
-                              await resetUserSubscribeToken({
-                                user_subscribe_id: item.id,
-                              });
-                              await refetch();
-                              toast.success(t("resetSuccess", "Reset Success"));
+            return (
+              <Card
+                className={cn("relative", {
+                  "relative opacity-80 grayscale": isActuallyExpired,
+                  "relative hidden opacity-60 blur-[0.3px] grayscale":
+                    item.status === 4,
+                })}
+                key={item.id}
+              >
+                {shouldShowWatermark && (
+                  <div
+                    className={cn(
+                      "pointer-events-none absolute top-0 left-0 z-10 h-full w-full overflow-hidden mix-blend-difference brightness-150 contrast-200 invert-[0.2]",
+                      {
+                        "text-destructive": item.status === 2,
+                        "text-white": isActuallyExpired || item.status === 4,
+                      }
+                    )}
+                  >
+                    <div className="absolute inset-0">
+                      {Array.from({ length: 16 }).map((_, i) => {
+                        const row = Math.floor(i / 4);
+                        const col = i % 4;
+                        const top = 10 + row * 25 + (col % 2 === 0 ? 5 : -5);
+                        const left = 5 + col * 30 + (row % 2 === 0 ? 0 : 10);
+
+                        return (
+                          <span
+                            className="absolute rotate-[-30deg] whitespace-nowrap font-black text-lg opacity-40 shadow-[0px_0px_1px_rgba(255,255,255,0.5)]"
+                            key={i}
+                            style={{
+                              top: `${top}%`,
+                              left: `${left}%`,
                             }}
                           >
-                            {t("confirm", "Confirm")}
-                          </AlertDialogAction>
-                        </AlertDialogFooter>
-                      </AlertDialogContent>
-                    </AlertDialog>
-                    <ResetTraffic
-                      id={item.id}
-                      replacement={item.subscribe.replacement}
-                    />
-                    {item.expire_time !== 0 && (
-                      <Renewal id={item.id} subscribe={item.subscribe} />
-                    )}
-                    <Unsubscribe
-                      allowDeduction={item.subscribe.allow_deduction}
-                      id={item.id}
-                      onSuccess={refetch}
-                    />
+                            {
+                              statusWatermarks[
+                                item.status as keyof typeof statusWatermarks
+                              ]
+                            }
+                          </span>
+                        );
+                      })}
+                    </div>
                   </div>
                 )}
-              </CardHeader>
-              <CardContent>
-                <ul className="grid grid-cols-2 gap-3 *:flex *:flex-col *:justify-between lg:grid-cols-4">
-                  <li>
-                    <span className="text-muted-foreground">
-                      {t("used", "Used")}
-                    </span>
-                    <span className="font-bold text-2xl">
-                      <Display
-                        type="traffic"
-                        unlimited={!item.traffic}
-                        value={item.upload + item.download}
-                      />
-                    </span>
-                  </li>
-                  <li>
-                    <span className="text-muted-foreground">
-                      {t("totalTraffic", "Total Traffic")}
-                    </span>
-                    <span className="font-bold text-2xl">
-                      <Display
-                        type="traffic"
-                        unlimited={!item.traffic}
-                        value={item.traffic}
-                      />
-                    </span>
-                  </li>
-                  <li>
-                    <span className="text-muted-foreground">
-                      {t("nextResetDays", "Next Reset Days")}
-                    </span>
-                    <span className="font-semibold text-2xl">
-                      {item.reset_time
-                        ? differenceInDays(
-                            new Date(item.reset_time),
-                            new Date()
-                          )
-                        : t("noReset", "No Reset")}
-                    </span>
-                  </li>
-                  <li>
-                    <span className="text-muted-foreground">
-                      {t("expirationDays", "Expiration Days")}
-                    </span>
-                    <span className="font-semibold text-2xl">
-                      {}
-                      {item.expire_time
-                        ? differenceInDays(
-                            new Date(item.expire_time),
-                            new Date()
-                          ) || t("unknown", "Unknown")
-                        : t("noLimit", "No Limit")}
-                    </span>
-                  </li>
-                </ul>
-                <Separator className="mt-4" />
-                <Accordion
-                  className="w-full"
-                  collapsible
-                  defaultValue="0"
-                  type="single"
-                >
-                  {getUserSubscribe(item.token, protocol)?.map((url, index) => (
-                    <AccordionItem key={url} value={String(index)}>
-                      <AccordionTrigger className="hover:no-underline">
-                        <div className="flex w-full flex-row items-center justify-between">
-                          <CardTitle className="font-medium text-sm">
-                            {t("subscriptionUrl", "Subscription URL")}{" "}
-                            {index + 1}
-                          </CardTitle>
-
-                          <CopyToClipboard
-                            onCopy={(_, result) => {
-                              if (result) {
-                                toast.success(t("copySuccess", "Copy Success"));
-                              }
-                            }}
-                            text={url}
-                          >
-                            <span
-                              className="mr-4 flex cursor-pointer rounded p-2 text-primary text-sm hover:bg-accent"
-                              onClick={(e) => e.stopPropagation()}
+                <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 space-y-0">
+                  <CardTitle className="font-medium">
+                    {item.subscribe.name}
+                    <p className="mt-1 text-foreground/50 text-sm">
+                      {formatDate(item.start_time)}
+                    </p>
+                  </CardTitle>
+                  {item.status !== 4 && (
+                    <div className="flex flex-wrap gap-2">
+                      <AlertDialog>
+                        <AlertDialogTrigger asChild>
+                          <Button size="sm" variant="destructive">
+                            {t("resetSubscription", "Reset Subscription")}
+                          </Button>
+                        </AlertDialogTrigger>
+                        <AlertDialogContent>
+                          <AlertDialogHeader>
+                            <AlertDialogTitle>
+                              {t("prompt", "Prompt")}
+                            </AlertDialogTitle>
+                            <AlertDialogDescription>
+                              {t(
+                                "confirmResetSubscription",
+                                "Are you sure you want to reset your subscription?"
+                              )}
+                            </AlertDialogDescription>
+                          </AlertDialogHeader>
+                          <AlertDialogFooter>
+                            <AlertDialogCancel>
+                              {t("cancel", "Cancel")}
+                            </AlertDialogCancel>
+                            <AlertDialogAction
+                              onClick={async () => {
+                                await resetUserSubscribeToken({
+                                  user_subscribe_id: item.id,
+                                });
+                                await refetch();
+                                toast.success(
+                                  t("resetSuccess", "Reset Success")
+                                );
+                              }}
                             >
-                              <Icon className="mr-2 size-5" icon="uil:copy" />
-                              {t("copy", "Copy")}
-                            </span>
-                          </CopyToClipboard>
-                        </div>
-                      </AccordionTrigger>
-                      <AccordionContent>
-                        <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
-                          {applications
-                            ?.filter(
-                              (application) =>
-                                !!(
-                                  application.download_link?.[platform] &&
-                                  application.scheme
-                                )
+                              {t("confirm", "Confirm")}
+                            </AlertDialogAction>
+                          </AlertDialogFooter>
+                        </AlertDialogContent>
+                      </AlertDialog>
+                      <ResetTraffic
+                        id={item.id}
+                        replacement={item.subscribe.replacement}
+                      />
+                      {item.expire_time !== 0 && (
+                        <Renewal id={item.id} subscribe={item.subscribe} />
+                      )}
+                      <Unsubscribe
+                        allowDeduction={item.subscribe.allow_deduction}
+                        id={item.id}
+                        onSuccess={refetch}
+                      />
+                    </div>
+                  )}
+                </CardHeader>
+                <CardContent>
+                  <ul className="grid grid-cols-2 gap-3 *:flex *:flex-col *:justify-between lg:grid-cols-4">
+                    <li>
+                      <span className="text-muted-foreground">
+                        {t("used", "Used")}
+                      </span>
+                      <span className="font-bold text-2xl">
+                        <Display
+                          type="traffic"
+                          unlimited={!item.traffic}
+                          value={item.upload + item.download}
+                        />
+                      </span>
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">
+                        {t("totalTraffic", "Total Traffic")}
+                      </span>
+                      <span className="font-bold text-2xl">
+                        <Display
+                          type="traffic"
+                          unlimited={!item.traffic}
+                          value={item.traffic}
+                        />
+                      </span>
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">
+                        {t("nextResetDays", "Next Reset Days")}
+                      </span>
+                      <span className="font-semibold text-2xl">
+                        {item.reset_time
+                          ? differenceInDays(
+                              new Date(item.reset_time),
+                              new Date()
                             )
-                            .map((application) => {
-                              const downloadUrl =
-                                application.download_link?.[platform];
+                          : t("noReset", "No Reset")}
+                      </span>
+                    </li>
+                    <li>
+                      <span className="text-muted-foreground">
+                        {t("expirationDays", "Expiration Days")}
+                      </span>
+                      <span className="font-semibold text-2xl">
+                        {}
+                        {item.expire_time
+                          ? differenceInDays(
+                              new Date(item.expire_time),
+                              new Date()
+                            ) || t("unknown", "Unknown")
+                          : t("noLimit", "No Limit")}
+                      </span>
+                    </li>
+                  </ul>
+                  <Separator className="mt-4" />
+                  <Accordion
+                    className="w-full"
+                    collapsible
+                    defaultValue="0"
+                    type="single"
+                  >
+                    {getUserSubscribe(item.short, item.token, protocol)?.map(
+                      (url, index) => (
+                        <AccordionItem key={url} value={String(index)}>
+                          <AccordionTrigger className="hover:no-underline">
+                            <div className="flex w-full flex-row items-center justify-between">
+                              <CardTitle className="font-medium text-sm">
+                                {t("subscriptionUrl", "Subscription URL")}{" "}
+                                {index + 1}
+                              </CardTitle>
 
-                              const handleCopy = (
-                                _: string,
-                                result: boolean
-                              ) => {
-                                if (result) {
-                                  const href = getAppSubLink(
-                                    url,
-                                    application.scheme
-                                  );
-                                  const showSuccessMessage = () => {
+                              <CopyToClipboard
+                                onCopy={(_, result) => {
+                                  if (result) {
                                     toast.success(
-                                      <>
-                                        <p>
-                                          {t("copySuccess", "Copy Success")}
-                                        </p>
-                                        <br />
-                                        <p>
-                                          {t(
-                                            "manualImportMessage",
-                                            "Please import manually"
-                                          )}
-                                        </p>
-                                      </>
+                                      t("copySuccess", "Copy Success")
                                     );
+                                  }
+                                }}
+                                text={url}
+                              >
+                                <span
+                                  className="mr-4 flex cursor-pointer rounded p-2 text-primary text-sm hover:bg-accent"
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  <Icon
+                                    className="mr-2 size-5"
+                                    icon="uil:copy"
+                                  />
+                                  {t("copy", "Copy")}
+                                </span>
+                              </CopyToClipboard>
+                            </div>
+                          </AccordionTrigger>
+                          <AccordionContent>
+                            <div className="grid grid-cols-2 gap-4 md:grid-cols-3 lg:grid-cols-4 xl:grid-cols-6">
+                              {applications
+                                ?.filter(
+                                  (application) =>
+                                    !!(
+                                      application.download_link?.[platform] &&
+                                      application.scheme
+                                    )
+                                )
+                                .map((application) => {
+                                  const downloadUrl =
+                                    application.download_link?.[platform];
+
+                                  const handleCopy = (
+                                    _: string,
+                                    result: boolean
+                                  ) => {
+                                    if (result) {
+                                      const href = getAppSubLink(
+                                        url,
+                                        application.scheme
+                                      );
+                                      const showSuccessMessage = () => {
+                                        toast.success(
+                                          <>
+                                            <p>
+                                              {t("copySuccess", "Copy Success")}
+                                            </p>
+                                            <br />
+                                            <p>
+                                              {t(
+                                                "manualImportMessage",
+                                                "Please import manually"
+                                              )}
+                                            </p>
+                                          </>
+                                        );
+                                      };
+
+                                      if (isBrowser() && href) {
+                                        window.location.href = href;
+                                        const checkRedirect = setTimeout(() => {
+                                          if (window.location.href !== href) {
+                                            showSuccessMessage();
+                                          }
+                                          clearTimeout(checkRedirect);
+                                        }, 1000);
+                                        return;
+                                      }
+
+                                      showSuccessMessage();
+                                    }
                                   };
 
-                                  if (isBrowser() && href) {
-                                    window.location.href = href;
-                                    const checkRedirect = setTimeout(() => {
-                                      if (window.location.href !== href) {
-                                        showSuccessMessage();
-                                      }
-                                      clearTimeout(checkRedirect);
-                                    }, 1000);
-                                    return;
-                                  }
+                                  return (
+                                    <div
+                                      className="flex size-full flex-col items-center justify-between gap-2 text-muted-foreground text-xs"
+                                      key={application.name}
+                                    >
+                                      <span>{application.name}</span>
 
-                                  showSuccessMessage();
-                                }
-                              };
-
-                              return (
-                                <div
-                                  className="flex size-full flex-col items-center justify-between gap-2 text-muted-foreground text-xs"
-                                  key={application.name}
-                                >
-                                  <span>{application.name}</span>
-
-                                  {application.icon && (
-                                    <img
-                                      alt={application.name}
-                                      className="p-1"
-                                      height={64}
-                                      src={application.icon}
-                                      width={64}
-                                    />
-                                  )}
-                                  <div className="flex">
-                                    {downloadUrl && (
-                                      <Button
-                                        asChild
-                                        className={
-                                          application.scheme
-                                            ? "rounded-r-none px-1.5"
-                                            : "px-1.5"
-                                        }
-                                        size="sm"
-                                        variant="secondary"
-                                      >
-                                        <a
-                                          href={downloadUrl}
-                                          rel="noopener noreferrer"
-                                          target="_blank"
-                                        >
-                                          {t("download", "Download")}
-                                        </a>
-                                      </Button>
-                                    )}
-
-                                    {application.scheme && (
-                                      <CopyToClipboard
-                                        onCopy={handleCopy}
-                                        text={getAppSubLink(
-                                          url,
-                                          application.scheme
+                                      {application.icon && (
+                                        <img
+                                          alt={application.name}
+                                          className="p-1"
+                                          height={64}
+                                          src={application.icon}
+                                          width={64}
+                                        />
+                                      )}
+                                      <div className="flex">
+                                        {downloadUrl && (
+                                          <Button
+                                            asChild
+                                            className={
+                                              application.scheme
+                                                ? "rounded-r-none px-1.5"
+                                                : "px-1.5"
+                                            }
+                                            size="sm"
+                                            variant="secondary"
+                                          >
+                                            <a
+                                              href={downloadUrl}
+                                              rel="noopener noreferrer"
+                                              target="_blank"
+                                            >
+                                              {t("download", "Download")}
+                                            </a>
+                                          </Button>
                                         )}
-                                      >
-                                        <Button
-                                          className={
-                                            downloadUrl
-                                              ? "rounded-l-none p-2"
-                                              : "p-2"
-                                          }
-                                          size="sm"
-                                        >
-                                          {t("import", "Import")}
-                                        </Button>
-                                      </CopyToClipboard>
-                                    )}
-                                  </div>
-                                </div>
-                              );
-                            })}
-                          <div className="hidden size-full flex-col items-center justify-between gap-2 text-muted-foreground text-sm lg:flex">
-                            <span>{t("qrCode", "QR Code")}</span>
-                            <QRCodeCanvas
-                              bgColor="transparent"
-                              fgColor="rgb(59, 130, 246)"
-                              size={80}
-                              value={url}
-                            />
-                            <span className="text-center">
-                              {t("scanToSubscribe", "Scan to Subscribe")}
-                            </span>
-                          </div>
-                        </div>
-                      </AccordionContent>
-                    </AccordionItem>
-                  ))}
-                </Accordion>
-              </CardContent>
-            </Card>
-          ))}
+
+                                        {application.scheme && (
+                                          <CopyToClipboard
+                                            onCopy={handleCopy}
+                                            text={getAppSubLink(
+                                              url,
+                                              application.scheme
+                                            )}
+                                          >
+                                            <Button
+                                              className={
+                                                downloadUrl
+                                                  ? "rounded-l-none p-2"
+                                                  : "p-2"
+                                              }
+                                              size="sm"
+                                            >
+                                              {t("import", "Import")}
+                                            </Button>
+                                          </CopyToClipboard>
+                                        )}
+                                      </div>
+                                    </div>
+                                  );
+                                })}
+                              <div className="hidden size-full flex-col items-center justify-between gap-2 text-muted-foreground text-sm lg:flex">
+                                <span>{t("qrCode", "QR Code")}</span>
+                                <QRCodeCanvas
+                                  bgColor="transparent"
+                                  fgColor="rgb(59, 130, 246)"
+                                  size={80}
+                                  value={url}
+                                />
+                                <span className="text-center">
+                                  {t("scanToSubscribe", "Scan to Subscribe")}
+                                </span>
+                              </div>
+                            </div>
+                          </AccordionContent>
+                        </AccordionItem>
+                      )
+                    )}
+                  </Accordion>
+                </CardContent>
+              </Card>
+            );
+          })}
         </>
       ) : (
         <>

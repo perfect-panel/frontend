@@ -113,6 +113,12 @@ get_user_input() {
 
     log_info "✓ 已生成 Redis 密码"
 
+    # 管理员配置
+    ADMIN_EMAIL="admin-$(generate_secret | cut -c1-8)@ppanel.dev"
+    ADMIN_PASSWORD=$(generate_secret | cut -c1-16)
+
+    log_info "✓ 已生成管理员密码"
+
     # 生成 JWT 密钥
     JWT_SECRET=$(generate_secret)
     log_info "✓ 已生成 JWT 密钥"
@@ -144,6 +150,10 @@ Static:
 JwtAuth:
     AccessSecret: $JWT_SECRET
     AccessExpire: 604800
+
+Administrator:
+    Email: $ADMIN_EMAIL
+    Password: "$ADMIN_PASSWORD"
 
 Logger:
     ServiceName: ApiService
@@ -345,6 +355,10 @@ show_access_info() {
     else
         log_warn "未能获取公网IP，如需外网访问请手动配置"
     fi
+    echo ""
+    log_info "管理员账户:"
+    echo "  邮箱: $ADMIN_EMAIL"
+    echo "  密码: $ADMIN_PASSWORD"
     echo ""
     log_info "数据库信息:"
     echo "  MySQL (容器间通信):"

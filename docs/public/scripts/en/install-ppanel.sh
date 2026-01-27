@@ -113,6 +113,12 @@ get_user_input() {
 
     log_info "✓ Redis password generated"
 
+    # Administrator configuration
+    ADMIN_EMAIL="admin-$(generate_secret | cut -c1-8)@ppanel.dev"
+    ADMIN_PASSWORD=$(generate_secret | cut -c1-16)
+
+    log_info "✓ Administrator password generated"
+
     # Generate JWT secret
     JWT_SECRET=$(generate_secret)
     log_info "✓ JWT secret generated"
@@ -144,6 +150,10 @@ Static:
 JwtAuth:
     AccessSecret: $JWT_SECRET
     AccessExpire: 604800
+
+Administrator:
+    Email: $ADMIN_EMAIL
+    Password: "$ADMIN_PASSWORD"
 
 Logger:
     ServiceName: ApiService
@@ -343,8 +353,10 @@ show_access_info() {
     else
         log_warn "Unable to get public IP, please configure manually for public access"
     fi
-    echo ""
-    log_info "Database Information:"
+    echo ""    log_info "Administrator Account:"
+    echo "  Email: $ADMIN_EMAIL"
+    echo "  Password: $ADMIN_PASSWORD"
+    echo ""    log_info "Database Information:"
     echo "  MySQL (Container Network):"
     echo "    Address: mysql:3306"
     echo "    User: $MYSQL_USER"

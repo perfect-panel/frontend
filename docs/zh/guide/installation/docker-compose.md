@@ -219,7 +219,11 @@ docker compose logs -f ppanel
 - **管理后台**: `http://your-server-ip:8080/admin/`
 
 ::: warning 默认凭据
-为了安全起见，首次登录后请立即修改默认管理员密码。
+**默认管理员账号**（如果未配置时）:
+- **邮箱**: `admin@ppanel.dev`
+- **密码**: `password`
+
+**安全提醒**: 首次登录后请立即修改默认凭据。
 :::
 
 ### 配置反向代理（推荐）

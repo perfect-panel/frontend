@@ -33,7 +33,7 @@ export function UserNav() {
 
   if (user) {
     return (
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <div className="flex cursor-pointer items-center gap-2 rounded-full border bg-background px-2 py-1.5 transition-colors duration-200 hover:bg-accent">
             <Avatar className="h-6 w-6">

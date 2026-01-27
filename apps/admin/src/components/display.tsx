@@ -28,7 +28,7 @@ export function Display<T extends number | undefined | null>({
   if (
     ["traffic", "trafficSpeed", "number"].includes(type) &&
     unlimited &&
-    !value
+    (value === 0 || value === null || value === undefined)
   ) {
     return t("unlimited");
   }
@@ -42,7 +42,7 @@ export function Display<T extends number | undefined | null>({
   }
 
   if (type === "number") {
-    return value ? value.toString() : "0";
+    return value !== null && value !== undefined ? value.toString() : "0";
   }
 
   return "0";

@@ -211,8 +211,19 @@ After successful installation, you can access:
 - **User Panel**: `http://your-server-ip:8080`
 - **Admin Panel**: `http://your-server-ip:8080/admin/`
 
-::: warning Default Credentials
-Please change the default admin password immediately after first login for security.
+::: warning Administrator Account
+**Default Administrator Account** (if not configured in config file):
+- **Email**: `admin@ppanel.dev`
+- **Password**: `password`
+
+**One-Click Installation Script** will automatically generate random administrator credentials displayed at the end:
+- **Email**: `admin-[8 random characters]@ppanel.dev`
+- **Password**: `[Randomly generated 16-character password]`
+
+**Security Recommendations**:
+- When using the one-click script, save the generated credentials securely
+- Change your password immediately after first login
+- If using default credentials, **must** change both email and password after first login
 :::
 
 ### Configure Reverse Proxy (Optional)

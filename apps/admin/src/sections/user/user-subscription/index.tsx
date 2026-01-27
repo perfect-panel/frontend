@@ -1,4 +1,5 @@
 import { Link } from "@tanstack/react-router";
+import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
   DropdownMenu,
@@ -16,7 +17,6 @@ import {
   deleteUserSubscribe,
   getUserSubscribe,
   resetUserSubscribeToken,
-  resetUserSubscribeTraffic,
   toggleUserSubscribeStatus,
   updateUserSubscribe,
 } from "@workspace/ui/services/admin/user";
@@ -33,7 +33,6 @@ export default function UserSubscription({ userId }: { userId: number }) {
   const { t } = useTranslation("user");
   const [loading, setLoading] = useState(false);
   const ref = useRef<ProTableActions>(null);
-  const { getUserSubscribe: getUserSubscribeUrls } = useGlobalStore();
 
   return (
     <ProTable<API.UserSubscribe, Record<string, unknown>>
@@ -59,100 +58,14 @@ export default function UserSubscription({ userId }: { userId: number }) {
             title={t("editSubscription", "Edit Subscription")}
             trigger={t("edit", "Edit")}
           />,
-          <Button
-            key="copy"
-            onClick={async () => {
-              await navigator.clipboard.writeText(
-                getUserSubscribeUrls(row.token)[0] || ""
-              );
-              toast.success(t("copySuccess", "Copied successfully"));
-            }}
-            variant="secondary"
-          >
-            {t("copySubscription", "Copy Subscription")}
-          </Button>,
-
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "resetSubscriptionTokenDescription",
-              "This will reset the subscription token. Old links will become invalid."
-            )}
-            key="reset-token"
-            onConfirm={async () => {
-              await resetUserSubscribeToken({ user_subscribe_id: row.id });
-              toast.success(t("resetSuccess", "Reset successfully"));
-              ref.current?.refresh();
-            }}
-            title={t("resetSubscriptionToken", "Reset Token")}
-            trigger={
-              <Button variant="outline">
-                {t("resetToken", "Reset Token")}
-              </Button>
-            }
+          <RowMoreActions
+            key="more"
+            refresh={() => ref.current?.refresh()}
+            row={row}
+            token={row.token}
+            userId={userId}
+          />
           />,
-
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "resetSubscriptionTrafficDescription",
-              "This will reset the subscription traffic counters."
-            )}
-            key="reset-traffic"
-            onConfirm={async () => {
-              await resetUserSubscribeTraffic({ user_subscribe_id: row.id });
-              toast.success(t("resetSuccess", "Reset successfully"));
-              ref.current?.refresh();
-            }}
-            title={t("resetSubscriptionTraffic", "Reset Traffic")}
-            trigger={
-              <Button variant="outline">
-                {t("resetTraffic", "Reset Traffic")}
-              </Button>
-            }
-          />,
-
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "toggleSubscriptionStatusDescription",
-              "This will toggle the subscription status."
-            )}
-            key="toggle-status"
-            onConfirm={async () => {
-              await toggleUserSubscribeStatus({ user_subscribe_id: row.id });
-              toast.success(t("updateSuccess", "Updated successfully"));
-              ref.current?.refresh();
-            }}
-            title={t("toggleSubscriptionStatus", "Toggle Status")}
-            trigger={
-              <Button variant="outline">
-                {t("toggleStatus", "Toggle Status")}
-              </Button>
-            }
-          />,
-          <ConfirmButton
-            cancelText={t("cancel", "Cancel")}
-            confirmText={t("confirm", "Confirm")}
-            description={t(
-              "deleteSubscriptionDescription",
-              "This action cannot be undone."
-            )}
-            key="delete"
-            onConfirm={async () => {
-              await deleteUserSubscribe({ user_subscribe_id: row.id });
-              toast.success(t("deleteSuccess", "Deleted successfully"));
-              ref.current?.refresh();
-            }}
-            title={t("confirmDelete", "Confirm Delete")}
-            trigger={
-              <Button variant="destructive">{t("delete", "Delete")}</Button>
-            }
-          />,
-          <RowMoreActions key="more" subId={row.id} userId={userId} />,
         ],
       }}
       columns={[
@@ -164,6 +77,51 @@ export default function UserSubscription({ userId }: { userId: number }) {
           accessorKey: "name",
           header: t("subscriptionName", "Subscription Name"),
           cell: ({ row }) => row.original.subscribe.name,
+        },
+        {
+          accessorKey: "status",
+          header: t("status", "Status"),
+          cell: ({ row }) => {
+            const status = row.getValue("status") as number;
+            const expireTime = row.original.expire_time;
+
+            // 如果过期时间为0，说明是永久订阅，应该显示为激活状态
+            const displayStatus = status === 3 && expireTime === 0 ? 1 : status;
+
+            const statusMap: Record<
+              number,
+              {
+                label: string;
+                variant: "default" | "secondary" | "destructive" | "outline";
+              }
+            > = {
+              0: { label: t("statusPending", "Pending"), variant: "outline" },
+              1: { label: t("statusActive", "Active"), variant: "default" },
+              2: {
+                label: t("statusFinished", "Finished"),
+                variant: "secondary",
+              },
+              3: {
+                label: t("statusExpired", "Expired"),
+                variant: "destructive",
+              },
+              4: {
+                label: t("statusDeducted", "Deducted"),
+                variant: "secondary",
+              },
+              5: {
+                label: t("statusStopped", "Stopped"),
+                variant: "destructive",
+              },
+            };
+            const statusInfo = statusMap[displayStatus] || {
+              label: "Unknown",
+              variant: "outline",
+            };
+            return (
+              <Badge variant={statusInfo.variant}>{statusInfo.label}</Badge>
+            );
+          },
         },
         {
           accessorKey: "upload",
@@ -216,10 +174,12 @@ export default function UserSubscription({ userId }: { userId: number }) {
         {
           accessorKey: "expire_time",
           header: t("expireTime", "Expire Time"),
-          cell: ({ row }) =>
-            row.getValue("expire_time")
-              ? formatDate(row.getValue("expire_time"))
-              : t("permanent", "Permanent"),
+          cell: ({ row }) => {
+            const expireTime = row.getValue("expire_time") as number;
+            return expireTime && expireTime !== 0
+              ? formatDate(expireTime)
+              : t("permanent", "Permanent");
+          },
         },
         {
           accessorKey: "created_at",
@@ -263,19 +223,72 @@ export default function UserSubscription({ userId }: { userId: number }) {
   );
 }
 
-function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
+function RowMoreActions({
+  userId,
+  row,
+  token,
+  refresh,
+}: {
+  userId: number;
+  row: API.UserSubscribe;
+  token: string;
+  refresh: () => void;
+}) {
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const resetTokenRef = useRef<HTMLButtonElement>(null);
+  const toggleStatusRef = useRef<HTMLButtonElement>(null);
+  const deleteRef = useRef<HTMLButtonElement>(null);
   const { t } = useTranslation("user");
+  const { getUserSubscribe: getUserSubscribeUrls } = useGlobalStore();
+
   return (
     <div className="inline-flex">
-      <DropdownMenu>
+      <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
           <Button variant="outline">{t("more", "More")}</Button>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end">
+          <DropdownMenuItem
+            onSelect={async (e) => {
+              e.preventDefault();
+              await navigator.clipboard.writeText(
+                getUserSubscribeUrls(row.short, token)[0] || ""
+              );
+              toast.success(t("copySuccess", "Copied successfully"));
+            }}
+          >
+            {t("copySubscription", "Copy Subscription")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              resetTokenRef.current?.click();
+            }}
+          >
+            {t("resetToken", "Reset Subscription Address")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={(e) => {
+              e.preventDefault();
+              toggleStatusRef.current?.click();
+            }}
+          >
+            {row.status === 5
+              ? t("resumeSubscribe", "Resume Subscription")
+              : t("stopSubscribe", "Stop Subscription")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            className="text-destructive"
+            onSelect={(e) => {
+              e.preventDefault();
+              deleteRef.current?.click();
+            }}
+          >
+            {t("delete", "Delete")}
+          </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: subId }}
+              search={{ user_id: userId, user_subscribe_id: row.id }}
               to="/dashboard/log/subscribe"
             >
               {t("subscriptionLogs", "Subscription Logs")}
@@ -283,7 +296,7 @@ function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: subId }}
+              search={{ user_id: userId, user_subscribe_id: row.id }}
               to="/dashboard/log/reset-subscribe"
             >
               {t("resetLogs", "Reset Logs")}
@@ -291,7 +304,7 @@ function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, user_subscribe_id: subId }}
+              search={{ user_id: userId, user_subscribe_id: row.id }}
               to="/dashboard/log/subscribe-traffic"
             >
               {t("trafficStats", "Traffic Stats")}
@@ -299,7 +312,7 @@ function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
           </DropdownMenuItem>
           <DropdownMenuItem asChild>
             <Link
-              search={{ user_id: userId, subscribe_id: subId }}
+              search={{ user_id: userId, subscribe_id: row.id }}
               to="/dashboard/log/traffic-details"
             >
               {t("trafficDetails", "Traffic Details")}
@@ -316,8 +329,78 @@ function RowMoreActions({ userId, subId }: { userId: number; subId: number }) {
         </DropdownMenuContent>
       </DropdownMenu>
 
+      {/* Hidden triggers for confirm dialogs */}
+      <ConfirmButton
+        cancelText={t("cancel", "Cancel")}
+        confirmText={t("confirm", "Confirm")}
+        description={t(
+          "resetTokenDescription",
+          "This will reset the subscription address and regenerate a new token."
+        )}
+        onConfirm={async () => {
+          await resetUserSubscribeToken({
+            user_subscribe_id: row.id,
+          });
+          toast.success(
+            t("resetTokenSuccess", "Subscription address reset successfully")
+          );
+          refresh();
+        }}
+        title={t("confirmResetToken", "Confirm Reset Subscription Address")}
+        trigger={<Button className="hidden" ref={resetTokenRef} />}
+      />
+
+      <ConfirmButton
+        cancelText={t("cancel", "Cancel")}
+        confirmText={t("confirm", "Confirm")}
+        description={
+          row.status === 5
+            ? t(
+                "resumeSubscribeDescription",
+                "This will resume the subscription and allow the user to use it."
+              )
+            : t(
+                "stopSubscribeDescription",
+                "This will stop the subscription temporarily. User will not be able to use it."
+              )
+        }
+        onConfirm={async () => {
+          await toggleUserSubscribeStatus({
+            user_subscribe_id: row.id,
+          });
+          toast.success(
+            row.status === 5
+              ? t("resumeSubscribeSuccess", "Subscription resumed successfully")
+              : t("stopSubscribeSuccess", "Subscription stopped successfully")
+          );
+          refresh();
+        }}
+        title={
+          row.status === 5
+            ? t("confirmResumeSubscribe", "Confirm Resume Subscription")
+            : t("confirmStopSubscribe", "Confirm Stop Subscription")
+        }
+        trigger={<Button className="hidden" ref={toggleStatusRef} />}
+      />
+
+      <ConfirmButton
+        cancelText={t("cancel", "Cancel")}
+        confirmText={t("confirm", "Confirm")}
+        description={t(
+          "deleteSubscriptionDescription",
+          "This action cannot be undone."
+        )}
+        onConfirm={async () => {
+          await deleteUserSubscribe({ user_subscribe_id: row.id });
+          toast.success(t("deleteSuccess", "Deleted successfully"));
+          refresh();
+        }}
+        title={t("confirmDelete", "Confirm Delete")}
+        trigger={<Button className="hidden" ref={deleteRef} />}
+      />
+
       <SubscriptionDetail
-        subscriptionId={subId}
+        subscriptionId={row.id}
         trigger={<Button className="hidden" ref={triggerRef} />}
         userId={userId}
       />

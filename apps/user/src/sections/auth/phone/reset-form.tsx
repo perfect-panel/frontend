@@ -124,7 +124,8 @@ export default function ResetForm({
                     />
                     <SendCode
                       params={{
-                        ...form.getValues(),
+                        telephone: form.watch("telephone"),
+                        telephone_area_code: form.watch("telephone_area_code"),
                         type: 2,
                       }}
                       type="phone"

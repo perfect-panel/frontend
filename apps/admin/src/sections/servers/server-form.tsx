@@ -98,7 +98,7 @@ function DynamicField({
                     field.generate ? (
                       field.generate.functions &&
                       field.generate.functions.length > 0 ? (
-                        <DropdownMenu>
+                        <DropdownMenu modal={false}>
                           <DropdownMenuTrigger asChild>
                             <Button size="sm" type="button" variant="ghost">
                               <Icon className="h-4 w-4" icon="mdi:key" />

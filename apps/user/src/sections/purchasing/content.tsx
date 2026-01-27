@@ -282,6 +282,7 @@ export default function Content({
                 ...order,
                 quantity: params.quantity,
                 unit_price: subscription?.unit_price,
+                show_original_price: subscription?.show_original_price,
               }}
             />
           </CardContent>

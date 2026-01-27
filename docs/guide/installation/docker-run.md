@@ -232,6 +232,14 @@ docker volume rm ppanel-data
 ```
 :::
 
+::: warning Default Credentials
+**Default Administrator Account**:
+- **Email**: `admin@ppanel.dev`
+- **Password**: `password`
+
+**Security**: Change the default credentials immediately after first login.
+:::
+
 ## Upgrading
 
 Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.

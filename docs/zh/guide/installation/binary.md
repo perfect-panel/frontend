@@ -309,6 +309,14 @@ ps aux | grep ppanel
 - **用户面板**: `http://your-server-ip:8080`
 - **管理后台**: `http://your-server-ip:8080/admin/`
 
+::: warning 默认凭据
+**默认管理员账号**:
+- **邮箱**: `admin@ppanel.dev`
+- **密码**: `password`
+
+**安全提醒**: 首次登录后请立即修改默认凭据。
+:::
+
 ### 配置防火墙
 
 ```bash

@@ -128,13 +128,18 @@ export function TagInput({
             variant="outline"
           >
             {tag}
-            <X
-              className="size-4 cursor-pointer rounded-sm hover:text-destructive"
+            <button
+              className="ml-1 inline-flex items-center justify-center"
               onClick={(e) => {
+                e.preventDefault();
                 e.stopPropagation();
                 handleRemoveTag(index);
               }}
-            />
+              onMouseDown={(e) => e.preventDefault()}
+              type="button"
+            >
+              <X className="size-4 cursor-pointer rounded-sm hover:text-destructive" />
+            </button>
           </Badge>
         ))}
         <div className="flex min-w-0 flex-1 items-center gap-2">

@@ -208,15 +208,14 @@ export default function SubscribeTable() {
         {
           accessorKey: "inventory",
           header: t("inventory"),
-          cell: ({ row }) => (
-            <Display
-              type="number"
-              unlimited
-              value={
-                row.getValue("inventory") === -1 ? 0 : row.getValue("inventory")
-              }
-            />
-          ),
+          cell: ({ row }) => {
+            const inventory = row.getValue("inventory") as number;
+            return inventory === -1 ? (
+              <Display type="number" unlimited value={0} />
+            ) : (
+              <Display type="number" unlimited value={inventory} />
+            );
+          },
         },
         {
           accessorKey: "quota",

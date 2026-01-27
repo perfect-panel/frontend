@@ -142,19 +142,44 @@ export function Content({ subscriptionData }: ProductShowcaseProps) {
               </CardContent>
               <Separator />
               <CardFooter className="relative flex flex-col gap-4 p-4">
-                <motion.h2
-                  animate={{ opacity: 1 }}
-                  className="pb-4 font-semibold text-2xl sm:text-3xl"
-                  initial={{ opacity: 0 }}
-                  transition={{ duration: 0.5, delay: 0.2 }}
-                >
-                  <Display type="currency" value={item.unit_price} />
-                  <span className="font-medium text-base">
-                    /
-                    {unitTimeMap[item.unit_time!] ||
-                      t(item.unit_time || "Month", item.unit_time || "Month")}
-                  </span>
-                </motion.h2>
+                {(() => {
+                  const hasDiscount = item.discount && item.discount.length > 0;
+                  const shouldShowOriginal = item.show_original_price !== false;
+
+                  const displayPrice =
+                    shouldShowOriginal || !hasDiscount
+                      ? item.unit_price
+                      : Math.round(
+                          item.unit_price *
+                            (item.discount?.[0]?.quantity ?? 1) *
+                            ((item.discount?.[0]?.discount ?? 100) / 100)
+                        );
+
+                  const displayQuantity =
+                    shouldShowOriginal || !hasDiscount
+                      ? 1
+                      : (item.discount?.[0]?.quantity ?? 1);
+
+                  const unitTime =
+                    unitTimeMap[item.unit_time!] ||
+                    t(item.unit_time || "Month", item.unit_time || "Month");
+
+                  return (
+                    <motion.h2
+                      animate={{ opacity: 1 }}
+                      className="pb-4 font-semibold text-2xl sm:text-3xl"
+                      initial={{ opacity: 0 }}
+                      transition={{ duration: 0.5, delay: 0.2 }}
+                    >
+                      <Display type="currency" value={displayPrice} />
+                      <span className="font-medium text-base">
+                        {displayQuantity === 1
+                          ? `/${unitTime}`
+                          : `/${displayQuantity} ${unitTime}`}
+                      </span>
+                    </motion.h2>
+                  );
+                })()}
                 <motion.div>
                   <Button
                     asChild

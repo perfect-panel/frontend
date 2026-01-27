@@ -538,7 +538,7 @@ export default function EmailSettingsForm() {
                         </FormLabel>
                         <FormControl>
                           <HTMLEditor
-                            onBlur={field.onChange}
+                            onChange={field.onChange}
                             placeholder={t(
                               "email.inputPlaceholder",
                               "Please enter"
@@ -642,7 +642,7 @@ export default function EmailSettingsForm() {
                         </FormLabel>
                         <FormControl>
                           <HTMLEditor
-                            onBlur={field.onChange}
+                            onChange={field.onChange}
                             placeholder={t(
                               "email.inputPlaceholder",
                               "Please enter"
@@ -713,7 +713,7 @@ export default function EmailSettingsForm() {
                         </FormLabel>
                         <FormControl>
                           <HTMLEditor
-                            onBlur={field.onChange}
+                            onChange={field.onChange}
                             placeholder={t(
                               "email.inputPlaceholder",
                               "Please enter"
@@ -795,7 +795,7 @@ export default function EmailSettingsForm() {
                         </FormLabel>
                         <FormControl>
                           <HTMLEditor
-                            onBlur={field.onChange}
+                            onChange={field.onChange}
                             placeholder={t(
                               "email.inputPlaceholder",
                               "Please enter"

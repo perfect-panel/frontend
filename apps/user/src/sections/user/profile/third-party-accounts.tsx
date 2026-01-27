@@ -147,8 +147,8 @@ function MobileBindDialog({
                       />
                       <SendCode
                         params={{
-                          telephone_area_code: form.getValues().area_code,
-                          telephone: form.getValues().mobile,
+                          telephone_area_code: form.watch("area_code"),
+                          telephone: form.watch("mobile"),
                           type: 1,
                         }}
                         type="phone"

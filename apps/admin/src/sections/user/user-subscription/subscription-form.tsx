@@ -95,145 +95,149 @@ export function SubscriptionForm({
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
         </SheetHeader>
-        <ScrollArea className="h-[calc(100dvh-48px-36px-36px-env(safe-area-inset-top))]">
-          <Form {...form}>
-            <form
-              className="mt-4 space-y-4"
-              onSubmit={form.handleSubmit(handleSubmit)}
-            >
-              <FormField
-                control={form.control}
-                name="subscribe_id"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("subscription", "Subscription")}</FormLabel>
-                    <FormControl>
-                      <Combobox<number, false>
-                        onChange={(value) => {
-                          form.setValue(field.name, value);
-                        }}
-                        options={subscribes?.map((item) => ({
-                          value: item.id!,
-                          label: item.name!,
-                        }))}
-                        placeholder="Select Subscription"
-                        value={field.value}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="traffic"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("trafficLimit", "Traffic Limit")}</FormLabel>
-                    <FormControl>
-                      <EnhancedInput
-                        placeholder={t("unlimited", "Unlimited")}
-                        type="number"
-                        {...field}
-                        formatInput={(value) =>
-                          unitConversion("bytesToGb", value)
-                        }
-                        formatOutput={(value) =>
-                          unitConversion("gbToBytes", value)
-                        }
-                        onValueChange={(value) => {
-                          form.setValue(field.name, value as number);
-                        }}
-                        suffix="GB"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="upload"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("uploadTraffic", "Upload Traffic")}
-                    </FormLabel>
-                    <FormControl>
-                      <EnhancedInput
-                        placeholder="0"
-                        type="number"
-                        {...field}
-                        formatInput={(value) =>
-                          unitConversion("bytesToGb", value)
-                        }
-                        formatOutput={(value) =>
-                          unitConversion("gbToBytes", value)
-                        }
-                        onValueChange={(value) => {
-                          form.setValue(field.name, value as number);
-                        }}
-                        suffix="GB"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="download"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>
-                      {t("downloadTraffic", "Download Traffic")}
-                    </FormLabel>
-                    <FormControl>
-                      <EnhancedInput
-                        placeholder="0"
-                        type="number"
-                        {...field}
-                        formatInput={(value) =>
-                          unitConversion("bytesToGb", value)
-                        }
-                        formatOutput={(value) =>
-                          unitConversion("gbToBytes", value)
-                        }
-                        onValueChange={(value) => {
-                          form.setValue(field.name, value as number);
-                        }}
-                        suffix="GB"
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-              <FormField
-                control={form.control}
-                name="expired_at"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormLabel>{t("expiredAt", "Expired At")}</FormLabel>
-                    <FormControl>
-                      <DatePicker
-                        onChange={(value: number | null | undefined) => {
-                          if (value === field.value) {
-                            form.setValue(field.name, 0);
-                          } else {
-                            form.setValue(field.name, value!);
+        <ScrollArea className="h-[calc(100dvh-48px-36px-36px-env(safe-area-inset-top))] px-4">
+          <div className="pr-4">
+            <Form {...form}>
+              <form
+                className="mt-4 space-y-4"
+                onSubmit={form.handleSubmit(handleSubmit)}
+              >
+                <FormField
+                  control={form.control}
+                  name="subscribe_id"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("subscription", "Subscription")}</FormLabel>
+                      <FormControl>
+                        <Combobox<number, false>
+                          onChange={(value) => {
+                            form.setValue(field.name, value);
+                          }}
+                          options={subscribes?.map((item) => ({
+                            value: item.id!,
+                            label: item.name!,
+                          }))}
+                          placeholder="Select Subscription"
+                          value={field.value}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="traffic"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("trafficLimit", "Traffic Limit")}
+                      </FormLabel>
+                      <FormControl>
+                        <EnhancedInput
+                          placeholder={t("unlimited", "Unlimited")}
+                          type="number"
+                          {...field}
+                          formatInput={(value) =>
+                            unitConversion("bytesToGb", value)
                           }
-                        }}
-                        placeholder={t("permanent", "Permanent")}
-                        value={field.value ?? undefined}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </form>
-          </Form>
+                          formatOutput={(value) =>
+                            unitConversion("gbToBytes", value)
+                          }
+                          onValueChange={(value) => {
+                            form.setValue(field.name, value as number);
+                          }}
+                          suffix="GB"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="upload"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("uploadTraffic", "Upload Traffic")}
+                      </FormLabel>
+                      <FormControl>
+                        <EnhancedInput
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          formatInput={(value) =>
+                            unitConversion("bytesToGb", value)
+                          }
+                          formatOutput={(value) =>
+                            unitConversion("gbToBytes", value)
+                          }
+                          onValueChange={(value) => {
+                            form.setValue(field.name, value as number);
+                          }}
+                          suffix="GB"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="download"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("downloadTraffic", "Download Traffic")}
+                      </FormLabel>
+                      <FormControl>
+                        <EnhancedInput
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          formatInput={(value) =>
+                            unitConversion("bytesToGb", value)
+                          }
+                          formatOutput={(value) =>
+                            unitConversion("gbToBytes", value)
+                          }
+                          onValueChange={(value) => {
+                            form.setValue(field.name, value as number);
+                          }}
+                          suffix="GB"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="expired_at"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("expiredAt", "Expired At")}</FormLabel>
+                      <FormControl>
+                        <DatePicker
+                          onChange={(value: number | null | undefined) => {
+                            form.setValue(field.name, value || 0);
+                          }}
+                          placeholder={t("permanent", "Permanent")}
+                          value={
+                            field.value && field.value > 0
+                              ? field.value
+                              : undefined
+                          }
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </form>
+            </Form>
+          </div>
         </ScrollArea>
         <SheetFooter className="flex-row justify-end gap-2 pt-3">
           <Button

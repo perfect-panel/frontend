@@ -19,6 +19,87 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.6](https://github.com/perfect-panel/frontend/compare/v1.3.5...v1.3.6) (2025-12-30)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Update server and web version update descriptions to remove version prefix for clarity ([cbd6e29](https://github.com/perfect-panel/frontend/commit/cbd6e29deda1c7a913fae4edb169e0a0a43a3dd9))
+
+## [1.3.5](https://github.com/perfect-panel/frontend/compare/v1.3.4...v1.3.5) (2025-12-30)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Update getUserSubscribe function to accept short and token parameters for improved URL generation ([39ebd09](https://github.com/perfect-panel/frontend/commit/39ebd09f0989b37308c1c803d8e380f967ab0db5))
+
+## [1.3.4](https://github.com/perfect-panel/frontend/compare/v1.3.3...v1.3.4) (2025-12-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Only update internalValue in MonacoEditor if propValue has changed ([fe14002](https://github.com/perfect-panel/frontend/commit/fe1400235967f2ad0c1ffbc05d9e15bab370c664))
+* Set modal prop to false for DropdownMenu in multiple components for improved user experience ([0253b62](https://github.com/perfect-panel/frontend/commit/0253b62b6365476591121b6f18dcb3f3261cb4ff))
+* Update HTMLEditor onChange event and set DropdownMenu modal to false for better user experience ([ba65588](https://github.com/perfect-panel/frontend/commit/ba65588fdfcfba146cd76bfe7d14e053291f5926))
+* Update SendCode parameters to use form.watch for email and telephone fields ([51a98af](https://github.com/perfect-panel/frontend/commit/51a98afcae2c8b83c7176898ad8ac2c8b11ad3d9))
+
+## [1.3.3](https://github.com/perfect-panel/frontend/compare/v1.3.2...v1.3.3) (2025-12-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Update user_subscribe_id reference in RowMoreActions to use row.id for correct token reset and status toggle ([2156a7f](https://github.com/perfect-panel/frontend/commit/2156a7f1df52970b5ab0816dd1da5dc7cefc1dae))
+
+## [1.3.2](https://github.com/perfect-panel/frontend/compare/v1.3.1...v1.3.2) (2025-12-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Refactor update dialog logic in SystemVersionCard for better clarity and handling of update states ([0690deb](https://github.com/perfect-panel/frontend/commit/0690debf6c1bab7472468c742f9b15639f904c20))
+* Update default inventory value in SubscribeForm to -1 for better handling of inventory state ([2f50c6d](https://github.com/perfect-panel/frontend/commit/2f50c6df3345e26bc92f5730bc8b891d0515a367))
+
+## [1.3.1](https://github.com/perfect-panel/frontend/compare/v1.3.0...v1.3.1) (2025-12-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* : Update localization files and improve display logic for inventory handling ([83d821a](https://github.com/perfect-panel/frontend/commit/83d821a2dc24d97838af43ab610b65ff0d0d0d15))
+* Update quantity handling in Purchase and Renewal components based on showOriginalPrice prop ([a274607](https://github.com/perfect-panel/frontend/commit/a2746073a636706b0e214eca84055735417680f3))
+* Update SubscribeTable to display inventory using Display component for better clarity ([cc52e36](https://github.com/perfect-panel/frontend/commit/cc52e3614d9b6723f4ce8ab6385d626f0fcc54d7))
+
+## [1.3.0](https://github.com/perfect-panel/frontend/compare/v1.2.4...v1.3.0) (2025-12-29)
+
+### ✨ Features / 新功能
+
+* Add original price display option and enhance inventory messages in subscription components ([543a7b9](https://github.com/perfect-panel/frontend/commit/543a7b9eb9b2cd278a70f668b0a0e0e9e261fe57))
+* Added localized support for user subscription and deletion status, and optimized the subscription form and user interface. ([9f95cec](https://github.com/perfect-panel/frontend/commit/9f95cec876c9ac8bf00a6ca12a5c40243c7171af))
+* Added reset and pause subscription functionality, and updated the status display. ([bc451ee](https://github.com/perfect-panel/frontend/commit/bc451eea16b51f1ab81b6cacf65201886866e1cc))
+* Added the option to restore subscription, and updated the relevant description and confirmation information. ([5f5c339](https://github.com/perfect-panel/frontend/commit/5f5c33987e54533c5348223b3cebe31aef91aa25))
+* Enhance DatePicker component with clear button and improved value handling ([b27b928](https://github.com/perfect-panel/frontend/commit/b27b9287be0eb26fe5d5189b618a32db340c506c))
+* Refactor SubscriptionForm layout for improved readability and maintainability ([f432ba0](https://github.com/perfect-panel/frontend/commit/f432ba06f9d3a86ec00bfd316d1c020ddf779de6))
+* Update API proxy target to use environment variable for improved configurability ([8d514df](https://github.com/perfect-panel/frontend/commit/8d514dfd8f0a8fb9acc97a288addd1b1cbc882b8))
+* Update queryKey structure in Purchase and Renewal components for improved order creation ([9559e00](https://github.com/perfect-panel/frontend/commit/9559e003b7821303f7d0ac7f4da5fae4bf1ccad4))
+* Update Vite configuration to load environment variables for improved API proxy setup ([d36a2c9](https://github.com/perfect-panel/frontend/commit/d36a2c902b7943441282278009c5e5210d30c746))
+
+### 🐛 Bug Fixes / 问题修复
+
+* Replace tag removal icon with a button for better accessibility and event handling ([3751f64](https://github.com/perfect-panel/frontend/commit/3751f64f73cd70eaddd44cb650dd38949f0ca069))
+* Uncomment navigation to dashboard for authenticated users ([4d15b2b](https://github.com/perfect-panel/frontend/commit/4d15b2b6fc8f0d178c7c749aa9e1d9826bb706f8))
+
+### 📚 Documentation / 文档更新
+
+* Update default administrator account information and security recommendations in installation guides ([7279275](https://github.com/perfect-panel/frontend/commit/7279275532ad0b73994ffe5cf2e4c2f8dabc280b))
+
+## [1.2.4](https://github.com/perfect-panel/frontend/compare/v1.2.3...v1.2.4) (2025-12-28)
+
+### 🐛 Bug Fixes / 问题修复
+
+* Add onSuccess callback to Unsubscribe component and conditionally render Renewal component ([7b5367a](https://github.com/perfect-panel/frontend/commit/7b5367a9a99ac8ae608a765b79a66c1f7380dcd8))
+* Remove the system log dialog component from the system version card ([71cb827](https://github.com/perfect-panel/frontend/commit/71cb827918ee3250f0c9d06d46d876ce6799b8ac))
+* Update invite link format in auth forms and sidebar to include hash fragment for routing. ([7a8c010](https://github.com/perfect-panel/frontend/commit/7a8c0102958a859c9e7476810d5c9b822f882692))
+
+### 📚 Documentation / 文档更新
+
+* Add one-click installation script for PPanel with Docker support ([912c5c4](https://github.com/perfect-panel/frontend/commit/912c5c4cb63eeb0ecbc33bef6b31bd50d83d6491))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.2.4-dev.1 / 发布版本 1.2.4-dev.1 [skip ci] ([62d45bb](https://github.com/perfect-panel/frontend/commit/62d45bbac17fab9656c1cce029a379ce8bb757d6))
+
 ## [1.2.4-dev.1](https://github.com/perfect-panel/frontend/compare/v1.2.3...v1.2.4-dev.1) (2025-12-22)
 
 ### 🐛 Bug Fixes / 问题修复

@@ -92,7 +92,7 @@ export default function User() {
               <Button variant="destructive">{t("delete", "Delete")}</Button>
             }
           />,
-          <DropdownMenu key="more">
+          <DropdownMenu key="more" modal={false}>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">{t("more", "More")}</Button>
             </DropdownMenuTrigger>
@@ -175,6 +175,18 @@ export default function User() {
         {
           accessorKey: "id",
           header: "ID",
+        },
+        {
+          accessorKey: "deleted_at",
+          header: t("isDeleted", "Deleted"),
+          cell: ({ row }) => {
+            const deletedAt = row.getValue("deleted_at") as number | undefined;
+            return deletedAt ? (
+              <Badge variant="destructive">{t("deleted", "Deleted")}</Badge>
+            ) : (
+              <Badge variant="outline">{t("normal", "Normal")}</Badge>
+            );
+          },
         },
         {
           accessorKey: "auth_methods",
@@ -371,16 +383,13 @@ function SubscriptionSheet({ userId }: { userId: number }) {
       <SheetTrigger asChild>
         <Button variant="secondary">{t("subscription", "Subscription")}</Button>
       </SheetTrigger>
-      <SheetContent
-        className="w-[1000px] max-w-full md:max-w-screen-xl"
-        side="right"
-      >
+      <SheetContent className="w-[1000px] max-w-full md:max-w-7xl" side="right">
         <SheetHeader>
           <SheetTitle>
             {t("subscriptionList", "Subscription List")} · ID: {userId}
           </SheetTitle>
         </SheetHeader>
-        <div className="mt-2">
+        <div className="mt-2 px-4">
           <UserSubscription userId={userId} />
         </div>
       </SheetContent>

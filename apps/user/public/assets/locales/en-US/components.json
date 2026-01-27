@@ -44,6 +44,8 @@
     "60003": "An existing subscription is detected. Please cancel it before proceeding.",
     "60004": "Unable to delete at the moment as the subscription has active users.",
     "60005": "Single subscription mode has exceeded user limit",
+    "60006": "User quota limit has been reached, unable to continue.",
+    "60007": "Insufficient inventory, please try again later or contact the administrator.",
     "70001": "Incorrect verification code, please re-enter.",
     "80001": "Task was not successfully queued, please try again later.",
     "90001": "Please disable DEBUG mode and try again.",

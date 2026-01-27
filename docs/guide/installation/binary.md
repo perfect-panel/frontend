@@ -309,6 +309,14 @@ ps aux | grep ppanel
 - **User Panel**: `http://your-server-ip:8080`
 - **Admin Panel**: `http://your-server-ip:8080/admin/`
 
+::: warning Default Credentials
+**Default Administrator Account**:
+- **Email**: `admin@ppanel.dev`
+- **Password**: `password`
+
+**Security**: Change the default credentials immediately after first login.
+:::
+
 ### Configure Firewall
 
 ```bash

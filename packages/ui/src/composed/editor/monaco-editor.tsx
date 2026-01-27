@@ -60,7 +60,10 @@ export function MonacoEditor({
   const size = useSize(ref);
 
   useEffect(() => {
-    setInternalValue(propValue);
+    // Only update internalValue if propValue has actually changed and is different from current value
+    if (propValue !== internalValue) {
+      setInternalValue(propValue);
+    }
   }, [propValue]);
 
   const debouncedOnChange = useRef(

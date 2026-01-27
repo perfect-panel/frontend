@@ -223,7 +223,11 @@ After successful installation, you can access:
 - **Admin Panel**: `http://your-server-ip:8080/admin/`
 
 ::: warning Default Credentials
-Please change the default admin password immediately after first login for security.
+**Default Administrator Account** (if not configured):
+- **Email**: `admin@ppanel.dev`
+- **Password**: `password`
+
+**Security**: Change the default credentials immediately after first login.
 :::
 
 ### Configure Reverse Proxy (Recommended)

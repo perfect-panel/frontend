@@ -69,7 +69,7 @@ export default function SystemVersionCard() {
     queryFn: async () => {
       const { data } = await basicCheckServiceVersion(
         {
-          service_name: "admin",
+          service_name: "admin-web-with-api",
           secret: moduleConfig!.secret,
         },
         { skipErrorHandler: true }
@@ -105,13 +105,13 @@ export default function SystemVersionCard() {
     setIsUpdatingWeb(true);
     try {
       await basicUpdateService({
-        service_name: "admin",
+        service_name: "admin-web-with-api",
         secret: moduleConfig.secret,
       });
       toast.success(t("adminUpdateSuccess", "Admin updated successfully"));
 
       await basicUpdateService({
-        service_name: "user",
+        service_name: "user-web-with-api",
         secret: moduleConfig.secret,
       });
       toast.success(t("userUpdateSuccess", "User updated successfully"));
@@ -188,52 +188,52 @@ export default function SystemVersionCard() {
           </div>
           <div className="flex items-center space-x-2">
             <Badge>V{packageJson.version}</Badge>
-            {hasWebNewVersion && webVersionInfo && (
-              <AlertDialog onOpenChange={setOpenUpdateWeb} open={openUpdateWeb}>
-                <AlertDialogTrigger asChild>
-                  <Button
-                    className="h-6 px-2 text-xs"
-                    disabled={isUpdatingWeb}
-                    size="sm"
-                    variant="outline"
-                  >
-                    <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
-                    {t("update", "Update")} V{webVersionInfo.latest_version}
+            <AlertDialog onOpenChange={setOpenUpdateWeb} open={openUpdateWeb}>
+              <AlertDialogTrigger asChild>
+                <Button
+                  className="h-6 px-2 text-xs"
+                  disabled={!hasWebNewVersion || isUpdatingWeb}
+                  size="sm"
+                  variant="outline"
+                >
+                  <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
+                  {hasWebNewVersion && webVersionInfo
+                    ? `${t("update", "Update")} ${webVersionInfo.latest_version}`
+                    : t("update", "Update")}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {t("confirmUpdate", "Confirm Update")}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {webVersionInfo
+                      ? t(
+                          "updateWebDescription",
+                          "Are you sure you want to update the web version from {{current}} to {{latest}}?",
+                          {
+                            current: webVersionInfo.current_version,
+                            latest: webVersionInfo.latest_version,
+                          }
+                        )
+                      : t(
+                          "updateDescription",
+                          "Are you sure you want to update?"
+                        )}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
+                  <Button disabled={isUpdatingWeb} onClick={handleUpdateWeb}>
+                    {isUpdatingWeb && (
+                      <Icon className="mr-2 animate-spin" icon="mdi:loading" />
+                    )}
+                    {t("confirmUpdate", "Confirm Update")}
                   </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      {t("confirmUpdate", "Confirm Update")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {t(
-                        "updateWebDescription",
-                        "Are you sure you want to update the web version from V{{current}} to V{{latest}}?",
-                        {
-                          current: packageJson.version,
-                          latest: webVersionInfo.latest_version,
-                        }
-                      )}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>
-                      {t("cancel", "Cancel")}
-                    </AlertDialogCancel>
-                    <Button disabled={isUpdatingWeb} onClick={handleUpdateWeb}>
-                      {isUpdatingWeb && (
-                        <Icon
-                          className="mr-2 animate-spin"
-                          icon="mdi:loading"
-                        />
-                      )}
-                      {t("confirmUpdate", "Confirm Update")}
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            )}
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
 
@@ -251,62 +251,63 @@ export default function SystemVersionCard() {
                 serverVersionInfo?.current_version ||
                 "1.0.0"}
             </Badge>
-            {hasServerNewVersion && serverVersionInfo && moduleConfig && (
-              <AlertDialog
-                onOpenChange={setOpenUpdateServer}
-                open={openUpdateServer}
-              >
-                <AlertDialogTrigger asChild>
+            <AlertDialog
+              onOpenChange={setOpenUpdateServer}
+              open={openUpdateServer}
+            >
+              <AlertDialogTrigger asChild>
+                <Button
+                  className="h-6 px-2 text-xs"
+                  disabled={!hasServerNewVersion || isUpdatingServer}
+                  size="sm"
+                  variant="outline"
+                >
+                  <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
+                  {hasServerNewVersion && serverVersionInfo
+                    ? `${t("update", "Update")} ${serverVersionInfo.latest_version}`
+                    : t("update", "Update")}
+                </Button>
+              </AlertDialogTrigger>
+              <AlertDialogContent>
+                <AlertDialogHeader>
+                  <AlertDialogTitle>
+                    {t("confirmUpdate", "Confirm Update")}
+                  </AlertDialogTitle>
+                  <AlertDialogDescription>
+                    {serverVersionInfo && moduleConfig
+                      ? t(
+                          "updateServerDescription",
+                          "Are you sure you want to update the server version from {{current}} to {{latest}}?",
+                          {
+                            current:
+                              moduleConfig.service_version ||
+                              serverVersionInfo.current_version,
+                            latest: serverVersionInfo.latest_version,
+                          }
+                        )
+                      : t(
+                          "updateDescription",
+                          "Are you sure you want to update?"
+                        )}
+                  </AlertDialogDescription>
+                </AlertDialogHeader>
+                <AlertDialogFooter>
+                  <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
                   <Button
-                    className="h-6 px-2 text-xs"
-                    disabled={isUpdatingServer}
-                    size="sm"
-                    variant="outline"
+                    disabled={isUpdatingServer || !moduleConfig}
+                    onClick={() =>
+                      moduleConfig &&
+                      updateServerMutation.mutate(moduleConfig.service_name)
+                    }
                   >
-                    <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
-                    {t("update", "Update")} V{serverVersionInfo.latest_version}
+                    {isUpdatingServer && (
+                      <Icon className="mr-2 animate-spin" icon="mdi:loading" />
+                    )}
+                    {t("confirmUpdate", "Confirm Update")}
                   </Button>
-                </AlertDialogTrigger>
-                <AlertDialogContent>
-                  <AlertDialogHeader>
-                    <AlertDialogTitle>
-                      {t("confirmUpdate", "Confirm Update")}
-                    </AlertDialogTitle>
-                    <AlertDialogDescription>
-                      {t(
-                        "updateServerDescription",
-                        "Are you sure you want to update the server version from V{{current}} to V{{latest}}?",
-                        {
-                          current:
-                            moduleConfig.service_version ||
-                            serverVersionInfo.current_version,
-                          latest: serverVersionInfo.latest_version,
-                        }
-                      )}
-                    </AlertDialogDescription>
-                  </AlertDialogHeader>
-                  <AlertDialogFooter>
-                    <AlertDialogCancel>
-                      {t("cancel", "Cancel")}
-                    </AlertDialogCancel>
-                    <Button
-                      disabled={isUpdatingServer}
-                      onClick={() =>
-                        updateServerMutation.mutate(moduleConfig.service_name)
-                      }
-                    >
-                      {isUpdatingServer && (
-                        <Icon
-                          className="mr-2 animate-spin"
-                          icon="mdi:loading"
-                        />
-                      )}
-                      {t("confirmUpdate", "Confirm Update")}
-                    </Button>
-                  </AlertDialogFooter>
-                </AlertDialogContent>
-              </AlertDialog>
-            )}
+                </AlertDialogFooter>
+              </AlertDialogContent>
+            </AlertDialog>
           </div>
         </div>
       </CardContent>
