@@ -92,13 +92,20 @@ This document records all notable changes to ShadCN Admin.
 * Remove the system log dialog component from the system version card ([71cb827](https://github.com/perfect-panel/frontend/commit/71cb827918ee3250f0c9d06d46d876ce6799b8ac))
 * Update invite link format in auth forms and sidebar to include hash fragment for routing. ([7a8c010](https://github.com/perfect-panel/frontend/commit/7a8c0102958a859c9e7476810d5c9b822f882692))
 
+## [1.2.4-dev.2](https://github.com/perfect-panel/frontend/compare/v1.2.4-dev.1...v1.2.4-dev.2) (2026-01-27)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** refresh user list after balance update ([7e1d574](https://github.com/perfect-panel/frontend/commit/7e1d5746d46dd9bf33b1971f71f809afcdba4bbe))
+* **ci:** avoid void|Promise union for refetch ([6dd743b](https://github.com/perfect-panel/frontend/commit/6dd743bbf4f383249e97549ed0ed0417b6f5609d))
+
 ### 📚 Documentation / 文档更新
 
 * Add one-click installation script for PPanel with Docker support ([912c5c4](https://github.com/perfect-panel/frontend/commit/912c5c4cb63eeb0ecbc33bef6b31bd50d83d6491))
 
 ### 🔧 Chores / 其他变更
 
-* **release:** Release 1.2.4-dev.1 / 发布版本 1.2.4-dev.1 [skip ci] ([62d45bb](https://github.com/perfect-panel/frontend/commit/62d45bbac17fab9656c1cce029a379ce8bb757d6))
+* **openapi:** regenerate services & patch axios requestType typing ([0ec4f84](https://github.com/perfect-panel/frontend/commit/0ec4f84fa9d4d94048b8219896c3d8fb1d8d2175))
 
 ## [1.2.4-dev.1](https://github.com/perfect-panel/frontend/compare/v1.2.3...v1.2.4-dev.1) (2025-12-22)
 
