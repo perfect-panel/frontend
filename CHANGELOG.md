@@ -19,6 +19,21 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.7](https://github.com/perfect-panel/frontend/compare/v1.3.6...v1.3.7) (2026-01-27)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** refresh user list after balance update ([7e1d574](https://github.com/perfect-panel/frontend/commit/7e1d5746d46dd9bf33b1971f71f809afcdba4bbe))
+* **build:** ensure version.lock directory exists + fix merge typo ([052a0a4](https://github.com/perfect-panel/frontend/commit/052a0a420921cffc09c81843d37081d05b4c4717))
+* **ci:** avoid void|Promise union for refetch ([6dd743b](https://github.com/perfect-panel/frontend/commit/6dd743bbf4f383249e97549ed0ed0417b6f5609d))
+* **i18n:** remove duplicate locale keys ([ed3f6cb](https://github.com/perfect-panel/frontend/commit/ed3f6cb737e0e5b3b57e4149fce3be6e46b0c5eb))
+
+### 🔧 Chores / 其他变更
+
+* **openapi:** regenerate services & patch axios requestType typing ([0ec4f84](https://github.com/perfect-panel/frontend/commit/0ec4f84fa9d4d94048b8219896c3d8fb1d8d2175))
+* **release:** Release 1.2.4-dev.2 / 发布版本 1.2.4-dev.2 [skip ci] ([98676fa](https://github.com/perfect-panel/frontend/commit/98676fa27c74eefc9c0fe2d92a549d9e5d7d7fd6))
+* **release:** Release 1.3.7-dev.1 / 发布版本 1.3.7-dev.1 [skip ci] ([852b2b8](https://github.com/perfect-panel/frontend/commit/852b2b84ee926a2dc35a7c8380bf41a74ed8bbbf))
+
 ## [1.3.7-dev.1](https://github.com/perfect-panel/frontend/compare/v1.3.6...v1.3.7-dev.1) (2026-01-27)
 
 ### 🐛 Bug Fixes / 问题修复

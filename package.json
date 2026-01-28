@@ -1,6 +1,6 @@
 {
   "name": "frontend",
-  "version": "1.3.7-dev.1",
+  "version": "1.3.7",
   "private": true,
   "homepage": "https://github.com/perfect-panel/frontend",
   "bugs": {
