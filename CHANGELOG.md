@@ -19,6 +19,13 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.8-dev.1](https://github.com/perfect-panel/frontend/compare/v1.3.7...v1.3.8-dev.1) (2026-02-06)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **payment:** satisfy img size lint rule ([30a6967](https://github.com/perfect-panel/frontend/commit/30a6967187d21d38d602a92c03e631ebad931767))
+* **payment:** use native WeChat Pay QR data ([160e6da](https://github.com/perfect-panel/frontend/commit/160e6da3f66691580752c65063e93c038b7a5547))
+
 ## [1.3.7](https://github.com/perfect-panel/frontend/compare/v1.3.6...v1.3.7) (2026-01-27)
 
 ### 🐛 Bug Fixes / 问题修复
