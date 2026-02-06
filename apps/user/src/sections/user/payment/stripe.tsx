@@ -365,6 +365,8 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
           alt={qrCodeMap[method] || t(`qrcode.${method}`, `Scan with ${method}`)}
           className="mx-auto h-[208px] w-[208px]"
           src={qrCodeImageDataUrl}
+          width={208}
+          height={208}
         />
       ) : (
         <QRCodeCanvas
