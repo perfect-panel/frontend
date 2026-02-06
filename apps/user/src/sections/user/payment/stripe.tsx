@@ -276,6 +276,7 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
   const stripe = useStripe();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
+  const [qrCodeImageDataUrl, setQrCodeImageDataUrl] = useState<string | null>(null);
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { t } = useTranslation("payment");
   const qrCodeMap: Record<string, string> = {
@@ -328,12 +329,21 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
 
       if (paymentIntent?.status === "requires_action") {
         const nextAction = paymentIntent.next_action as any;
-        const qrUrl =
-          method === "alipay"
-            ? nextAction?.alipay_handle_redirect?.url
-            : nextAction?.wechat_pay_display_qr_code?.image_url_svg;
+        // Stripe returns multiple WeChat QR-related fields.
+        // For native WeChat pay experience we should prefer the protocol data (weixin://...).
+        // Fallback to the provided base64 image if present.
+        if (method === "alipay") {
+          const qrUrl = nextAction?.alipay_handle_redirect?.url;
+          setQrCodeUrl(qrUrl || null);
+          setQrCodeImageDataUrl(null);
+        } else {
+          const wechat = nextAction?.wechat_pay_display_qr_code;
+          const data = wechat?.data; // e.g. weixin://wxpay/bizpayurl?pr=...
+          const imageDataUrl = wechat?.image_data_url; // data:image/png;base64,...
 
-        setQrCodeUrl(qrUrl || null);
+          setQrCodeUrl(data || null);
+          setQrCodeImageDataUrl(!data ? imageDataUrl || null : null);
+        }
       }
     } catch (_error) {
       handleError(t("stripe.error", "An error occurred"));
@@ -348,18 +358,26 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
     <div className="min-w-80 text-left">
       <CardPaymentForm clientSecret={client_secret} onError={handleError} />
     </div>
-  ) : qrCodeUrl ? (
+  ) : qrCodeUrl || qrCodeImageDataUrl ? (
     <>
-      <QRCodeCanvas
-        imageSettings={{
-          src: `./assets/payment/${method}.svg`,
-          width: 24,
-          height: 24,
-          excavate: true,
-        }}
-        size={208}
-        value={qrCodeUrl}
-      />
+      {qrCodeImageDataUrl ? (
+        <img
+          alt={qrCodeMap[method] || t(`qrcode.${method}`, `Scan with ${method}`)}
+          className="mx-auto h-[208px] w-[208px]"
+          src={qrCodeImageDataUrl}
+        />
+      ) : (
+        <QRCodeCanvas
+          imageSettings={{
+            src: `./assets/payment/${method}.svg`,
+            width: 24,
+            height: 24,
+            excavate: true,
+          }}
+          size={208}
+          value={qrCodeUrl!}
+        />
+      )}
       <p className="mt-4 text-center text-muted-foreground">
         {qrCodeMap[method] || t(`qrcode.${method}`, `Scan with ${method}`)}
       </p>
