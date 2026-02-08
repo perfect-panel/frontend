@@ -9,7 +9,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { getAvailablePaymentMethods } from "@workspace/ui/services/user/portal";
 import type React from "react";
-import { memo } from "react";
+import React, { memo } from "react";
 import { useTranslation } from "react-i18next";
 
 interface PaymentMethodsProps {
@@ -30,12 +30,21 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
     queryFn: async () => {
       const { data } = await getAvailablePaymentMethods();
       const list = data.data?.list || [];
-      const methods = balance ? list : list.filter((item) => item.id !== -1);
-      const defaultMethod = methods.find((item) => item.id)?.id;
-      if (defaultMethod) onChange(defaultMethod);
-      return methods;
+      return balance ? list : list.filter((item) => item.id !== -1);
     },
   });
+
+  // Only set a default when the current value is not a valid option.
+  // This avoids resetting the user's selection on refetch (common on mobile).
+  // Prefer non-balance methods when possible.
+  React.useEffect(() => {
+    if (!data || data.length === 0) return;
+    const valid = data.some((m) => String(m.id) === String(value));
+    if (valid) return;
+
+    const preferred = data.find((m) => m.id !== -1)?.id ?? data[0]!.id;
+    onChange(preferred);
+  }, [data, onChange, value]);
   return (
     <>
       <div className="font-semibold">
@@ -44,7 +53,6 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
       <RadioGroup
         className="grid grid-cols-2 gap-2 md:grid-cols-5"
         onValueChange={(val) => {
-          console.log(val);
           onChange(Number(val));
         }}
         value={String(value)}
