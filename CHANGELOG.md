@@ -19,6 +19,14 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.8-dev.2](https://github.com/perfect-panel/frontend/compare/v1.3.8-dev.1...v1.3.8-dev.2) (2026-02-08)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **auth:** support OAuth callbacks with hash router (Fixes [#9](https://github.com/perfect-panel/frontend/issues/9)) ([37b1ad8](https://github.com/perfect-panel/frontend/commit/37b1ad819404dbf4b54a5e5d5a43c4cfb998d790))
+* **user:** mobile announcement close + payment method selection (Fixes [#8](https://github.com/perfect-panel/frontend/issues/8)) ([f8121a2](https://github.com/perfect-panel/frontend/commit/f8121a2f1a69b9a7b4b55c8563c5796cbfd2c480))
+* **user:** satisfy biome check for oauth/payment UI ([40ec98e](https://github.com/perfect-panel/frontend/commit/40ec98ec26f69be07b94d45e5adace2d3f8f7966))
+
 ## [1.3.8-dev.1](https://github.com/perfect-panel/frontend/compare/v1.3.7...v1.3.8-dev.1) (2026-02-06)
 
 ### 🐛 Bug Fixes / 问题修复
