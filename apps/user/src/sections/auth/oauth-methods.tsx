@@ -35,7 +35,10 @@ export function OAuthMethods() {
               onClick={async () => {
                 const { data } = await oAuthLogin({
                   method,
-                  redirect: `${window.location.origin}/oauth/${method}`,
+                  // OAuth providers disallow URL fragments (#) in redirect URIs.
+                  // Use a real path (with trailing slash so static hosting can serve /oauth/<provider>/index.html)
+                  // which then bridges into our hash-router at /#/oauth/<provider>.
+                  redirect: `${window.location.origin}/oauth/${method}/`,
                 });
                 if (data.data?.redirect) {
                   window.location.href = data.data?.redirect;

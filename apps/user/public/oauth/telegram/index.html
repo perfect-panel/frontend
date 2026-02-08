@@ -1,0 +1,27 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>OAuth Redirect</title>
+    <meta http-equiv="refresh" content="0; url=/#/auth" />
+    <script>
+      (function () {
+        try {
+          // Providers redirect to a path without URL fragments (#). Our app uses hash routing.
+          // Bridge /oauth/<provider>[/]?... -> /#/oauth/<provider>?...
+          var path = window.location.pathname || "/";
+          path = path.replace(/\/$/, "");
+          var search = window.location.search || "";
+          var target = "/#" + path + search;
+          window.location.replace(target);
+        } catch (e) {
+          window.location.replace("/#/auth");
+        }
+      })();
+    </script>
+  </head>
+  <body>
+    Redirecting…
+  </body>
+</html>
