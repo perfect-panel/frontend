@@ -9,7 +9,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { getAvailablePaymentMethods } from "@workspace/ui/services/user/portal";
 import type React from "react";
-import React, { memo } from "react";
+import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";
 
 interface PaymentMethodsProps {
@@ -37,7 +37,7 @@ const PaymentMethods: React.FC<PaymentMethodsProps> = ({
   // Only set a default when the current value is not a valid option.
   // This avoids resetting the user's selection on refetch (common on mobile).
   // Prefer non-balance methods when possible.
-  React.useEffect(() => {
+  useEffect(() => {
     if (!data || data.length === 0) return;
     const valid = data.some((m) => String(m.id) === String(value));
     if (valid) return;

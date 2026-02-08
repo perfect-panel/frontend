@@ -18,6 +18,7 @@ import { useGlobalStore } from "@/stores/global";
 export default function Announcement({ type }: { type: "popup" | "pinned" }) {
   const { t } = useTranslation("dashboard");
   const { user } = useGlobalStore();
+  const [open, setOpen] = useState(false);
 
   const { data } = useQuery({
     queryKey: ["announcement", type],
@@ -38,13 +39,11 @@ export default function Announcement({ type }: { type: "popup" | "pinned" }) {
     enabled: !!user,
   });
 
-  if (!data) return null;
-
-  const [open, setOpen] = useState(false);
-
   useEffect(() => {
     if (type === "popup" && !!data) setOpen(true);
   }, [data, type]);
+
+  if (!data) return null;
 
   if (type === "popup") {
     return (

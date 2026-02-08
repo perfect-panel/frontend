@@ -276,7 +276,9 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
   const stripe = useStripe();
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
   const [qrCodeUrl, setQrCodeUrl] = useState<string | null>(null);
-  const [qrCodeImageDataUrl, setQrCodeImageDataUrl] = useState<string | null>(null);
+  const [qrCodeImageDataUrl, setQrCodeImageDataUrl] = useState<string | null>(
+    null
+  );
   const [isSubmitted, setIsSubmitted] = useState(false);
   const { t } = useTranslation("payment");
   const qrCodeMap: Record<string, string> = {
@@ -342,7 +344,7 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
           const imageDataUrl = wechat?.image_data_url; // data:image/png;base64,...
 
           setQrCodeUrl(data || null);
-          setQrCodeImageDataUrl(!data ? imageDataUrl || null : null);
+          setQrCodeImageDataUrl(data ? null : imageDataUrl || null);
         }
       }
     } catch (_error) {
@@ -362,11 +364,13 @@ const CheckoutForm: React.FC<Omit<StripePaymentProps, "publishable_key">> = ({
     <>
       {qrCodeImageDataUrl ? (
         <img
-          alt={qrCodeMap[method] || t(`qrcode.${method}`, `Scan with ${method}`)}
+          alt={
+            qrCodeMap[method] || t(`qrcode.${method}`, `Scan with ${method}`)
+          }
           className="mx-auto h-[208px] w-[208px]"
+          height={208}
           src={qrCodeImageDataUrl}
           width={208}
-          height={208}
         />
       ) : (
         <QRCodeCanvas
