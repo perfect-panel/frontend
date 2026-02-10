@@ -37,7 +37,7 @@ const verifySchema = z.object({
   turnstile_secret: z.string().optional(),
   enable_register_verify: z.boolean().optional(),
   enable_login_verify: z.boolean().optional(),
-  enable_password_verify: z.boolean().optional(),
+  enable_reset_password_verify: z.boolean().optional(),
 });
 
 type VerifyFormData = z.infer<typeof verifySchema>;
@@ -63,7 +63,7 @@ export default function VerifyConfig() {
       turnstile_secret: "",
       enable_register_verify: false,
       enable_login_verify: false,
-      enable_password_verify: false,
+      enable_reset_password_verify: false,
     },
   });
 
@@ -243,7 +243,7 @@ export default function VerifyConfig() {
 
               <FormField
                 control={form.control}
-                name="enable_password_verify"
+                name="enable_reset_password_verify"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
