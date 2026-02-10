@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.3.8-dev.3](https://github.com/perfect-panel/frontend/compare/v1.3.8-dev.2...v1.3.8-dev.3) (2026-02-10)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** persist reset-password Turnstile verify setting (Fixes [#10](https://github.com/perfect-panel/frontend/issues/10)) ([7cf7339](https://github.com/perfect-panel/frontend/commit/7cf7339fbe0affd586f065d0f62606d0cc7f23ee))
+
 ## [1.3.8-dev.2](https://github.com/perfect-panel/frontend/compare/v1.3.8-dev.1...v1.3.8-dev.2) (2026-02-08)
 
 ### 🐛 Bug Fixes / 问题修复
