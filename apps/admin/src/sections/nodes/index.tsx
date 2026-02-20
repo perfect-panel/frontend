@@ -226,6 +226,9 @@ export default function Nodes() {
         ),
       }}
       onSort={async (source, target, items) => {
+        // NOTE: `items` is the current page's items from ProTable.
+        // We should avoid mutating it in-place, and we should persist the sort
+        // changes reliably (await the API call).
         const sourceIndex = items.findIndex(
           (item) => String(item.id) === source
         );
@@ -233,23 +236,31 @@ export default function Nodes() {
           (item) => String(item.id) === target
         );
 
+        if (sourceIndex === -1 || targetIndex === -1) return items;
+
+        const prevSortById = new Map(items.map((it) => [it.id, it.sort]));
         const originalSorts = items.map((item) => item.sort);
 
-        const [movedItem] = items.splice(sourceIndex, 1);
-        items.splice(targetIndex, 0, movedItem!);
+        const next = items.slice();
+        const [movedItem] = next.splice(sourceIndex, 1);
+        next.splice(targetIndex, 0, movedItem!);
 
-        const updatedItems = items.map((item, index) => {
+        // Keep the existing `sort` values bound to positions (so reordering swaps
+        // sort values instead of inventing new ones).
+        const updatedItems = next.map((item, index) => {
           const originalSort = originalSorts[index];
           const newSort = originalSort !== undefined ? originalSort : item.sort;
           return { ...item, sort: newSort };
         });
 
         const changedItems = updatedItems.filter(
-          (item, index) => item.sort !== items[index]?.sort
+          (item) => item.sort !== prevSortById.get(item.id)
         );
 
         if (changedItems.length > 0) {
-          resetSortWithNode({
+          await resetSortWithNode({
+            // Send all changed rows (within the current page) so backend can
+            // persist the new ordering.
             sort: changedItems.map((item) => ({
               id: item.id,
               sort: item.sort,
@@ -257,6 +268,7 @@ export default function Nodes() {
           });
           toast.success(t("sorted_success", "Sorted successfully"));
         }
+
         return updatedItems;
       }}
       params={[{ key: "search" }]}
@@ -266,7 +278,18 @@ export default function Nodes() {
           size: pagination.size,
           search: filter?.search || undefined,
         });
-        const list = (data?.data?.list || []) as API.Node[];
+        const rawList = (data?.data?.list || []) as API.Node[];
+        // Backend should ideally return nodes already sorted, but we also sort on the
+        // frontend to keep the UI stable (and avoid "random" order after refresh).
+        const list = rawList.slice().sort((a, b) => {
+          const as = a.sort;
+          const bs = b.sort;
+          const an = typeof as === "number" ? as : Number.POSITIVE_INFINITY;
+          const bn = typeof bs === "number" ? bs : Number.POSITIVE_INFINITY;
+          if (an !== bn) return an - bn;
+          // Tie-breaker to keep a stable order.
+          return Number(a.id) - Number(b.id);
+        });
         const total = Number(data?.data?.total || list.length);
         return { list, total };
       }}

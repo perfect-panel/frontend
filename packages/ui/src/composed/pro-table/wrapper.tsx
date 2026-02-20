@@ -35,10 +35,16 @@ export function ProTableWrapper<TData extends { id?: string | number }>({
 
   const handleDragEnd = async (event: DragEndEvent) => {
     const { active, over } = event;
-    if (onSort) {
-      const updatedData = await onSort(active.id, over?.id || null, data);
-      setData(updatedData);
-    }
+
+    // If the pointer is released outside of any droppable row, `over` can be null.
+    // In that case we should keep the current order (and avoid firing a sort API call).
+    if (!(onSort && over)) return;
+
+    // No-op when dropping onto itself.
+    if (String(active.id) === String(over.id)) return;
+
+    const updatedData = await onSort(active.id, over.id, data);
+    setData(updatedData);
   };
   if (!onSort) return children;
   return (
