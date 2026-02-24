@@ -168,8 +168,31 @@ export default function Page() {
             ...pagination,
             ...filters,
           });
+
+          const list = (data.data?.list || []) as API.Ticket[];
+
+          // Client-side ordering to improve triage efficiency:
+          // - Put "Pending Follow-up" (status=1) before "Pending Reply" (status=2)
+          // - Within each group, sort by updated_at desc
+          const statusPriority = (status: number) => {
+            if (status === 1) return 0;
+            if (status === 2) return 1;
+            return 2;
+          };
+          const toTime = (value: any) => {
+            const t = new Date(value).getTime();
+            return Number.isFinite(t) ? t : 0;
+          };
+
+          list.sort((a, b) => {
+            const pa = statusPriority(a.status);
+            const pb = statusPriority(b.status);
+            if (pa !== pb) return pa - pb;
+            return toTime(b.updated_at) - toTime(a.updated_at);
+          });
+
           return {
-            list: data.data?.list || [],
+            list,
             total: data.data?.total || 0,
           };
         }}
