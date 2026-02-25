@@ -13,13 +13,7 @@ import {
   ChartTooltip,
   ChartTooltipContent,
 } from "@workspace/ui/components/chart";
-import {
-  Select,
-  SelectContent,
-  SelectItem,
-  SelectTrigger,
-  SelectValue,
-} from "@workspace/ui/components/select";
+// (Select imports removed)
 import { Separator } from "@workspace/ui/components/separator";
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import Empty from "@workspace/ui/composed/empty";
@@ -62,7 +56,6 @@ export default function Statistics() {
     },
   });
 
-  const [dataType, setDataType] = useState<string | "nodes" | "users">("nodes");
   const [timeFrame, setTimeFrame] = useState<string | "today" | "yesterday">(
     "today"
   );
@@ -93,10 +86,112 @@ export default function Statistics() {
         })) || [],
     },
   };
-  const currentData =
-    trafficData[dataType as "nodes" | "users"][
-      timeFrame as "today" | "yesterday"
-    ];
+
+  const TrafficRankCard = ({ type }: { type: "nodes" | "users" }) => {
+    const currentData = trafficData[type][timeFrame as "today" | "yesterday"];
+
+    return (
+      <Card>
+        <CardHeader className="!flex-row flex items-center justify-between">
+          <CardTitle>
+            {type === "nodes"
+              ? t("nodeTraffic", "Node Traffic")
+              : t("userTraffic", "User Traffic")}
+          </CardTitle>
+          <Tabs onValueChange={setTimeFrame} value={timeFrame}>
+            <TabsList>
+              <TabsTrigger value="today">{t("today", "Today")}</TabsTrigger>
+              <TabsTrigger value="yesterday">
+                {t("yesterday", "Yesterday")}
+              </TabsTrigger>
+            </TabsList>
+          </Tabs>
+        </CardHeader>
+        <CardContent className="h-80">
+          {currentData.length > 0 ? (
+            <ChartContainer
+              className="max-h-80"
+              config={{
+                traffic: {
+                  label: t("traffic", "Traffic"),
+                  color: "var(--primary)",
+                },
+                type: {
+                  label: t("type", "Type"),
+                  color: "var(--muted-foreground)",
+                },
+                label: {
+                  color: "var(--foreground)",
+                },
+              }}
+            >
+              <BarChart data={currentData} height={400} layout="vertical">
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis
+                  axisLine={false}
+                  tickFormatter={(value) => formatBytes(value || 0)}
+                  tickLine={false}
+                  type="number"
+                />
+                <YAxis
+                  axisLine={false}
+                  dataKey="name"
+                  interval={0}
+                  tickFormatter={(_value, index) => String(index + 1)}
+                  tickLine={false}
+                  tickMargin={0}
+                  type="category"
+                  width={15}
+                />
+                <ChartTooltip
+                  content={
+                    <ChartTooltipContent
+                      formatter={(value) => formatBytes(Number(value) || 0)}
+                      label={true}
+                      labelFormatter={(label, [payload]) =>
+                        type === "nodes" ? (
+                          `${t("nodes", "Nodes")}: ${label}`
+                        ) : (
+                          <>
+                            <div className="w-80">
+                              <UserSubscribeDetail
+                                enabled={true}
+                                id={payload?.payload.name}
+                              />
+                            </div>
+                            <Separator className="my-2" />
+                            <div>{`${t("users", "Users")}: ${label}`}</div>
+                          </>
+                        )
+                      }
+                    />
+                  }
+                  trigger="hover"
+                />
+                <Bar
+                  dataKey="traffic"
+                  fill="var(--primary)"
+                  radius={[0, 4, 4, 0]}
+                >
+                  <LabelList
+                    className="fill-foreground"
+                    dataKey="name"
+                    fontSize={12}
+                    offset={8}
+                    position="insideLeft"
+                  />
+                </Bar>
+              </BarChart>
+            </ChartContainer>
+          ) : (
+            <div className="flex h-full items-center justify-center">
+              <Empty />
+            </div>
+          )}
+        </CardContent>
+      </Card>
+    );
+  };
 
   return (
     <>
@@ -189,122 +284,14 @@ export default function Statistics() {
         ))}
         <SystemVersionCard />
       </div>
-      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-3">
+      <div className="grid gap-3 md:grid-cols-2 lg:grid-cols-2">
         <RevenueStatisticsCard />
         <UserStatisticsCard />
-        <Card>
-          <CardHeader className="!flex-row flex items-center justify-between">
-            <CardTitle>{t("trafficRank", "Traffic Rank")}</CardTitle>
-            <Tabs onValueChange={setTimeFrame} value={timeFrame}>
-              <TabsList>
-                <TabsTrigger value="today">{t("today", "Today")}</TabsTrigger>
-                <TabsTrigger value="yesterday">
-                  {t("yesterday", "Yesterday")}
-                </TabsTrigger>
-              </TabsList>
-            </Tabs>
-          </CardHeader>
-          <CardContent className="h-80">
-            <div className="mb-6 flex items-center justify-between">
-              <h4 className="font-semibold">
-                {dataType === "nodes"
-                  ? t("nodeTraffic", "Node Traffic")
-                  : t("userTraffic", "User Traffic")}
-              </h4>
-              <Select defaultValue="nodes" onValueChange={setDataType}>
-                <SelectTrigger className="w-28">
-                  <SelectValue
-                    placeholder={t("selectTypePlaceholder", "Select Type")}
-                  />
-                </SelectTrigger>
-                <SelectContent>
-                  <SelectItem value="nodes">{t("nodes", "Nodes")}</SelectItem>
-                  <SelectItem value="users">{t("users", "Users")}</SelectItem>
-                </SelectContent>
-              </Select>
-            </div>
-            {currentData.length > 0 ? (
-              <ChartContainer
-                className="max-h-80"
-                config={{
-                  traffic: {
-                    label: t("traffic", "Traffic"),
-                    color: "var(--primary)",
-                  },
-                  type: {
-                    label: t("type", "Type"),
-                    color: "var(--muted-foreground)",
-                  },
-                  label: {
-                    color: "var(--foreground)",
-                  },
-                }}
-              >
-                <BarChart data={currentData} height={400} layout="vertical">
-                  <CartesianGrid strokeDasharray="3 3" />
-                  <XAxis
-                    axisLine={false}
-                    tickFormatter={(value) => formatBytes(value || 0)}
-                    tickLine={false}
-                    type="number"
-                  />
-                  <YAxis
-                    axisLine={false}
-                    dataKey="name"
-                    interval={0}
-                    tickFormatter={(_value, index) => String(index + 1)}
-                    tickLine={false}
-                    tickMargin={0}
-                    type="category"
-                    width={15}
-                  />
-                  <ChartTooltip
-                    content={
-                      <ChartTooltipContent
-                        formatter={(value) => formatBytes(Number(value) || 0)}
-                        label={true}
-                        labelFormatter={(label, [payload]) =>
-                          dataType === "nodes" ? (
-                            `${t("nodes", "Nodes")}: ${label}`
-                          ) : (
-                            <>
-                              <div className="w-80">
-                                <UserSubscribeDetail
-                                  enabled={true}
-                                  id={payload?.payload.name}
-                                />
-                              </div>
-                              <Separator className="my-2" />
-                              <div>{`${t("users", "Users")}: ${label}`}</div>
-                            </>
-                          )
-                        }
-                      />
-                    }
-                    trigger="hover"
-                  />
-                  <Bar
-                    dataKey="traffic"
-                    fill="var(--primary)"
-                    radius={[0, 4, 4, 0]}
-                  >
-                    <LabelList
-                      className="fill-foreground"
-                      dataKey="name"
-                      fontSize={12}
-                      offset={8}
-                      position="insideLeft"
-                    />
-                  </Bar>
-                </BarChart>
-              </ChartContainer>
-            ) : (
-              <div className="flex h-full items-center justify-center">
-                <Empty />
-              </div>
-            )}
-          </CardContent>
-        </Card>
+      </div>
+
+      <div className="grid gap-3 md:grid-cols-2">
+        <TrafficRankCard type="nodes" />
+        <TrafficRankCard type="users" />
       </div>
     </>
   );
