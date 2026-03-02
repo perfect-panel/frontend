@@ -275,7 +275,10 @@ export default function Content() {
                   <CardTitle className="font-medium">
                     {item.subscribe.name}
                     <p className="mt-1 text-foreground/50 text-sm">
-                      {formatDate(item.start_time)}
+                      {t("expireAt", "Expires At")}:{" "}
+                      {item.expire_time
+                        ? formatDate(item.expire_time)
+                        : t("noLimit", "No Limit")}
                     </p>
                   </CardTitle>
                   {item.status !== 4 && (
