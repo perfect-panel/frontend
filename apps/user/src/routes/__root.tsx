@@ -9,9 +9,13 @@ import { getGlobalConfig } from "@workspace/ui/services/common/common";
 import { isBrowser } from "@workspace/ui/utils/index";
 import { useEffect } from "react";
 import { Helmet, HelmetProvider } from "react-helmet-async";
+import { NotFound } from "@/components/not-found";
+import { RouteError } from "@/components/route-error";
 import { useGlobalStore } from "@/stores/global";
 
 export const Route = createRootRouteWithContext()({
+  notFoundComponent: NotFound,
+  errorComponent: ({ error }) => <RouteError error={error} />,
   component: () => {
     const { common, setCommon, getUserInfo } = useGlobalStore();
     useEffect(() => {
