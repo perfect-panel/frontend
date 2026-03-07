@@ -355,11 +355,16 @@ export default function Content() {
                           className={
                             (item.upload + item.download) / item.traffic > 0.8
                               ? "[&>div]:bg-destructive"
-                              : (item.upload + item.download) / item.traffic > 0.6
+                              : (item.upload + item.download) / item.traffic >
+                                  0.6
                                 ? "[&>div]:bg-yellow-500"
                                 : ""
                           }
-                          value={Math.min(((item.upload + item.download) / item.traffic) * 100, 100)}
+                          value={Math.min(
+                            ((item.upload + item.download) / item.traffic) *
+                              100,
+                            100
+                          )}
                         />
                       )}
                     </li>

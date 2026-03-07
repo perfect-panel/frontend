@@ -63,8 +63,17 @@ export default function Affiliate() {
         </CardHeader>
         <CardContent>
           <div className="flex items-center justify-between">
-            <div className="rounded-xl px-4 py-2" style={{ background: 'oklch(0.61 0.11 222 / 0.1)', border: '1px solid oklch(0.61 0.11 222 / 0.2)', backdropFilter: 'blur(8px)', WebkitBackdropFilter: 'blur(8px)', boxShadow: 'inset 0 1px 0 oklch(1 0 0 / 0.4)' }}>
-              <code className="font-mono font-bold text-primary text-2xl tracking-wider">
+            <div
+              className="rounded-xl px-4 py-2"
+              style={{
+                background: "oklch(0.61 0.11 222 / 0.1)",
+                border: "1px solid oklch(0.61 0.11 222 / 0.2)",
+                backdropFilter: "blur(8px)",
+                WebkitBackdropFilter: "blur(8px)",
+                boxShadow: "inset 0 1px 0 oklch(1 0 0 / 0.4)",
+              }}
+            >
+              <code className="font-bold font-mono text-2xl text-primary tracking-wider">
                 {user?.refer_code}
               </code>
             </div>
