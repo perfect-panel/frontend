@@ -13,7 +13,8 @@
   --glass-bg-strong: oklch(1 0 0 / 0.75);
   --glass-border: oklch(1 0 0 / 0.3);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.08), 0 2px 8px oklch(0 0 0 / 0.04);
-  --glass-shadow-card: 0 4px 24px oklch(0 0 0 / 0.07), 0 1px 4px oklch(0 0 0 / 0.04);
+  --glass-shadow-card:
+    0 4px 24px oklch(0 0 0 / 0.07), 0 1px 4px oklch(0 0 0 / 0.04);
   --glass-blur: saturate(180%) blur(20px);
   --glass-blur-light: saturate(160%) blur(12px);
 
@@ -27,7 +28,8 @@
   --glass-bg-strong: oklch(0.22 0.01 260 / 0.75);
   --glass-border: oklch(1 0 0 / 0.12);
   --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.3), 0 2px 8px oklch(0 0 0 / 0.15);
-  --glass-shadow-card: 0 4px 24px oklch(0 0 0 / 0.25), 0 1px 4px oklch(0 0 0 / 0.12);
+  --glass-shadow-card:
+    0 4px 24px oklch(0 0 0 / 0.25), 0 1px 4px oklch(0 0 0 / 0.12);
 
   --card: oklch(0.22 0.008 260 / 0.6);
   --sidebar: oklch(0.18 0.008 260 / 0.4);
@@ -40,18 +42,86 @@
 body {
   background-attachment: fixed;
   background-image:
-    radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.85 0.06 220 / 0.35) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, oklch(0.82 0.05 280 / 0.25) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 50% 40%, oklch(0.9 0.03 200 / 0.2) 0%, transparent 50%);
+    radial-gradient(
+      ellipse 80% 60% at 20% 10%,
+      oklch(0.85 0.06 220 / 0.35) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 80% 80%,
+      oklch(0.82 0.05 280 / 0.25) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 40% at 50% 40%,
+      oklch(0.9 0.03 200 / 0.2) 0%,
+      transparent 50%
+    );
   background-size: 100% 100%;
 }
 
 .dark body,
 body.dark {
   background-image:
-    radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.35 0.08 230 / 0.4) 0%, transparent 60%),
-    radial-gradient(ellipse 60% 50% at 80% 80%, oklch(0.3 0.06 260 / 0.3) 0%, transparent 60%),
-    radial-gradient(ellipse 70% 40% at 50% 40%, oklch(0.25 0.04 220 / 0.25) 0%, transparent 50%);
+    radial-gradient(
+      ellipse 80% 60% at 20% 10%,
+      oklch(0.35 0.08 230 / 0.4) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 60% 50% at 80% 80%,
+      oklch(0.3 0.06 260 / 0.3) 0%,
+      transparent 60%
+    ),
+    radial-gradient(
+      ellipse 70% 40% at 50% 40%,
+      oklch(0.25 0.04 220 / 0.25) 0%,
+      transparent 50%
+    );
+}
+
+/* =====================
+   AUTH PAGE BACKGROUND
+   ===================== */
+
+.auth-bg {
+  background-image: linear-gradient(
+    135deg,
+    oklch(0.88 0.05 220 / 0.8) 0%,
+    oklch(0.93 0.03 280 / 0.7) 50%,
+    oklch(0.9 0.04 240 / 0.8) 100%
+  );
+}
+
+.dark .auth-bg {
+  background-image: linear-gradient(
+    135deg,
+    oklch(0.18 0.06 230 / 0.9) 0%,
+    oklch(0.15 0.04 260 / 0.8) 50%,
+    oklch(0.16 0.05 245 / 0.9) 100%
+  );
+}
+
+/* =====================
+   AUTH PANEL — GLASS CARD
+   ===================== */
+
+.auth-panel {
+  background: var(--glass-bg-strong);
+  backdrop-filter: var(--glass-blur);
+  -webkit-backdrop-filter: var(--glass-blur);
+  border: 1px solid var(--glass-border);
+  box-shadow:
+    0 20px 60px oklch(0 0 0 / 0.12),
+    0 4px 16px oklch(0 0 0 / 0.06),
+    inset 0 1px 0 oklch(1 0 0 / 0.5);
+}
+
+.dark .auth-panel {
+  box-shadow:
+    0 20px 60px oklch(0 0 0 / 0.35),
+    0 4px 16px oklch(0 0 0 / 0.2),
+    inset 0 1px 0 oklch(1 0 0 / 0.1);
 }
 
 /* =====================
@@ -63,16 +133,18 @@ header.sticky {
   backdrop-filter: var(--glass-blur) !important;
   -webkit-backdrop-filter: var(--glass-blur) !important;
   border-bottom-color: var(--glass-border) !important;
-  box-shadow: 0 1px 0 var(--glass-border), var(--glass-shadow) !important;
+  box-shadow:
+    0 1px 0 var(--glass-border),
+    var(--glass-shadow) !important;
 }
 
 /* =====================
    CARDS — GLASS SURFACE
+   (use data-slot or .card only; avoid over-broad class-combination selectors)
    ===================== */
 
-[class*="rounded-"][class*="border"],
-.card,
-[data-slot="card"] {
+[data-slot="card"],
+.card {
   background: var(--glass-bg) !important;
   backdrop-filter: var(--glass-blur-light) !important;
   -webkit-backdrop-filter: var(--glass-blur-light) !important;
@@ -119,24 +191,34 @@ aside {
   backdrop-filter: var(--glass-blur) !important;
   -webkit-backdrop-filter: var(--glass-blur) !important;
   border-color: var(--glass-border) !important;
-  box-shadow: 0 20px 60px oklch(0 0 0 / 0.15), 0 4px 16px oklch(0 0 0 / 0.08) !important;
+  box-shadow:
+    0 20px 60px oklch(0 0 0 / 0.15),
+    0 4px 16px oklch(0 0 0 / 0.08) !important;
 }
 
 /* =====================
    INPUTS — SUBTLE GLASS
    ===================== */
 
-input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(
+    [type="range"]
+  ),
 textarea,
 select {
   background: oklch(1 0 0 / 0.5) !important;
   border-color: var(--glass-border) !important;
   backdrop-filter: blur(4px) !important;
   -webkit-backdrop-filter: blur(4px) !important;
-  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+  transition:
+    background 0.2s,
+    border-color 0.2s,
+    box-shadow 0.2s;
 }
 
-.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+.dark
+  input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not(
+    [type="range"]
+  ),
 .dark textarea,
 .dark select {
   background: oklch(1 0 0 / 0.07) !important;
@@ -174,7 +256,9 @@ textarea:focus {
   background: var(--glass-bg-strong) !important;
   backdrop-filter: blur(12px) !important;
   -webkit-backdrop-filter: blur(12px) !important;
-  box-shadow: 0 2px 8px oklch(0 0 0 / 0.1), inset 0 1px 0 oklch(1 0 0 / 0.6) !important;
+  box-shadow:
+    0 2px 8px oklch(0 0 0 / 0.1),
+    inset 0 1px 0 oklch(1 0 0 / 0.6) !important;
 }
 
 /* =====================
@@ -202,7 +286,9 @@ textarea:focus {
 
 button[class*="bg-primary"],
 [data-slot="button"][data-variant="default"] {
-  box-shadow: 0 2px 12px oklch(0.61 0.11 222 / 0.4), inset 0 1px 0 oklch(1 0 0 / 0.2) !important;
+  box-shadow:
+    0 2px 12px oklch(0.61 0.11 222 / 0.4),
+    inset 0 1px 0 oklch(1 0 0 / 0.2) !important;
 }
 
 button:not([disabled]):hover {
@@ -211,27 +297,37 @@ button:not([disabled]):hover {
 
 /* =====================
    WALLET STAT CARDS — GLASS TINT
+   (named utility classes; applied in wallet/index.tsx)
    ===================== */
 
-.rounded-lg.bg-primary\/10 {
-  background: oklch(0.61 0.11 222 / 0.12) !important;
-  border: 1px solid oklch(0.61 0.11 222 / 0.2) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+.glass-stat-primary {
+  background: oklch(0.61 0.11 222 / 0.12);
+  border: 1px solid oklch(0.61 0.11 222 / 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 4px 16px oklch(0.61 0.11 222 / 0.15),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
-.rounded-lg.bg-green-500\/10 {
-  background: oklch(0.72 0.15 148 / 0.12) !important;
-  border: 1px solid oklch(0.72 0.15 148 / 0.2) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+.glass-stat-success {
+  background: oklch(0.72 0.15 148 / 0.12);
+  border: 1px solid oklch(0.72 0.15 148 / 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 4px 16px oklch(0.72 0.15 148 / 0.15),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
-.rounded-lg.bg-purple-500\/10 {
-  background: oklch(0.65 0.18 295 / 0.12) !important;
-  border: 1px solid oklch(0.65 0.18 295 / 0.2) !important;
-  backdrop-filter: blur(8px) !important;
-  -webkit-backdrop-filter: blur(8px) !important;
+.glass-stat-accent {
+  background: oklch(0.65 0.18 295 / 0.12);
+  border: 1px solid oklch(0.65 0.18 295 / 0.2);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  box-shadow:
+    0 4px 16px oklch(0.65 0.18 295 / 0.15),
+    inset 0 1px 0 oklch(1 0 0 / 0.4);
 }
 
 /* =====================

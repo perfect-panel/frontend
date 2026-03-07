@@ -65,7 +65,7 @@ export function Stats() {
           whileInView={{ opacity: 1, scale: 1 }}
         >
           <div className="flex w-full items-center sm:w-auto">
-            <div className="mr-4">
+            <div className="mr-4 flex h-20 w-20 items-center justify-center rounded-full">
               {item.icon}
             </div>
             <div className="flex flex-col gap-0.5">

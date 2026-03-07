@@ -35,7 +35,7 @@ export default function Main() {
   ].filter((method) => method.enabled);
 
   return (
-    <main className="flex h-full min-h-screen items-center" style={{ background: 'linear-gradient(135deg, oklch(0.88 0.05 220) 0%, oklch(0.93 0.03 280) 50%, oklch(0.90 0.04 240) 100%)' }}>
+    <main className="auth-bg flex h-full min-h-screen items-center">
       <div className="flex size-full flex-auto flex-col lg:flex-row">
         <div className="flex bg-center bg-cover lg:w-1/2 lg:flex-auto">
           <div className="flex w-full flex-col items-center justify-center px-5 py-7 md:px-15 lg:py-15">
@@ -45,7 +45,7 @@ export default function Main() {
               )}
               <span className="font-semibold text-2xl">{site.site_name}</span>
             </Link>
-            <div className="min-h-[180px] flex items-center justify-center">
+            <div className="flex min-h-[180px] items-center justify-center">
               <DotLottieReact
                 autoplay
                 className="mx-auto hidden w-[275px] lg:block xl:w-[500px]"
@@ -59,7 +59,7 @@ export default function Main() {
           </div>
         </div>
         <div className="flex flex-initial justify-center p-12 lg:flex-auto lg:justify-end">
-          <div className="flex w-full flex-col items-center rounded-2xl md:w-[600px] md:p-10 lg:flex-auto lg:shadow" style={{ background: 'var(--glass-bg-strong)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)', border: '1px solid var(--glass-border)', boxShadow: '0 20px 60px oklch(0 0 0 / 0.12), 0 4px 16px oklch(0 0 0 / 0.06), inset 0 1px 0 oklch(1 0 0 / 0.5)' }}>
+          <div className="auth-panel flex w-full flex-col items-center rounded-2xl md:w-[600px] md:p-10 lg:flex-auto lg:shadow">
             <div className="flex w-full flex-col items-stretch justify-center md:w-[400px] lg:h-full">
               <div className="flex flex-col justify-center lg:flex-auto">
                 <h1 className="mb-3 text-center font-bold text-2xl">

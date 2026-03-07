@@ -65,27 +65,27 @@ export default function Wallet() {
             </div>
           </div>
           <div className="grid grid-cols-1 gap-6 md:grid-cols-3">
-            <div className="rounded-xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02]" style={{ background: 'oklch(0.61 0.11 222 / 0.12)', border: '1px solid oklch(0.61 0.11 222 / 0.2)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', boxShadow: '0 4px 16px oklch(0.61 0.11 222 / 0.15), inset 0 1px 0 oklch(1 0 0 / 0.4)' }}>
-              <p className="font-medium text-primary text-sm opacity-80">
+            <div className="glass-stat-primary rounded-xl p-4 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
+              <p className="font-medium text-secondary-foreground text-sm opacity-80">
                 {t("balance", "Balance")}
               </p>
-              <p className="font-bold text-2xl text-primary">
+              <p className="font-bold text-2xl text-secondary-foreground">
                 <Display type="currency" value={user?.balance} />
               </p>
             </div>
-            <div className="rounded-xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02]" style={{ background: 'oklch(0.72 0.15 148 / 0.12)', border: '1px solid oklch(0.72 0.15 148 / 0.2)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', boxShadow: '0 4px 16px oklch(0.72 0.15 148 / 0.15), inset 0 1px 0 oklch(1 0 0 / 0.4)' }}>
-              <p className="font-medium text-green-600 text-sm opacity-80 dark:text-green-400">
+            <div className="glass-stat-success rounded-xl p-4 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
+              <p className="font-medium text-secondary-foreground text-sm opacity-80">
                 {t("giftAmount", "Gift Amount")}
               </p>
-              <p className="font-bold text-2xl text-green-600 dark:text-green-400">
+              <p className="font-bold text-2xl text-secondary-foreground">
                 <Display type="currency" value={user?.gift_amount} />
               </p>
             </div>
-            <div className="rounded-xl p-4 shadow-sm transition-all duration-300 hover:shadow-md hover:scale-[1.02]" style={{ background: 'oklch(0.65 0.18 295 / 0.12)', border: '1px solid oklch(0.65 0.18 295 / 0.2)', backdropFilter: 'blur(10px)', WebkitBackdropFilter: 'blur(10px)', boxShadow: '0 4px 16px oklch(0.65 0.18 295 / 0.15), inset 0 1px 0 oklch(1 0 0 / 0.4)' }}>
-              <p className="font-medium text-purple-600 text-sm opacity-80 dark:text-purple-400">
+            <div className="glass-stat-accent rounded-xl p-4 shadow-sm transition-all duration-300 hover:scale-[1.02] hover:shadow-md">
+              <p className="font-medium text-secondary-foreground text-sm opacity-80">
                 {t("commission", "Commission")}
               </p>
-              <p className="font-bold text-2xl text-purple-600 dark:text-purple-400">
+              <p className="font-bold text-2xl text-secondary-foreground">
                 <Display type="currency" value={user?.commission} />
               </p>
             </div>
