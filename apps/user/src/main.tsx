@@ -13,6 +13,7 @@ import ReactDOM from "react-dom/client";
 import { routeTree } from "./routeTree.gen";
 // Styles
 import "@workspace/ui/globals.css";
+import "./liquid-glass.css";
 import { DirectionProvider } from "@workspace/ui/integrations/direction";
 import { LanguageProvider } from "@workspace/ui/integrations/language";
 import { ThemeProvider } from "@workspace/ui/integrations/theme";

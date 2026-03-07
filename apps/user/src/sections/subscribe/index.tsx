@@ -48,7 +48,7 @@ export default function Subscribe() {
       <div className="space-y-4">
         <div className="grid gap-4 md:grid-cols-2 lg:grid-cols-2 xl:grid-cols-3">
           {filteredData?.map((item) => (
-            <Card className="relative flex flex-col" key={item.id}>
+            <Card className="relative flex flex-col" key={item.id} style={{ background: 'var(--glass-bg)', backdropFilter: 'var(--glass-blur-light)', WebkitBackdropFilter: 'var(--glass-blur-light)', border: '1px solid var(--glass-border)', boxShadow: 'var(--glass-shadow-card)' }}>
               <CardHeader className="font-medium text-xl">
                 {item.name}
               </CardHeader>
@@ -121,7 +121,7 @@ export default function Subscribe() {
                 />
               </CardContent>
               <Separator />
-              <CardFooter className="flex flex-col gap-2">
+              <CardFooter className="mt-auto flex flex-col gap-2">
                 {(() => {
                   const hasDiscount = item.discount && item.discount.length > 0;
                   const shouldShowOriginal = item.show_original_price !== false;
@@ -145,7 +145,7 @@ export default function Subscribe() {
                     t(item.unit_time || "Month", item.unit_time || "Month");
 
                   return (
-                    <h2 className="pb-8 font-semibold text-2xl sm:text-3xl">
+                    <h2 className="font-semibold text-2xl sm:text-3xl">
                       <Display type="currency" value={displayPrice} />
                       <span className="font-medium text-base">
                         {displayQuantity === 1
@@ -156,7 +156,7 @@ export default function Subscribe() {
                   );
                 })()}
                 <Button
-                  className="absolute bottom-0 w-full rounded-t-none rounded-b-xl"
+                  className="w-full"
                   onClick={() => {
                     setSubscribe(item);
                   }}

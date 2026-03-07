@@ -1,0 +1,295 @@
+/*
+ * Liquid-Glass (Glassmorphism) Theme
+ * iOS 17+ frosted glass aesthetic
+ * Brand primary color: oklch(0.61 0.11 222) / oklch(0.71 0.13 215) dark
+ */
+
+/* =====================
+   CSS VARIABLE OVERRIDES
+   ===================== */
+
+:root {
+  --glass-bg: oklch(1 0 0 / 0.6);
+  --glass-bg-strong: oklch(1 0 0 / 0.75);
+  --glass-border: oklch(1 0 0 / 0.3);
+  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.08), 0 2px 8px oklch(0 0 0 / 0.04);
+  --glass-shadow-card: 0 4px 24px oklch(0 0 0 / 0.07), 0 1px 4px oklch(0 0 0 / 0.04);
+  --glass-blur: saturate(180%) blur(20px);
+  --glass-blur-light: saturate(160%) blur(12px);
+
+  /* Soften card background */
+  --card: oklch(1 0 0 / 0.7);
+  --sidebar: oklch(0.985 0 0 / 0.5);
+}
+
+.dark {
+  --glass-bg: oklch(0.18 0.008 260 / 0.55);
+  --glass-bg-strong: oklch(0.22 0.01 260 / 0.75);
+  --glass-border: oklch(1 0 0 / 0.12);
+  --glass-shadow: 0 8px 32px oklch(0 0 0 / 0.3), 0 2px 8px oklch(0 0 0 / 0.15);
+  --glass-shadow-card: 0 4px 24px oklch(0 0 0 / 0.25), 0 1px 4px oklch(0 0 0 / 0.12);
+
+  --card: oklch(0.22 0.008 260 / 0.6);
+  --sidebar: oklch(0.18 0.008 260 / 0.4);
+}
+
+/* =====================
+   BODY BACKGROUND
+   ===================== */
+
+body {
+  background-attachment: fixed;
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.85 0.06 220 / 0.35) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, oklch(0.82 0.05 280 / 0.25) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 50% 40%, oklch(0.9 0.03 200 / 0.2) 0%, transparent 50%);
+  background-size: 100% 100%;
+}
+
+.dark body,
+body.dark {
+  background-image:
+    radial-gradient(ellipse 80% 60% at 20% 10%, oklch(0.35 0.08 230 / 0.4) 0%, transparent 60%),
+    radial-gradient(ellipse 60% 50% at 80% 80%, oklch(0.3 0.06 260 / 0.3) 0%, transparent 60%),
+    radial-gradient(ellipse 70% 40% at 50% 40%, oklch(0.25 0.04 220 / 0.25) 0%, transparent 50%);
+}
+
+/* =====================
+   HEADER — GLASS
+   ===================== */
+
+header.sticky {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-bottom-color: var(--glass-border) !important;
+  box-shadow: 0 1px 0 var(--glass-border), var(--glass-shadow) !important;
+}
+
+/* =====================
+   CARDS — GLASS SURFACE
+   ===================== */
+
+[class*="rounded-"][class*="border"],
+.card,
+[data-slot="card"] {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-light) !important;
+  -webkit-backdrop-filter: var(--glass-blur-light) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--glass-shadow-card) !important;
+}
+
+/* =====================
+   SIDEBAR — TRANSLUCENT
+   ===================== */
+
+[data-slot="sidebar"],
+aside {
+  background: var(--glass-bg) !important;
+  backdrop-filter: var(--glass-blur-light) !important;
+  -webkit-backdrop-filter: var(--glass-blur-light) !important;
+}
+
+/* =====================
+   DROPDOWNS / POPOVERS — GLASS
+   ===================== */
+
+[data-radix-popper-content-wrapper] [role="menu"],
+[data-radix-popper-content-wrapper] [role="listbox"],
+[data-radix-popper-content-wrapper] > div,
+[data-slot="dropdown-menu-content"],
+[data-slot="select-content"],
+[data-slot="popover-content"] {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: var(--glass-shadow) !important;
+}
+
+/* =====================
+   DIALOGS / DRAWERS — GLASS
+   ===================== */
+
+[role="dialog"],
+[data-slot="dialog-content"],
+[data-slot="drawer-content"] {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: var(--glass-blur) !important;
+  -webkit-backdrop-filter: var(--glass-blur) !important;
+  border-color: var(--glass-border) !important;
+  box-shadow: 0 20px 60px oklch(0 0 0 / 0.15), 0 4px 16px oklch(0 0 0 / 0.08) !important;
+}
+
+/* =====================
+   INPUTS — SUBTLE GLASS
+   ===================== */
+
+input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+textarea,
+select {
+  background: oklch(1 0 0 / 0.5) !important;
+  border-color: var(--glass-border) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+  transition: background 0.2s, border-color 0.2s, box-shadow 0.2s;
+}
+
+.dark input:not([type="checkbox"]):not([type="radio"]):not([type="file"]):not([type="range"]),
+.dark textarea,
+.dark select {
+  background: oklch(1 0 0 / 0.07) !important;
+}
+
+input:focus,
+textarea:focus {
+  background: oklch(1 0 0 / 0.7) !important;
+  box-shadow: 0 0 0 2px oklch(0.61 0.11 222 / 0.35) !important;
+}
+
+.dark input:focus,
+.dark textarea:focus {
+  background: oklch(1 0 0 / 0.12) !important;
+  box-shadow: 0 0 0 2px oklch(0.71 0.13 215 / 0.4) !important;
+}
+
+/* =====================
+   TABS — GLASS PILL
+   ===================== */
+
+[data-slot="tabs-list"] {
+  background: oklch(1 0 0 / 0.3) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border: 1px solid var(--glass-border) !important;
+  box-shadow: inset 0 1px 0 oklch(1 0 0 / 0.5) !important;
+}
+
+.dark [data-slot="tabs-list"] {
+  background: oklch(1 0 0 / 0.06) !important;
+}
+
+[data-slot="tabs-trigger"][data-state="active"] {
+  background: var(--glass-bg-strong) !important;
+  backdrop-filter: blur(12px) !important;
+  -webkit-backdrop-filter: blur(12px) !important;
+  box-shadow: 0 2px 8px oklch(0 0 0 / 0.1), inset 0 1px 0 oklch(1 0 0 / 0.6) !important;
+}
+
+/* =====================
+   PROGRESS BAR — GLASS TROUGH
+   ===================== */
+
+[data-slot="progress"] {
+  background: oklch(0.5 0 0 / 0.1) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* =====================
+   BADGES / STATUS INDICATORS
+   ===================== */
+
+[data-slot="badge"] {
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* =====================
+   BUTTONS — GLASS SHEEN
+   ===================== */
+
+button[class*="bg-primary"],
+[data-slot="button"][data-variant="default"] {
+  box-shadow: 0 2px 12px oklch(0.61 0.11 222 / 0.4), inset 0 1px 0 oklch(1 0 0 / 0.2) !important;
+}
+
+button:not([disabled]):hover {
+  filter: brightness(1.05);
+}
+
+/* =====================
+   WALLET STAT CARDS — GLASS TINT
+   ===================== */
+
+.rounded-lg.bg-primary\/10 {
+  background: oklch(0.61 0.11 222 / 0.12) !important;
+  border: 1px solid oklch(0.61 0.11 222 / 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.rounded-lg.bg-green-500\/10 {
+  background: oklch(0.72 0.15 148 / 0.12) !important;
+  border: 1px solid oklch(0.72 0.15 148 / 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+.rounded-lg.bg-purple-500\/10 {
+  background: oklch(0.65 0.18 295 / 0.12) !important;
+  border: 1px solid oklch(0.65 0.18 295 / 0.2) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+}
+
+/* =====================
+   SEPARATOR — GLASS LINE
+   ===================== */
+
+[data-slot="separator"],
+hr {
+  border-color: var(--glass-border) !important;
+}
+
+/* =====================
+   SCROLL AREA — NO OPAQUE BG
+   ===================== */
+
+[data-radix-scroll-area-viewport] {
+  background: transparent !important;
+}
+
+/* =====================
+   CARD HEADER BG (ticket list muted)
+   ===================== */
+
+.bg-muted\/50 {
+  background: oklch(0.97 0.001 286 / 0.4) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+.dark .bg-muted\/50 {
+  background: oklch(0.27 0.006 286 / 0.4) !important;
+}
+
+/* =====================
+   INVITE CODE BOX
+   ===================== */
+
+.bg-primary\/5 {
+  background: oklch(0.61 0.11 222 / 0.08) !important;
+  backdrop-filter: blur(4px) !important;
+  -webkit-backdrop-filter: blur(4px) !important;
+}
+
+/* =====================
+   GLOW ACCENTS ON HERO CTA
+   ===================== */
+
+[class*="HoverBorderGradient"] {
+  box-shadow: 0 0 20px oklch(0.61 0.11 222 / 0.35) !important;
+}
+
+/* =====================
+   USER NAV TRIGGER — GLASS PILL
+   ===================== */
+
+.rounded-full.border.bg-background {
+  background: var(--glass-bg) !important;
+  backdrop-filter: blur(8px) !important;
+  -webkit-backdrop-filter: blur(8px) !important;
+  border-color: var(--glass-border) !important;
+}

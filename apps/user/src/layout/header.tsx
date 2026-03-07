@@ -20,7 +20,7 @@ export default function Header() {
     </Link>
   );
   return (
-    <header className="sticky top-0 z-50 border-b backdrop-blur-md">
+    <header className="sticky top-0 z-50 border-b" style={{ background: 'var(--glass-bg)', backdropFilter: 'var(--glass-blur)', WebkitBackdropFilter: 'var(--glass-blur)', borderBottomColor: 'var(--glass-border)', boxShadow: 'var(--glass-shadow)' }}>
       <div className="container flex h-16 items-center justify-between">
         <nav className="flex-col gap-6 font-medium text-lg md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
           {Logo}

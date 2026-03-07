@@ -24,6 +24,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@workspace/ui/components/card";
+import { Progress } from "@workspace/ui/components/progress";
 import { Separator } from "@workspace/ui/components/separator";
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { Icon } from "@workspace/ui/composed/icon";
@@ -282,7 +283,7 @@ export default function Content() {
                     </p>
                   </CardTitle>
                   {item.status !== 4 && (
-                    <div className="flex flex-wrap gap-2">
+                    <div className="flex flex-wrap gap-1.5">
                       <AlertDialog>
                         <AlertDialogTrigger asChild>
                           <Button size="sm" variant="destructive">
@@ -349,6 +350,18 @@ export default function Content() {
                           value={item.upload + item.download}
                         />
                       </span>
+                      {!!item.traffic && (
+                        <Progress
+                          className={
+                            (item.upload + item.download) / item.traffic > 0.8
+                              ? "[&>div]:bg-destructive"
+                              : (item.upload + item.download) / item.traffic > 0.6
+                                ? "[&>div]:bg-yellow-500"
+                                : ""
+                          }
+                          value={Math.min(((item.upload + item.download) / item.traffic) * 100, 100)}
+                        />
+                      )}
                     </li>
                     <li>
                       <span className="text-muted-foreground">
