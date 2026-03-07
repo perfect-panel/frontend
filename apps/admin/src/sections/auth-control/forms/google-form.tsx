@@ -33,15 +33,9 @@ import { toast } from "sonner";
 import { z } from "zod";
 
 const googleSchema = z.object({
-  id: z.number(),
-  method: z.string().default("google").optional(),
-  enabled: z.boolean().default(false).optional(),
-  config: z
-    .object({
-      client_id: z.string().optional(),
-      client_secret: z.string().optional(),
-    })
-    .optional(),
+  enabled: z.boolean(),
+  client_id: z.string().optional(),
+  client_secret: z.string().optional(),
 });
 
 type GoogleFormData = z.infer<typeof googleSchema>;
@@ -65,26 +59,34 @@ export default function GoogleForm() {
   const form = useForm<GoogleFormData>({
     resolver: zodResolver(googleSchema),
     defaultValues: {
-      id: 0,
-      method: "google",
       enabled: false,
-      config: {
-        client_id: "",
-        client_secret: "",
-      },
+      client_id: "",
+      client_secret: "",
     },
   });
 
   useEffect(() => {
     if (data) {
-      form.reset(data);
+      form.reset({
+        enabled: data.enabled,
+        client_id: data.config?.client_id || "",
+        client_secret: data.config?.client_secret || "",
+      });
     }
   }, [data, form]);
 
   async function onSubmit(values: GoogleFormData) {
     setLoading(true);
     try {
-      await updateAuthMethodConfig(values as API.UpdateAuthMethodConfigRequest);
+      await updateAuthMethodConfig({
+        ...data,
+        enabled: values.enabled,
+        config: {
+          ...data?.config,
+          client_id: values.client_id,
+          client_secret: values.client_secret,
+        },
+      } as API.UpdateAuthMethodConfigRequest);
       toast.success(t("common.saveSuccess", "Saved successfully"));
       refetch();
       setOpen(false);
@@ -155,7 +157,7 @@ export default function GoogleForm() {
 
               <FormField
                 control={form.control}
-                name="config.client_id"
+                name="client_id"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>{t("google.clientId", "Client ID")}</FormLabel>
@@ -179,7 +181,7 @@ export default function GoogleForm() {
 
               <FormField
                 control={form.control}
-                name="config.client_secret"
+                name="client_secret"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
