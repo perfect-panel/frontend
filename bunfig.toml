@@ -1,0 +1,5 @@
+[install]
+# Use hoisted (flat) node_modules layout instead of isolated installs.
+# This ensures Vite/Rollup can resolve dependencies correctly in CI environments
+# such as Cloudflare Pages.
+linker = "hoisted"
