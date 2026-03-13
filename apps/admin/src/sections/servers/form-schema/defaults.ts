@@ -184,6 +184,11 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         cert_mode: "none",
         cert_dns_provider: null,
         cert_dns_env: null,
+        reality_server_addr: null,
+        reality_server_port: null,
+        reality_private_key: null,
+        reality_public_key: null,
+        reality_short_id: null,
         ratio: 1,
       } as any;
     default:

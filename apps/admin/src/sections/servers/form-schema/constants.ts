@@ -66,7 +66,7 @@ export const SECURITY = {
   trojan: ["tls"] as const,
   hysteria: ["tls"] as const,
   tuic: ["tls"] as const,
-  anytls: ["tls"] as const,
+  anytls: ["none", "tls", "reality"] as const,
   naive: ["none", "tls"] as const,
   http: ["none", "tls"] as const,
 } as const;
@@ -74,8 +74,6 @@ export const SECURITY = {
 export const FLOWS = {
   vless: [
     "none",
-    "xtls-rprx-direct",
-    "xtls-rprx-splice",
     "xtls-rprx-vision",
   ] as const,
 } as const;

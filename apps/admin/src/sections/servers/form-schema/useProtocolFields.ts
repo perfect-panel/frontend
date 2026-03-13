@@ -279,7 +279,10 @@ export function useProtocolFields() {
           options: FLOWS.vless,
           defaultValue: "none",
           group: "transport",
-          condition: (p) => p.transport === "tcp",
+          condition: (p) =>
+            p.encryption === "mlkem768x25519plus" ||
+            (p.transport === "tcp" &&
+              (p.security === "tls" || p.security === "reality")),
         },
         {
           name: "security",
@@ -441,7 +444,7 @@ export function useProtocolFields() {
           name: "encryption_ticket",
           type: "input",
           label: t("encryption_ticket", "Ticket Time"),
-          placeholder: "e.g. 600s",
+          placeholder: "e.g. 600",
           group: "encryption",
           condition: (p) =>
             p.encryption === "mlkem768x25519plus" &&
@@ -1094,6 +1097,14 @@ export function useProtocolFields() {
           group: "basic",
         },
         {
+          name: "security",
+          type: "select",
+          label: t("security", "Security"),
+          options: SECURITY.anytls,
+          defaultValue: "tls",
+          group: "security",
+        },
+        {
           name: "padding_scheme",
           type: "textarea",
           label: t("padding_scheme", "Padding Scheme"),
@@ -1108,12 +1119,14 @@ export function useProtocolFields() {
           type: "input",
           label: t("security_sni", "SNI"),
           group: "security",
+          condition: (p) => p.security !== "none",
         },
         {
           name: "allow_insecure",
           type: "switch",
           label: t("security_allow_insecure", "Allow Insecure"),
           group: "security",
+          condition: (p) => p.security !== "none",
         },
         {
           name: "fingerprint",
@@ -1122,6 +1135,7 @@ export function useProtocolFields() {
           options: FINGERPRINTS,
           defaultValue: "chrome",
           group: "security",
+          condition: (p) => p.security !== "none",
         },
         {
           name: "cert_mode",
@@ -1130,6 +1144,7 @@ export function useProtocolFields() {
           options: CERT_MODES,
           defaultValue: "none",
           group: "security",
+          condition: (p) => p.security === "tls",
         },
         {
           name: "cert_dns_provider",
@@ -1147,6 +1162,66 @@ export function useProtocolFields() {
             "CF_DNS_API_TOKEN=1234567890abcdefghijklmnopqrstuvwxyz\nALI_ACCESS_KEY_ID=your_access_key_id\nALI_ACCESS_KEY_SECRET=your_access_key_secret",
           group: "security",
           condition: (p) => p.cert_mode === "dns",
+        },
+        {
+          name: "reality_server_addr",
+          type: "input",
+          label: t("security_server_address", "Reality Server Address"),
+          placeholder: t(
+            "security_server_address_placeholder",
+            "e.g. 1.2.3.4 or domain"
+          ),
+          group: "reality",
+          condition: (p) => p.security === "reality",
+        },
+        {
+          name: "reality_server_port",
+          type: "number",
+          label: t("security_server_port", "Reality Server Port"),
+          min: 1,
+          max: 65_535,
+          placeholder: "1-65535",
+          group: "reality",
+          condition: (p) => p.security === "reality",
+        },
+        {
+          name: "reality_private_key",
+          type: "input",
+          label: t("security_private_key", "Reality Private Key"),
+          placeholder: t(
+            "security_private_key_placeholder",
+            "Enter private key"
+          ),
+          group: "reality",
+          generate: {
+            function: generateRealityKeyPair,
+            updateFields: {
+              reality_private_key: "privateKey",
+              reality_public_key: "publicKey",
+            } as Record<string, string>,
+          },
+          condition: (p) => p.security === "reality",
+        },
+        {
+          name: "reality_public_key",
+          type: "input",
+          label: t("security_public_key", "Reality Public Key"),
+          placeholder: t(
+            "security_public_key_placeholder",
+            "Enter public key"
+          ),
+          group: "reality",
+          condition: (p) => p.security === "reality",
+        },
+        {
+          name: "reality_short_id",
+          type: "input",
+          label: t("security_short_id", "Reality Short ID"),
+          group: "reality",
+          generate: {
+            function: generateRealityShortId,
+          },
+          condition: (p) => p.security === "reality",
         },
       ],
     }),

@@ -156,6 +156,11 @@ const anytls = z.object({
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
+  reality_server_addr: nullableString,
+  reality_server_port: nullablePort,
+  reality_private_key: nullableString,
+  reality_public_key: nullableString,
+  reality_short_id: nullableString,
 });
 
 const socks = z.object({
