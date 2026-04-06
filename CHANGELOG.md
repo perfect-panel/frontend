@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.4.2](https://github.com/perfect-panel/frontend/compare/v1.4.1...v1.4.2) (2026-04-06)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **i18n:** remove affiliate namespace from eager preload to prevent retry loops ([af8f09e](https://github.com/perfect-panel/frontend/commit/af8f09e28029bec9a3077fb4779d3212361e6ba2)), closes [#31](https://github.com/perfect-panel/frontend/issues/31)
+
 ## [1.4.1](https://github.com/perfect-panel/frontend/compare/v1.4.0...v1.4.1) (2026-03-30)
 
 ### 🐛 Bug Fixes / 问题修复
