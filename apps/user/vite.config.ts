@@ -26,11 +26,16 @@ function versionLockPlugin(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  const allowedHosts = [
+    "ppanel-dev.home.arpa",
+    "admin-ppanel-dev.home.arpa",
+  ];
+  const devtoolsPort = Number(env.VITE_DEVTOOLS_PORT || "42069");
 
   return {
     base: "./",
     plugins: [
-      devtools({ eventBusConfig: { port: 42_069 } }),
+      devtools({ eventBusConfig: { port: devtoolsPort } }),
       tanstackRouter({
         target: "react",
         autoCodeSplitting: true,
@@ -45,6 +50,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      allowedHosts,
       proxy: {
         "/api": {
           target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",
