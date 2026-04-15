@@ -26,11 +26,19 @@ function versionLockPlugin(): Plugin {
 // https://vitejs.dev/config/
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), "");
+  // Dev server only: allow custom local domains such as Telepresence routes.
+  // Keep this env-driven so each developer can opt in without baking machine-specific hosts into source.
+  const allowedHosts = env.VITE_ALLOWED_HOSTS
+    ? env.VITE_ALLOWED_HOSTS.split(",")
+        .map((host) => host.trim())
+        .filter(Boolean)
+    : undefined;
+  const devtoolsPort = Number(env.VITE_DEVTOOLS_PORT || "42069");
 
   return {
     base: "./",
     plugins: [
-      devtools({ eventBusConfig: { port: 42_069 } }),
+      devtools({ eventBusConfig: { port: devtoolsPort } }),
       tanstackRouter({
         target: "react",
         autoCodeSplitting: true,
@@ -45,6 +53,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
+      allowedHosts,
       proxy: {
         "/api": {
           target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",

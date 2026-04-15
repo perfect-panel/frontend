@@ -13,7 +13,7 @@ import { useGlobalStore } from "@/stores/global";
 
 export const Route = createRootRouteWithContext()({
   component: () => {
-    const { common, setCommon, getUserInfo } = useGlobalStore();
+    const { common, setCommon, setCommonReady, getUserInfo } = useGlobalStore();
     useEffect(() => {
       const initializeApp = async () => {
         try {
@@ -30,11 +30,13 @@ export const Route = createRootRouteWithContext()({
           }
         } catch (error) {
           console.error("Failed to initialize app:", error);
+        } finally {
+          setCommonReady(true);
         }
       };
 
       initializeApp();
-    }, []);
+    }, [getUserInfo, setCommon, setCommonReady]);
 
     const { site } = common;
     const title = site.site_name || "Loading...";

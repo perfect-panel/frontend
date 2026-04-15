@@ -36,6 +36,7 @@ import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
+import { getOAuthProviderMeta } from "@/config/oauth-providers";
 import SendCode from "@/sections/auth/send-code";
 import { useGlobalStore } from "@/stores/global";
 
@@ -192,7 +193,7 @@ export default function ThirdPartyAccounts() {
     },
     {
       id: "telegram",
-      icon: "logos:telegram",
+      icon: getOAuthProviderMeta("telegram").icon,
       name: "Telegram",
       type: "OAuth",
       descriptionDefault: "Sign in with Telegram",
@@ -206,7 +207,7 @@ export default function ThirdPartyAccounts() {
     },
     {
       id: "google",
-      icon: "logos:google",
+      icon: getOAuthProviderMeta("google").icon,
       name: "Google",
       type: "OAuth",
       descriptionDefault: "Sign in with Google",
