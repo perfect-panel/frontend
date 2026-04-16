@@ -1,0 +1,114 @@
+name: Promote Release Branch
+
+on:
+  workflow_dispatch:
+    inputs:
+      head_branch:
+        description: Source branch to promote
+        required: true
+        default: dev
+      base_branch:
+        description: Target branch for the release PR
+        required: true
+        default: main
+      pr_title:
+        description: Optional PR title override
+        required: false
+      pr_body:
+        description: Optional PR body override
+        required: false
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  open-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+
+      - name: Ensure auto-merge is enabled
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          allow_auto_merge="$(gh api "repos/${GITHUB_REPOSITORY}" --jq '.allow_auto_merge')"
+          if [ "${allow_auto_merge}" != "true" ]; then
+            echo "GitHub repository setting 'Allow auto-merge' must be enabled before running this workflow." >&2
+            exit 1
+          fi
+
+      - name: Validate branches
+        env:
+          HEAD_BRANCH: ${{ inputs.head_branch }}
+          BASE_BRANCH: ${{ inputs.base_branch }}
+        run: |
+          git fetch origin "${HEAD_BRANCH}" "${BASE_BRANCH}"
+
+          if ! git show-ref --verify --quiet "refs/remotes/origin/${HEAD_BRANCH}"; then
+            echo "Missing source branch: ${HEAD_BRANCH}" >&2
+            exit 1
+          fi
+
+          if ! git show-ref --verify --quiet "refs/remotes/origin/${BASE_BRANCH}"; then
+            echo "Missing target branch: ${BASE_BRANCH}" >&2
+            exit 1
+          fi
+
+      - name: Create or reuse release PR
+        id: pr
+        env:
+          GH_TOKEN: ${{ github.token }}
+          HEAD_BRANCH: ${{ inputs.head_branch }}
+          BASE_BRANCH: ${{ inputs.base_branch }}
+          PR_TITLE: ${{ inputs.pr_title }}
+          PR_BODY: ${{ inputs.pr_body }}
+        run: |
+          existing_pr="$(gh pr list \
+            --base "${BASE_BRANCH}" \
+            --head "${HEAD_BRANCH}" \
+            --state open \
+            --json number \
+            --jq '.[0].number // empty')"
+
+          if [ -n "${existing_pr}" ]; then
+            echo "number=${existing_pr}" >> "$GITHUB_OUTPUT"
+            exit 0
+          fi
+
+          title="${PR_TITLE}"
+          if [ -z "${title}" ]; then
+            title="release: ${HEAD_BRANCH} -> ${BASE_BRANCH}"
+          fi
+
+          body="${PR_BODY}"
+          if [ -z "${body}" ]; then
+            body="$(printf '%s\n' \
+              '## Summary' \
+              '' \
+              "- promote \`${HEAD_BRANCH}\` into \`${BASE_BRANCH}\`" \
+              '- auto-merge this PR after all required checks pass' \
+              '- let semantic-release publish the frontend release after the merge lands on the target branch')"
+          fi
+
+          pr_url="$(gh pr create \
+            --base "${BASE_BRANCH}" \
+            --head "${HEAD_BRANCH}" \
+            --title "${title}" \
+            --body "${body}")"
+
+          pr_number="$(gh pr view "${pr_url}" --json number --jq '.number')"
+
+          echo "number=${pr_number}" >> "$GITHUB_OUTPUT"
+
+      - name: Enable PR auto-merge
+        env:
+          GH_TOKEN: ${{ github.token }}
+          PR_NUMBER: ${{ steps.pr.outputs.number }}
+          BASE_BRANCH: ${{ inputs.base_branch }}
+        run: |
+          gh pr merge "${PR_NUMBER}" --auto --squash --delete-branch=false
+          echo "Auto-merge enabled for PR #${PR_NUMBER} into ${BASE_BRANCH}"
