@@ -20,9 +20,9 @@ export default function Auth() {
   }, [navigate, user]);
 
   return (
-    <main className="flex h-full min-h-screen items-center bg-muted/50">
+    <main className="flex h-full min-h-screen items-center bg-muted/50 [&_canvas]:pointer-events-none">
       <div className="flex size-full flex-auto flex-col justify-center lg:flex-row">
-        <div className="flex lg:w-1/2 lg:flex-auto">
+        <div className="flex lg:pointer-events-none lg:w-1/2 lg:flex-auto">
           <div className="flex w-full flex-col items-center justify-center px-5 py-4 md:px-14 lg:py-14">
             <Link className="mb-0 flex flex-col items-center lg:mb-12" to="/">
               <img
@@ -35,7 +35,7 @@ export default function Auth() {
             </Link>
             <DotLottieReact
               autoplay
-              className="mx-auto hidden w-full lg:block"
+              className="pointer-events-none mx-auto hidden w-full lg:block"
               loop
               src="./assets/lotties/login.json"
             />
@@ -44,8 +44,8 @@ export default function Auth() {
             </p>
           </div>
         </div>
-        <div className="flex flex-initial justify-center p-8 lg:flex-auto lg:justify-end">
-          <div className="flex flex-col items-center rounded-2xl md:w-[600px] lg:flex-auto lg:bg-background lg:p-10 lg:shadow">
+        <div className="relative z-10 flex flex-initial justify-center p-8 lg:flex-auto lg:justify-end">
+          <div className="relative z-10 flex flex-col items-center rounded-2xl md:w-[600px] lg:flex-auto lg:bg-background lg:p-10 lg:shadow">
             <div className="flex flex-col items-stretch justify-center md:w-[400px] lg:h-full">
               <div className="flex flex-col justify-center pb-14 lg:flex-auto lg:pb-20">
                 <EmailAuthForm />

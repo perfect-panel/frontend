@@ -8,8 +8,67 @@ import { getCookie } from "@workspace/ui/lib/cookies";
 import { getGlobalConfig } from "@workspace/ui/services/common/common";
 import { isBrowser } from "@workspace/ui/utils/index";
 import { useEffect } from "react";
-import { Helmet, HelmetProvider } from "react-helmet-async";
 import { useGlobalStore } from "@/stores/global";
+
+function syncDocumentHead({
+  title,
+  description,
+  keywords,
+  canonicalUrl,
+  iconHref,
+}: {
+  title: string;
+  description?: string;
+  keywords?: string;
+  canonicalUrl?: string;
+  iconHref?: string;
+}) {
+  document.title = title;
+
+  const upsertMeta = (name: string, content?: string) => {
+    let element = document.head.querySelector<HTMLMetaElement>(
+      `meta[name="${name}"]`
+    );
+
+    if (!content) {
+      element?.remove();
+      return;
+    }
+
+    if (!element) {
+      element = document.createElement("meta");
+      element.name = name;
+      document.head.appendChild(element);
+    }
+
+    element.content = content;
+  };
+
+  const upsertLink = (rel: string, href?: string) => {
+    let element = document.head.querySelector<HTMLLinkElement>(
+      `link[rel="${rel}"]`
+    );
+
+    if (!href) {
+      element?.remove();
+      return;
+    }
+
+    if (!element) {
+      element = document.createElement("link");
+      element.rel = rel;
+      document.head.appendChild(element);
+    }
+
+    element.href = href;
+  };
+
+  upsertMeta("description", description);
+  upsertMeta("keywords", keywords);
+  upsertLink("canonical", canonicalUrl);
+  upsertLink("icon", iconHref);
+  upsertLink("apple-touch-icon", iconHref);
+}
 
 export const Route = createRootRouteWithContext()({
   component: () => {
@@ -37,23 +96,26 @@ export const Route = createRootRouteWithContext()({
     }, []);
 
     const { site } = common;
-    const title = site.site_name || "Loading...";
-    const description = site.site_desc || "";
+    const title = site.site_name || "Perfect Panel";
+    const description = site.site_desc || title;
     const keywords = site.keywords || "";
     const logo = site.site_logo || "";
     const url = isBrowser() ? window.location.href : "";
 
+    useEffect(() => {
+      if (!isBrowser()) return;
+
+      syncDocumentHead({
+        title,
+        description,
+        keywords,
+        canonicalUrl: url,
+        iconHref: logo,
+      });
+    }, [description, keywords, logo, title, url]);
+
     return (
-      <HelmetProvider>
-        <Helmet>
-          <title>{title}</title>
-          <meta content={description} name="description" />
-          <meta content={keywords} name="keywords" />
-          <link href={url} rel="canonical" />
-          <link href={logo} rel="icon" type="image/*" />
-          <link href={logo} rel="apple-touch-icon" sizes="180x180" />
-          <link href="/site.webmanifest" rel="manifest" />
-        </Helmet>
+      <>
         <NavigationProgress />
         <Outlet />
         <Toaster closeButton richColors />
@@ -73,7 +135,7 @@ export const Route = createRootRouteWithContext()({
             TanStackQueryDevtools,
           ]}
         />
-      </HelmetProvider>
+      </>
     );
   },
 });
