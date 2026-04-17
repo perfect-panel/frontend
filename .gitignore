@@ -34,3 +34,8 @@ npm-debug.log*
 # Misc
 .DS_Store
 *.pem
+telepresence-kubeconfig-docker.json
+AGENT.md
+AGENTS.md
+BRANCH_STRATEGY.md
+CLAUDE.md

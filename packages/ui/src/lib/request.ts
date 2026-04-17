@@ -4,6 +4,37 @@ import { isBrowser } from "@workspace/ui/utils/index";
 import axios, { type InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
+function normalizePath(value?: string) {
+  if (!value) return undefined;
+
+  const trimmed = value.trim();
+  if (!trimmed) return undefined;
+
+  return trimmed.endsWith("/") ? trimmed.slice(0, -1) : trimmed;
+}
+
+function resolveBaseURL() {
+  const explicitBaseUrl = normalizePath(import.meta.env.VITE_API_BASE_URL);
+  if (explicitBaseUrl) return explicitBaseUrl;
+
+  const apiPrefix = normalizePath(import.meta.env.VITE_API_PREFIX);
+  if (apiPrefix?.startsWith("http://") || apiPrefix?.startsWith("https://")) {
+    return apiPrefix;
+  }
+
+  if (apiPrefix) return undefined;
+
+  const message =
+    "Missing API configuration: set VITE_API_BASE_URL or VITE_API_PREFIX before starting the app.";
+
+  if (isBrowser()) {
+    // Surface env mistakes clearly instead of silently guessing a fallback.
+    setTimeout(() => toast.error(message), 0);
+  }
+
+  throw new Error(message);
+}
+
 function handleError(response: {
   data?: { code?: number; message?: string };
   config?: { skipErrorHandler?: boolean };
@@ -173,7 +204,7 @@ function handleError(response: {
 }
 
 const request = axios.create({
-  baseURL: import.meta.env.VITE_API_BASE_URL,
+  baseURL: resolveBaseURL(),
 });
 
 request.interceptors.request.use(
