@@ -1,26 +1,23 @@
 # Branch Strategy
 
-This repository uses a simplified Git Flow model.
+This repository uses a main-first task branch model.
 
 ## Long-lived branches
-- `main` is the production branch.
-- `dev` is the integration branch for daily development.
+- `main` is the only long-lived development branch.
 
 ## Working branches
-- Create feature work on `feat/*` from `dev`.
-- Create bug-fix work on `fix/*` from `dev`.
-- Merge `feat/*` and `fix/*` back into `dev` first.
-- Promote changes from `dev` to `main` through a pull request.
+- Create feature work on `feat/*` directly from `main`.
+- Create bug-fix work on `fix/*` directly from `main`.
+- Open pull requests from `feat/*` and `fix/*` back into `main`.
 
 ## Protection and deployment rules
 - Never push directly to `main`.
-- `main` must only be updated by a `dev -> main` pull request.
+- `main` must only be updated by task branch pull requests.
 - The k3s prod environment deploys the latest `main`.
-- The k3s dev environment deploys the latest `dev`.
 
 ## Worktree workflow
 ```bash
 git fetch origin
-git worktree add ../ppanel-frontend-dev dev
-git worktree add -b feat/your-change ../ppanel-frontend-feat dev
+git worktree add ../ppanel-frontend-main main
+git worktree add -b feat/your-change ../ppanel-frontend-feat main
 ```
