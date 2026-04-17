@@ -4,8 +4,10 @@ import { create } from "zustand";
 
 export interface GlobalStore {
   common: API.GetGlobalConfigResponse;
+  commonReady: boolean;
   user?: API.User;
   setCommon: (common: Partial<API.GetGlobalConfigResponse>) => void;
+  setCommonReady: (ready: boolean) => void;
   setUser: (user?: API.User) => void;
   getUserInfo: () => Promise<void>;
   getUserSubscribe: (short: string, token: string, type?: string) => string[];
@@ -103,6 +105,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
     oauth_methods: [],
     web_ad: false,
   },
+  commonReady: false,
   user: undefined,
   setCommon: (common) =>
     set((state) => ({
@@ -111,10 +114,11 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
         ...common,
       },
     })),
+  setCommonReady: (commonReady) => set({ commonReady }),
   setUser: (user) => set({ user }),
   getUserInfo: async () => {
     try {
-      const { data } = await queryUserInfo();
+      const { data } = await queryUserInfo({ skipErrorHandler: true });
       set({ user: data.data });
     } catch (error) {
       console.error("Failed to refresh user:", error);

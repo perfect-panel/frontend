@@ -3,20 +3,8 @@
   "branches": [
     "main",
     {
-      "name": "beta",
-      "prerelease": true
-    },
-    {
-      "name": "alpha",
-      "prerelease": true
-    },
-    {
-      "name": "develop",
+      "name": "dev",
       "prerelease": "dev"
-    },
-    {
-      "name": "next",
-      "prerelease": true
     }
   ],
   "plugins": [

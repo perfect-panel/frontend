@@ -4,20 +4,14 @@ import { Button } from "@workspace/ui/components/button";
 import { Icon } from "@workspace/ui/composed/icon";
 import { oAuthLogin } from "@workspace/ui/services/common/oauth";
 import { useGlobalStore } from "@/stores/global";
-
-const icons = {
-  apple: "uil:apple",
-  google: "logos:google-icon",
-  facebook: "logos:facebook",
-  github: "uil:github",
-  telegram: "logos:telegram",
-};
+import { getOAuthProviderMeta } from "@/config/oauth-providers";
 
 export function OAuthMethods() {
   const { common } = useGlobalStore();
   const { oauth_methods } = common;
   const OAUTH_METHODS = oauth_methods?.filter(
-    (method: string) => !["mobile", "email", "device"].includes(method)
+    (method: string) =>
+      !["mobile", "email", "device", "wechat", "weixin"].includes(method)
   );
   return (
     OAUTH_METHODS?.length > 0 && (
@@ -30,7 +24,7 @@ export function OAuthMethods() {
         <div className="mt-6 flex justify-center gap-4 *:size-12 *:p-2">
           {OAUTH_METHODS?.map((method: string) => (
             <Button
-              asChild
+              aria-label={getOAuthProviderMeta(method).label}
               key={method}
               onClick={async () => {
                 const { data } = await oAuthLogin({
@@ -47,7 +41,7 @@ export function OAuthMethods() {
               size="icon"
               variant="ghost"
             >
-              <Icon icon={icons[method as keyof typeof icons]} />
+              <Icon icon={getOAuthProviderMeta(method).icon} />
             </Button>
           ))}
         </div>

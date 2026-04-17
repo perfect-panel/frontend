@@ -7,6 +7,16 @@ declare global {
     logout: () => void;
     i18n: typeof i18n;
   }
+
+  const __APP_GIT_VERSION__: {
+    commit: string;
+    tag: string | null;
+    display_version: string;
+  };
+}
+
+interface ImportMetaEnv {
+  readonly VITE_APP_VERSION?: string;
 }
 
 // openapi2ts 生成的 request 参数里可能会包含 requestType（umi-request 风格）。

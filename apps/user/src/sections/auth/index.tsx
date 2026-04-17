@@ -2,6 +2,7 @@
 
 import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Link } from "@tanstack/react-router";
+import { Spinner } from "@workspace/ui/components/spinner";
 import {
   Tabs,
   TabsContent,
@@ -18,21 +19,83 @@ import PhoneAuthForm from "./phone/auth-form";
 
 export default function Main() {
   const { t } = useTranslation("auth");
-  const { common } = useGlobalStore();
+  const { common, commonReady } = useGlobalStore();
   const { site, auth } = common;
+  const enabledMethods = new Set(common.oauth_methods || []);
 
   const AUTH_METHODS = [
     {
       key: "email",
-      enabled: auth.email.enable,
+      enabled: auth.email.enable || enabledMethods.has("email"),
       children: <EmailAuthForm />,
     },
     {
       key: "mobile",
-      enabled: auth.mobile.enable,
+      enabled: auth.mobile.enable || enabledMethods.has("mobile"),
       children: <PhoneAuthForm />,
     },
   ].filter((method) => method.enabled);
+
+  const renderAuthContent = () => {
+    if (!commonReady) {
+      return (
+        <div className="flex min-h-[320px] flex-col items-center justify-center gap-4 rounded-2xl border border-dashed border-border/60 bg-muted/20 px-6 text-center">
+          <Spinner className="size-8" />
+          <div>
+            <p className="font-medium text-base">
+              {t("loadingAuth", "Loading sign-in options...")}
+            </p>
+            <p className="text-muted-foreground text-sm">
+              {t(
+                "loadingAuthDesc",
+                "Please wait while we prepare your account access."
+              )}
+            </p>
+          </div>
+        </div>
+      );
+    }
+
+    if (AUTH_METHODS.length === 0) {
+      return (
+        <div className="flex min-h-[320px] flex-col items-center justify-center rounded-2xl border border-dashed border-border/60 bg-muted/20 px-6 text-center">
+          <p className="font-semibold text-base">
+            {t("noAuthMethods", "No direct sign-in methods are available")}
+          </p>
+          <p className="mt-2 text-muted-foreground text-sm">
+            {t(
+              "noAuthMethodsDesc",
+              "Use the third-party sign-in options below, or contact support if this looks unexpected."
+            )}
+          </p>
+        </div>
+      );
+    }
+
+    if (AUTH_METHODS.length === 1) {
+      return AUTH_METHODS[0]?.children;
+    }
+
+    const defaultMethod = AUTH_METHODS[0];
+    if (!defaultMethod) return null;
+
+    return (
+      <Tabs defaultValue={defaultMethod.key}>
+        <TabsList className="mb-6 flex w-full *:flex-1">
+          {AUTH_METHODS.map((item) => (
+            <TabsTrigger key={item.key} value={item.key}>
+              {t(`methods.${item.key}`)}
+            </TabsTrigger>
+          ))}
+        </TabsList>
+        {AUTH_METHODS.map((item) => (
+          <TabsContent key={item.key} value={item.key}>
+            {item.children}
+          </TabsContent>
+        ))}
+      </Tabs>
+    );
+  };
 
   return (
     <main className="flex h-full min-h-screen items-center bg-muted/50">
@@ -69,24 +132,7 @@ export default function Main() {
                     "Please login or register to continue"
                   )}
                 </div>
-                {AUTH_METHODS.length === 1
-                  ? AUTH_METHODS[0]?.children
-                  : AUTH_METHODS[0] && (
-                      <Tabs defaultValue={AUTH_METHODS[0].key}>
-                        <TabsList className="mb-6 flex w-full *:flex-1">
-                          {AUTH_METHODS.map((item) => (
-                            <TabsTrigger key={item.key} value={item.key}>
-                              {t(`methods.${item.key}`)}
-                            </TabsTrigger>
-                          ))}
-                        </TabsList>
-                        {AUTH_METHODS.map((item) => (
-                          <TabsContent key={item.key} value={item.key}>
-                            {item.children}
-                          </TabsContent>
-                        ))}
-                      </Tabs>
-                    )}
+                {renderAuthContent()}
               </div>
               <div className="py-8">
                 <OAuthMethods />
