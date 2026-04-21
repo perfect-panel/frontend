@@ -7,7 +7,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
 
   const apiBase = (env.API_BASE_URL || "https://api.ppanel.dev").replace(
     /\/$/,
-    "",
+    ""
   );
 
   const url = new URL(request.url);
@@ -41,11 +41,11 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   responseHeaders.set("Access-Control-Allow-Origin", url.origin);
   responseHeaders.set(
     "Access-Control-Allow-Methods",
-    "GET, POST, PUT, DELETE, PATCH, OPTIONS",
+    "GET, POST, PUT, DELETE, PATCH, OPTIONS"
   );
   responseHeaders.set(
     "Access-Control-Allow-Headers",
-    "Content-Type, Authorization",
+    "Content-Type, Authorization"
   );
 
   if (request.method === "OPTIONS") {

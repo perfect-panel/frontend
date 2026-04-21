@@ -234,8 +234,19 @@ function DynamicField({
               <FormLabel>{getFieldLabel(field)}</FormLabel>
               <FormControl>
                 <Select
-                  onValueChange={(v) => fieldProps.onChange(v)}
-                  value={fieldProps.value ?? field.defaultValue}
+                  onValueChange={(v) =>
+                    field.name === "ech_enable"
+                      ? fieldProps.onChange(v === "true")
+                      : fieldProps.onChange(v)
+                  }
+                  value={
+                    field.name === "ech_enable"
+                      ? String(
+                          (fieldProps.value ?? field.defaultValue ?? false) ===
+                            true
+                        )
+                      : (fieldProps.value ?? field.defaultValue)
+                  }
                 >
                   <FormControl>
                     <SelectTrigger>
@@ -515,9 +526,16 @@ export default function ServerForm(props: {
       return;
     }
 
-    const filteredProtocols = (values?.protocols || []).filter(
-      (protocol: any) => protocol?.enable
-    );
+    const filteredProtocols = (values?.protocols || [])
+      .filter((protocol: any) => protocol?.enable)
+      .map((protocol: any) => {
+        if (protocol.ech_enable === true) {
+          return protocol;
+        }
+
+        const { ech_enable, ech_server_name, ...rest } = protocol;
+        return rest;
+      });
 
     const result = {
       name: values.name,
