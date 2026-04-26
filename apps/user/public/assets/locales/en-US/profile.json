@@ -1,4 +1,9 @@
 {
+  "placeholder": {
+    "areaCode": "Area code",
+    "code": "Enter code",
+    "phone": "Enter your phone"
+  },
   "accountSettings": {
     "accountSettings": "Account Settings",
     "newPassword": "New Password",

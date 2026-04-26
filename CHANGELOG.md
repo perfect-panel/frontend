@@ -19,6 +19,67 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [4.3.0](https://github.com/perfect-panel/frontend/compare/v1.4.2...v4.3.0) (2026-04-26)
+
+### 🔥 Breaking Changes / 重大变更
+
+* **billing model / 计费模型:** Migrate from IP-based concurrent limit to device-slot model. Each user subscription now manages N device slots; each device gets its own subscribe URL (token + UUID). 从「IP 并发限制」迁移到「设备槽位」模型。每个订阅管理 N 个设备槽,每台设备拥有独立的订阅 URL(token + UUID)
+* **i18n keys / 翻译键:** Renamed `connectedDevices` semantics from "concurrent IP" to "devices"; Chinese text changes from「同时连接 IP 数 / 并发设备」to「设备数」/ EN: "Connected Devices" → "Devices"
+
+### ✨ Features / 新功能
+
+* **dashboard / 仪表盘:** Per-device cards with online indicator, smart device-type icons (mobile/laptop/tablet/router), today traffic, last seen, last IP / 设备卡:在线指示灯、按设备名智能图标、今日流量、最近上线、上次 IP
+* **dashboard / 仪表盘:** Multi-line subscribe URL support with line selector (主线 + 备用 + CDN 多线路) / 多订阅域名支持,卡片内可切换线路
+* **dashboard / 仪表盘:** Plan-level "Import to Client" section — 11 supported clients (v2rayN / Clash / Hiddify / Surge / Stash / FlClash / Shadowrocket / etc.) with per-client tutorial sheet
+* **dashboard / 仪表盘:** Add Device / Add Traffic / Reset All / Renew action dialogs with prorated pricing
+* **dashboard / 仪表盘:** Addon device support — user-purchased extra slots, deletable, separate pricing; base devices remain locked / 加购设备:用户购买的额外槽位可删除,套餐基础设备不可删
+* **subscribe / 订阅:** Auto-update interval — admin sets hours, backend smart-injects per UA: Profile-Update-Interval header (Clash family / Hiddify) or #!MANAGED-CONFIG directive (Surge / Stash) / 自动更新间隔:按 UA 智能下发
+* **glass UI / 玻璃化:** Full glassmorphism redesign — gradient background, backdrop-blur cards, frosted sidebar/header/dialogs, dark mode adapted / 玻璃感全站升级
+* **sidebar / 侧边栏:** Colored nav icons + new label scheme (首页 / 账号 / 我的服务 / 账单与钱包 / 帮助中心)
+* **right sidebar / 右侧栏:** Hero balance card + small gift/commission cards + invite-earn CTA / 余额 hero 卡 + 辅助小卡 + 邀请返利
+* **admin / 管理后台:** Per-client tutorial editor linked to `site_content` CMS; supports per-language fallback
+* **admin / 管理后台:** Subscription detail view with device 类型 column (base / addon)
+
+### ⚡️ Performance / 性能
+
+* **bundle / 包体积:** Removed all CDN dependencies (jsdelivr, jsdmirror, monaco CDN, iconify API) — fully offline
+* **bundle / 包体积:** Replaced mathjs (1.5MB) with native + Function evaluator
+* **bundle / 包体积:** Monaco editor lazy-loaded via dynamic import; Vite `optimizeDeps.exclude`
+* **bundle / 包体积:** date-fns subpath import (`date-fns/locale/zh-CN`) saves ~988KB
+* **bundle / 包体积:** Lottie animation lazy-loaded
+* **icon / 图标:** Pre-bundled ~134 used icons into 62KB JSON, replaces 12MB iconify API runtime fetch
+
+### 🎨 Style / 样式
+
+* **toast:** Large size (340-420px) + glass + type-tinted backgrounds (success/error/warning/info)
+* **tabs:** Selected state with primary border + glow + lift animation
+* **cards:** Hover micro-interactions (lift + shadow + glow)
+* **buttons:** Outline buttons enhanced contrast on glass surface; primary buttons with brand-color glow
+* **selected device card:** Primary tint background + ring + badge / 选中设备卡:主色背景 + ring + 徽章
+
+### 🐛 Bug Fixes / 问题修复
+
+* **mobile / 移动端:** Header logo wrap, action buttons compress on iPhone, horizontal overflow (grid-cols-1 missing) / 头部 logo 换行、操作按钮压缩、grid-cols-1 缺失导致横向溢出
+* **rename UX / 重命名:** Device name no longer triggers rename on accidental click — separate pencil button / 设备名误触改名修复 — 独立铅笔按钮
+* **iOS icon / iOS 图标:** Replaced `simple-icons:ios` (renders as text "iOS") with `mdi:cellphone-iphone`
+* **refresh / 刷新:** Visual feedback on refresh — spinning icon + disabled state + success toast
+* **purchase race / 支付竞态:** Fixed OrderStatusError toast spam during webhook race
+* **balance copy / 复制提示:** Custom server messages now flow through (was masked by generic "Param Error")
+* **subscribe URL / 订阅链接:** Fixed `BuildSubscribeURL` stub — now uses configured `SubscribeDomain` + `SubscribePath`
+* **DeepCopy fields:** Added missing V4.3 fields (`DeviceCount`, `TrafficAddon`, `IsAddon`, etc.) to admin response types
+
+### ♻️ Refactoring / 重构
+
+* **i18n / 国际化:** Full bilingual coverage — 0 missing keys across `dashboard.json`, `subscribe.json`, `layout.json`, `components.json`, `auth.json`, `order.json`, `user.json`, `system.json`, `servers.json`, `nodes.json`, `tool.json`, `document.json`, `menu.json`, `log.json`
+* **i18n / 国际化:** Migrated all hardcoded English placeholders (auth forms, profile, area-code, editors) to `t()` calls
+* **shared components / 共享组件:** MarkdownEditor / MonacoEditor / HTMLEditor / JSONEditor / GoTemplateEditor / Combobox / ColumnFilter / AreaCodeSelect / Pagination — all i18n-enabled via `components` namespace
+* **client / 客户端区:** Client section moved from per-device duplication to plan-level (single instance, selected device drives URL) / 客户端区从设备级移到套餐级,只渲染一次
+
+### 🔧 Chores / 杂项
+
+* **terminology / 术语:** Hysteria 2 naming consistent across 3 projects (was mixed `Hysteria` / `Hy2` / `hysteria2`)
+
+
 ## [1.4.2](https://github.com/perfect-panel/frontend/compare/v1.4.1...v1.4.2) (2026-04-06)
 
 ### 🐛 Bug Fixes / 问题修复

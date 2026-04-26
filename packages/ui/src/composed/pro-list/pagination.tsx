@@ -60,7 +60,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
           size="icon"
           variant="outline"
         >
-          <span className="sr-only">Go to first page</span>
+          <span className="sr-only">
+            {t("pagination.firstPage", "Go to first page")}
+          </span>
           <ChevronsLeftIcon className="h-4 w-4" />
         </Button>
         <Button
@@ -69,7 +71,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
           size="icon"
           variant="outline"
         >
-          <span className="sr-only">Go to previous page</span>
+          <span className="sr-only">
+            {t("pagination.previousPage", "Go to previous page")}
+          </span>
           <ChevronLeftIcon className="h-4 w-4" />
         </Button>
         <Select
@@ -77,7 +81,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
           value={`${table.getState().pagination.pageIndex + 1}`}
         >
           <SelectTrigger className="w-[70px]">
-            <SelectValue placeholder="Select page number" />
+            <SelectValue
+              placeholder={t("pagination.selectPage", "Select page number")}
+            />
           </SelectTrigger>
           <SelectContent className="w-12">
             {Array.from({ length: table.getPageCount() }, (_, i) => (
@@ -93,7 +99,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
           size="icon"
           variant="outline"
         >
-          <span className="sr-only">Go to next page</span>
+          <span className="sr-only">
+            {t("pagination.nextPage", "Go to next page")}
+          </span>
           <ChevronRightIcon className="h-4 w-4" />
         </Button>
         <Button
@@ -103,7 +111,9 @@ export function Pagination<TData>({ table }: PaginationProps<TData>) {
           size="icon"
           variant="outline"
         >
-          <span className="sr-only">Go to last page</span>
+          <span className="sr-only">
+            {t("pagination.lastPage", "Go to last page")}
+          </span>
           <ChevronsRightIcon className="h-4 w-4" />
         </Button>
       </div>

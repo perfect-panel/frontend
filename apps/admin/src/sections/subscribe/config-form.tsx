@@ -42,6 +42,8 @@ const subscribeConfigSchema = z.object({
   subscribe_domain: z.string().optional(),
   user_agent_limit: z.boolean().optional(),
   user_agent_list: z.string().optional(),
+  // V4.3:导入后客户端自动更新订阅的间隔(小时)。0 = 关闭。
+  update_interval_hours: z.number().int().min(0).max(168).optional(),
 });
 
 type SubscribeConfigFormData = z.infer<typeof subscribeConfigSchema>;
@@ -69,6 +71,7 @@ export default function ConfigForm() {
       subscribe_domain: "",
       user_agent_limit: false,
       user_agent_list: "",
+      update_interval_hours: 24,
     },
   });
 
@@ -231,6 +234,35 @@ export default function ConfigForm() {
                       {t(
                         "config.subscriptionDomainDescription",
                         "Custom domain for subscription links"
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="update_interval_hours"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("config.updateInterval", "订阅自动更新间隔(小时)")}
+                    </FormLabel>
+                    <FormControl>
+                      <EnhancedInput
+                        max={168}
+                        min={0}
+                        onValueBlur={(v) => field.onChange(Number(v) || 0)}
+                        placeholder="24"
+                        type="number"
+                        value={field.value ?? 24}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        "config.updateIntervalDescription",
+                        "导入后客户端按此周期自动更新订阅。0 = 关闭。智能识别客户端:Clash 家族 / Hiddify / Mihomo Party 走 Profile-Update-Interval header;Surge / Stash 走 #!MANAGED-CONFIG 注入;v2rayN / Shadowrocket / QuanX / Loon 不支持,需用户手动设置。"
                       )}
                     </FormDescription>
                     <FormMessage />

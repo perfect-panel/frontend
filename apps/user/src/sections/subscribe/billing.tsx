@@ -11,6 +11,9 @@ interface SubscribeBillingProps {
       unit_time: string;
       subscribe_discount: number;
       show_original_price?: boolean;
+      // V4.3:续费时把已有加购设备的续费费用单独拎出来显示
+      addon_device_amount?: number;
+      addon_device_count?: number;
     }
   >;
 }
@@ -58,6 +61,19 @@ export function SubscribeBilling({ order }: Readonly<SubscribeBillingProps>) {
             />
           </span>
         </li>
+        {/* V4.3:续费时显示加购设备费用明细 */}
+        {(order?.addon_device_amount ?? 0) > 0 && (
+          <li>
+            <span className="text-muted-foreground">
+              {t("billing.addonDevice", "加购设备 ({{n}} 台)", {
+                n: order?.addon_device_count || 0,
+              })}
+            </span>
+            <span>
+              <Display type="currency" value={order?.addon_device_amount} />
+            </span>
+          </li>
+        )}
         <li>
           <span className="text-muted-foreground">
             {t("billing.productDiscount", "Product Discount")}

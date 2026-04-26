@@ -12,6 +12,7 @@ import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { queryQuotaTaskList } from "@workspace/ui/services/admin/marketing";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
+import { DateCell } from "@/components/date-cell";
 import { Display } from "@/components/display";
 import { useSubscribe } from "@/stores/subscribe";
 import { formatDate } from "@/utils/common";
@@ -220,7 +221,7 @@ export default function QuotaTaskManager() {
                     size: 150,
                     cell: ({ row }) => {
                       const createdAt = row.getValue("created_at") as number;
-                      return formatDate(createdAt);
+                      return <DateCell ts={createdAt} />;
                     },
                   },
                 ]}

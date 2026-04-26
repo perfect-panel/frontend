@@ -19,6 +19,7 @@ import { cn } from "@workspace/ui/lib/utils";
 import { countries, type ICountry } from "@workspace/ui/utils/countries";
 import { BoxIcon, Check, ChevronsUpDown } from "lucide-react";
 import { useEffect, useState } from "react";
+import { useTranslation } from "react-i18next";
 
 interface AreaCodeSelectProps {
   value?: string;
@@ -51,10 +52,13 @@ export const AreaCodeSelect = ({
   value,
   onChange,
   className,
-  placeholder = "Select Area Code",
+  placeholder,
   simple = false,
   whitelist,
 }: AreaCodeSelectProps) => {
+  const { t } = useTranslation("components");
+  const resolvedPlaceholder =
+    placeholder ?? t("areaCode.select", "Select Area Code");
   const [open, setOpen] = useState(false);
   const [selectedItem, setSelectedItem] = useState<ICountry | undefined>();
   const items = filterItems(whitelist);
@@ -85,14 +89,16 @@ export const AreaCodeSelect = ({
               {!simple && `(${selectedItem.name})`}
             </div>
           ) : (
-            placeholder
+            resolvedPlaceholder
           )}
           <ChevronsUpDown className="ml-2 h-4 w-4 opacity-50" />
         </Button>
       </PopoverTrigger>
       <PopoverContent align="start" className="p-0">
         <Command>
-          <CommandInput placeholder="Search area code..." />
+          <CommandInput
+            placeholder={t("areaCode.search", "Search area code...")}
+          />
           <CommandList>
             <CommandEmpty>
               <BoxIcon className="inline-block text-slate-500" />

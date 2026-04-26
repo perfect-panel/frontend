@@ -1,9 +1,12 @@
 {
   "column": {
+    "actor": "操作者",
+    "action": "操作",
     "amount": "金额",
     "balance": "余额",
     "content": "内容",
     "date": "日期",
+    "detail": "详情",
     "download": "下载",
     "identifier": "标识符",
     "ip": "IP",
@@ -17,6 +20,7 @@
     "subscribe": "订阅",
     "subscribeId": "订阅 ID",
     "success": "成功",
+    "target": "目标",
     "time": "时间",
     "to": "收件人",
     "total": "总计",
@@ -31,6 +35,7 @@
   "sent": "已发送",
   "success": "成功",
   "title": {
+    "audit": "操作审计",
     "balance": "余额日志",
     "commission": "佣金日志",
     "email": "邮件日志",

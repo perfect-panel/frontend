@@ -5,6 +5,7 @@ import {
   type MonacoEditorProps,
 } from "@workspace/ui/composed/editor/monaco-editor";
 import { useMemo } from "react";
+import { useTranslation } from "react-i18next";
 
 interface JSONEditorProps
   extends Omit<MonacoEditorProps, "placeholder" | "value" | "onChange"> {
@@ -15,6 +16,7 @@ interface JSONEditorProps
 }
 
 export function JSONEditor(props: JSONEditorProps) {
+  const { t } = useTranslation("components");
   const { schema, placeholder = {}, ...rest } = props;
 
   const editorKey = useMemo(
@@ -25,7 +27,7 @@ export function JSONEditor(props: JSONEditorProps) {
   return (
     <MonacoEditor
       key={editorKey}
-      title="Edit JSON"
+      title={t("editor.jsonTitle", "Edit JSON")}
       {...rest}
       language="json"
       onChange={(value) => {

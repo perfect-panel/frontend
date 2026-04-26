@@ -181,13 +181,6 @@ export default function SubscribeTable() {
           ),
         },
         {
-          accessorKey: "replacement",
-          header: t("replacement"),
-          cell: ({ row }) => (
-            <Display type="currency" value={row.getValue("replacement")} />
-          ),
-        },
-        {
           accessorKey: "traffic",
           header: t("traffic"),
           cell: ({ row }) => (
@@ -196,13 +189,55 @@ export default function SubscribeTable() {
         },
         {
           accessorKey: "device_limit",
-          header: t("deviceLimit"),
+          header: t("useDevice"),
+          cell: ({ row }) => {
+            const v = row.getValue("device_limit") as number;
+            return v && v > 0 ? `${v} 台` : "--";
+          },
+        },
+        {
+          accessorKey: "unit_price_per_device",
+          header: t("addonDevice"),
+          cell: ({ row }) => {
+            const v = row.getValue("unit_price_per_device") as number;
+            return v && v > 0 ? (
+              <>
+                <Display type="currency" value={v} />
+                /台
+              </>
+            ) : (
+              "--"
+            );
+          },
+        },
+        {
+          accessorKey: "max_device_count",
+          header: t("addonDeviceLimit"),
+          cell: ({ row }) => {
+            const v = row.getValue("max_device_count") as number;
+            return v && v > 0 ? `${v} 台` : "--";
+          },
+        },
+        {
+          accessorKey: "traffic_addon_unit_price",
+          header: t("trafficAddon"),
+          cell: ({ row }) => {
+            const price = row.getValue("traffic_addon_unit_price") as number;
+            const size = row.original.traffic_addon_unit_size as number;
+            if (!(price && price > 0)) return "--";
+            const sizeGB = size ? size / 1024 / 1024 / 1024 : 1;
+            return (
+              <>
+                <Display type="currency" value={price} />/{sizeGB}GB
+              </>
+            );
+          },
+        },
+        {
+          accessorKey: "quota",
+          header: t("quota"),
           cell: ({ row }) => (
-            <Display
-              type="number"
-              unlimited
-              value={row.getValue("device_limit")}
-            />
+            <Display type="number" unlimited value={row.getValue("quota")} />
           ),
         },
         {
@@ -218,13 +253,6 @@ export default function SubscribeTable() {
           },
         },
         {
-          accessorKey: "quota",
-          header: t("quota"),
-          cell: ({ row }) => (
-            <Display type="number" unlimited value={row.getValue("quota")} />
-          ),
-        },
-        {
           accessorKey: "language",
           header: t("language"),
           cell: ({ row }) => {
@@ -238,7 +266,7 @@ export default function SubscribeTable() {
         },
         {
           accessorKey: "sold",
-          header: t("sold"),
+          header: t("orderCount"),
           cell: ({ row }) => (
             <Badge variant="outline">{row.getValue("sold")}</Badge>
           ),

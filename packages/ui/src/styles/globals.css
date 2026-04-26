@@ -130,3 +130,558 @@
     @apply cursor-pointer;
   }
 }
+
+/* ─────────────────────────────────────────────────────────────
+ * V4.3 玻璃感(Glassmorphism)— 仅作用于 [data-app="user"]。
+ *
+ * 双重保险策略 — 不依赖单页改造,任何卡片自动玻璃化:
+ *   ① CSS 变量级:--card / --popover / --sidebar 直接改成半透明,
+ *      任何 bg-card / bg-popover / bg-sidebar 自动跟着透明
+ *   ② Tailwind 类级 catch-all:任何元素带 bg-card / bg-background /
+ *      bg-popover / bg-white(含响应式变体如 lg:bg-background)
+ *      自动获得 backdrop-blur,无需手工加 data-slot
+ *   ③ 模糊强度 40px / saturate 180%(macOS Big Sur 级别)
+ *   ④ 排除交互元素:button / input / textarea / select 不模糊
+ *
+ * Admin 端不动 — admin 是后台工具,不需要"产品感"。
+ * ─────────────────────────────────────────────────────────── */
+
+/* ① 背景:蓝→紫渐变 + 两个远处光斑,fixed 滚动不动 */
+/* 移动端横向溢出兜底 — html / body / 内层 wrapper 全部强制不滚动横向。
+   如果某个组件不小心写了固定宽度撑开容器,这里截断防止整页歪。
+   特别注意 SidebarProvider 的 sidebar-gap 元素有 w-(--sidebar-width) 256px,
+   在用户端我们用 collapsible=none,理论上不会渲染 gap — 但保险起见全部锁。 */
+html:has(body[data-app="user"]),
+body[data-app="user"],
+body[data-app="user"] [data-slot="sidebar-wrapper"],
+body[data-app="user"] [data-slot="sidebar-inset"] {
+  overflow-x: hidden;
+  max-width: 100vw;
+  min-width: 0;
+}
+
+/* sidebar-gap 在 user 端强制 0 宽度(它默认 w-(--sidebar-width)=256px 占位用),
+   避免移动端把内容推到屏幕外。 */
+body[data-app="user"] [data-slot="sidebar-gap"] {
+  width: 0 !important;
+  display: none;
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 按钮对比度增强 — 玻璃化让 outline 按钮的边框被稀释,这里加强。
+ * 同时给 Button 一个轻微背景 + 阴影,在玻璃卡片上更"立体"。
+ * ─────────────────────────────────────────────────────────── */
+
+/* Outline / Secondary / Ghost 按钮 — 在玻璃面上需要更强边框 */
+body[data-app="user"]
+[data-slot="button"]:where(
+  [class*="border-input"],
+  [class*="bg-secondary"],
+  [class*="bg-background"]
+):not(:disabled) {
+  border-color: oklch(0.5 0.02 260 / 0.25);
+  background-color: oklch(1 0 0 / 0.7);
+  box-shadow:
+    0 1px 2px oklch(0.5 0.1 250 / 0.05),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.5);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+body[data-app="user"]
+  [data-slot="button"]:where(
+    [class*="border-input"],
+    [class*="bg-secondary"],
+    [class*="bg-background"]
+  ):not(:disabled):hover {
+  background-color: oklch(1 0 0 / 0.95);
+  border-color: oklch(0.5 0.02 260 / 0.4);
+}
+
+.dark
+  body[data-app="user"]
+  [data-slot="button"]:where(
+    [class*="border-input"],
+    [class*="bg-secondary"],
+    [class*="bg-background"]
+  ):not(:disabled) {
+  border-color: oklch(1 0 0 / 0.15);
+  background-color: oklch(0.3 0.02 260 / 0.5);
+  box-shadow:
+    0 1px 2px oklch(0 0 0 / 0.2),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.04);
+}
+
+/* Primary 按钮(主操作如「换设备」「复制」「一键导入」)
+ * — 加强阴影,让它更"突出可点" */
+body[data-app="user"]
+[data-slot="button"]:where([class*="bg-primary"]):not(:disabled) {
+  box-shadow:
+    0 2px 8px -2px oklch(0.61 0.11 222 / 0.35),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.15);
+}
+
+body[data-app="user"]
+  [data-slot="button"]:where([class*="bg-primary"]):not(:disabled):hover {
+  box-shadow:
+    0 4px 12px -2px oklch(0.61 0.11 222 / 0.45),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.2);
+}
+
+/* Destructive 按钮(「删除」「全部重置」)— 红色阴影,更醒目 */
+body[data-app="user"]
+[data-slot="button"]:where([class*="bg-destructive"]):not(:disabled) {
+  box-shadow:
+    0 2px 8px -2px oklch(0.577 0.245 27 / 0.35),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.15);
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * Sonner Toast 全局样式 — 大尺寸 + 玻璃化 + 按类型保留色调。
+ *
+ * 目标:
+ *   1. 所有 toast 大一档(padding / font / icon / border-radius)
+ *   2. 半透明 + backdrop-blur,跟整站 glass 语言统一
+ *   3. 不同类型保留色彩识别(success 绿调 / error 红调 / warning 黄调 / info 蓝调)
+ *   4. 正常通知(无类型)用纯白玻璃
+ *
+ * 选择器 [data-sonner-toast] 是 sonner 库的官方 data attribute,跨版本稳定。
+ * ─────────────────────────────────────────────────────────── */
+
+/* Toaster 容器 — 所有 toast 父级 */
+body[data-app="user"] [data-sonner-toaster] {
+  font-family: inherit;
+}
+
+/* Toast 卡片本体 — 通用尺寸 + 玻璃 */
+body[data-app="user"] [data-sonner-toast] {
+  padding: 16px 18px !important;
+  min-width: 340px;
+  max-width: 420px;
+  font-size: 14px;
+  font-weight: 500;
+  line-height: 1.5;
+  border-radius: 14px !important;
+  border-width: 1px !important;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  box-shadow:
+    0 12px 40px -12px oklch(0 0 0 / 0.18),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.4) !important;
+}
+
+/* Toast 图标放大(默认 size-4 = 16px,提到 20px) */
+body[data-app="user"] [data-sonner-toast] [data-icon] {
+  width: 22px;
+  height: 22px;
+  margin-right: 6px;
+}
+
+body[data-app="user"] [data-sonner-toast] [data-icon] svg {
+  width: 22px;
+  height: 22px;
+}
+
+/* Toast 标题文字稍大,强调 */
+body[data-app="user"] [data-sonner-toast] [data-title] {
+  font-size: 15px;
+  font-weight: 600;
+}
+
+body[data-app="user"] [data-sonner-toast] [data-description] {
+  font-size: 13px;
+  margin-top: 2px;
+  opacity: 0.85;
+}
+
+/* 关闭按钮位置和大小 */
+body[data-app="user"] [data-sonner-toast] [data-close-button] {
+  width: 22px !important;
+  height: 22px !important;
+  border-radius: 50%;
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+}
+
+/* ── 按 type 上色(浅色模式)── */
+
+/* normal / 默认 — 纯白玻璃 */
+body[data-app="user"]
+[data-sonner-toast]:not([data-type="success"]):not([data-type="error"]):not(
+  [data-type="warning"]
+):not([data-type="info"]) {
+  background-color: oklch(1 0 0 / 0.75) !important;
+  border-color: oklch(1 0 0 / 0.4) !important;
+  color: oklch(0.2 0.005 285) !important;
+}
+
+/* success — 绿色玻璃 */
+body[data-app="user"] [data-sonner-toast][data-type="success"] {
+  background-color: oklch(0.96 0.08 145 / 0.85) !important;
+  border-color: oklch(0.7 0.18 145 / 0.5) !important;
+  color: oklch(0.32 0.12 145) !important;
+}
+
+body[data-app="user"] [data-sonner-toast][data-type="success"] [data-icon] {
+  color: oklch(0.55 0.18 145);
+}
+
+/* error — 红色玻璃 */
+body[data-app="user"] [data-sonner-toast][data-type="error"] {
+  background-color: oklch(0.95 0.08 25 / 0.85) !important;
+  border-color: oklch(0.65 0.22 25 / 0.5) !important;
+  color: oklch(0.35 0.16 25) !important;
+}
+
+body[data-app="user"] [data-sonner-toast][data-type="error"] [data-icon] {
+  color: oklch(0.58 0.22 25);
+}
+
+/* warning — 琥珀色玻璃 */
+body[data-app="user"] [data-sonner-toast][data-type="warning"] {
+  background-color: oklch(0.96 0.1 80 / 0.85) !important;
+  border-color: oklch(0.7 0.18 80 / 0.5) !important;
+  color: oklch(0.38 0.14 80) !important;
+}
+
+body[data-app="user"] [data-sonner-toast][data-type="warning"] [data-icon] {
+  color: oklch(0.62 0.2 80);
+}
+
+/* info — 蓝色玻璃 */
+body[data-app="user"] [data-sonner-toast][data-type="info"] {
+  background-color: oklch(0.95 0.08 240 / 0.85) !important;
+  border-color: oklch(0.65 0.18 240 / 0.5) !important;
+  color: oklch(0.35 0.14 240) !important;
+}
+
+body[data-app="user"] [data-sonner-toast][data-type="info"] [data-icon] {
+  color: oklch(0.55 0.18 240);
+}
+
+/* ── 暗色模式适配 ── */
+
+.dark body[data-app="user"]
+  [data-sonner-toast]:not([data-type="success"]):not([data-type="error"]):not(
+    [data-type="warning"]
+  ):not([data-type="info"]) {
+  background-color: oklch(0.21 0.006 286 / 0.8) !important;
+  border-color: oklch(1 0 0 / 0.1) !important;
+  color: oklch(0.95 0.005 285) !important;
+}
+
+.dark body[data-app="user"] [data-sonner-toast][data-type="success"] {
+  background-color: oklch(0.25 0.08 145 / 0.85) !important;
+  border-color: oklch(0.55 0.18 145 / 0.4) !important;
+  color: oklch(0.85 0.15 145) !important;
+}
+
+.dark body[data-app="user"] [data-sonner-toast][data-type="error"] {
+  background-color: oklch(0.25 0.08 25 / 0.85) !important;
+  border-color: oklch(0.55 0.22 25 / 0.4) !important;
+  color: oklch(0.85 0.15 25) !important;
+}
+
+.dark body[data-app="user"] [data-sonner-toast][data-type="warning"] {
+  background-color: oklch(0.25 0.1 80 / 0.85) !important;
+  border-color: oklch(0.55 0.18 80 / 0.4) !important;
+  color: oklch(0.88 0.15 80) !important;
+}
+
+.dark body[data-app="user"] [data-sonner-toast][data-type="info"] {
+  background-color: oklch(0.25 0.08 240 / 0.85) !important;
+  border-color: oklch(0.55 0.18 240 / 0.4) !important;
+  color: oklch(0.85 0.13 240) !important;
+}
+
+/* 移动端 toast 自适应 — 屏宽 < 480px 时收紧 padding,留更多内容空间 */
+@media (max-width: 480px) {
+  body[data-app="user"] [data-sonner-toast] {
+    padding: 14px 16px !important;
+    min-width: 0;
+    width: calc(100vw - 24px);
+    margin-left: 12px;
+    margin-right: 12px;
+  }
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * Tabs 选中态强化 — glass 化后默认选中只是淡阴影,跟未选中差别不够。
+ * 这里给 [data-state="active"] 加:
+ *   - 实色白背景(覆盖玻璃透明度)
+ *   - 主色文字 + 主色底部边框
+ *   - 主色光晕阴影
+ *   - 微微凸起感(scale + shadow)
+ * 选择器 [data-slot="tabs-trigger"] 是 shadcn 官方 attribute,跨组件通用。
+ * ─────────────────────────────────────────────────────────── */
+
+body[data-app="user"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: oklch(1 0 0 / 0.95) !important;
+  color: var(--primary) !important;
+  font-weight: 600;
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 4px 12px -2px oklch(0.61 0.11 222 / 0.3),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.6) !important;
+  transform: translateY(-1px);
+  transition: all 0.18s ease;
+}
+
+.dark body[data-app="user"] [data-slot="tabs-trigger"][data-state="active"] {
+  background-color: oklch(0.3 0.02 260 / 0.95) !important;
+  box-shadow:
+    0 0 0 1px var(--primary),
+    0 4px 12px -2px oklch(0.71 0.13 215 / 0.3),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.05) !important;
+}
+
+/* 未选中 tab 文字弱化,反衬选中态突出 */
+body[data-app="user"] [data-slot="tabs-trigger"]:not([data-state="active"]) {
+  color: var(--muted-foreground);
+  opacity: 0.7;
+  transition: all 0.18s ease;
+}
+
+body[data-app="user"]
+  [data-slot="tabs-trigger"]:not([data-state="active"]):hover {
+  opacity: 1;
+  color: var(--foreground);
+}
+
+/* ─────────────────────────────────────────────────────────────
+ * 第三档 E:Card hover 微交互 — 浅浅上浮 + 阴影增强 + 主色光晕
+ * 排除已选中卡片(它已经有 ring,再 hover 反而干扰)和嵌套卡(避免双层都浮起来)
+ * ─────────────────────────────────────────────────────────── */
+body[data-app="user"] [data-slot="card"]:not(:has(> [data-slot="card"])):hover {
+  transform: translateY(-2px);
+  box-shadow:
+    0 12px 36px -8px oklch(0.5 0.1 250 / 0.18),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.45) !important;
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+.dark
+  body[data-app="user"]
+  [data-slot="card"]:not(:has(> [data-slot="card"])):hover {
+  box-shadow:
+    0 12px 36px -8px oklch(0 0 0 / 0.5),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.06) !important;
+}
+
+/* 默认所有 card 都有平滑过渡(否则鼠标移开会突然回弹) */
+body[data-app="user"] [data-slot="card"] {
+  transition:
+    transform 0.18s ease,
+    box-shadow 0.18s ease;
+}
+
+/* 设备卡选中态 — 主色背景 tint。需要 !important 才能压过 catch-all 的强制 bg。
+   选择器 [data-selected="true"] 比 catch-all 的 :is([class~="bg-card"]) 更具体,
+   即便去掉 !important 也能赢,但保险起见加 !important。 */
+body[data-app="user"] [data-slot="card"][data-selected="true"] {
+  background-color: oklch(0.61 0.11 222 / 0.12) !important;
+  border-color: oklch(0.61 0.11 222 / 0.5) !important;
+}
+
+.dark body[data-app="user"] [data-slot="card"][data-selected="true"] {
+  background-color: oklch(0.61 0.11 222 / 0.18) !important;
+  border-color: oklch(0.71 0.13 215 / 0.5) !important;
+}
+
+/* 选中态卡片 hover 不再上浮(已经 ring 凸出,再浮起来反而抖) */
+body[data-app="user"] [data-slot="card"][data-selected="true"]:hover {
+  transform: none;
+}
+
+body[data-app="user"] {
+  background:
+    radial-gradient(
+      circle at 12% 8%,
+      oklch(0.78 0.18 240 / 0.45),
+      transparent 45%
+    ),
+    radial-gradient(
+      circle at 88% 92%,
+      oklch(0.74 0.18 320 / 0.4),
+      transparent 45%
+    ),
+    linear-gradient(135deg, oklch(0.97 0.02 250) 0%, oklch(0.95 0.03 290) 100%);
+  background-attachment: fixed;
+  min-height: 100vh;
+
+  /* ② 改 CSS 变量 → 任何 bg-card / bg-popover / bg-sidebar 自动透明 */
+  --card: oklch(1 0 0 / 0.55);
+  --popover: oklch(1 0 0 / 0.8);
+  --sidebar: oklch(0.985 0 0 / 0.5);
+}
+
+.dark body[data-app="user"] {
+  background:
+    radial-gradient(
+      circle at 15% 10%,
+      oklch(0.5 0.18 245 / 0.45),
+      transparent 50%
+    ),
+    radial-gradient(
+      circle at 85% 90%,
+      oklch(0.45 0.2 315 / 0.4),
+      transparent 50%
+    ),
+    linear-gradient(135deg, oklch(0.16 0.02 260) 0%, oklch(0.19 0.04 290) 100%);
+  background-attachment: fixed;
+
+  --card: oklch(0.21 0.006 286 / 0.55);
+  --popover: oklch(0.21 0.006 286 / 0.8);
+  --sidebar: oklch(0.21 0.006 286 / 0.5);
+}
+
+/* ③ Catch-all 终极版 — 覆盖 Tailwind 全部 white-ish 写法:
+ *
+ *    a) 设计 token 类:bg-card / bg-background / bg-popover / bg-sidebar(整词匹配)
+ *    b) bg-white 全家桶:bg-white / bg-white/50 / bg-white/[0.6](前缀匹配)
+ *    c) 中性色浅 shade:bg-{zinc,gray,slate,neutral,stone}-{50,100}
+ *    d) Arbitrary hex:bg-[#fff] / bg-[#ffffff] / bg-[#fafafa] 等以 #f/#F 开头的浅色
+ *    e) Arbitrary 关键字:bg-[white] / bg-[whitesmoke]
+ *    f) Arbitrary rgb 浅色:bg-[rgb(255,255,255)] / bg-[rgba(255,255,255,...)]
+ *    g) 响应式变体:lg: / md: / xl: / dark: 等冒号前缀
+ *    h) 内联 style 兜底:style="background:#fff" 这种少见但要兜住
+ *
+ *    :not 排除交互元素和 sidebar-inset(content holder,不模糊)。
+ */
+body[data-app="user"]
+:/* a + b + c — 内置类 */
+is(
+  [class~="bg-card"],
+  [class~="bg-background"],
+  [class~="bg-popover"],
+  [class~="bg-sidebar"],
+  [class*="bg-white"],
+  [class*="bg-zinc-50"],
+  [class*="bg-zinc-100"],
+  [class*="bg-gray-50"],
+  [class*="bg-gray-100"],
+  [class*="bg-slate-50"],
+  [class*="bg-slate-100"],
+  [class*="bg-neutral-50"],
+  [class*="bg-neutral-100"],
+  [class*="bg-stone-50"],
+  [class*="bg-stone-100"],
+  /* d + e + f — Arbitrary 值,Tailwind 把字面量保留在 className,可前缀匹配 */
+    [class*="bg-[#f"],
+  [class*="bg-[#F"],
+  [class*="bg-[white"],
+  [class*="bg-[rgb(255"],
+  [class*="bg-[rgba(255"],
+  [class*="bg-[hsl(0,0%"],
+  /* g — 响应式 / 暗色 / 状态变体前缀(任何冒号前缀的同类) */
+    [class*=":bg-card"],
+  [class*=":bg-background"],
+  [class*=":bg-popover"],
+  [class*=":bg-white"],
+  [class*=":bg-[#f"],
+  [class*=":bg-[#F"],
+  [class*=":bg-[white"],
+  /* h — 内联 style 兜底,常见 #fff / #ffffff / white / rgb(255 写法 */
+    [style*="background:#f"],
+  [style*="background: #f"],
+  [style*="background:#F"],
+  [style*="background: #F"],
+  [style*="background:white"],
+  [style*="background: white"],
+  [style*="background-color:#f"],
+  [style*="background-color: #f"],
+  [style*="background-color:#F"],
+  [style*="background-color: #F"],
+  [style*="background-color:white"],
+  [style*="background-color: white"],
+  [style*="background:rgb(255"],
+  [style*="background: rgb(255"]
+):not(button):not(input):not(textarea):not(select):not(option):not(
+  [data-slot="sidebar-inset"]
+):not(body):not(html) {
+  /* 关键:把背景强制改成半透明 — 否则 backdrop-filter 被实色挡住看不到。
+   * var(--card) = oklch(1 0 0 / 0.55) 浅模式 / oklch(0.21 0.006 286 / 0.55) 暗模式。
+   * 用 background-color(不用 background)避免误清掉渐变 / 图片背景。 */
+  background-color: var(--card) !important;
+  backdrop-filter: blur(40px) saturate(180%);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+}
+
+/* ④ 卡片专用:统一边框高光 + 漂浮阴影(catch-all 不能覆盖这个,因为
+ *    阴影/边框是元素自己定义的)。仍然兼容手写的 [data-slot="card"]。 */
+body[data-app="user"] :is([data-slot="card"], [class~="bg-card"]) {
+  border-color: oklch(1 0 0 / 0.3);
+  box-shadow:
+    0 8px 32px -8px oklch(0.5 0.1 250 / 0.12),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.4);
+}
+
+.dark body[data-app="user"] :is([data-slot="card"], [class~="bg-card"]) {
+  border-color: oklch(1 0 0 / 0.08);
+  box-shadow:
+    0 8px 32px -8px oklch(0 0 0 / 0.4),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.05);
+}
+
+/* ⑤ 嵌套 Card 修复 — 内层卡片(如 SubscribeBlock 里的 DeviceCard)
+ *    再叠 55% 白上去后会接近实色,这里把内层降到 22% 白,模糊也降一档,
+ *    边框反而加亮(增强分隔感)。最深 3 层嵌套都覆盖。 */
+body[data-app="user"] [data-slot="card"]
+  :is([data-slot="card"], [class~="bg-card"]),
+body[data-app="user"]
+  [class~="bg-card"]
+  :is([data-slot="card"], [class~="bg-card"]) {
+  background-color: oklch(1 0 0 / 0.22) !important;
+  backdrop-filter: blur(24px) saturate(180%);
+  -webkit-backdrop-filter: blur(24px) saturate(180%);
+  border-color: oklch(1 0 0 / 0.45);
+  box-shadow:
+    0 4px 16px -4px oklch(0.5 0.1 250 / 0.08),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.35);
+}
+
+.dark
+  body[data-app="user"]
+  [data-slot="card"]
+  :is([data-slot="card"], [class~="bg-card"]),
+.dark
+  body[data-app="user"]
+  [class~="bg-card"]
+  :is([data-slot="card"], [class~="bg-card"]) {
+  background-color: oklch(0.21 0.006 286 / 0.3) !important;
+  border-color: oklch(1 0 0 / 0.12);
+  box-shadow:
+    0 4px 16px -4px oklch(0 0 0 / 0.3),
+    inset 0 1px 0 0 oklch(1 0 0 / 0.04);
+}
+
+/* SidebarInset 例外:它有 bg-background,但是内容容器,不能模糊也不能加阴影 */
+body[data-app="user"] [data-slot="sidebar-inset"] {
+  background-color: transparent !important;
+  backdrop-filter: none;
+  box-shadow: none;
+  border: none;
+}
+
+/* Header — sticky 顶栏增强玻璃 */
+body[data-app="user"] header.sticky {
+  background-color: oklch(1 0 0 / 0.6);
+  border-color: oklch(0.92 0.004 286 / 0.5);
+  -webkit-backdrop-filter: blur(40px) saturate(180%);
+  backdrop-filter: blur(40px) saturate(180%);
+}
+
+.dark body[data-app="user"] header.sticky {
+  background-color: oklch(0.18 0.005 286 / 0.65);
+  border-color: oklch(1 0 0 / 0.08);
+}
+
+/* Dialog / Sheet 蒙层 — 增强模糊,呼应玻璃语言 */
+body[data-app="user"] [data-slot="dialog-overlay"],
+body[data-app="user"] [data-slot="sheet-overlay"],
+body[data-app="user"] [data-slot="alert-dialog-overlay"] {
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+}

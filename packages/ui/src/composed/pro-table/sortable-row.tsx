@@ -8,9 +8,19 @@ interface SortableRowProps {
   id: string;
   children: React.ReactNode;
   isSortable: boolean;
+  /** 透传到 TableRow 的额外 className(交替条纹色等) */
+  className?: string;
+  /** dnd-kit / shadcn 数据属性透传 */
+  "data-state"?: string | false;
 }
 
-export function SortableRow({ id, children, isSortable }: SortableRowProps) {
+export function SortableRow({
+  id,
+  children,
+  isSortable,
+  className,
+  ...rest
+}: SortableRowProps) {
   const { attributes, listeners, setNodeRef, transform, transition } =
     useSortable({
       id,
@@ -28,7 +38,12 @@ export function SortableRow({ id, children, isSortable }: SortableRowProps) {
   };
 
   return (
-    <TableRow ref={setNodeRef} style={style}>
+    <TableRow
+      className={className}
+      ref={setNodeRef}
+      style={style}
+      {...(rest as React.ComponentProps<typeof TableRow>)}
+    >
       {isSortable ? (
         <TableCell className="cursor-move" {...listeners} {...attributes}>
           <GripVertical className="h-4 w-4 cursor-move text-gray-500 hover:text-gray-700" />

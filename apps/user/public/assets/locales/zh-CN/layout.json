@@ -1,7 +1,9 @@
 {
   "accountBalance": "账户余额",
   "commission": "佣金",
-  "copySuccess": "邀请链接复制成功",
+  "copyInviteLink": "复制邀请链接",
+  "copySuccess": "邀请链接已复制",
   "giftAmount": "赠送金额",
-  "inviteCode": "邀请码"
+  "inviteCode": "邀请码",
+  "inviteEarnTitle": "邀请好友赚返利"
 }

@@ -11,21 +11,32 @@ export default function Header() {
 
   const { common, user } = useGlobalStore();
   const { site } = common;
+  // V4.3 自适应:Logo 整体可缩(min-w-0),站点名 truncate,
+  // 极窄屏(<sm)只显示图标。右侧按钮 shrink-0,确保点得到。
   const Logo = (
-    <Link className="flex items-center gap-2 font-bold text-lg" to="/">
+    <Link
+      className="flex min-w-0 items-center gap-2 font-bold text-base sm:text-lg"
+      to="/"
+    >
       {site.site_logo && (
-        <img alt="logo" height={36} src={site.site_logo} width={36} />
+        <img
+          alt="logo"
+          className="size-8 shrink-0 sm:size-9"
+          height={36}
+          src={site.site_logo}
+          width={36}
+        />
       )}
-      <span className="">{site.site_name}</span>
+      <span className="truncate">{site.site_name}</span>
     </Link>
   );
   return (
     <header className="sticky top-0 z-50 border-b backdrop-blur-md">
-      <div className="container flex h-16 items-center justify-between">
-        <nav className="flex-col gap-6 font-medium text-lg md:flex md:flex-row md:items-center md:gap-5 md:text-sm lg:gap-6">
+      <div className="container flex h-16 items-center justify-between gap-2">
+        <nav className="flex min-w-0 flex-1 items-center md:gap-5 md:text-sm lg:gap-6">
           {Logo}
         </nav>
-        <div className="flex flex-1 items-center justify-end gap-2">
+        <div className="flex shrink-0 items-center gap-1 sm:gap-2">
           <LanguageSwitch />
           <ThemeSwitch />
           <UserNav />

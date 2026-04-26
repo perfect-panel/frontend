@@ -1,4 +1,9 @@
 {
+  "placeholder": {
+    "areaCode": "区号",
+    "code": "请输入验证码",
+    "phone": "请输入手机号"
+  },
   "accountSettings": {
     "accountSettings": "账户设置",
     "newPassword": "新密码",

@@ -39,7 +39,21 @@ export function SidebarLeft({
                         tooltip={t(item.title)}
                       >
                         <Link to={item.url || "/"}>
-                          {item.icon && <Icon icon={item.icon} />}
+                          {item.icon &&
+                            (item.color ? (
+                              // 彩色 nav:小色块背景 (color + 1F = 12% alpha) + 同色图标
+                              <span
+                                className="flex size-6 shrink-0 items-center justify-center rounded-md"
+                                style={{
+                                  backgroundColor: `${item.color}1F`,
+                                  color: item.color,
+                                }}
+                              >
+                                <Icon className="size-4" icon={item.icon} />
+                              </span>
+                            ) : (
+                              <Icon icon={item.icon} />
+                            ))}
                           <span>{t(item.title)}</span>
                         </Link>
                       </SidebarMenuButton>

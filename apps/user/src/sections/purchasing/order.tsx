@@ -64,15 +64,24 @@ export default function Order() {
   const { data: payment } = useQuery({
     enabled: !!orderNo && data?.status === 1,
     queryKey: ["purchaseCheckout", orderNo],
+    // No retry / no auto-refetch on focus — webhook race would surface a
+    // misleading "Order status error" toast otherwise.
+    retry: false,
+    refetchOnWindowFocus: false,
     queryFn: async () => {
-      const { data } = await purchaseCheckout({
-        orderNo: orderNo || "",
-        returnUrl: window.location.href,
-      });
-      if (data.data?.type === "url" && data.data?.checkout_url) {
-        window.open(data.data.checkout_url, "_blank");
+      if (data?.status !== 1) return;
+      const { data: resp } = await purchaseCheckout(
+        {
+          orderNo: orderNo || "",
+          returnUrl: window.location.href,
+        },
+        // Suppress global toast for the expected race with payment webhook.
+        { skipErrorHandler: true }
+      );
+      if (resp.data?.type === "url" && resp.data?.checkout_url) {
+        window.open(resp.data.checkout_url, "_blank");
       }
-      return data?.data;
+      return resp?.data;
     },
   });
 

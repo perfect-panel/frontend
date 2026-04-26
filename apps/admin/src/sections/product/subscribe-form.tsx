@@ -79,6 +79,14 @@ const defaultValues = {
   renewal_reset: false,
   show_original_price: false,
   deduction_mode: "auto",
+  unit_price: 0,
+  // device-billing defaults
+  max_device_count: 0,
+  unit_price_per_device: 0,
+  traffic_addon_unit_price: 0,
+  traffic_addon_unit_size: 1_073_741_824, // 1 GB
+  // commission_rate=0 → 走全局"系统设置 → 邀请设置 → 推荐奖励百分比"
+  commission_rate: 0,
 };
 
 export default function SubscribeForm<T extends Record<string, any>>({
@@ -98,7 +106,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
   const formSchema = z.object({
     name: z.string(),
     description: z.string().optional(),
-    unit_price: z.number(),
+    unit_price: z.number().optional(),
     unit_time: z.string(),
     replacement: z.number().optional(),
     discount: z
@@ -122,6 +130,12 @@ export default function SubscribeForm<T extends Record<string, any>>({
     reset_cycle: z.number().optional(),
     renewal_reset: z.boolean().optional(),
     show_original_price: z.boolean().optional(),
+    // device-billing fields
+    max_device_count: z.number().optional(),
+    unit_price_per_device: z.number().optional(),
+    traffic_addon_unit_price: z.number().optional(),
+    traffic_addon_unit_size: z.number().optional(),
+    commission_rate: z.number().optional(),
   });
 
   const form = useForm<z.infer<typeof formSchema>>({
@@ -145,7 +159,9 @@ export default function SubscribeForm<T extends Record<string, any>>({
 
       updateTimeoutRef.current = setTimeout(() => {
         const { unit_price } = form.getValues();
-        if (!(unit_price && values?.length)) return;
+        // 折扣按"套餐价"计算（unit_price），与 quantity 时间倍数挂钩。
+        const basePrice = unit_price || 0;
+        if (!(basePrice && values?.length)) return;
 
         let hasChanges = false;
         const calculatedValues = values.map((item: any, index: number) => {
@@ -164,7 +180,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
             case "discount":
               if (quantity > 0 && discount > 0) {
                 const newPrice = evaluateWithPrecision(
-                  `${unit_price} * ${quantity} * ${discount} / 100`
+                  `${basePrice} * ${quantity} * ${discount} / 100`
                 );
                 if (Math.abs(newPrice - price) > 0.01) {
                   result.price = newPrice;
@@ -176,7 +192,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
             case "price":
               if (quantity > 0 && price > 0) {
                 const newDiscount = evaluateWithPrecision(
-                  `${price} / ${quantity} / ${unit_price} * 100`
+                  `${price} / ${quantity} / ${basePrice} * 100`
                 );
                 if (Math.abs(newDiscount - discount) > 0.01) {
                   result.discount = Math.min(100, Math.max(0, newDiscount));
@@ -184,7 +200,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
                 }
               } else if (discount > 0 && price > 0) {
                 const newQuantity = evaluateWithPrecision(
-                  `${price} / ${unit_price} / ${discount} * 100`
+                  `${price} / ${basePrice} / ${discount} * 100`
                 );
                 if (
                   Math.abs(newQuantity - quantity) > 0.01 &&
@@ -199,18 +215,18 @@ export default function SubscribeForm<T extends Record<string, any>>({
             default:
               if (quantity > 0 && discount > 0 && price === 0) {
                 result.price = evaluateWithPrecision(
-                  `${unit_price} * ${quantity} * ${discount} / 100`
+                  `${basePrice} * ${quantity} * ${discount} / 100`
                 );
                 hasChanges = true;
               } else if (quantity > 0 && price > 0 && discount === 0) {
                 const newDiscount = evaluateWithPrecision(
-                  `${price} / ${quantity} / ${unit_price} * 100`
+                  `${price} / ${quantity} / ${basePrice} * 100`
                 );
                 result.discount = Math.min(100, Math.max(0, newDiscount));
                 hasChanges = true;
               } else if (discount > 0 && price > 0 && quantity === 0) {
                 const newQuantity = evaluateWithPrecision(
-                  `${price} / ${unit_price} / ${discount} * 100`
+                  `${price} / ${basePrice} / ${discount} * 100`
                 );
                 if (newQuantity > 0) {
                   result.quantity = Math.max(1, Math.round(newQuantity));
@@ -357,7 +373,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
                       />
                     </div>
 
-                    <div className="grid grid-cols-3 gap-4">
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                       <FormField
                         control={form.control}
                         name="traffic"
@@ -419,11 +435,12 @@ export default function SubscribeForm<T extends Record<string, any>>({
                         name="device_limit"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t("form.deviceLimit")}</FormLabel>
+                            <FormLabel>{t("form.deviceCount")}</FormLabel>
                             <FormControl>
                               <EnhancedInput
-                                placeholder={t("form.noLimit")}
+                                placeholder={t("form.deviceCountPlaceholder")}
                                 step={1}
+                                suffix="台"
                                 type="number"
                                 {...field}
                                 onValueChange={(value) => {
@@ -435,9 +452,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
                           </FormItem>
                         )}
                       />
-                    </div>
 
-                    <div className="grid grid-cols-3 gap-4">
                       <FormField
                         control={form.control}
                         name="inventory"
@@ -470,6 +485,31 @@ export default function SubscribeForm<T extends Record<string, any>>({
                               <EnhancedInput
                                 placeholder={t("form.noLimit")}
                                 step={1}
+                                type="number"
+                                {...field}
+                                onValueChange={(value) => {
+                                  form.setValue(field.name, value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="max_device_count"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{t("form.maxDeviceCount")}</FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                placeholder={t(
+                                  "form.maxDeviceCountPlaceholder"
+                                )}
+                                step={1}
+                                suffix="台"
                                 type="number"
                                 {...field}
                                 onValueChange={(value) => {
@@ -566,7 +606,7 @@ export default function SubscribeForm<T extends Record<string, any>>({
 
                 <TabsContent className="space-y-4" value="pricing">
                   <div className="grid gap-6">
-                    <div className="grid grid-cols-4 gap-4">
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
                       <FormField
                         control={form.control}
                         name="unit_price"
@@ -629,10 +669,67 @@ export default function SubscribeForm<T extends Record<string, any>>({
 
                       <FormField
                         control={form.control}
-                        name="replacement"
+                        name="reset_cycle"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t("form.replacement")}</FormLabel>
+                            <FormLabel>{t("form.resetCycle")}</FormLabel>
+                            <FormControl>
+                              <Combobox<number, false>
+                                placeholder={t("form.selectResetCycle")}
+                                {...field}
+                                onChange={(value) => {
+                                  if (typeof value === "number") {
+                                    form.setValue(field.name, value);
+                                  }
+                                }}
+                                options={[
+                                  { label: t("form.noReset"), value: 0 },
+                                  { label: t("form.resetOn1st"), value: 1 },
+                                  { label: t("form.monthlyReset"), value: 2 },
+                                  { label: t("form.annualReset"), value: 3 },
+                                ]}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </div>
+                    <div className="grid grid-cols-2 gap-4 md:grid-cols-3">
+                      <FormField
+                        control={form.control}
+                        name="unit_price_per_device"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{t("form.addonDevicePrice")}</FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                suffix="/台"
+                                type="number"
+                                {...field}
+                                formatInput={(value) =>
+                                  unitConversion("centsToDollars", value)
+                                }
+                                formatOutput={(value) =>
+                                  unitConversion("dollarsToCents", value)
+                                }
+                                min={0}
+                                onValueChange={(value) => {
+                                  form.setValue(field.name, value);
+                                }}
+                              />
+                            </FormControl>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+
+                      <FormField
+                        control={form.control}
+                        name="traffic_addon_unit_price"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>{t("form.trafficAddonPrice")}</FormLabel>
                             <FormControl>
                               <EnhancedInput
                                 type="number"
@@ -653,27 +750,29 @@ export default function SubscribeForm<T extends Record<string, any>>({
                           </FormItem>
                         )}
                       />
+
                       <FormField
                         control={form.control}
-                        name="reset_cycle"
+                        name="traffic_addon_unit_size"
                         render={({ field }) => (
                           <FormItem>
-                            <FormLabel>{t("form.resetCycle")}</FormLabel>
+                            <FormLabel>{t("form.trafficAddonSize")}</FormLabel>
                             <FormControl>
-                              <Combobox<number, false>
-                                placeholder={t("form.selectResetCycle")}
+                              <EnhancedInput
+                                min={0}
+                                step={1}
+                                suffix="GB"
+                                type="number"
                                 {...field}
-                                onChange={(value) => {
-                                  if (typeof value === "number") {
-                                    form.setValue(field.name, value);
-                                  }
+                                formatInput={(value) =>
+                                  unitConversion("bytesToGb", value)
+                                }
+                                formatOutput={(value) =>
+                                  unitConversion("gbToBytes", value)
+                                }
+                                onValueChange={(value) => {
+                                  form.setValue(field.name, value);
                                 }}
-                                options={[
-                                  { label: t("form.noReset"), value: 0 },
-                                  { label: t("form.resetOn1st"), value: 1 },
-                                  { label: t("form.monthlyReset"), value: 2 },
-                                  { label: t("form.annualReset"), value: 3 },
-                                ]}
                               />
                             </FormControl>
                             <FormMessage />
@@ -885,33 +984,6 @@ export default function SubscribeForm<T extends Record<string, any>>({
                               </FormLabel>
                               <FormDescription>
                                 {t("form.purchaseWithDiscountDescription")}
-                              </FormDescription>
-                            </div>
-                            <FormControl>
-                              <Switch
-                                checked={!!field.value}
-                                onCheckedChange={(value) => {
-                                  form.setValue(field.name, value);
-                                }}
-                              />
-                            </FormControl>
-                          </div>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                    <FormField
-                      control={form.control}
-                      name="show_original_price"
-                      render={({ field }) => (
-                        <FormItem>
-                          <div className="flex items-center justify-between">
-                            <div className="space-y-0.5">
-                              <FormLabel>
-                                {t("form.showOriginalPrice")}
-                              </FormLabel>
-                              <FormDescription>
-                                {t("form.showOriginalPriceDescription")}
                               </FormDescription>
                             </div>
                             <FormControl>

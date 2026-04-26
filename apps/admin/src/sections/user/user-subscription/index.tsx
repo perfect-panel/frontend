@@ -23,9 +23,9 @@ import {
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { DateCell } from "@/components/date-cell";
 import { Display } from "@/components/display";
 import { useGlobalStore } from "@/stores/global";
-import { formatDate } from "@/utils/common";
 import { SubscriptionDetail } from "./subscription-detail";
 import { SubscriptionForm } from "./subscription-form";
 
@@ -123,29 +123,36 @@ export default function UserSubscription({ userId }: { userId: number }) {
           },
         },
         {
-          accessorKey: "upload",
-          header: t("upload", "Upload"),
-          cell: ({ row }) => (
-            <Display type="traffic" value={row.getValue("upload")} />
-          ),
-        },
-        {
-          accessorKey: "download",
-          header: t("download", "Download"),
-          cell: ({ row }) => (
-            <Display type="traffic" value={row.getValue("download")} />
-          ),
+          accessorKey: "used_traffic",
+          header: t("usedTraffic", "已用流量"),
+          cell: ({ row }) => {
+            const upload = (row.original.upload as number) || 0;
+            const download = (row.original.download as number) || 0;
+            return <Display type="traffic" value={upload + download} />;
+          },
         },
         {
           accessorKey: "traffic",
-          header: t("totalTraffic", "Total Traffic"),
+          header: t("totalTraffic", "总流量"),
           cell: ({ row }) => (
             <Display type="traffic" unlimited value={row.getValue("traffic")} />
           ),
         },
         {
+          accessorKey: "traffic_addon",
+          header: t("trafficAddon", "加购流量包"),
+          cell: ({ row }) => {
+            const addon = (row.original.traffic_addon as number) || 0;
+            return addon > 0 ? (
+              <Display type="traffic" value={addon} />
+            ) : (
+              <span className="text-muted-foreground">--</span>
+            );
+          },
+        },
+        {
           accessorKey: "speed_limit",
-          header: t("speedLimit", "Speed Limit"),
+          header: t("speedLimit", "速度限制"),
           cell: ({ row }) => {
             const speed = row.original?.subscribe?.speed_limit;
             return <Display type="trafficSpeed" value={speed} />;
@@ -153,37 +160,63 @@ export default function UserSubscription({ userId }: { userId: number }) {
         },
         {
           accessorKey: "device_limit",
-          header: t("deviceLimit", "Device Limit"),
+          header: t("useDevice", "使用设备"),
           cell: ({ row }) => {
             const limit = row.original?.subscribe?.device_limit;
-            return <Display type="number" unlimited value={limit} />;
+            return limit && limit > 0 ? (
+              `${limit} 台`
+            ) : (
+              <span className="text-muted-foreground">--</span>
+            );
+          },
+        },
+        {
+          accessorKey: "device_count",
+          header: t("addonDevice", "加购设备"),
+          cell: ({ row }) => {
+            const planLimit =
+              (row.original?.subscribe?.device_limit as number) || 0;
+            const userCount = (row.original.device_count as number) || 0;
+            const addon = userCount - planLimit;
+            return addon > 0 ? (
+              `+${addon} 台`
+            ) : (
+              <span className="text-muted-foreground">--</span>
+            );
           },
         },
         {
           accessorKey: "reset_time",
-          header: t("resetTime", "Reset Time"),
-          cell: ({ row }) => (
-            <Display
-              type="number"
-              unlimited
-              value={row.getValue("reset_time")}
-            />
-          ),
+          header: t("resetTime", "下次重置"),
+          cell: ({ row }) => {
+            const ts = row.getValue("reset_time") as number;
+            return ts && ts > 0 ? (
+              <DateCell ts={ts} />
+            ) : (
+              <span className="text-muted-foreground">
+                {t("noReset", "不重置")}
+              </span>
+            );
+          },
         },
         {
           accessorKey: "expire_time",
           header: t("expireTime", "Expire Time"),
           cell: ({ row }) => {
-            const expireTime = row.getValue("expire_time") as number;
-            return expireTime && expireTime !== 0
-              ? formatDate(expireTime)
-              : t("permanent", "Permanent");
+            const ts = row.getValue("expire_time") as number;
+            return ts && ts !== 0 ? (
+              <DateCell ts={ts} />
+            ) : (
+              t("permanent", "Permanent")
+            );
           },
         },
         {
           accessorKey: "created_at",
           header: t("createdAt", "Created At"),
-          cell: ({ row }) => formatDate(row.getValue("created_at")),
+          cell: ({ row }) => (
+            <DateCell ts={row.getValue("created_at") as number} />
+          ),
         },
       ]}
       header={{

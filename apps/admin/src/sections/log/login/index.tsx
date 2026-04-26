@@ -11,9 +11,9 @@ import {
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { filterLoginLog } from "@workspace/ui/services/admin/log";
 import { useTranslation } from "react-i18next";
+import { DateCell } from "@/components/date-cell";
 import { IpLink } from "@/components/ip-link";
 import { UserDetail } from "@/sections/user/user-detail";
-import { formatDate } from "@/utils/common";
 
 export default function LoginLogPage() {
   const { t } = useTranslation("log");
@@ -81,7 +81,7 @@ export default function LoginLogPage() {
         {
           accessorKey: "timestamp",
           header: t("column.time", "Time"),
-          cell: ({ row }) => formatDate(row.original.timestamp),
+          cell: ({ row }) => <DateCell ts={row.original.timestamp} />,
         },
       ]}
       header={{ title: t("title.login", "Login Log") }}

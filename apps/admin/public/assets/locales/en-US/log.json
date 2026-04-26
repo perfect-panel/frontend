@@ -24,7 +24,11 @@
     "upload": "Upload",
     "user": "User",
     "userAgent": "User Agent",
-    "userId": "User ID"
+    "userId": "User ID",
+    "actor": "Actor",
+    "action": "Action",
+    "target": "Target",
+    "detail": "Detail"
   },
   "detail": "Detail",
   "failed": "Failed",
@@ -42,7 +46,8 @@
     "serverTraffic": "Server Traffic Log",
     "subscribe": "Subscribe Log",
     "subscribeTraffic": "Subscribe Traffic Log",
-    "trafficDetails": "Traffic Details"
+    "trafficDetails": "Traffic Details",
+    "audit": "Audit Log"
   },
   "type": {
     "231": "Auto Reset",

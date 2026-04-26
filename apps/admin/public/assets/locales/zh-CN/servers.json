@@ -152,5 +152,18 @@
   "unlimited": "无限制",
   "up_mbps": "上传带宽",
   "updated": "已更新",
-  "user": "用户"
+  "user": "用户",
+  "save": "保存",
+  "saved": "已保存",
+  "directList": "直连白名单",
+  "directListTitle": "直连域名白名单",
+  "directListDesc": "客户端直连（不走代理）的域名清单，每行一个。包含面板与支付域名，确保限速时仍能续费。",
+  "directListField": "直连域名",
+  "directListHint": "建议：面板域名、订阅域名、支付网关（Stripe / PayPal / 支付宝 / 微信支付）",
+  "entries": "条",
+  "validation": {
+    "requiredField": "{{field}} 不能为空",
+    "requiredNumberField": "{{field}} 不能为空,且必须在 {{min}} 到 {{max}} 之间",
+    "requiredSelectField": "请选择 {{field}}"
+  }
 }

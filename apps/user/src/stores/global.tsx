@@ -94,6 +94,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       pan_domain: false,
       user_agent_limit: false,
       user_agent_list: "",
+      update_interval_hours: 24,
     },
     verify_code: {
       verify_code_expire_time: 5,

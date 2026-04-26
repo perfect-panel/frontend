@@ -5,12 +5,14 @@ import {
   type MonacoEditorProps,
 } from "@workspace/ui/composed/editor/monaco-editor";
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 export function HTMLEditor(props: MonacoEditorProps) {
+  const { t } = useTranslation("components");
   return (
     <MonacoEditor
-      description="Support HTML"
-      title="HTML Editor"
+      description={t("editor.htmlDescription", "Support HTML")}
+      title={t("editor.htmlTitle", "HTML Editor")}
       {...props}
       language="markdown"
       render={(value) => <HTMLPreview value={value} />}
@@ -23,6 +25,7 @@ interface HTMLPreviewProps {
 }
 
 function HTMLPreview({ value }: HTMLPreviewProps) {
+  const { t } = useTranslation("components");
   const iframeRef = useRef<HTMLIFrameElement>(null);
 
   useEffect(() => {
@@ -38,7 +41,7 @@ function HTMLPreview({ value }: HTMLPreviewProps) {
     <iframe
       className="h-full w-full border-0"
       ref={iframeRef}
-      title="HTML Preview"
+      title={t("editor.htmlPreviewTitle", "HTML Preview")}
     />
   );
 }

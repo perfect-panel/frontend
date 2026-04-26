@@ -5,9 +5,9 @@ import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { filterTrafficLogDetails } from "@workspace/ui/services/admin/log";
 import { formatBytes } from "@workspace/ui/utils/formatting";
 import { useTranslation } from "react-i18next";
+import { DateCell } from "@/components/date-cell";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";
 import { useServer } from "@/stores/server";
-import { formatDate } from "@/utils/common";
 
 export default function TrafficDetailsPage() {
   const { t } = useTranslation("log");
@@ -63,7 +63,7 @@ export default function TrafficDetailsPage() {
         {
           accessorKey: "timestamp",
           header: t("column.time", "Time"),
-          cell: ({ row }) => formatDate(row.original.timestamp),
+          cell: ({ row }) => <DateCell ts={row.original.timestamp} />,
         },
       ]}
       header={{ title: t("title.trafficDetails", "Traffic Details") }}

@@ -5,7 +5,12 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
 function handleError(response: {
-  data?: { code?: number; message?: string };
+  // Backend response shape is `{ code, msg }` (pkg/result.responseBean.Error).
+  // We accept `message` too for non-HTTP transport errors (Axios surfaces
+  // those via response.message), but the server-side custom message lives
+  // in `data.msg`. This was previously dropped, causing every business
+  // error to fall back to the generic ERROR_MESSAGES[code] string.
+  data?: { code?: number; msg?: string; message?: string };
   config?: { skipErrorHandler?: boolean };
   message?: string;
 }) {
@@ -161,8 +166,22 @@ function handleError(response: {
     ),
   };
 
+  // Resolution order:
+  //   1. Custom server message (data.msg / data.message) when it's a real
+  //      business error string and not the framework default
+  //      "Param Error" / "Internal Server Error" / "success" — those
+  //      generic strings should fall through to the localized table below.
+  //   2. Localized ERROR_MESSAGES table by code.
+  //   3. Generic unknown-error message.
+  const rawServerMsg = response.data?.msg || response.data?.message;
+  const isGenericServerMsg =
+    !rawServerMsg ||
+    rawServerMsg === "success" ||
+    rawServerMsg === "Internal Server Error" ||
+    rawServerMsg === "Param Error";
+
   const message =
-    response.data?.message ||
+    (isGenericServerMsg ? "" : rawServerMsg) ||
     (code ? ERROR_MESSAGES[code] : undefined) ||
     t(
       "components:error.unknown",

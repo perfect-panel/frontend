@@ -27,6 +27,7 @@ import {
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { DateCell } from "@/components/date-cell";
 import { formatDate } from "@/utils/common";
 
 export default function EmailTaskManager() {
@@ -256,7 +257,7 @@ export default function EmailTaskManager() {
                   header: t("createdAt", "Created At"),
                   cell: ({ row }) => {
                     const createdAt = row.getValue("created_at") as number;
-                    return formatDate(createdAt);
+                    return <DateCell ts={createdAt} />;
                   },
                 },
               ]}

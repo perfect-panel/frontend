@@ -14,6 +14,18 @@ export const protocols = [
 
 // Global label map for display; fallback to raw value if missing
 export const LABELS = {
+  // protocols (display names — "hysteria" is actually Hysteria 2)
+  shadowsocks: "Shadowsocks",
+  vmess: "VMess",
+  vless: "VLESS",
+  trojan: "Trojan",
+  hysteria: "Hysteria 2",
+  tuic: "TUIC",
+  anytls: "AnyTLS",
+  socks: "SOCKS",
+  naive: "Naive",
+  http: "HTTP",
+  mieru: "Mieru",
   // transport
   tcp: "TCP",
   udp: "UDP",

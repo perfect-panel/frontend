@@ -10,6 +10,7 @@ import DraculaTheme from "monaco-themes/themes/Dracula.json" with {
   type: "json",
 };
 import { useEffect, useRef } from "react";
+import { useTranslation } from "react-i18next";
 
 type SchemaType = "string" | "number" | "boolean" | "object" | "array" | "null";
 
@@ -405,6 +406,7 @@ export function GoTemplateEditor({
   enableSprig = true,
   ...props
 }: GoTemplateEditorProps) {
+  const { t } = useTranslation("components");
   const providersRef = useRef<{
     completionProvider?: monaco.IDisposable;
     semanticTokensProvider?: monaco.IDisposable;
@@ -1250,12 +1252,22 @@ export function GoTemplateEditor({
 
   return (
     <MonacoEditor
-      description={`Go text/template syntax${enableSprig ? " with Sprig functions" : ""}`}
-      title="Go Template Editor"
+      description={
+        enableSprig
+          ? t(
+              "editor.goTemplateDescriptionSprig",
+              "Go text/template syntax with Sprig functions"
+            )
+          : t("editor.goTemplateDescription", "Go text/template syntax")
+      }
+      title={t("editor.goTemplateTitle", "Go Template Editor")}
       {...props}
       beforeMount={handleBeforeMount}
       language="go-template"
-      placeholder="Enter your Go template here..."
+      placeholder={t(
+        "editor.goTemplatePlaceholder",
+        "Enter your Go template here..."
+      )}
     />
   );
 }

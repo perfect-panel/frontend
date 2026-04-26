@@ -18,7 +18,9 @@
     "save": "Save",
     "saveFailed": "Save failed",
     "update": "Update",
-    "updateSuccess": "Updated successfully"
+    "updateSuccess": "Updated successfully",
+    "batchDeleteSuccess": "Successfully deleted {count} clients",
+    "batchDeleteWarning": "Are you sure you want to delete the selected {count} clients?"
   },
   "config": {
     "description": "Manage subscription system settings",
@@ -39,7 +41,9 @@
     "userAgentListDescription": "Allowed {{userAgent}} for subscription access, one per line. Configured application {{userAgent}} will be automatically included",
     "userAgentListPlaceholder": "Enter allowed {{userAgent}}, one per line",
     "wildcardResolution": "Wildcard Resolution",
-    "wildcardResolutionDescription": "Enable wildcard domain resolution for subscriptions"
+    "wildcardResolutionDescription": "Enable wildcard domain resolution for subscriptions",
+    "updateInterval": "Subscription Auto-Update Interval (hours)",
+    "updateIntervalDescription": "After import, clients will auto-update subscription on this schedule. 0 = disabled. Smart UA detection: Clash family / Hiddify / Mihomo Party use Profile-Update-Interval header; Surge / Stash use #!MANAGED-CONFIG injection; v2rayN / Shadowrocket / QuanX / Loon do not support — user must set manually."
   },
   "form": {
     "addTitle": "Add Client",
@@ -85,7 +89,12 @@
     "tabs": {
       "basic": "Basic Info",
       "download": "Downloads",
-      "template": "Templates"
+      "template": "Templates",
+      "tutorial": "Tutorial"
+    },
+    "validation": {
+      "nameRequired": "Client name is required",
+      "userAgentRequiredSuffix": "is required"
     }
   },
   "outputFormats": {
@@ -104,7 +113,8 @@
       "description": "Description",
       "name": "Client Name",
       "outputFormat": "Output Format",
-      "supportedPlatforms": "Supported Platforms"
+      "supportedPlatforms": "Supported Platforms",
+      "enabled": "Enabled"
     }
   },
   "templatePreview": {
@@ -117,5 +127,20 @@
     "loading": "Loading...",
     "preview": "Preview",
     "title": "Template Preview"
+  },
+  "tutorial": {
+    "keyRequired": "Please set a tutorial key first",
+    "saved": "Tutorial saved",
+    "keyLabel": "Tutorial Key",
+    "keyDescription": "site_content row key. Same key shared across languages — switch the language at the top-right to edit a different translation.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "e.g. 导入教程",
+    "bodyLabel": "Content",
+    "bodyPlaceholder": "Markdown / HTML content. Variables: {{.SubscribeUrl}}, {{.AppScheme}}, {{.AppName}}, {{.SiteName}}",
+    "variableHint": "Template variables auto-replaced when shown to users: {{.SubscribeUrl}} / {{.AppScheme}} / {{.AppName}} / {{.SiteName}}",
+    "loading": "Loading…",
+    "editingLang": "Editing: {{lang}}",
+    "saving": "Saving…",
+    "save": "Save Tutorial"
   }
 }

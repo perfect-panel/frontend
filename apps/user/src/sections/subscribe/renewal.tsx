@@ -16,9 +16,9 @@ import { preCreateOrder, renewal } from "@workspace/ui/services/user/order";
 import { LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
+import { BalancePayment } from "@/sections/subscribe/balance-payment";
 import CouponInput from "@/sections/subscribe/coupon-input";
 import DurationSelector from "@/sections/subscribe/duration-selector";
-import PaymentMethods from "@/sections/subscribe/payment-methods";
 import { useGlobalStore } from "@/stores/global";
 import { SubscribeBilling } from "./billing";
 import { SubscribeDetail } from "./detail";
@@ -47,6 +47,7 @@ export default function Renewal({ id, subscribe }: Readonly<RenewalProps>) {
     queryKey: [
       "preCreateOrder",
       subscribe.id,
+      id,
       params.quantity,
       params.payment,
       params.coupon,
@@ -56,6 +57,8 @@ export default function Renewal({ id, subscribe }: Readonly<RenewalProps>) {
         const { data } = await preCreateOrder({
           ...params,
           subscribe_id: subscribe.id,
+          // V4.3:把当前订阅 id 传过去,后端会把已有加购设备的续费费用也算进去。
+          user_subscribe_id: id,
         } as API.PurchaseOrderRequest);
         const result = data.data;
         if (result) {
@@ -156,11 +159,10 @@ export default function Renewal({ id, subscribe }: Readonly<RenewalProps>) {
                 coupon={params.coupon}
                 onChange={(value) => handleChange("coupon", value)}
               />
-              <PaymentMethods
-                onChange={(value) => {
-                  handleChange("payment", value);
-                }}
-                value={params.payment as number}
+              {/* 业务约定:续订只走账户余额,余额不足由组件内嵌「充值」入口。 */}
+              <BalancePayment
+                amount={order?.amount}
+                onChange={(value) => handleChange("payment", value)}
               />
             </div>
             <Button

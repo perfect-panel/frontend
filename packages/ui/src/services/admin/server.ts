@@ -230,3 +230,42 @@ export async function updateServer(
     }
   );
 }
+
+/** Get Server Direct List GET /v1/admin/server/:id/direct_list */
+export async function getServerDirectList(
+  serverId: number,
+  options?: { [key: string]: any }
+) {
+  return request<
+    API.Response & { data?: { server_id: number; direct_list: string[] } }
+  >(
+    `${
+      import.meta.env.VITE_API_PREFIX || ""
+    }/v1/admin/server/${serverId}/direct_list`,
+    {
+      method: "GET",
+      ...(options || {}),
+    }
+  );
+}
+
+/** Update Server Direct List PUT /v1/admin/server/:id/direct_list */
+export async function updateServerDirectList(
+  serverId: number,
+  body: { direct_list: string[] },
+  options?: { [key: string]: any }
+) {
+  return request<API.Response & { data?: { server_id: number } }>(
+    `${
+      import.meta.env.VITE_API_PREFIX || ""
+    }/v1/admin/server/${serverId}/direct_list`,
+    {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}

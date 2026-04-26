@@ -38,9 +38,9 @@ import {
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { DateCell } from "@/components/date-cell";
 import { Display } from "@/components/display";
 import { useSubscribe } from "@/stores/subscribe";
-import { formatDate } from "@/utils/common";
 import { UserDetail } from "./user-detail";
 import UserForm from "./user-form";
 import { AuthMethodsForm } from "./user-profile/auth-methods-form";
@@ -193,16 +193,48 @@ export default function User() {
           header: t("userName", "Username"),
           cell: ({ row }) => {
             const method = row.original.auth_methods?.[0];
+            return <span>{method?.auth_identifier}</span>;
+          },
+        },
+        {
+          accessorKey: "tags",
+          header: t("tags", "标签"),
+          cell: ({ row }) => {
+            const tags = (row.original.tags as string[]) || [];
+            const method = row.original.auth_methods?.[0];
+            const authLabel = method?.auth_type
+              ? t(`authType.${method.auth_type}`, method.auth_type)
+              : "";
+            if (!authLabel && tags.length === 0) {
+              return <span className="text-muted-foreground">--</span>;
+            }
             return (
-              <div>
-                <Badge
-                  className="mr-1 uppercase"
-                  title={method?.verified ? t("verified", "Verified") : ""}
-                >
-                  {method?.auth_type}
-                </Badge>
-                {method?.auth_identifier}
+              <div className="flex flex-wrap gap-1">
+                {authLabel && (
+                  <Badge
+                    title={method?.verified ? t("verified", "Verified") : ""}
+                  >
+                    {authLabel}
+                  </Badge>
+                )}
+                {tags.map((tag) => (
+                  <Badge key={tag} variant="secondary">
+                    {tag}
+                  </Badge>
+                ))}
               </div>
+            );
+          },
+        },
+        {
+          accessorKey: "subscribe_count",
+          header: t("subscriptionCount", "订阅"),
+          cell: ({ row }) => {
+            const count = (row.original.subscribe_count as number) || 0;
+            return count > 0 ? (
+              <Badge variant="default">{count} 个</Badge>
+            ) : (
+              <Badge variant="outline">未购</Badge>
             );
           },
         },
@@ -239,8 +271,10 @@ export default function User() {
         },
         {
           accessorKey: "created_at",
-          header: t("createdAt", "Created At"),
-          cell: ({ row }) => formatDate(row.getValue("created_at")),
+          header: t("registeredAt", "注册时间"),
+          cell: ({ row }) => (
+            <DateCell ts={row.getValue("created_at") as number} />
+          ),
         },
       ]}
       header={{
@@ -383,7 +417,10 @@ function SubscriptionSheet({ userId }: { userId: number }) {
       <SheetTrigger asChild>
         <Button variant="secondary">{t("subscription", "Subscription")}</Button>
       </SheetTrigger>
-      <SheetContent className="w-[1000px] max-w-full md:max-w-7xl" side="right">
+      <SheetContent
+        className="!w-[65vw] !max-w-[1600px] !min-w-[1280px]"
+        side="right"
+      >
         <SheetHeader>
           <SheetTitle>
             {t("subscriptionList", "Subscription List")} · ID: {userId}

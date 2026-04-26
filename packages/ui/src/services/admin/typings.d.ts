@@ -327,6 +327,10 @@ declare namespace API {
     template: string;
     output_format: string;
     download_link: DownloadLink;
+    /** V4.3 决策 25:site_content key for multi-lang tutorial. */
+    tutorial_key?: string;
+    /** Visible on user-facing client list. */
+    enabled?: boolean;
   };
 
   type CreateSubscribeGroupRequest = {
@@ -2049,6 +2053,10 @@ declare namespace API {
     template: string;
     output_format: string;
     download_link?: DownloadLink;
+    /** V4.3 决策 25:site_content key for multi-lang tutorial (empty = none). */
+    tutorial_key?: string;
+    /** Visible on user-facing client list. false → hidden from end users. */
+    enabled?: boolean;
     created_at: number;
     updated_at: number;
   };
@@ -2060,6 +2068,12 @@ declare namespace API {
     pan_domain: boolean;
     user_agent_limit: boolean;
     user_agent_list: string;
+    /**
+     * V4.3:订阅自动更新间隔(小时)。0 = 不下发更新指令。
+     * 后端按 UA 智能切:Clash/Hiddify 走 Profile-Update-Interval header;
+     * Surge/Stash 走 #!MANAGED-CONFIG 注入;其它客户端不支持。
+     */
+    update_interval_hours?: number;
   };
 
   type SubscribeDiscount = {
@@ -2102,6 +2116,14 @@ declare namespace API {
     created_at?: number;
     updated_at?: number;
     sold: number;
+    /** V4.3:加购流量包步长(字节)。0 / undefined = 套餐不开放加购流量。 */
+    traffic_addon_unit_size?: number;
+    /** V4.3:加购流量包单价(分/GB)。0 / undefined = 套餐不开放加购流量。 */
+    traffic_addon_unit_price?: number;
+    /** V4.3:每台设备加购单价(分/台)。0 / undefined = 套餐不开放加购设备。 */
+    unit_price_per_device?: number;
+    /** V4.3:套餐基础设备数 + 允许加购到的最大设备数。 */
+    max_device_count?: number;
   };
 
   type SubscribeLog = {
@@ -2323,6 +2345,10 @@ declare namespace API {
     template: string;
     output_format: string;
     download_link?: DownloadLink;
+    /** V4.3 决策 25:site_content key for multi-lang tutorial. */
+    tutorial_key?: string;
+    /** Visible on user-facing client list. */
+    enabled?: boolean;
   };
 
   type UpdateSubscribeGroupRequest = {
@@ -2424,6 +2450,10 @@ declare namespace API {
     created_at: number;
     updated_at: number;
     deleted_at?: number;
+    /** V4.3:用户标签(VIP / 试用 / 长期客户 等),admin 可编辑 */
+    tags?: string[];
+    /** V4.3:用户当前持有的订阅数量 */
+    subscribe_count?: number;
   };
 
   type UserAffiliate = {
@@ -2489,6 +2519,10 @@ declare namespace API {
     token: string;
     status: number;
     short: string;
+    /** V4.3:用户当前总设备槽数(基础 + 加购);加购数 = device_count - subscribe.device_limit */
+    device_count?: number;
+    /** V4.3:已加购的额外流量字节数 */
+    traffic_addon?: number;
     created_at: number;
     updated_at: number;
   };

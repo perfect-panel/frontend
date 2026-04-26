@@ -132,5 +132,22 @@
     "seconds": "秒",
     "times": "次",
     "title": "验证码设置"
+  },
+  "saved": "已保存",
+  "save": "保存",
+  "siteContent": {
+    "title": "站内内容",
+    "subtitle": "维护用户协议与 11 个客户端导入教程的中英文文案",
+    "edit": "编辑",
+    "editor": "编辑站内内容",
+    "titleField": "标题",
+    "body": "正文（HTML / Markdown）",
+    "bodyPlaceholder": "粘贴 Markdown 或 HTML 文本，将在用户端页面渲染",
+    "bodyRequired": "正文不能为空",
+    "version": "版本号（递增可强制用户重新接受协议）",
+    "empty": "暂无站内内容",
+    "key": {
+      "terms_of_use": "用户协议"
+    }
   }
 }

@@ -9,6 +9,9 @@ import {
 } from "@workspace/ui/components/popover";
 import { cn } from "@workspace/ui/lib/utils";
 import { intlFormat } from "date-fns";
+// Direct subpath import — `date-fns/locale` re-exports ALL locales (~1 MB);
+// importing zh-CN directly keeps the bundle ~10 KB.
+import { zhCN } from "date-fns/locale/zh-CN";
 import { CalendarIcon, X } from "lucide-react";
 import * as React from "react";
 import type { DayPicker } from "react-day-picker";
@@ -53,7 +56,11 @@ export function DatePicker({
           )}
           variant="outline"
         >
-          {value ? intlFormat(value) : <span>{placeholder}</span>}
+          {value ? (
+            intlFormat(value, {}, { locale: "zh-CN" })
+          ) : (
+            <span>{placeholder}</span>
+          )}
           <div className="flex items-center gap-2">
             {value && (
               <button
@@ -73,6 +80,7 @@ export function DatePicker({
         <Calendar
           {...props}
           initialFocus
+          locale={zhCN}
           mode="single"
           onSelect={handleSelect}
           selected={date}

@@ -27,5 +27,12 @@
   "tags": "标签",
   "tags_description": "权限分组标签（包含计划绑定和投递策略）。",
   "tags_placeholder": "使用回车或逗号 (,) 添加多个标签",
-  "updated": "已更新"
+  "updated": "已更新",
+  "errors": {
+    "nameRequired": "请输入名称",
+    "portRange": "端口必须在 1 到 65535 之间",
+    "protocolRequired": "请选择协议",
+    "serverAddrRequired": "请输入入口地址",
+    "serverRequired": "请选择服务器"
+  }
 }

@@ -318,8 +318,13 @@ export function ProTable<
             <TableBody>
               {table.getRowModel()?.rows?.length ? (
                 onSort ? (
-                  table.getRowModel().rows.map((row) => (
+                  table.getRowModel().rows.map((row, idx) => (
                     <SortableRow
+                      className={
+                        idx % 2 === 1
+                          ? "!bg-emerald-50 hover:!bg-amber-100 dark:!bg-emerald-950/40 dark:hover:!bg-amber-900/40"
+                          : "!bg-sky-50 hover:!bg-amber-100 dark:!bg-sky-950/40 dark:hover:!bg-amber-900/40"
+                      }
                       data-state={row.getIsSelected() && "selected"}
                       id={
                         row.original.id
@@ -350,8 +355,13 @@ export function ProTable<
                     </SortableRow>
                   ))
                 ) : (
-                  table.getRowModel().rows.map((row) => (
+                  table.getRowModel().rows.map((row, idx) => (
                     <TableRow
+                      className={
+                        idx % 2 === 1
+                          ? "!bg-emerald-50 hover:!bg-amber-100 dark:!bg-emerald-950/40 dark:hover:!bg-amber-900/40"
+                          : "!bg-sky-50 hover:!bg-amber-100 dark:!bg-sky-950/40 dark:hover:!bg-amber-900/40"
+                      }
                       data-state={row.getIsSelected() && "selected"}
                       key={row.id}
                     >

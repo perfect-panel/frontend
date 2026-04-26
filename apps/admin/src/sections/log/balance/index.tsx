@@ -5,10 +5,10 @@ import { Badge } from "@workspace/ui/components/badge";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { filterBalanceLog } from "@workspace/ui/services/admin/log";
 import { useTranslation } from "react-i18next";
+import { DateCell } from "@/components/date-cell";
 import { Display } from "@/components/display";
 import { OrderLink } from "@/components/order-link";
 import { UserDetail } from "@/sections/user/user-detail";
-import { formatDate } from "@/utils/common";
 
 export default function BalanceLogPage() {
   const { t } = useTranslation("log");
@@ -83,7 +83,7 @@ export default function BalanceLogPage() {
         {
           accessorKey: "timestamp",
           header: t("column.time", "Time"),
-          cell: ({ row }) => formatDate(row.original.timestamp),
+          cell: ({ row }) => <DateCell ts={row.original.timestamp} />,
         },
       ]}
       header={{ title: t("title.balance", "Balance Log") }}

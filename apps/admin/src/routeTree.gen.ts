@@ -17,6 +17,7 @@ const IndexLazyRouteImport = createFileRoute('/')()
 const DashboardIndexLazyRouteImport = createFileRoute('/dashboard/')()
 const DashboardServersLazyRouteImport = createFileRoute('/dashboard/servers')()
 const DashboardNodesLazyRouteImport = createFileRoute('/dashboard/nodes')()
+const DashboardAuditLazyRouteImport = createFileRoute('/dashboard/audit')()
 const DashboardUserIndexLazyRouteImport = createFileRoute('/dashboard/user/')()
 const DashboardTicketIndexLazyRouteImport =
   createFileRoute('/dashboard/ticket/')()
@@ -115,6 +116,13 @@ const DashboardNodesLazyRoute = DashboardNodesLazyRouteImport.update({
   getParentRoute: () => DashboardRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/dashboard/nodes.lazy').then((d) => d.Route),
+)
+const DashboardAuditLazyRoute = DashboardAuditLazyRouteImport.update({
+  id: '/audit',
+  path: '/audit',
+  getParentRoute: () => DashboardRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/audit.lazy').then((d) => d.Route),
 )
 const DashboardUserIndexLazyRoute = DashboardUserIndexLazyRouteImport.update({
   id: '/user/',
@@ -314,6 +322,7 @@ const DashboardLogBalanceLazyRoute = DashboardLogBalanceLazyRouteImport.update({
 export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
+  '/dashboard/audit': typeof DashboardAuditLazyRoute
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
@@ -345,6 +354,7 @@ export interface FileRoutesByFullPath {
 }
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
+  '/dashboard/audit': typeof DashboardAuditLazyRoute
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard': typeof DashboardIndexLazyRoute
@@ -378,6 +388,7 @@ export interface FileRoutesById {
   __root__: typeof rootRouteImport
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
+  '/dashboard/audit': typeof DashboardAuditLazyRoute
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
@@ -412,6 +423,7 @@ export interface FileRouteTypes {
   fullPaths:
     | '/'
     | '/dashboard'
+    | '/dashboard/audit'
     | '/dashboard/nodes'
     | '/dashboard/servers'
     | '/dashboard/'
@@ -443,6 +455,7 @@ export interface FileRouteTypes {
   fileRoutesByTo: FileRoutesByTo
   to:
     | '/'
+    | '/dashboard/audit'
     | '/dashboard/nodes'
     | '/dashboard/servers'
     | '/dashboard'
@@ -475,6 +488,7 @@ export interface FileRouteTypes {
     | '__root__'
     | '/'
     | '/dashboard'
+    | '/dashboard/audit'
     | '/dashboard/nodes'
     | '/dashboard/servers'
     | '/dashboard/'
@@ -545,6 +559,13 @@ declare module '@tanstack/react-router' {
       path: '/nodes'
       fullPath: '/dashboard/nodes'
       preLoaderRoute: typeof DashboardNodesLazyRouteImport
+      parentRoute: typeof DashboardRouteLazyRoute
+    }
+    '/dashboard/audit': {
+      id: '/dashboard/audit'
+      path: '/audit'
+      fullPath: '/dashboard/audit'
+      preLoaderRoute: typeof DashboardAuditLazyRouteImport
       parentRoute: typeof DashboardRouteLazyRoute
     }
     '/dashboard/user/': {
@@ -726,6 +747,7 @@ declare module '@tanstack/react-router' {
 }
 
 interface DashboardRouteLazyRouteChildren {
+  DashboardAuditLazyRoute: typeof DashboardAuditLazyRoute
   DashboardNodesLazyRoute: typeof DashboardNodesLazyRoute
   DashboardServersLazyRoute: typeof DashboardServersLazyRoute
   DashboardIndexLazyRoute: typeof DashboardIndexLazyRoute
@@ -757,6 +779,7 @@ interface DashboardRouteLazyRouteChildren {
 }
 
 const DashboardRouteLazyRouteChildren: DashboardRouteLazyRouteChildren = {
+  DashboardAuditLazyRoute: DashboardAuditLazyRoute,
   DashboardNodesLazyRoute: DashboardNodesLazyRoute,
   DashboardServersLazyRoute: DashboardServersLazyRoute,
   DashboardIndexLazyRoute: DashboardIndexLazyRoute,

@@ -152,5 +152,18 @@
   "unlimited": "Unlimited",
   "up_mbps": "Upload Bandwidth",
   "updated": "Updated",
-  "user": "User"
+  "user": "User",
+  "saved": "Saved",
+  "directList": "Direct List",
+  "directListTitle": "Direct Allowlist",
+  "directListDesc": "Domains the client connects directly (not via proxy). One per line. Includes panel/payment domains so users can recharge while throttled.",
+  "directListField": "Direct domains",
+  "entries": "entries",
+  "directListHint": "Suggested: panel domain, subscribe domain, payment gateways (Stripe / PayPal / Alipay / WeChat Pay).",
+  "save": "Save",
+  "validation": {
+    "requiredNumberField": "{{field}} is required and must be between {{min}} and {{max}}",
+    "requiredSelectField": "{{field}} is required",
+    "requiredField": "{{field}} is required"
+  }
 }

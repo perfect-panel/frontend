@@ -515,7 +515,7 @@ export default function ServerConfig() {
                                   { label: "VLESS", value: "vless" },
                                   { label: "Trojan", value: "trojan" },
                                   { label: "WireGuard", value: "wireguard" },
-                                  { label: "Hysteria", value: "hysteria" },
+                                  { label: "Hysteria 2", value: "hysteria" },
                                   { label: "TUIC", value: "tuic" },
                                   { label: "AnyTLS", value: "anytls" },
                                   { label: "Naive", value: "naive" },

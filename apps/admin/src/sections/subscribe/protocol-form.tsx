@@ -65,6 +65,7 @@ import { toast } from "sonner";
 import { z } from "zod";
 import { subscribeSchema } from "./schema";
 import { TemplatePreview } from "./template-preview";
+import { TutorialTab } from "./tutorial-tab";
 
 const createClientFormSchema = (t: any) =>
   z.object({
@@ -90,6 +91,8 @@ const createClientFormSchema = (t: any) =>
       android: z.string().optional(),
       harmony: z.string().optional(),
     }),
+    // V4.3 决策 25:关联到 site_content.content_key 的教程
+    tutorial_key: z.string().optional(),
   });
 
 type ClientFormData = z.infer<ReturnType<typeof createClientFormSchema>>;
@@ -122,6 +125,7 @@ export function ProtocolForm() {
         android: "",
         harmony: "",
       },
+      tutorial_key: "",
     },
   });
 
@@ -142,15 +146,17 @@ export function ProtocolForm() {
 
   const columns: ColumnDef<API.SubscribeApplication, any>[] = [
     {
-      accessorKey: "is_default",
-      header: t("table.columns.default", "Default"),
+      // V4.3:列名「默认」改为「启用」,Switch 控制 enabled 字段。
+      // 关闭后该客户端不会出现在用户端的客户端列表里(管理端 + UA 命中仍可用)。
+      accessorKey: "enabled",
+      header: t("table.columns.enabled", "Enabled"),
       cell: ({ row }) => (
         <Switch
-          checked={row.original.is_default}
+          checked={row.original.enabled !== false}
           onCheckedChange={async (checked) => {
             await updateSubscribeApplication({
               ...row.original,
-              is_default: checked,
+              enabled: checked,
             });
             tableRef.current?.refresh();
           }}
@@ -259,6 +265,7 @@ export function ProtocolForm() {
         android: "",
         harmony: "",
       },
+      tutorial_key: "",
     });
     setOpen(true);
   };
@@ -275,6 +282,7 @@ export function ProtocolForm() {
         android: "",
         harmony: "",
       },
+      tutorial_key: client.tutorial_key || "",
     });
     setOpen(true);
   };
@@ -322,6 +330,10 @@ export function ProtocolForm() {
         await updateSubscribeApplication({
           ...data,
           is_default: editingClient.is_default,
+          // Preserve current enabled state — it's flipped via the row Switch,
+          // not via the Sheet form, so don't let an undefined form value
+          // accidentally overwrite it.
+          enabled: editingClient.enabled !== false,
           id: editingClient.id,
         });
         toast.success(t("actions.updateSuccess", "Updated successfully"));
@@ -329,6 +341,8 @@ export function ProtocolForm() {
         await createSubscribeApplication({
           ...data,
           is_default: false,
+          // New clients default to enabled (visible to users).
+          enabled: true,
         });
         toast.success(t("actions.createSuccess", "Created successfully"));
       }
@@ -447,12 +461,15 @@ export function ProtocolForm() {
             <Form {...form}>
               <form className="space-y-6 py-4">
                 <Tabs className="w-full" defaultValue="basic">
-                  <TabsList className="grid w-full grid-cols-3">
+                  <TabsList className="grid w-full grid-cols-4">
                     <TabsTrigger value="basic">
                       {t("form.tabs.basic", "Basic Info")}
                     </TabsTrigger>
                     <TabsTrigger value="template">
                       {t("form.tabs.template", "Templates")}
+                    </TabsTrigger>
+                    <TabsTrigger value="tutorial">
+                      {t("form.tabs.tutorial", "Tutorial")}
                     </TabsTrigger>
                     <TabsTrigger value="download">
                       {t("form.tabs.download", "Downloads")}
@@ -872,6 +889,20 @@ export function ProtocolForm() {
                           <FormMessage />
                         </FormItem>
                       )}
+                    />
+                  </TabsContent>
+
+                  <TabsContent className="space-y-4" value="tutorial">
+                    {/* V4.3 决策 25:多语言教程编辑,内容存到 site_content
+                        表;语言跟随右上角全局切换器。 */}
+                    <TutorialTab
+                      clientName={form.watch("name")}
+                      onKeyChange={(key) =>
+                        form.setValue("tutorial_key", key, {
+                          shouldDirty: true,
+                        })
+                      }
+                      tutorialKey={form.watch("tutorial_key")}
                     />
                   </TabsContent>
 

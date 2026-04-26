@@ -3,7 +3,9 @@
   "private": true,
   "type": "module",
   "scripts": {
-    "dev": "vite --port 3001",
+    "predev": "bun --cwd ../../packages/ui run icons:bundle",
+    "dev": "vite --host --port 3001",
+    "prebuild": "bun --cwd ../../packages/ui run icons:bundle",
     "build": "vite build && tsc",
     "serve": "vite preview",
     "lint": "biome lint",

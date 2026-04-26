@@ -1,11 +1,14 @@
 {
+  "balance": "Account Balance",
+  "balanceInsufficientHint": "Account balance is insufficient. Please recharge first; recharging supports third-party payment.",
   "balanceRecharge": "Balance Recharge",
   "billing": {
+    "addonDevice": "Addon devices ({{n}})",
     "billingTitle": "Product Billing",
     "couponDiscount": "Coupon Discount",
     "duration": "Duration",
     "fee": "Fee",
-    "gift": "gift Deduction",
+    "gift": "Gift Deduction",
     "originalPrice": "Original Price (Monthly)",
     "price": "Price",
     "productDiscount": "Product Discount",
@@ -15,10 +18,11 @@
   "buyNow": "Buy Now",
   "buySubscription": "Buy Subscription",
   "coupon": "Coupon",
+  "currentBalance": "Current",
   "Day": "Day",
   "detail": {
     "availableTraffic": "Available Traffic",
-    "connectedDevices": "Connected Devices",
+    "connectedDevices": "Devices",
     "connectionSpeed": "Connection Speed",
     "productDetail": "Product Details"
   },

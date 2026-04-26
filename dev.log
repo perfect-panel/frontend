@@ -1,0 +1,29 @@
+$ turbo dev
+turbo 2.6.1
+
+• Packages in scope: @workspace/typescript-config, @workspace/ui, docs, ppanel-admin-web, ppanel-user-web
+• Running dev in 5 packages
+• Remote caching disabled
+ppanel-user-web:dev: cache bypass, force executing 0d106bb718e138d7
+ppanel-admin-web:dev: cache bypass, force executing 22527be1c4fc2015
+ppanel-user-web:dev: $ vite --port 3000
+ppanel-admin-web:dev: $ vite --port 3001
+ppanel-user-web:dev: 
+ppanel-user-web:dev:   [32m[1mVITE[22m v7.2.2[39m  [2mready in [0m[1m1403[22m[2m[0m ms[22m
+ppanel-user-web:dev: 
+ppanel-user-web:dev:   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3000[22m/[39m
+ppanel-user-web:dev: [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+ppanel-admin-web:dev: 
+ppanel-admin-web:dev:   [32m[1mVITE[22m v7.2.2[39m  [2mready in [0m[1m1492[22m[2m[0m ms[22m
+ppanel-admin-web:dev: 
+ppanel-admin-web:dev:   [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3001[22m/[39m
+ppanel-admin-web:dev: [2m  [32m➜[39m  [1mNetwork[22m[2m: use [22m[1m--host[22m[2m to expose[22m
+ppanel-user-web:dev: ERROR: command finished with error: command (D:\ppanel\ppanel-all\ppanel-frontend\apps\user) C:\Users\HUBOHAN\AppData\Local\Temp\bun-node-bf2e2cecf\bun.exe run dev exited (-1)
+ppanel-user-web#dev: command (D:\ppanel\ppanel-all\ppanel-frontend\apps\user) C:\Users\HUBOHAN\AppData\Local\Temp\bun-node-bf2e2cecf\bun.exe run dev exited (-1)
+
+ Tasks:    0 successful, 2 total
+Cached:    0 cached, 2 total
+  Time:    2m29.035s 
+Failed:    ppanel-user-web#dev
+
+ ERROR  run failed: command  exited (-1)
