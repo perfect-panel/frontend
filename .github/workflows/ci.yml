@@ -1,0 +1,66 @@
+name: CI
+
+# 运行时机:
+#   - PR 提交到 main / next / beta / develop 时验证
+#   - push 到这些分支时也跑(配合 release.yml 互补,release.yml 跑发布,这个跑校验)
+on:
+  pull_request:
+    branches: [main, next, beta, develop]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+  push:
+    branches: [main, next, beta, develop]
+    paths-ignore:
+      - 'docs/**'
+      - '**.md'
+
+# 同一 PR/branch 多次 push 时,取消旧 run,只跑最新那次
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+permissions:
+  contents: read
+
+jobs:
+  build:
+    name: Build & Type-check
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Bun
+        uses: oven-sh/setup-bun@v2
+        with:
+          bun-version: latest
+
+      - name: Cache Bun dependencies
+        uses: actions/cache@v4
+        with:
+          path: |
+            ~/.bun/install/cache
+            node_modules
+            apps/*/node_modules
+            packages/*/node_modules
+          key: ${{ runner.os }}-bun-${{ hashFiles('**/bun.lock') }}
+          restore-keys: |
+            ${{ runner.os }}-bun-
+
+      - name: Install dependencies
+        run: bun install --frozen-lockfile
+
+      - name: Build (turbo build — both admin + user apps)
+        run: bun run build
+
+      - name: Upload build artifacts
+        if: success()
+        uses: actions/upload-artifact@v4
+        with:
+          name: dist-${{ github.sha }}
+          path: |
+            apps/admin/dist
+            apps/user/dist
+          retention-days: 7
+          if-no-files-found: warn
