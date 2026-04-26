@@ -57,7 +57,7 @@ export function DatePicker({
           variant="outline"
         >
           {value ? (
-            intlFormat(value, undefined, { locale: "zh-CN" })
+            intlFormat(value, {}, { locale: "zh-CN" })
           ) : (
             <span>{placeholder}</span>
           )}

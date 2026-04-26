@@ -16,12 +16,10 @@
 
 import { loader } from "@monaco-editor/react";
 
-declare global {
-  // eslint-disable-next-line no-var
-  var MonacoEnvironment:
-    | { getWorker(workerId: string, label: string): Worker }
-    | undefined;
-}
+// 不再 declare global MonacoEnvironment — monaco-editor 已经在自己的 .d.ts
+// 里声明了,我们重复声明会导致 "Subsequent variable declarations must have
+// the same type" 类型冲突。下面 self.MonacoEnvironment 赋值时直接用 monaco
+// 自带的类型即可。
 
 let setupPromise: Promise<void> | null = null;
 
