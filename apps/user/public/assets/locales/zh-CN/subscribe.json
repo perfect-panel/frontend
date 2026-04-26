@@ -1,6 +1,9 @@
 {
+  "balance": "账户余额",
+  "balanceInsufficientHint": "账户余额不足，请先充值；充值支持第三方支付。",
   "balanceRecharge": "余额充值",
   "billing": {
+    "addonDevice": "加购设备 ({{n}} 台)",
     "billingTitle": "商品账单",
     "couponDiscount": "折扣码优惠",
     "duration": "套餐时长",
@@ -15,10 +18,11 @@
   "buyNow": "立即购买",
   "buySubscription": "购买订阅",
   "coupon": "优惠券",
+  "currentBalance": "当前",
   "Day": "天",
   "detail": {
     "availableTraffic": "可用流量",
-    "connectedDevices": "同时连接 IP 数",
+    "connectedDevices": "设备数",
     "connectionSpeed": "连接速度",
     "productDetail": "商品详情"
   },
@@ -60,5 +64,8 @@
     "unsubscribe": "取消订阅",
     "unsubscribeDescription": "请注意：如果您现在取消订阅，订阅的剩余价值将退还到您的账户余额中，可用于您下次的订阅购买或续订。"
   },
-  "Year": "年"
+  "Year": "年",
+  "deviceCount": "设备数",
+  "deviceCountLimit": "最多 {{max}} 台",
+  "deviceUnitPrice": "每台单价：{{price}}"
 }

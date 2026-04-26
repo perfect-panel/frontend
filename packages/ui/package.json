@@ -6,7 +6,8 @@
   "scripts": {
     "lint": "biome lint",
     "check": "biome check",
-    "openapi": "openapi2ts"
+    "openapi": "openapi2ts",
+    "icons:bundle": "node ./scripts/generate-icon-bundle.mjs"
   },
   "dependencies": {
     "@dnd-kit/core": "^6.3.1",
@@ -14,6 +15,13 @@
     "@dnd-kit/utilities": "^3.2.2",
     "@hookform/resolvers": "^5.2.2",
     "@iconify/react": "^6.0.2",
+    "@iconify-json/bi": "^1.2.3",
+    "@iconify-json/flat-color-icons": "^1.2.1",
+    "@iconify-json/lucide": "^1.2.3",
+    "@iconify-json/mdi": "^1.2.3",
+    "@iconify-json/simple-icons": "^1.2.3",
+    "@iconify-json/tabler": "^1.2.3",
+    "@iconify-json/uil": "^1.2.3",
     "@monaco-editor/react": "^4.7.0",
     "@radix-ui/react-accordion": "^1.2.12",
     "@radix-ui/react-alert-dialog": "^1.1.15",

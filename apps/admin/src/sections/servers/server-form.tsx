@@ -669,8 +669,8 @@ export default function ServerForm(props: {
                         <div className="flex w-full items-center justify-between">
                           <div className="flex flex-col items-start gap-1">
                             <div className="flex items-center gap-1">
-                              <span className="font-medium capitalize">
-                                {type}
+                              <span className="font-medium">
+                                {getLabel(type)}
                               </span>
                               {current.transport && (
                                 <Badge className="text-xs" variant="secondary">

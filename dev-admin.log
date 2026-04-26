@@ -1,0 +1,83 @@
+[2m08:00:46[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m Re-optimizing dependencies because lockfile has changed
+
+  [32m[1mVITE[22m v7.2.2[39m  [2mready in [0m[1m2162[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m3001[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.18.0.1:[1m3001[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.50.160:[1m3001[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.244.1:[1m3001[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://192.168.91.1:[1m3001[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[baseline-browser-mapping] The data in this module is over two months old.  To ensure accurate Baseline data, please update: `npm i baseline-browser-mapping@latest -D`
+[2m08:05:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:05:38[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:13:50[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:13:58[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:14:27[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-profile/basic-info-form.tsx[22m
+[2m08:14:34[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-profile/basic-info-form.tsx[22m
+[2m08:14:41[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-profile/basic-info-form.tsx[22m
+[2m08:14:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-profile/basic-info-form.tsx[22m
+[2m08:16:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:21:43[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:21:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:31:58[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:32:05[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:36:04[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-detail.tsx[22m
+[2m08:38:53[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-detail.tsx[22m
+[2m08:39:16[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-detail.tsx[22m
+[2m08:40:40[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-detail.tsx[22m
+[2m08:45:06[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-form.tsx[22m
+[2m08:45:14[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-form.tsx[22m
+[2m08:45:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/subscription-form.tsx[22m
+[2m08:45:42[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/composed/date-picker.tsx[22m
+[2m08:45:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/composed/date-picker.tsx[22m
+[2m08:45:53[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33mdate-fns/locale[32m[39m
+[2m08:45:53[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[2m08:45:58[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/composed/date-picker.tsx[22m
+[2m08:50:55[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/index.tsx[22m
+[2m08:51:09[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/index.tsx[22m
+[2m08:52:30[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/user-subscription/index.tsx[22m
+[2m08:52:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:52:59[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/user/index.tsx[22m
+[2m08:55:18[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:20[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:21[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/document/index.tsx[22m
+[2m08:55:22[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/document/index.tsx[22m
+[2m08:55:24[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:25[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:27[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:29[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:30[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:31[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:33[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:34[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:36[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:37[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:38[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:40[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:41[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:42[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css[22m
+[2m08:55:44[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/reset-subscribe/index.tsx[22m
+[2m08:55:45[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/reset-subscribe/index.tsx[22m
+[2m08:55:47[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/subscribe/index.tsx[22m
+[2m08:55:48[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/subscribe/index.tsx[22m
+[2m08:55:50[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/traffic-details/index.tsx[22m
+[2m08:55:51[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/log/traffic-details/index.tsx[22m
+[2m08:55:53[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/ticket/index.tsx[22m
+[2m08:55:54[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/ticket/index.tsx[22m
+[2m08:55:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/order/index.tsx[22m
+[2m08:55:57[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/order/index.tsx[22m
+[2m08:55:59[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/marketing/email/task-manager.tsx[22m
+[2m08:56:00[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/marketing/email/task-manager.tsx[22m
+[2m08:56:02[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/marketing/quota/task-manager.tsx[22m
+[2m08:56:04[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/marketing/quota/task-manager.tsx[22m
+[2m09:02:24[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/audit/index.tsx[22m
+[2m09:02:49[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/audit/index.tsx[22m
+[2m09:05:44[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/audit/index.tsx[22m
+[2m09:12:56[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/servers/server-form.tsx, /src/sections/servers/server-config.tsx[22m
+[2m09:13:05[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/servers/server-form.tsx[22m
+[2m09:13:08[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/servers/server-config.tsx[22m
+[2m09:13:28[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/servers/index.tsx[22m
+[2m09:13:36[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/@fs/D:/ppanel/ppanel-all/ppanel-frontend/packages/ui/src/styles/globals.css, /src/sections/servers/index.tsx[22m
+[2m09:20:33[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mpage reload [39m[2msrc/config/index.ts[22m
+[2m09:20:49[22m [36m[1m[vite][22m[39m [32m.env changed, restarting server...[39m

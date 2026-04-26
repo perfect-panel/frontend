@@ -544,6 +544,9 @@ declare namespace API {
     coupon: string;
     coupon_discount: number;
     fee_amount: number;
+    /** V4.3:加购设备的续费费用(已含在 price/amount 里,前端用于账单 breakdown) */
+    addon_device_amount?: number;
+    addon_device_count?: number;
   };
 
   type PrePurchaseOrderRequest = {
@@ -665,6 +668,8 @@ declare namespace API {
     quantity: number;
     payment?: number;
     coupon?: string;
+    /** V4.3:续费预览时传当前订阅 id,后端会把已有加购设备的续费费用一起算上 */
+    user_subscribe_id?: number;
   };
 
   type PurchaseOrderResponse = {
@@ -997,6 +1002,12 @@ declare namespace API {
     pan_domain: boolean;
     user_agent_limit: boolean;
     user_agent_list: string;
+    /**
+     * V4.3:订阅自动更新间隔(小时)。0 = 不下发更新指令。
+     * 后端按 UA 智能切:Clash/Hiddify 走 Profile-Update-Interval header;
+     * Surge/Stash 走 #!MANAGED-CONFIG 注入;其它客户端不支持。
+     */
+    update_interval_hours?: number;
   };
 
   type SubscribeDiscount = {

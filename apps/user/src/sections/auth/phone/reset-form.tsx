@@ -88,7 +88,7 @@ export default function ResetForm({
                                   );
                                 }
                               }}
-                              placeholder="Area code..."
+                              placeholder={t("placeholder.areaCode", "区号")}
                               simple
                               value={field.value}
                             />
@@ -99,7 +99,7 @@ export default function ResetForm({
                     />
                     <Input
                       className="rounded-l-none"
-                      placeholder="Enter your telephone..."
+                      placeholder={t("placeholder.phone", "请输入手机号")}
                       type="tel"
                       {...field}
                     />
@@ -117,7 +117,7 @@ export default function ResetForm({
                 <FormControl>
                   <div className="flex items-center gap-2">
                     <Input
-                      placeholder="Enter code..."
+                      placeholder={t("placeholder.code", "请输入验证码")}
                       type="text"
                       {...field}
                       value={field.value as string}
@@ -143,7 +143,7 @@ export default function ResetForm({
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Enter your new password..."
+                    placeholder={t("placeholder.newPassword", "请输入新密码")}
                     type="password"
                     {...field}
                   />

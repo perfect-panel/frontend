@@ -44,6 +44,12 @@ initializeI18n({
 
 window.logout = Logout;
 
+// V4.3 玻璃感(Glassmorphism)— 用 data-app="user" 标记 body,
+// 让 globals.css 里的玻璃样式只作用于用户端,admin 端保持纯净(它是工具,不是产品页)。
+if (typeof document !== "undefined") {
+  document.body.dataset.app = "user";
+}
+
 // Create a new router instance
 const TanStackQueryProviderContext = TanStackQueryContext();
 const hashHistory = createHashHistory();

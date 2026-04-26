@@ -2,11 +2,13 @@
   "name": "docs",
   "private": true,
   "scripts": {
-    "docs:dev": "vitepress dev",
-    "docs:build": "vitepress build",
+    "scalar:vendor": "node ./scripts/vendor-scalar.mjs",
+    "docs:dev": "npm run scalar:vendor && vitepress dev",
+    "docs:build": "npm run scalar:vendor && vitepress build",
     "docs:preview": "vitepress preview"
   },
   "dependencies": {
+    "@scalar/api-reference": "^1.34.6",
     "vitepress": "^1.6.4",
     "vitepress-theme-teek": "^1.2.1",
     "vitepress-plugin-sidebar-resolve": "^1.2.1",

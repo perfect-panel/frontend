@@ -44,6 +44,8 @@ const formSchema = z.object({
   expired_at: z.number().nullish().optional(),
   upload: z.number().optional(),
   download: z.number().optional(),
+  device_count: z.number().optional(),
+  traffic_addon: z.number().optional(),
   id: z.number().optional(),
 });
 
@@ -65,6 +67,8 @@ export function SubscriptionForm({
       upload: initialData?.upload || 0,
       download: initialData?.download || 0,
       expired_at: initialData?.expire_time || 0,
+      device_count: (initialData as any)?.device_count || 0,
+      traffic_addon: (initialData as any)?.traffic_addon || 0,
       ...(initialData && { id: initialData.id }),
     },
   });
@@ -117,7 +121,7 @@ export function SubscriptionForm({
                             value: item.id!,
                             label: item.name!,
                           }))}
-                          placeholder="Select Subscription"
+                          placeholder={t("selectSubscription", "选择订阅")}
                           value={field.value}
                         />
                       </FormControl>
@@ -214,10 +218,61 @@ export function SubscriptionForm({
                 />
                 <FormField
                   control={form.control}
+                  name="device_count"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>
+                        {t("device.column.count", "设备数")}
+                      </FormLabel>
+                      <FormControl>
+                        <EnhancedInput
+                          placeholder="0"
+                          step={1}
+                          suffix="台"
+                          type="number"
+                          {...field}
+                          onValueChange={(value) => {
+                            form.setValue(field.name, value as number);
+                          }}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
+                  name="traffic_addon"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>{t("trafficAddon", "加购流量包")}</FormLabel>
+                      <FormControl>
+                        <EnhancedInput
+                          placeholder="0"
+                          type="number"
+                          {...field}
+                          formatInput={(value) =>
+                            unitConversion("bytesToGb", value)
+                          }
+                          formatOutput={(value) =>
+                            unitConversion("gbToBytes", value)
+                          }
+                          onValueChange={(value) => {
+                            form.setValue(field.name, value as number);
+                          }}
+                          suffix="GB"
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+                <FormField
+                  control={form.control}
                   name="expired_at"
                   render={({ field }) => (
                     <FormItem>
-                      <FormLabel>{t("expiredAt", "Expired At")}</FormLabel>
+                      <FormLabel>{t("expiredAt", "到期时间")}</FormLabel>
                       <FormControl>
                         <DatePicker
                           onChange={(value: number | null | undefined) => {

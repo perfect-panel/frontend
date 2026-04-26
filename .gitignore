@@ -34,3 +34,6 @@ npm-debug.log*
 # Misc
 .DS_Store
 *.pem
+
+# Auto-generated icon bundle (regenerated on every dev/build)
+packages/ui/src/composed/icons-bundle.json

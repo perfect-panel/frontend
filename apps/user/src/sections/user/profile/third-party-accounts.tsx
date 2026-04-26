@@ -110,7 +110,7 @@ function MobileBindDialog({
                                     form.setValue(field.name, value.phone);
                                   }
                                 }}
-                                placeholder="Area code..."
+                                placeholder={t("placeholder.areaCode", "区号")}
                                 simple
                                 value={field.value}
                                 whitelist={enable_whitelist ? whitelist : []}
@@ -122,7 +122,7 @@ function MobileBindDialog({
                       />
                       <Input
                         className="rounded-l-none"
-                        placeholder="Enter your telephone..."
+                        placeholder={t("placeholder.phone", "请输入手机号")}
                         type="tel"
                         {...field}
                       />
@@ -141,7 +141,7 @@ function MobileBindDialog({
                   <FormControl>
                     <div className="flex gap-2">
                       <Input
-                        placeholder="Enter code..."
+                        placeholder={t("placeholder.code", "请输入验证码")}
                         type="text"
                         {...field}
                       />

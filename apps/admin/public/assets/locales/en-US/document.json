@@ -24,5 +24,7 @@
   "tags": "Tags",
   "title": "Title",
   "updatedAt": "Updated At",
-  "updateSuccess": "Updated successfully"
+  "updateSuccess": "Updated successfully",
+  "tabDocuments": "Documents",
+  "tabSiteContent": "Site Content (Terms / Tutorials)"
 }

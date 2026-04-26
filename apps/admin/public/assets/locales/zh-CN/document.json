@@ -24,5 +24,7 @@
   "tags": "标签",
   "title": "标题",
   "updatedAt": "更新时间",
-  "updateSuccess": "更新成功"
+  "updateSuccess": "更新成功",
+  "tabDocuments": "文档",
+  "tabSiteContent": "站内内容（用户协议 / 客户端教程）"
 }

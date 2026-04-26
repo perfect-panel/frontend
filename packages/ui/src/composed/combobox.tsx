@@ -17,6 +17,7 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import { BoxIcon, CheckIcon, ChevronsUpDownIcon } from "lucide-react";
 import * as React from "react";
+import { useTranslation } from "react-i18next";
 
 export type Option<T = string> = {
   value: T;
@@ -39,11 +40,13 @@ type ComboboxProps<T = string, M extends boolean = false> = {
 export function Combobox<T, M extends boolean = false>({
   multiple = false as M,
   options = [],
-  placeholder = "Select...",
+  placeholder,
   value,
   onChange,
   className,
 }: ComboboxProps<T, M>) {
+  const { t } = useTranslation("components");
+  const resolvedPlaceholder = placeholder ?? t("combobox.select", "Select...");
   const [open, setOpen] = React.useState(false);
 
   const handleSelect = (selectedValue: T) => {
@@ -77,10 +80,10 @@ export function Combobox<T, M extends boolean = false>({
 
       return selectedOption
         ? selectedOption.children || selectedOption.label
-        : placeholder;
+        : resolvedPlaceholder;
     }
 
-    return placeholder;
+    return resolvedPlaceholder;
   };
 
   return (
@@ -98,7 +101,10 @@ export function Combobox<T, M extends boolean = false>({
       </PopoverTrigger>
       <PopoverContent align="start" className="w-fit p-0">
         <Command>
-          <CommandInput className="h-9" placeholder="Search..." />
+          <CommandInput
+            className="h-9"
+            placeholder={t("combobox.search", "Search...")}
+          />
           <CommandEmpty>
             <BoxIcon className="inline-block text-slate-500" />
           </CommandEmpty>

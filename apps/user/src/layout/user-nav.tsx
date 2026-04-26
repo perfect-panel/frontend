@@ -35,7 +35,8 @@ export function UserNav() {
     return (
       <DropdownMenu modal={false}>
         <DropdownMenuTrigger asChild>
-          <div className="flex cursor-pointer items-center gap-2 rounded-full border bg-background px-2 py-1.5 transition-colors duration-200 hover:bg-accent">
+          {/* V4.3 自适应:移动端只显示头像 + 下拉箭头(用户名隐藏),中屏以上展开 */}
+          <div className="flex cursor-pointer items-center gap-1.5 rounded-full border bg-background px-1.5 py-1 transition-colors duration-200 hover:bg-accent sm:gap-2 sm:px-2 sm:py-1.5">
             <Avatar className="h-6 w-6">
               <AvatarImage
                 alt={user?.avatar ?? ""}
@@ -48,7 +49,7 @@ export function UserNav() {
                   .charAt(0)}
               </AvatarFallback>
             </Avatar>
-            <span className="max-w-10 truncate text-sm sm:max-w-[100px]">
+            <span className="hidden max-w-[100px] truncate text-sm sm:inline">
               {user?.auth_methods?.[0]?.auth_identifier.split("@")[0]}
             </span>
             <Icon

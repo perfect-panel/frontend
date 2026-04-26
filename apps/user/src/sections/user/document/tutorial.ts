@@ -1,24 +1,13 @@
 import yaml from "js-yaml";
 import { CDN_URL } from "@/config";
 
-const BASE_URL = `${CDN_URL}/gh/perfect-panel/ppanel-tutorial`;
-
-// async function getVersion() {
-//   // API rate limit: 60 requests per hour
-//   const response = await fetch(
-//     'https://data.jsdelivr.com/v1/stats/packages/gh/perfect-panel/ppanel-tutorial/versions',
-//   );
-//   const json = await response.json();
-//   return json[0].version;
-// }
+// Tutorial content lives in perfect-panel/ppanel-tutorial. To enable, set
+// VITE_CDN_URL to a jsDelivr-compatible mirror (e.g. https://cdn.jsdmirror.com)
+// or your own self-hosted base. When VITE_CDN_URL is empty, all tutorial
+// fetches return empty results and no network call is made.
+const BASE_URL = CDN_URL ? `${CDN_URL}/gh/perfect-panel/ppanel-tutorial` : "";
 
 async function getVersionPath() {
-  // return getVersion()
-  //   .then((version) => `${BASE_URL}@${version}`)
-  //   .catch((error) => {
-  //     console.warn('Error fetching the version:', error);
-  //     return `${BASE_URL}@latest`;
-  //   });
   return `${BASE_URL}@latest`;
 }
 
@@ -26,6 +15,9 @@ export async function getTutorial(path: string): Promise<{
   config?: Record<string, unknown>;
   content: string;
 }> {
+  if (!BASE_URL) {
+    return { config: {}, content: "" };
+  }
   const versionPath = await getVersionPath();
   try {
     const url = `${versionPath}/${path}`;
@@ -75,6 +67,9 @@ const processIcon = (item: TutorialItem) => {
 };
 
 export async function getTutorialList() {
+  if (!BASE_URL) {
+    return new Map<string, TutorialItem[]>();
+  }
   const { config, content } = await getTutorial("SUMMARY.md");
   const navigation = config as Record<string, TutorialItem[]> | undefined;
 

@@ -52,10 +52,33 @@
     "90015": "This account has reached the limit of sending times today, please try again tomorrow.",
     "unknown": "An error occurred in the system, please try again later."
   },
+  "combobox": {
+    "search": "Search...",
+    "select": "Select..."
+  },
+  "editor": {
+    "markdownDescription": "Support markdown and html syntax",
+    "markdownTitle": "Markdown Editor",
+    "startTyping": "Start typing...",
+    "title": "Editor",
+    "goTemplateDescriptionSprig": "Go text/template syntax with Sprig functions",
+    "goTemplateDescription": "Go text/template syntax",
+    "goTemplateTitle": "Go Template Editor",
+    "goTemplatePlaceholder": "Enter your Go template here...",
+    "htmlDescription": "Support HTML",
+    "htmlTitle": "HTML Editor",
+    "htmlPreviewTitle": "HTML Preview",
+    "jsonTitle": "Edit JSON"
+  },
   "language": "Language",
   "pagination": {
     "pageInfo": "Page {{page}} of {{total}}",
-    "rowsPerPage": "Rows per page"
+    "rowsPerPage": "Rows per page",
+    "firstPage": "Go to first page",
+    "previousPage": "Go to previous page",
+    "selectPage": "Select page number",
+    "nextPage": "Go to next page",
+    "lastPage": "Go to last page"
   },
   "theme": {
     "dark": "Dark",
@@ -63,5 +86,16 @@
     "system": "System",
     "toggle": "Toggle theme"
   },
-  "unlimited": "Unlimited"
+  "timezone": {
+    "all": "All",
+    "current": "Current",
+    "recommended": "Recommended",
+    "search": "Search timezone...",
+    "server": "Server"
+  },
+  "unlimited": "Unlimited",
+  "areaCode": {
+    "select": "Select Area Code",
+    "search": "Search area code..."
+  }
 }

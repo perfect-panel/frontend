@@ -17,5 +17,6 @@
   "updateSuccess": "Update completed successfully",
   "updateWebDescription": "Are you sure you want to update the web version from {{current}} to {{latest}}?",
   "userUpdateSuccess": "User updated successfully",
-  "webVersion": "Web Version"
+  "webVersion": "Web Version",
+  "updateDescription": "Are you sure you want to update?"
 }

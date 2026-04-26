@@ -1,5 +1,11 @@
 import { Button } from "@workspace/ui/components/button";
 import { Switch } from "@workspace/ui/components/switch";
+import {
+  Tabs,
+  TabsContent,
+  TabsList,
+  TabsTrigger,
+} from "@workspace/ui/components/tabs";
 import { ConfirmButton } from "@workspace/ui/composed/confirm-button";
 import {
   ProTable,
@@ -15,14 +21,15 @@ import {
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
-import { formatDate } from "@/utils/common";
+import { DateCell } from "@/components/date-cell";
+import SiteContent from "@/sections/site-content";
 import DocumentForm from "./document-form";
 
-export default function Page() {
+function CustomDocumentList() {
   const { t } = useTranslation("document");
   const [loading, setLoading] = useState(false);
-
   const ref = useRef<ProTableActions>(null);
+
   return (
     <ProTable<API.Document, { tag: string; search: string }>
       action={ref}
@@ -128,7 +135,9 @@ export default function Page() {
         {
           accessorKey: "updated_at",
           header: t("updatedAt", "Updated At"),
-          cell: ({ row }) => formatDate(row.getValue("updated_at")),
+          cell: ({ row }) => (
+            <DateCell ts={row.getValue("updated_at") as number} />
+          ),
         },
       ]}
       header={{
@@ -175,5 +184,27 @@ export default function Page() {
         };
       }}
     />
+  );
+}
+
+export default function Page() {
+  const { t } = useTranslation("document");
+  return (
+    <Tabs defaultValue="documents">
+      <TabsList className="mb-4">
+        <TabsTrigger value="documents">
+          {t("tabDocuments", "Documents")}
+        </TabsTrigger>
+        <TabsTrigger value="site-content">
+          {t("tabSiteContent", "Site Content (Terms / Tutorials)")}
+        </TabsTrigger>
+      </TabsList>
+      <TabsContent value="documents">
+        <CustomDocumentList />
+      </TabsContent>
+      <TabsContent value="site-content">
+        <SiteContent />
+      </TabsContent>
+    </Tabs>
   );
 }

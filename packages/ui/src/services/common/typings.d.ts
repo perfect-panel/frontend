@@ -880,6 +880,8 @@ declare namespace API {
     scheme?: string;
     is_default: boolean;
     download_link?: DownloadLink;
+    /** V4.3 决策 25:site_content key for multi-lang tutorial (empty = none). */
+    tutorial_key?: string;
   };
 
   type SubscribeConfig = {

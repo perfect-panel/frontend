@@ -11,6 +11,7 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { useTranslation } from "react-i18next";
+import { CDN_URL } from "@/config";
 
 interface BillingProps {
   type: "dashboard" | "payment";
@@ -24,30 +25,34 @@ interface ItemType {
   href: string;
 }
 
-async function getBillingURL() {
+// Sponsor card data lives in perfect-panel/ppanel-assets. To enable, set
+// VITE_CDN_URL to a mirror of jsDelivr (e.g. https://cdn.jsdmirror.com or
+// your own CDN). When VITE_CDN_URL is empty the card is hidden and no
+// network call is made.
+async function getBillingURL(cdnBase: string) {
+  const fallback = `${cdnBase}/gh/perfect-panel/ppanel-assets/billing/index.json`;
   try {
     const response = await fetch(
       "https://api.github.com/repos/perfect-panel/ppanel-assets/commits"
     );
     const json = await response.json();
     const version = json[0]?.sha || "latest";
-    const url = new URL(
-      "https://cdn.jsdmirror.com/gh/perfect-panel/ppanel-assets"
-    );
+    const url = new URL(`${cdnBase}/gh/perfect-panel/ppanel-assets`);
     url.pathname += `@${version}/billing/index.json`;
     return url.toString();
   } catch (_error) {
-    return "https://cdn.jsdmirror.com/gh/perfect-panel/ppanel-assets/billing/index.json";
+    return fallback;
   }
 }
 
 export default function Billing({ type }: BillingProps) {
   const { t } = useTranslation("dashboard");
+  const cdnEnabled = Boolean(CDN_URL);
 
   const { data: list } = useQuery({
-    queryKey: ["billing", type],
+    queryKey: ["billing", type, CDN_URL],
     queryFn: async () => {
-      const url = await getBillingURL();
+      const url = await getBillingURL(CDN_URL);
       const response = await fetch(url, {
         headers: {
           Accept: "application/json",
@@ -64,6 +69,7 @@ export default function Billing({ type }: BillingProps) {
         : [];
     },
     initialData: [],
+    enabled: cdnEnabled,
   });
 
   if (!list?.length) return null;

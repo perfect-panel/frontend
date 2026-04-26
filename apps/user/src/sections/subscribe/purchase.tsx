@@ -15,9 +15,9 @@ import { preCreateOrder, purchase } from "@workspace/ui/services/user/order";
 import { LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
+import { BalancePayment } from "@/sections/subscribe/balance-payment";
 import CouponInput from "@/sections/subscribe/coupon-input";
 import DurationSelector from "@/sections/subscribe/duration-selector";
-import PaymentMethods from "@/sections/subscribe/payment-methods";
 import { useGlobalStore } from "@/stores/global";
 import { SubscribeBilling } from "./billing";
 import { SubscribeDetail } from "./detail";
@@ -34,6 +34,7 @@ export default function Purchase({
   const { t } = useTranslation("subscribe");
   const { getUserInfo } = useGlobalStore();
   const router = useRouter();
+  // device_count 已不在表单里 — 后端按 plan.device_limit 自动建槽。
   const [params, setParams] = useState<Partial<API.PurchaseOrderRequest>>({
     quantity: 1,
     subscribe_id: 0,
@@ -153,15 +154,16 @@ export default function Purchase({
                 showOriginalPrice={subscribe?.show_original_price}
                 unitTime={subscribe?.unit_time}
               />
+              {/* 设备数选择器已移除 — 购买套餐固定按 plan.device_limit 建槽,
+                  用户可在仪表盘的「加购设备」按钮里按需扩容。 */}
               <CouponInput
                 coupon={params.coupon}
                 onChange={(value) => handleChange("coupon", value)}
               />
-              <PaymentMethods
-                onChange={(value) => {
-                  handleChange("payment", value);
-                }}
-                value={params.payment as number}
+              {/* 业务约定:购买只走账户余额,余额不足由弹窗内引导充值。 */}
+              <BalancePayment
+                amount={order?.amount}
+                onChange={(value) => handleChange("payment", value)}
               />
             </div>
             <Button

@@ -1,0 +1,4 @@
+# Vendored at build time by docs/scripts/vendor-scalar.mjs from
+# node_modules/@scalar/api-reference. Do not commit.
+*
+!.gitignore

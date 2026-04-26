@@ -73,7 +73,7 @@ export default function ResetForm({
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Enter your email..."
+                    placeholder={t("placeholder.email", "请输入邮箱地址")}
                     type="email"
                     {...field}
                   />
@@ -91,7 +91,7 @@ export default function ResetForm({
                   <div className="flex items-center gap-2">
                     <Input
                       disabled={loading}
-                      placeholder="Enter code..."
+                      placeholder={t("placeholder.code", "请输入验证码")}
                       type="text"
                       {...field}
                       value={field.value as string}
@@ -116,7 +116,7 @@ export default function ResetForm({
               <FormItem>
                 <FormControl>
                   <Input
-                    placeholder="Enter your new password..."
+                    placeholder={t("placeholder.newPassword", "请输入新密码")}
                     type="password"
                     {...field}
                   />

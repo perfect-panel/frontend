@@ -57,27 +57,50 @@
     "privacyPolicy": "隐私政策",
     "tos": "服务条款"
   },
+  "combobox": {
+    "search": "搜索...",
+    "select": "请选择..."
+  },
+  "editor": {
+    "markdownDescription": "支持 Markdown 和 HTML 语法",
+    "markdownTitle": "Markdown 编辑器",
+    "startTyping": "开始输入...",
+    "title": "编辑器",
+    "goTemplateDescriptionSprig": "Go text/template 语法（带 Sprig 函数）",
+    "goTemplateDescription": "Go text/template 语法",
+    "goTemplateTitle": "Go 模板编辑器",
+    "goTemplatePlaceholder": "在此输入 Go 模板...",
+    "htmlDescription": "支持 HTML",
+    "htmlTitle": "HTML 编辑器",
+    "htmlPreviewTitle": "HTML 预览",
+    "jsonTitle": "编辑 JSON"
+  },
   "language": "语言",
   "loginRegister": "登录 / 注册",
   "menu": {
-    "affiliate": "推广佣金",
-    "announcement": "公告管理",
-    "dashboard": "仪表盘",
-    "document": "文档管理",
-    "finance": "财务管理",
-    "help": "用户支持",
+    "affiliate": "邀请返利",
+    "announcement": "平台公告",
+    "dashboard": "首页",
+    "document": "使用文档",
+    "finance": "账单与钱包",
+    "help": "帮助中心",
     "logout": "退出登录",
-    "order": "订单管理",
-    "personal": "个人中心",
-    "profile": "用户详情",
-    "server": "服务器管理",
-    "subscribe": "订阅管理",
-    "ticket": "工单管理",
-    "wallet": "余额管理"
+    "order": "订单记录",
+    "personal": "账号",
+    "profile": "个人资料",
+    "server": "我的服务",
+    "subscribe": "订阅与设备",
+    "ticket": "客服工单",
+    "wallet": "账户余额"
   },
   "pagination": {
     "pageInfo": "第 {{page}} 页，共 {{total}} 页",
-    "rowsPerPage": "每页行数"
+    "rowsPerPage": "每页行数",
+    "firstPage": "跳到首页",
+    "previousPage": "上一页",
+    "selectPage": "选择页码",
+    "nextPage": "下一页",
+    "lastPage": "跳到末页"
   },
   "theme": {
     "dark": "深色",
@@ -85,5 +108,9 @@
     "system": "系统",
     "toggle": "切换主题"
   },
-  "unlimited": "无限制"
+  "unlimited": "无限制",
+  "areaCode": {
+    "select": "选择区号",
+    "search": "搜索区号..."
+  }
 }

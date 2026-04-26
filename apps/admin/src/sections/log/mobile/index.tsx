@@ -5,7 +5,7 @@ import { Badge } from "@workspace/ui/components/badge";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { filterMobileLog } from "@workspace/ui/services/admin/log";
 import { useTranslation } from "react-i18next";
-import { formatDate } from "@/utils/common";
+import { DateCell } from "@/components/date-cell";
 
 export default function MobileLogPage() {
   const { t } = useTranslation("log");
@@ -67,7 +67,7 @@ export default function MobileLogPage() {
         {
           accessorKey: "created_at",
           header: t("column.time", "Time"),
-          cell: ({ row }) => formatDate(row.original.created_at),
+          cell: ({ row }) => <DateCell ts={row.original.created_at} />,
         },
       ]}
       header={{ title: t("title.mobile", "SMS Log") }}

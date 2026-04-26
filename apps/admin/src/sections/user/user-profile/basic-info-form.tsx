@@ -17,6 +17,7 @@ import {
 import { Input } from "@workspace/ui/components/input";
 import { Switch } from "@workspace/ui/components/switch";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
+import { TagInput } from "@workspace/ui/composed/tag-input";
 import { UploadImage } from "@workspace/ui/composed/upload-image";
 import { updateUserBasicInfo } from "@workspace/ui/services/admin/user";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
@@ -38,6 +39,7 @@ const basicInfoSchema = z.object({
   is_admin: z.boolean().optional(),
   password: z.string().optional(),
   enable: z.boolean(),
+  tags: z.array(z.string()).optional(),
 });
 
 type BasicInfoValues = z.infer<typeof basicInfoSchema>;
@@ -67,6 +69,7 @@ export function BasicInfoForm({
       only_first_purchase: user.only_first_purchase,
       is_admin: user.is_admin,
       enable: user.enable,
+      tags: (user as any).tags || [],
     },
   });
 
@@ -250,6 +253,23 @@ export function BasicInfoForm({
               />
             </div>
 
+            <FormField
+              control={form.control}
+              name="tags"
+              render={({ field }) => (
+                <FormItem>
+                  <FormLabel>{t("tags", "标签")}</FormLabel>
+                  <FormControl>
+                    <TagInput
+                      onChange={(v) => form.setValue(field.name, v)}
+                      placeholder={t("tagsPlaceholder", "输入标签后按回车")}
+                      value={field.value || []}
+                    />
+                  </FormControl>
+                  <FormMessage />
+                </FormItem>
+              )}
+            />
             <FormField
               control={form.control}
               name="referral_percentage"

@@ -18,9 +18,9 @@ import {
 } from "@workspace/ui/services/admin/order";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
+import { DateCell } from "@/components/date-cell";
 import { Display } from "@/components/display";
 import { useSubscribe } from "@/stores/subscribe";
-import { formatDate } from "@/utils/common";
 import { UserDetail } from "../user/user-detail";
 
 export default function Order() {
@@ -193,7 +193,7 @@ export default function Order() {
           header: t("updateTime", "Update Time"),
           cell: ({ row }) => {
             const order = row.original as API.Order;
-            return formatDate(order.updated_at);
+            return <DateCell ts={order.updated_at} />;
           },
         },
         {

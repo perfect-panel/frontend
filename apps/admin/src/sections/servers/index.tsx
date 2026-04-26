@@ -20,7 +20,9 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { useNode } from "@/stores/node";
 import { useServer } from "@/stores/server";
+import DirectListEditor from "./direct-list";
 import DynamicMultiplier from "./dynamic-multiplier";
+import { getLabel } from "./form-schema";
 import OnlineUsersCell from "./online-users-cell";
 import ServerConfig from "./server-config";
 import ServerForm from "./server-form";
@@ -125,6 +127,7 @@ export default function Servers() {
               trigger={t("edit", "Edit")}
             />,
             <ServerInstall key="install" server={row} />,
+            <DirectListEditor key="direct-list" serverId={row.id} />,
             <ConfirmButton
               cancelText={t("cancel", "Cancel")}
               confirmText={t("confirm", "Confirm")}
@@ -244,7 +247,7 @@ export default function Servers() {
                     return (
                       <div className="flex items-center gap-2" key={idx}>
                         <Badge variant="outline">{ratio.toFixed(2)}x</Badge>
-                        <Badge variant="secondary">{p.type}</Badge>
+                        <Badge variant="secondary">{getLabel(p.type)}</Badge>
                         <Badge variant="secondary">{p.port}</Badge>
                       </div>
                     );

@@ -16,7 +16,9 @@
     "save": "保存",
     "saveFailed": "保存失败",
     "update": "更新",
-    "updateSuccess": "更新成功"
+    "updateSuccess": "更新成功",
+    "batchDeleteSuccess": "Successfully deleted {count} clients",
+    "batchDeleteWarning": "Are you sure you want to delete the selected {count} clients?"
   },
   "config": {
     "description": "管理订阅系统设置",
@@ -37,7 +39,9 @@
     "userAgentListDescription": "允许访问订阅的 {{userAgent}}，每行一个。已配置的应用程序 {{userAgent}} 将自动包含",
     "userAgentListPlaceholder": "输入允许的 {{userAgent}}，每行一个",
     "wildcardResolution": "泛域名解析",
-    "wildcardResolutionDescription": "为订阅启用泛域名解析"
+    "wildcardResolutionDescription": "为订阅启用泛域名解析",
+    "updateInterval": "订阅自动更新间隔(小时)",
+    "updateIntervalDescription": "导入后客户端按此周期自动更新订阅。0 = 关闭。智能识别客户端:Clash 家族 / Hiddify / Mihomo Party 走 Profile-Update-Interval header;Surge / Stash 走 #!MANAGED-CONFIG 注入;v2rayN / Shadowrocket / QuanX / Loon 不支持,需用户手动设置。"
   },
   "form": {
     "addTitle": "添加客户端",
@@ -83,7 +87,12 @@
     "tabs": {
       "basic": "基本信息",
       "download": "下载",
-      "template": "模板"
+      "template": "模板",
+      "tutorial": "Tutorial"
+    },
+    "validation": {
+      "nameRequired": "Client name is required",
+      "userAgentRequiredSuffix": "is required"
     }
   },
   "outputFormats": {
@@ -102,7 +111,8 @@
       "description": "描述",
       "name": "客户端名称",
       "outputFormat": "输出格式",
-      "supportedPlatforms": "支持的平台"
+      "supportedPlatforms": "支持的平台",
+      "enabled": "Enabled"
     }
   },
   "templatePreview": {
@@ -115,5 +125,20 @@
     "loading": "加载中...",
     "preview": "预览",
     "title": "模板预览"
+  },
+  "tutorial": {
+    "keyRequired": "Please set a tutorial key first",
+    "saved": "Tutorial saved",
+    "keyLabel": "Tutorial Key",
+    "keyDescription": "site_content row key. Same key shared across languages — switch the language at the top-right to edit a different translation.",
+    "titleLabel": "Title",
+    "titlePlaceholder": "e.g. 导入教程",
+    "bodyLabel": "Content",
+    "bodyPlaceholder": "Markdown / HTML content. Variables: {{.SubscribeUrl}}, {{.AppScheme}}, {{.AppName}}, {{.SiteName}}",
+    "variableHint": "Template variables auto-replaced when shown to users: {{.SubscribeUrl}} / {{.AppScheme}} / {{.AppName}} / {{.SiteName}}",
+    "loading": "Loading…",
+    "editingLang": "Editing: {{lang}}",
+    "saving": "Saving…",
+    "save": "Save Tutorial"
   }
 }

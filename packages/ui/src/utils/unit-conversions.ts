@@ -1,4 +1,5 @@
-import { evaluate, format } from "mathjs";
+// Unit conversion helpers — replaced mathjs (1.5 MB) with native JS arithmetic.
+// All operations were simple multiply/divide; mathjs was massive overkill.
 
 type ConversionType =
   | "centsToDollars"
@@ -10,31 +11,41 @@ type ConversionType =
 
 const conversionConfig: Record<
   ConversionType,
-  { formula: string; precision: number }
+  { fn: (v: number) => number; precision: number }
 > = {
-  centsToDollars: { formula: "value / 100", precision: 2 },
-  dollarsToCents: { formula: "value * 100", precision: 0 },
-  bitsToMb: { formula: "value / 1024 / 1024", precision: 2 },
-  mbToBits: { formula: "value * 1024 * 1024", precision: 0 },
-  bytesToGb: { formula: "value / 1024 / 1024 / 1024", precision: 2 },
-  gbToBytes: { formula: "value * 1024 * 1024 * 1024", precision: 0 },
+  centsToDollars: { fn: (v) => v / 100, precision: 2 },
+  dollarsToCents: { fn: (v) => v * 100, precision: 0 },
+  bitsToMb: { fn: (v) => v / 1024 / 1024, precision: 2 },
+  mbToBits: { fn: (v) => v * 1024 * 1024, precision: 0 },
+  bytesToGb: { fn: (v) => v / 1024 / 1024 / 1024, precision: 2 },
+  gbToBytes: { fn: (v) => v * 1024 * 1024 * 1024, precision: 0 },
 };
 
 export function unitConversion(type: ConversionType, value?: number | string) {
   if (!value) return 0;
-
-  const config = conversionConfig[type];
-  if (!config) throw new Error("Invalid conversion type");
-
-  const formula = config.formula.replace("value", `${value}`);
-  const result = evaluate(formula);
-  return Number(
-    format(result, { notation: "fixed", precision: config.precision })
-  );
+  const cfg = conversionConfig[type];
+  if (!cfg) throw new Error(`Invalid conversion type: ${type}`);
+  const n = typeof value === "number" ? value : Number(value);
+  if (!Number.isFinite(n)) return 0;
+  return Number(cfg.fn(n).toFixed(cfg.precision));
 }
 
-export function evaluateWithPrecision(expression: string) {
-  const result = evaluate(expression);
-  const formatted = format(result, { notation: "fixed", precision: 2 });
-  return Number(formatted);
+// Tiny safe evaluator for arithmetic-only expressions. Strict whitelist:
+// digits, decimal point, scientific notation, whitespace, parentheses, and
+// + - * /. Anything else throws — defends against accidental string
+// injection. Keeps the API of the old mathjs-backed function.
+const ARITHMETIC_RE = /^[\s\d.+\-*/()eE]+$/;
+
+export function evaluateWithPrecision(expression: string, precision = 2) {
+  if (typeof expression !== "string") return 0;
+  if (!ARITHMETIC_RE.test(expression)) {
+    throw new Error(`evaluateWithPrecision: unsafe expression: ${expression}`);
+  }
+  // eslint-disable-next-line no-new-func
+  const fn = new Function(
+    `"use strict"; return (${expression});`
+  ) as () => number;
+  const result = fn();
+  if (!Number.isFinite(result)) return 0;
+  return Number(result.toFixed(precision));
 }

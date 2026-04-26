@@ -26,6 +26,7 @@ import {
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
+import { DateCell } from "@/components/date-cell";
 import { formatDate } from "@/utils/common";
 import { UserDetail } from "../user/user-detail";
 
@@ -145,7 +146,9 @@ export default function Page() {
           {
             accessorKey: "updated_at",
             header: t("updatedAt", "Updated At"),
-            cell: ({ row }) => formatDate(row.getValue("updated_at")),
+            cell: ({ row }) => (
+              <DateCell ts={row.getValue("updated_at") as number} />
+            ),
           },
         ]}
         header={{

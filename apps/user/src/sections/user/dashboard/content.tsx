@@ -29,6 +29,7 @@ import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { Icon } from "@workspace/ui/composed/icon";
 import { cn } from "@workspace/ui/lib/utils";
 import { getClient, getStat } from "@workspace/ui/services/common/common";
+import { queryMySubscribes } from "@workspace/ui/services/user/subscribe";
 import {
   queryUserSubscribe,
   resetUserSubscribeToken,
@@ -47,6 +48,7 @@ import Subscribe from "../../subscribe";
 import Renewal from "../../subscribe/renewal";
 import ResetTraffic from "../../subscribe/reset-traffic";
 import Unsubscribe from "../../subscribe/unsubscribe";
+import { TutorialSheet } from "./tutorial-sheet";
 
 const platforms: (keyof API.DownloadLink)[] = [
   "windows",
@@ -64,7 +66,7 @@ export default function Content() {
   const [protocol, setProtocol] = useState("");
 
   const {
-    data: userSubscribe = [],
+    data: userSubscribeRaw = [],
     refetch,
     isLoading,
   } = useQuery({
@@ -74,6 +76,19 @@ export default function Content() {
       return data.data?.list || [];
     },
   });
+  // Skip subs that are already rendered by the device-billing card
+  // (MySubscribes section above) to avoid showing the same plan twice.
+  const { data: deviceSubIds = new Set<number>() } = useQuery({
+    queryKey: ["my_subscribes", "ids"],
+    queryFn: async () => {
+      const { data } = await queryMySubscribes();
+      const list = data?.data?.list || [];
+      return new Set(list.filter((s) => s.device_count > 0).map((s) => s.id));
+    },
+  });
+  const userSubscribe = userSubscribeRaw.filter(
+    (item) => !deviceSubIds.has(item.id)
+  );
   const { data: applications } = useQuery({
     queryKey: ["getClient"],
     queryFn: async () => {
@@ -136,6 +151,13 @@ export default function Content() {
     3: t("expired", "Expired"),
     4: t("deducted", "Deducted"),
   };
+
+  // Hide the section entirely when the only subscriptions are device-billed
+  // (handled by MySubscribes above). We keep the purchase prompt only when
+  // the user truly has no subscriptions of any kind.
+  if (userSubscribe.length === 0 && userSubscribeRaw.length > 0) {
+    return null;
+  }
 
   return (
     <>
@@ -544,6 +566,16 @@ export default function Content() {
                                           </CopyToClipboard>
                                         )}
                                       </div>
+                                      {/* V4.3 决策 25:每个客户端教程入口。
+                                          只在配置了 tutorial_key 时显示。 */}
+                                      {application.tutorial_key && (
+                                        <TutorialSheet
+                                          appName={application.name}
+                                          appScheme={application.scheme}
+                                          subscribeUrl={url}
+                                          tutorialKey={application.tutorial_key}
+                                        />
+                                      )}
                                     </div>
                                   );
                                 })}

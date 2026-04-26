@@ -55,6 +55,14 @@ export default defineConfig(({ mode }) => {
         },
       },
     },
+    optimizeDeps: {
+      // monaco-editor is ~7 MB and only used by editor pages. Letting Vite
+      // pre-bundle it blocks every cold-start request for several seconds.
+      // We import it via dynamic `import()` from monaco-setup.ts; excluding
+      // here keeps the dev server start fast and only pays the cost the
+      // first time the user actually opens an editor.
+      exclude: ["monaco-editor"],
+    },
     build: {
       assetsDir: "static",
     },

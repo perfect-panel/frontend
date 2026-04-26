@@ -1,12 +1,19 @@
 "use client";
 
-import { DotLottieReact } from "@lottiefiles/dotlottie-react";
 import { Link, useNavigate } from "@tanstack/react-router";
 import { LanguageSwitch } from "@workspace/ui/composed/language-switch";
 import { ThemeSwitch } from "@workspace/ui/composed/theme-switch";
-import { useEffect } from "react";
+import { lazy, Suspense, useEffect } from "react";
 import { useGlobalStore } from "@/stores/global";
 import EmailAuthForm from "./email/auth-form";
+
+// Lottie player is ~700 KB. The animation only renders on `lg:` and is
+// purely decorative, so split it out of the initial login bundle.
+const DotLottieReact = lazy(() =>
+  import("@lottiefiles/dotlottie-react").then((m) => ({
+    default: m.DotLottieReact,
+  }))
+);
 
 export default function Auth() {
   const { common, user } = useGlobalStore();
@@ -33,12 +40,14 @@ export default function Auth() {
               />
               <span className="font-semibold text-2xl">{site.site_name}</span>
             </Link>
-            <DotLottieReact
-              autoplay
-              className="mx-auto hidden w-full lg:block"
-              loop
-              src="./assets/lotties/login.json"
-            />
+            <Suspense fallback={null}>
+              <DotLottieReact
+                autoplay
+                className="mx-auto hidden w-full lg:block"
+                loop
+                src="./assets/lotties/login.json"
+              />
+            </Suspense>
             <p className="hidden w-[275px] text-center md:w-1/2 lg:block xl:w-[500px]">
               {site.site_desc}
             </p>

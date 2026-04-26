@@ -17,5 +17,6 @@
   "updateSuccess": "更新成功",
   "updateWebDescription": "确定要将前端版本从 {{current}} 更新到 {{latest}} 吗？",
   "userUpdateSuccess": "用户端更新成功",
-  "webVersion": "前端版本"
+  "webVersion": "前端版本",
+  "updateDescription": "确定要执行更新吗？"
 }

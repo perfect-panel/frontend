@@ -52,10 +52,33 @@
     "90015": "该账户今日已达到发送次数限制，请明天再试。",
     "unknown": "系统发生错误，请稍后再试。"
   },
+  "combobox": {
+    "search": "搜索...",
+    "select": "请选择..."
+  },
+  "editor": {
+    "markdownDescription": "支持 Markdown 和 HTML 语法",
+    "markdownTitle": "Markdown 编辑器",
+    "startTyping": "开始输入...",
+    "title": "编辑器",
+    "goTemplateDescriptionSprig": "Go text/template 语法（带 Sprig 函数）",
+    "goTemplateDescription": "Go text/template 语法",
+    "goTemplateTitle": "Go 模板编辑器",
+    "goTemplatePlaceholder": "在此输入 Go 模板...",
+    "htmlDescription": "支持 HTML",
+    "htmlTitle": "HTML 编辑器",
+    "htmlPreviewTitle": "HTML 预览",
+    "jsonTitle": "编辑 JSON"
+  },
   "language": "语言",
   "pagination": {
     "pageInfo": "第 {{page}} 页，共 {{total}} 页",
-    "rowsPerPage": "每页行数"
+    "rowsPerPage": "每页行数",
+    "firstPage": "跳到首页",
+    "previousPage": "上一页",
+    "selectPage": "选择页码",
+    "nextPage": "下一页",
+    "lastPage": "跳到末页"
   },
   "theme": {
     "dark": "深色",
@@ -63,5 +86,16 @@
     "system": "系统",
     "toggle": "切换主题"
   },
-  "unlimited": "无限制"
+  "timezone": {
+    "all": "全部",
+    "current": "当前",
+    "recommended": "推荐",
+    "search": "搜索时区...",
+    "server": "服务器"
+  },
+  "unlimited": "无限制",
+  "areaCode": {
+    "select": "选择区号",
+    "search": "搜索区号..."
+  }
 }
