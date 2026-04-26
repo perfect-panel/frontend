@@ -1,4 +1,4 @@
-import { readFileSync, writeFileSync } from "node:fs";
+import { existsSync, mkdirSync, readFileSync, writeFileSync } from "node:fs";
 import { fileURLToPath, URL } from "node:url";
 import tailwindcss from "@tailwindcss/vite";
 import { devtools } from "@tanstack/devtools-vite";
@@ -6,7 +6,9 @@ import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin } from "vite";
 
-// Plugin to generate version.lock file after build
+// Plugin to generate version.lock file after build.
+// CI 上有时 closeBundle 触发时 dist/ 还不存在(Vite 把空构建当做警告但仍 closeBundle),
+// 这里 mkdirSync recursive 兜底,避免 ENOENT 让整个 build 退出非零。
 function versionLockPlugin(): Plugin {
   return {
     name: "version-lock",
@@ -18,6 +20,9 @@ function versionLockPlugin(): Plugin {
       );
       const rootPkg = JSON.parse(readFileSync(rootPkgPath, "utf-8"));
       const version = rootPkg.version || "0.0.0";
+      if (!existsSync(distDir)) {
+        mkdirSync(distDir, { recursive: true });
+      }
       writeFileSync(`${distDir}/version.lock`, version);
     },
   };
