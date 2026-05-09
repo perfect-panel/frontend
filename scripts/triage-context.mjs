@@ -46,6 +46,15 @@ const report = {
           user: event.issue.user?.login,
         }
       : null,
+    comment: event.comment
+      ? {
+          id: event.comment.id,
+          body: event.comment.body,
+          url: event.comment.html_url,
+          user: event.comment.user?.login,
+          createdAt: event.comment.created_at,
+        }
+      : null,
   },
   openIssues: issues
     .filter((issue) => !issue.pull_request)
