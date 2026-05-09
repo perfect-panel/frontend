@@ -19,6 +19,16 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.5.0](https://github.com/perfect-panel/frontend/compare/v1.4.2...v1.5.0) (2026-05-09)
+
+### ✨ Features / 新功能
+
+* **ci:** add issue triage automation workflow ([1624303](https://github.com/perfect-panel/frontend/commit/1624303b84fca99237f16c71e6d14b03682ec326))
+
+### 📚 Documentation / 文档更新
+
+* **zh-CN:** align clone directory with frontend repo name ([c8f35d9](https://github.com/perfect-panel/frontend/commit/c8f35d922c2b5a4de00973cb5875c17fb512c885))
+
 ## [1.4.2](https://github.com/perfect-panel/frontend/compare/v1.4.1...v1.4.2) (2026-04-06)
 
 ### 🐛 Bug Fixes / 问题修复
