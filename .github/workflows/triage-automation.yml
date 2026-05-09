@@ -3,6 +3,8 @@ name: triage-automation
 on:
   issues:
     types: [opened, edited, reopened, labeled]
+  issue_comment:
+    types: [created]
 
 permissions:
   contents: read
