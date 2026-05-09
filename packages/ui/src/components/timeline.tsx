@@ -33,16 +33,6 @@ export const Timeline = ({ data }: { data: TimelineEntry[] }) => {
       className="w-full bg-white font-sans md:px-10 dark:bg-neutral-950"
       ref={containerRef}
     >
-      <div className="mx-auto max-w-7xl px-4 py-20 md:px-8 lg:px-10">
-        <h2 className="mb-4 max-w-4xl text-black text-lg md:text-4xl dark:text-white">
-          Changelog from my journey
-        </h2>
-        <p className="max-w-sm text-neutral-700 text-sm md:text-base dark:text-neutral-300">
-          I&apos;ve been working on Aceternity for the past 2 years. Here&apos;s
-          a timeline of my journey.
-        </p>
-      </div>
-
       <div className="relative mx-auto max-w-7xl pb-20" ref={ref}>
         {data.map((item, index) => (
           <div
