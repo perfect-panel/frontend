@@ -13,8 +13,6 @@ export default function Announcement() {
       const { data } = await queryAnnouncement({
         page: 1,
         size: 99,
-        pinned: false,
-        popup: false,
       });
       return data.data?.announcements || [];
     },
