@@ -57,10 +57,6 @@ export const Route = createRootRouteWithContext()({
         <NavigationProgress />
         <Outlet />
         <Toaster closeButton richColors />
-        <div
-          dangerouslySetInnerHTML={{ __html: common?.site.custom_html || "" }}
-          id="custom_html"
-        />
         <TanStackDevtools
           config={{
             position: "bottom-right",
