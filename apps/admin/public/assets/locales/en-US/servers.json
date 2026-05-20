@@ -139,6 +139,15 @@
     },
     "title": "Node configuration"
   },
+  "server_node_config": {
+    "inherit_block": "Inherit global block rules",
+    "inherit_dns": "Inherit global DNS",
+    "inherit_ip_strategy": "Inherit global IP strategy",
+    "inherit_outbound": "Inherit global outbound rules",
+    "saveSuccess": "Saved successfully",
+    "title": "Node Config",
+    "trigger": "Node Config"
+  },
   "server_key": "Server Key",
   "service_name": "Service Name",
   "sorted_success": "Sorted successfully",

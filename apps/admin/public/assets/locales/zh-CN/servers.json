@@ -139,6 +139,15 @@
     },
     "title": "节点配置"
   },
+  "server_node_config": {
+    "inherit_block": "继承全局屏蔽规则",
+    "inherit_dns": "继承全局 DNS",
+    "inherit_ip_strategy": "继承全局 IP 策略",
+    "inherit_outbound": "继承全局出站规则",
+    "saveSuccess": "保存成功",
+    "title": "节点配置",
+    "trigger": "节点配置"
+  },
   "server_key": "服务器密钥",
   "service_name": "服务名称",
   "sorted_success": "排序成功",

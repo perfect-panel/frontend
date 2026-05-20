@@ -25,6 +25,7 @@ import OnlineUsersCell from "./online-users-cell";
 import ServerConfig from "./server-config";
 import ServerForm from "./server-form";
 import ServerInstall from "./server-install";
+import ServerNodeConfig from "./server-node-config";
 
 function PctBar({ value }: { value: number }) {
   const v = value.toFixed(2);
@@ -125,6 +126,7 @@ export default function Servers() {
               trigger={t("edit", "Edit")}
             />,
             <ServerInstall key="install" server={row} />,
+            <ServerNodeConfig key="node-config" server={row} />,
             <ConfirmButton
               cancelText={t("cancel", "Cancel")}
               confirmText={t("confirm", "Confirm")}

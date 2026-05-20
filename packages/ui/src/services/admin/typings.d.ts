@@ -1035,6 +1035,20 @@ declare namespace API {
     protocols: Protocol[];
   };
 
+  type GetServerNodeConfigParams = {
+    server_id: number;
+  };
+
+  type GetServerNodeConfigRequest = {
+    server_id: number;
+  };
+
+  type GetServerNodeConfigResponse = {
+    global: ServerNodeConfigValues;
+    override: ServerNodeConfigOverride;
+    effective: ServerNodeConfigValues;
+  };
+
   type GetSubscribeApplicationListParams = {
     page: number;
     size: number;
@@ -1389,6 +1403,24 @@ declare namespace API {
     port: number;
     password: string;
     rules: string[];
+  };
+
+  type ServerNodeConfigValues = {
+    ip_strategy: string;
+    dns: NodeDNS[];
+    block: string[];
+    outbound: NodeOutbound[];
+  };
+
+  type ServerNodeConfigOverride = {
+    inherit_ip_strategy: boolean;
+    ip_strategy: string;
+    inherit_dns: boolean;
+    dns: NodeDNS[];
+    inherit_block: boolean;
+    block: string[];
+    inherit_outbound: boolean;
+    outbound: NodeOutbound[];
   };
 
   type NodeRelay = {
@@ -2310,6 +2342,18 @@ declare namespace API {
     address: string;
     sort?: number;
     protocols: Protocol[];
+  };
+
+  type UpdateServerNodeConfigRequest = {
+    server_id: number;
+    inherit_ip_strategy: boolean;
+    ip_strategy: string;
+    inherit_dns: boolean;
+    dns: NodeDNS[];
+    inherit_block: boolean;
+    block: string[];
+    inherit_outbound: boolean;
+    outbound: NodeOutbound[];
   };
 
   type UpdateSubscribeApplicationRequest = {

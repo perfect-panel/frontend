@@ -195,6 +195,44 @@ export async function getServerProtocols(
   );
 }
 
+/** Get Server Node Config GET /v1/admin/server/node_config */
+export async function getServerNodeConfig(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.GetServerNodeConfigParams,
+  options?: { [key: string]: any }
+) {
+  return request<API.Response & { data?: API.GetServerNodeConfigResponse }>(
+    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/server/node_config`,
+    {
+      method: "GET",
+      params: {
+        ...params,
+      },
+      ...(options || {}),
+    }
+  );
+}
+
+/** Update Server Node Config POST /v1/admin/server/node_config/update */
+export async function updateServerNodeConfig(
+  body: API.UpdateServerNodeConfigRequest,
+  options?: { [key: string]: any }
+) {
+  return request<API.Response & { data?: any }>(
+    `${
+      import.meta.env.VITE_API_PREFIX || ""
+    }/v1/admin/server/node_config/update`,
+    {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      data: body,
+      ...(options || {}),
+    }
+  );
+}
+
 /** Reset server sort POST /v1/admin/server/server/sort */
 export async function resetSortWithServer(
   body: API.ResetSortRequest,
