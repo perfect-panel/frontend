@@ -46,22 +46,17 @@ import { type Control, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
-import { SS_CIPHERS } from "./form-schema";
+import {
+  getOutboundFields,
+  normalizeOutboundConfig,
+  outboundConfigSchema,
+  outboundValueForInput,
+} from "./outbound-config";
 
 const dnsConfigSchema = z.object({
   proto: z.string(),
   address: z.string(),
   domains: z.array(z.string()),
-});
-
-const outboundConfigSchema = z.object({
-  name: z.string(),
-  protocol: z.string(),
-  address: z.string(),
-  port: z.number(),
-  cipher: z.string().optional(),
-  password: z.string().optional(),
-  rules: z.array(z.string()).optional(),
 });
 
 const serverNodeConfigSchema = z.object({
@@ -186,14 +181,7 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
         inherit_block: values.inherit_block,
         block: values.block,
         inherit_outbound: values.inherit_outbound,
-        outbound: values.outbound.map((item) => ({
-          name: item.name,
-          protocol: item.protocol,
-          address: item.address,
-          port: item.port,
-          password: item.password || "",
-          rules: item.rules || [],
-        })),
+        outbound: values.outbound.map((item) => normalizeOutboundConfig(item)),
       });
       toast.success(t("server_node_config.saveSuccess", "Saved successfully"));
       await refetch();
@@ -404,108 +392,16 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
                           <FormControl>
                             <ArrayInput
                               className="grid grid-cols-2 gap-2"
-                              fields={[
-                                {
-                                  name: "name",
-                                  type: "text",
-                                  className: "col-span-2",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_name_placeholder",
-                                    "Configuration name"
-                                  ),
-                                },
-                                {
-                                  name: "protocol",
-                                  type: "select",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_protocol_placeholder",
-                                    "Select protocol"
-                                  ),
-                                  options: [
-                                    { label: "HTTP", value: "http" },
-                                    { label: "SOCKS", value: "socks" },
-                                    {
-                                      label: "Shadowsocks",
-                                      value: "shadowsocks",
-                                    },
-                                    { label: "Brook", value: "brook" },
-                                    { label: "Snell", value: "snell" },
-                                    { label: "VMess", value: "vmess" },
-                                    { label: "VLESS", value: "vless" },
-                                    { label: "Trojan", value: "trojan" },
-                                    { label: "WireGuard", value: "wireguard" },
-                                    { label: "Hysteria", value: "hysteria" },
-                                    { label: "TUIC", value: "tuic" },
-                                    { label: "AnyTLS", value: "anytls" },
-                                    { label: "Naive", value: "naive" },
-                                    { label: "Direct", value: "direct" },
-                                    { label: "Reject", value: "reject" },
-                                  ],
-                                },
-                                {
-                                  name: "cipher",
-                                  type: "select",
-                                  options: SS_CIPHERS.map((cipher) => ({
-                                    label: cipher,
-                                    value: cipher,
-                                  })),
-                                  visible: (item: Record<string, unknown>) =>
-                                    item.protocol === "shadowsocks",
-                                },
-                                {
-                                  name: "address",
-                                  type: "text",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_address_placeholder",
-                                    "Server address"
-                                  ),
-                                },
-                                {
-                                  name: "port",
-                                  type: "number",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_port_placeholder",
-                                    "Port number"
-                                  ),
-                                },
-                                {
-                                  name: "password",
-                                  type: "text",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_password_placeholder",
-                                    "Password (optional)"
-                                  ),
-                                },
-                                {
-                                  name: "rules",
-                                  type: "textarea",
-                                  className: "col-span-2",
-                                  placeholder: t(
-                                    "server_config.fields.outbound_rules_placeholder",
-                                    "One rule per line"
-                                  ),
-                                },
-                              ]}
+                              fields={getOutboundFields(t)}
                               onChange={(values) => {
-                                const converted = values.map((item: any) => ({
-                                  name: item.name,
-                                  protocol: item.protocol,
-                                  address: item.address,
-                                  port: item.port,
-                                  cipher: item.cipher,
-                                  password: item.password,
-                                  rules:
-                                    typeof item.rules === "string"
-                                      ? splitLines(item.rules)
-                                      : item.rules || [],
-                                }));
-                                field.onChange(converted);
+                                field.onChange(
+                                  values.map((item: any) =>
+                                    normalizeOutboundConfig(item)
+                                  )
+                                );
                               }}
                               value={(field.value || []).map((item) => ({
-                                ...item,
-                                rules: Array.isArray(item.rules)
-                                  ? item.rules.join("\n")
-                                  : "",
+                                ...outboundValueForInput(item),
                               }))}
                             />
                           </FormControl>
