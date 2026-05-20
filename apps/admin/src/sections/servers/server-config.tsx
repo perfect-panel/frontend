@@ -52,11 +52,10 @@ import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
 import { z } from "zod";
 import {
-  getOutboundFields,
   normalizeOutboundConfig,
   outboundConfigSchema,
-  outboundValueForInput,
 } from "./outbound-config";
+import { OutboundConfigInput } from "./outbound-config-input";
 
 const dnsConfigSchema = z.object({
   proto: z.string(), // z.enum(['tcp', 'udp', 'tls', 'https', 'quic']),
@@ -483,19 +482,15 @@ export default function ServerConfig() {
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <ArrayInput
-                            className="grid grid-cols-2 gap-2"
-                            fields={getOutboundFields(t)}
+                          <OutboundConfigInput
                             onChange={(values) => {
                               field.onChange(
-                                values.map((item: any) =>
+                                values.map((item) =>
                                   normalizeOutboundConfig(item)
                                 )
                               );
                             }}
-                            value={(field.value || []).map((item) => ({
-                              ...outboundValueForInput(item),
-                            }))}
+                            value={field.value || []}
                           />
                         </FormControl>
                         <FormMessage />
