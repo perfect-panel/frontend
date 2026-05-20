@@ -110,7 +110,10 @@ export default function RegisterForm({
                                     );
                                   }
                                 }}
-                                placeholder="Area code..."
+                                placeholder={t(
+                                  "placeholders.areaCode",
+                                  "Area code..."
+                                )}
                                 simple
                                 value={field.value}
                                 whitelist={enable_whitelist ? whitelist : []}
@@ -122,7 +125,10 @@ export default function RegisterForm({
                       />
                       <Input
                         className="rounded-l-none"
-                        placeholder="Enter your telephone..."
+                        placeholder={t(
+                          "placeholders.telephone",
+                          "Enter your telephone..."
+                        )}
                         type="tel"
                         {...field}
                       />
@@ -139,7 +145,10 @@ export default function RegisterForm({
                 <FormItem>
                   <FormControl>
                     <Input
-                      placeholder="Enter your password..."
+                        placeholder={t(
+                          "placeholders.password",
+                          "Enter your password..."
+                        )}
                       type="password"
                       {...field}
                     />
@@ -156,7 +165,10 @@ export default function RegisterForm({
                   <FormControl>
                     <Input
                       disabled={loading}
-                      placeholder="Enter password again..."
+                        placeholder={t(
+                          "placeholders.repeatPassword",
+                          "Enter password again..."
+                        )}
                       type="password"
                       {...field}
                     />
@@ -174,7 +186,7 @@ export default function RegisterForm({
                     <div className="flex items-center gap-2">
                       <Input
                         disabled={loading}
-                        placeholder="Enter code..."
+                        placeholder={t("placeholders.code", "Enter code...")}
                         type="text"
                         {...field}
                         value={field.value as string}

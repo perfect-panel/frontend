@@ -88,7 +88,10 @@ export default function LoginForm({
                                   );
                                 }
                               }}
-                              placeholder="Area code..."
+                              placeholder={t(
+                                "placeholders.areaCode",
+                                "Area code..."
+                              )}
                               simple
                               value={field.value}
                             />
@@ -99,7 +102,10 @@ export default function LoginForm({
                     />
                     <Input
                       className="rounded-l-none"
-                      placeholder="Enter your telephone..."
+                      placeholder={t(
+                        "placeholders.telephone",
+                        "Enter your telephone..."
+                      )}
                       type="tel"
                       {...field}
                     />
@@ -119,7 +125,9 @@ export default function LoginForm({
                   <div className="flex gap-2">
                     <Input
                       placeholder={
-                        mode === "code" ? "Enter code..." : "Enter password..."
+                        mode === "code"
+                          ? t("placeholders.code", "Enter code...")
+                          : t("placeholders.password", "Enter your password...")
                       }
                       type={mode === "code" ? "text" : "password"}
                       {...field}
