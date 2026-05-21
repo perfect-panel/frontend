@@ -115,13 +115,18 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
   const [open, setOpen] = useState(false);
   const [saving, setSaving] = useState(false);
 
-  const { data: cfgResp, refetch } = useQuery({
+  const {
+    data: cfgResp,
+    refetch,
+    isError,
+  } = useQuery({
     queryKey: ["getServerNodeConfig", server.id],
     queryFn: async () => {
       const { data } = await getServerNodeConfig({ server_id: server.id });
       return data.data;
     },
     enabled: open,
+    retry: false,
   });
 
   const form = useForm<ServerNodeConfigFormData>({
@@ -206,6 +211,14 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
         </SheetHeader>
 
         <ScrollArea className="h-[calc(100vh-8rem)] pr-3">
+          {isError && (
+            <div className="mt-4 rounded-md border border-destructive/30 bg-destructive/10 px-4 py-3 text-destructive text-sm">
+              {t(
+                "server_node_config.loadError",
+                "Failed to load node config. Please close and try again."
+              )}
+            </div>
+          )}
           <Tabs className="mt-4" defaultValue="dns">
             <TabsList className="grid w-full grid-cols-3">
               <TabsTrigger value="dns">
