@@ -9,10 +9,9 @@ jobs:
   merge:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout main
+      - name: Checkout
         uses: actions/checkout@v4
         with:
-          ref: main
           fetch-depth: 0
           token: ${{ secrets.GITHUB_TOKEN }}
 
@@ -21,10 +20,16 @@ jobs:
           git config user.name "web-ppanel"
           git config user.email "web@ppanel.dev"
 
-      - name: Merge develop into main (develop wins on conflict)
+      - name: Sync main into develop first
         run: |
-          git fetch origin develop
-          git merge origin/develop --no-edit -X theirs
+          git checkout develop
+          git pull origin develop
+          git merge origin/main --no-edit -X theirs
+          git push origin develop
 
-      - name: Push
-        run: git push origin main
+      - name: Merge develop into main
+        run: |
+          git checkout main
+          git pull origin main
+          git merge origin/develop --no-edit -X theirs
+          git push origin main
