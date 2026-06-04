@@ -1,0 +1,30 @@
+name: Weekly Merge develop → main
+
+on:
+  schedule:
+    - cron: '0 2 * * 1' # Every Monday 02:00 UTC
+  workflow_dispatch: # Allow manual trigger
+
+jobs:
+  merge:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout main
+        uses: actions/checkout@v4
+        with:
+          ref: main
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Configure git
+        run: |
+          git config user.name "web-ppanel"
+          git config user.email "web@ppanel.dev"
+
+      - name: Merge develop into main
+        run: |
+          git fetch origin develop
+          git merge origin/develop --no-edit
+
+      - name: Push
+        run: git push origin main
