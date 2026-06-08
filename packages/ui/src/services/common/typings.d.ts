@@ -912,6 +912,7 @@ declare namespace API {
     pan_domain: boolean;
     user_agent_limit: boolean;
     user_agent_list: string;
+    show_tutorial?: boolean;
   };
 
   type SubscribeDiscount = {

@@ -24,6 +24,8 @@
     "description": "Manage subscription system settings",
     "singleSubscriptionMode": "Single Subscription Mode",
     "singleSubscriptionModeDescription": "Limit users to one active subscription. Existing subscriptions unaffected",
+    "showTutorial": "Show Tutorial Section",
+    "showTutorialDescription": "Show the client tutorial section on the user document page",
     "subscriptionDomain": "Subscription Domain",
     "subscriptionDomainDescription": "Custom domain for subscription links",
     "subscriptionDomainPlaceholder": "Enter subscription domain, one per line",
