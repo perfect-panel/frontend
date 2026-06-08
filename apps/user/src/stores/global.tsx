@@ -9,6 +9,7 @@ export interface GlobalStore {
   setCommon: (common: Partial<API.GetGlobalConfigResponse>) => void;
   setUser: (user?: API.User) => void;
   getUserInfo: () => Promise<void>;
+  clearUserLoading: () => void;
   getUserSubscribe: (short: string, token: string, type?: string) => string[];
   getAppSubLink: (url: string, schema?: string) => string;
 }
