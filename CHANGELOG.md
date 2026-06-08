@@ -19,7 +19,13 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
-## [1.6.4-dev.1](https://github.com/perfect-panel/frontend/compare/v1.6.3...v1.6.4-dev.1) (2026-06-04)
+## [1.6.5](https://github.com/perfect-panel/frontend/compare/v1.6.4...v1.6.5) (2026-06-08)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **user:** wait for user info to load before redirecting ([58266bf](https://github.com/perfect-panel/frontend/commit/58266bf0828ec4c07e06ac667e89196f20d64781)), closes [#74](https://github.com/perfect-panel/frontend/issues/74)
+
+## [1.6.4](https://github.com/perfect-panel/frontend/compare/v1.6.3...v1.6.4) (2026-06-04)
 
 ### 🐛 Bug Fixes / 问题修复
 

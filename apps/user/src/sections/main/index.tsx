@@ -7,12 +7,17 @@ import { ProductShowcase } from "./product-showcase";
 import { Stats } from "./stats";
 
 export default function Main() {
-  const { user } = useGlobalStore();
+  const { user, isLoadingUser } = useGlobalStore();
   const navigate = useNavigate();
 
   const showLanding = import.meta.env.VITE_SHOW_LANDING_PAGE !== "false";
 
   useEffect(() => {
+    // Wait for user info to load before making navigation decisions
+    if (isLoadingUser) {
+      return;
+    }
+
     if (user) {
       navigate({ to: "/dashboard" });
       return;
@@ -21,7 +26,7 @@ export default function Main() {
     if (!showLanding) {
       navigate({ to: "/auth" });
     }
-  }, [user, navigate, showLanding]);
+  }, [user, isLoadingUser, navigate, showLanding]);
 
   if (!showLanding) return null;
 
