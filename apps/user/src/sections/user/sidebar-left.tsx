@@ -17,7 +17,7 @@ import { useNavs } from "@/layout/navs";
 export function SidebarLeft({
   ...props
 }: React.ComponentProps<typeof Sidebar>) {
-  const { t } = useTranslation("menu");
+  const { t } = useTranslation("components");
   const location = useLocation();
   const navs = useNavs();
   return (
