@@ -42,6 +42,7 @@ const subscribeConfigSchema = z.object({
   subscribe_domain: z.string().optional(),
   user_agent_limit: z.boolean().optional(),
   user_agent_list: z.string().optional(),
+  show_tutorial: z.boolean().optional(),
 });
 
 type SubscribeConfigFormData = z.infer<typeof subscribeConfigSchema>;
@@ -69,6 +70,7 @@ export default function ConfigForm() {
       subscribe_domain: "",
       user_agent_limit: false,
       user_agent_list: "",
+      show_tutorial: true,
     },
   });
 
@@ -125,6 +127,31 @@ export default function ConfigForm() {
               id="subscribe-config-form"
               onSubmit={form.handleSubmit(onSubmit)}
             >
+              <FormField
+                control={form.control}
+                name="show_tutorial"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("config.showTutorial", "Show Tutorial Section")}
+                    </FormLabel>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        className="!mt-0 float-end"
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        "config.showTutorialDescription",
+                        "Show the client tutorial section on the user document page"
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
               <FormField
                 control={form.control}
                 name="single_model"
