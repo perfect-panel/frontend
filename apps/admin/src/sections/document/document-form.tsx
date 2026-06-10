@@ -141,6 +141,84 @@ export default function DocumentForm<T extends Record<string, any>>({
                         value={field.value}
                       />
                     </FormControl>
+                    <div className="mt-4 space-y-2 border-t pt-4">
+                      <p className="font-medium text-muted-foreground text-sm">
+                        {t(
+                          "form.variables.title",
+                          "Template variables (replaced with the viewing user's own data)"
+                        )}
+                      </p>
+                      <div className="space-y-2 text-muted-foreground text-xs">
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{subscribe_url}}"}
+                          </code>
+                          <span>
+                            {t(
+                              "form.variables.subscribeUrl",
+                              "Subscription link (raw)"
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{subscribe_url_encoded}}"}
+                          </code>
+                          <span>
+                            {t(
+                              "form.variables.subscribeUrlEncoded",
+                              "Subscription link, URL-encoded (most client deep links)"
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{subscribe_url_base64}}"}
+                          </code>
+                          <span>
+                            {t(
+                              "form.variables.subscribeUrlBase64",
+                              "Subscription link, Base64 (Shadowrocket)"
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{subscribe_url_qx}}"}
+                          </code>
+                          <span>
+                            {t(
+                              "form.variables.subscribeUrlQx",
+                              "For Quantumult X add-resource"
+                            )}
+                          </span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{site_name}}"}
+                          </code>
+                          <span>{t("form.variables.siteName", "Site name")}</span>
+                        </div>
+                        <div className="flex items-center gap-2">
+                          <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
+                            {"{{site_name_encoded}}"}
+                          </code>
+                          <span>
+                            {t(
+                              "form.variables.siteNameEncoded",
+                              "Site name (URL-encoded)"
+                            )}
+                          </span>
+                        </div>
+                        <div className="pl-6 text-orange-600 dark:text-orange-400">
+                          💡{" "}
+                          {t(
+                            "form.variables.example",
+                            "Example: clash://install-config?url={{subscribe_url_encoded}}"
+                          )}
+                        </div>
+                      </div>
+                    </div>
                     <FormMessage />
                   </FormItem>
                 )}

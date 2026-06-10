@@ -18,7 +18,17 @@
     "tags": "标签",
     "tagsPlaceholder": "输入标签",
     "title": "标题",
-    "titlePlaceholder": "输入文档标题"
+    "titlePlaceholder": "输入文档标题",
+    "variables": {
+      "title": "模板变量（查看文档时替换为当前用户自己的数据）",
+      "subscribeUrl": "订阅链接（原始）",
+      "subscribeUrlEncoded": "订阅链接（URL 编码，多数客户端深链用）",
+      "subscribeUrlBase64": "订阅链接（Base64，Shadowrocket 用）",
+      "subscribeUrlQx": "Quantumult X 专用（add-resource）",
+      "siteName": "站点名称",
+      "siteNameEncoded": "站点名称（URL 编码）",
+      "example": "示例：clash://install-config?url={{subscribe_url_encoded}}"
+    }
   },
   "show": "显示",
   "tags": "标签",
