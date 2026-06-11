@@ -444,6 +444,10 @@ export default function Content() {
                                   const downloadUrl =
                                     application.download_link?.[platform];
 
+                                  const isHttpLink =
+                                    application.scheme?.startsWith("http://") ||
+                                    application.scheme?.startsWith("https://");
+
                                   const handleCopy = (
                                     _: string,
                                     result: boolean
@@ -470,7 +474,7 @@ export default function Content() {
                                         );
                                       };
 
-                                      if (isBrowser() && href) {
+                                      if (isBrowser() && href && !isHttpLink) {
                                         window.location.href = href;
                                         const checkRedirect = setTimeout(() => {
                                           if (window.location.href !== href) {
@@ -539,7 +543,12 @@ export default function Content() {
                                               }
                                               size="sm"
                                             >
-                                              {t("import", "Import")}
+                                              {isHttpLink
+                                                ? t(
+                                                    "clickToCopy",
+                                                    "Click to Copy"
+                                                  )
+                                                : t("import", "Import")}
                                             </Button>
                                           </CopyToClipboard>
                                         )}
