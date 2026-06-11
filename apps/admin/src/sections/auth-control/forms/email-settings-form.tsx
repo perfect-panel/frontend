@@ -63,6 +63,7 @@ const emailSettingsSchema = z.object({
           user: z.string().optional(),
           pass: z.string().optional(),
           from: z.string().optional(),
+          reply_to: z.string().optional(),
         })
         .optional(),
     })
@@ -110,6 +111,7 @@ export default function EmailSettingsForm() {
           user: "",
           pass: "",
           from: "",
+          reply_to: "",
         },
       },
     },
@@ -477,6 +479,35 @@ export default function EmailSettingsForm() {
                           {t(
                             "email.senderAddressDescription",
                             "The email address that appears in the From field"
+                          )}
+                        </FormDescription>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={form.control}
+                    name="config.platform_config.reply_to"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>
+                          {t("email.replyToAddress", "Reply-To Address")}
+                        </FormLabel>
+                        <FormControl>
+                          <EnhancedInput
+                            onValueChange={field.onChange}
+                            placeholder={t(
+                              "email.inputPlaceholder",
+                              "Please enter"
+                            )}
+                            value={field.value}
+                          />
+                        </FormControl>
+                        <FormDescription>
+                          {t(
+                            "email.replyToAddressDescription",
+                            "Optional. Where user replies go. Keep the From address on a verified/aligned domain (SPF/DKIM) for deliverability and put your real reply inbox here."
                           )}
                         </FormDescription>
                         <FormMessage />

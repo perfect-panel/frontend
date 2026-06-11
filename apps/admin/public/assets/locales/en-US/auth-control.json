@@ -53,6 +53,8 @@
     "maintenanceTemplate": "Maintenance Template",
     "senderAddress": "Sender Address",
     "senderAddressDescription": "The email address that appears in the From field",
+    "replyToAddress": "Reply-To Address",
+    "replyToAddressDescription": "Optional. Where user replies go. Keep the From address on a verified/aligned domain (SPF/DKIM) for deliverability and put your real reply inbox here.",
     "sendFailure": "Email send failed",
     "sendSuccess": "Email sent successfully",
     "sendTestEmail": "Send Test Email",

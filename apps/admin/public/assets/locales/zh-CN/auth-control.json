@@ -53,6 +53,8 @@
     "maintenanceTemplate": "维护模板",
     "senderAddress": "发件人地址",
     "senderAddressDescription": "显示在发件人字段中的邮箱地址",
+    "replyToAddress": "回复地址 (Reply-To)",
+    "replyToAddressDescription": "可选。用户回复邮件时的收件地址。发件人(From)请保持在已验证/对齐的域名上(SPF/DKIM)以保证送达,把真正接收回复的邮箱填在这里。",
     "sendFailure": "邮件发送失败",
     "sendSuccess": "邮件发送成功",
     "sendTestEmail": "发送测试邮件",
