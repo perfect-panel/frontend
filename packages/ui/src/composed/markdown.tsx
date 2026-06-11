@@ -4,7 +4,10 @@ import { Button } from "@workspace/ui/components/button";
 import { cn } from "@workspace/ui/lib/utils";
 import { Check, Copy } from "lucide-react";
 import { useCallback, useState } from "react";
-import ReactMarkdown, { type Components } from "react-markdown";
+import ReactMarkdown, {
+  type Components,
+  defaultUrlTransform,
+} from "react-markdown";
 import { Prism as SyntaxHighlighter } from "react-syntax-highlighter";
 import { oneDark } from "react-syntax-highlighter/dist/esm/styles/prism";
 import rehypeKatex from "rehype-katex";
@@ -79,6 +82,16 @@ function CodeBlock({ className, children, ...props }: CodeBlockProps) {
 interface MarkdownProps {
   children: string;
   components?: Components;
+}
+
+const APP_DEEPLINK_SCHEME =
+  /^(clash|clashmeta|shadowrocket|surge|surge3|sing-box|stash|loon|surfboard|hiddify|egern|v2rayng|quantumult-x):/i;
+
+// react-markdown strips unknown URL schemes by default, which would break the
+// client one-click-import deep links (clash://, shadowrocket://, ...). Allow
+// those schemes explicitly; everything else keeps the default sanitization.
+function appUrlTransform(url: string): string {
+  return APP_DEEPLINK_SCHEME.test(url) ? url : defaultUrlTransform(url);
 }
 
 export function Markdown({ children, components }: MarkdownProps) {
@@ -235,6 +248,7 @@ export function Markdown({ children, components }: MarkdownProps) {
           ...components,
         }}
         rehypePlugins={[rehypeRaw, rehypeKatex]}
+        urlTransform={appUrlTransform}
         remarkPlugins={[remarkGfm, remarkToc, remarkMath]}
       >
         {children}

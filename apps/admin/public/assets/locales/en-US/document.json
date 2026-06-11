@@ -18,7 +18,18 @@
     "tags": "Tags",
     "tagsPlaceholder": "Enter tags",
     "title": "Title",
-    "titlePlaceholder": "Enter document title"
+    "titlePlaceholder": "Enter document title",
+    "variables": {
+      "title": "Template variables (replaced with the viewing user's own data)",
+      "subscribeUrl": "Subscription link (raw)",
+      "subscribeUrlEncoded": "Subscription link, URL-encoded (most client deep links)",
+      "subscribeUrlBase64": "Subscription link, Base64 (Shadowrocket)",
+      "subscribeUrlQx": "For Quantumult X add-resource",
+      "siteName": "Site name",
+      "siteNameEncoded": "Site name (URL-encoded)",
+      "example": "Example: clash://install-config?url={{subscribe_url_encoded}}",
+      "ifSubscribed": "Conditional block: shows the wrapped content only to users with an active subscription (use {{#if_not_subscribed}}…{{/if_not_subscribed}} for the opposite)."
+    }
   },
   "show": "Show",
   "tags": "Tags",
