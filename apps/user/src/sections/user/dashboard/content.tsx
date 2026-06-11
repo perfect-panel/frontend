@@ -453,6 +453,18 @@ export default function Content() {
                                         url,
                                         application.scheme
                                       );
+
+                                      // Check if the generated link is a plain HTTP/HTTPS URL
+                                      // If so, only copy to clipboard without triggering redirect
+                                      const isPlainHttpUrl = /^https?:/; //i.test(href);
+
+                                      if (isPlainHttpUrl) {
+                                        toast.success(
+                                          t("copySuccess", "Copy Success")
+                                        );
+                                        return;
+                                      }
+
                                       const showSuccessMessage = () => {
                                         toast.success(
                                           <>
