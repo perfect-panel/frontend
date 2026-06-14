@@ -444,6 +444,11 @@ export default function Content() {
                                   const downloadUrl =
                                     application.download_link?.[platform];
 
+                                  // Check if scheme template outputs the raw URL (which would be http(s)://)
+                                  // rather than the scheme prefix itself
+                                  const isHttpLink =
+                                    application.scheme?.startsWith("${url}");
+
                                   const handleCopy = (
                                     _: string,
                                     result: boolean
@@ -470,7 +475,7 @@ export default function Content() {
                                         );
                                       };
 
-                                      if (isBrowser() && href) {
+                                      if (isBrowser() && href && !isHttpLink) {
                                         window.location.href = href;
                                         const checkRedirect = setTimeout(() => {
                                           if (window.location.href !== href) {
@@ -539,7 +544,12 @@ export default function Content() {
                                               }
                                               size="sm"
                                             >
-                                              {t("import", "Import")}
+                                              {isHttpLink
+                                                ? t(
+                                                    "clickToCopy",
+                                                    "Click to Copy"
+                                                  )
+                                                : t("import", "Import")}
                                             </Button>
                                           </CopyToClipboard>
                                         )}
