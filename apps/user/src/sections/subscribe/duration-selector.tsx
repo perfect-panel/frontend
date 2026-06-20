@@ -53,6 +53,8 @@ const DurationSelector: React.FC<DurationSelectorProps> = ({
   )?.discount;
   const discountPercentage = currentDiscount ? 100 - currentDiscount : 0;
 
+  const hasQuantityOne = discounts?.some((item) => item.quantity === 1);
+
   return (
     <>
       <div className="font-semibold">
@@ -63,7 +65,7 @@ const DurationSelector: React.FC<DurationSelectorProps> = ({
         onValueChange={handleChange}
         value={String(quantity)}
       >
-        {showOriginalPrice && unitTime !== "Minute" && (
+        {showOriginalPrice && unitTime !== "Minute" && !hasQuantityOne && (
           <DurationOption label={`1 / ${t(unitTime)}`} value="1" />
         )}
         {discounts?.map((item) => (
