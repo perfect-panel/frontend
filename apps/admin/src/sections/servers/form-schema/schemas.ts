@@ -29,6 +29,8 @@ const ss = z.object({
   obfs: z.enum(["none", "http", "tls"] as const).nullish(),
   obfs_host: nullableString,
   obfs_path: nullableString,
+  uot: nullableBool,
+  uot_version: z.number().int().min(1).max(2).nullish(),
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,

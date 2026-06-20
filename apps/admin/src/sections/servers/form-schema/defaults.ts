@@ -13,6 +13,8 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         obfs: "none",
         obfs_host: null,
         obfs_path: null,
+        uot: null,
+        uot_version: null,
         sni: null,
         allow_insecure: null,
         cert_mode: "none",
