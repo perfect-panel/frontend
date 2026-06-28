@@ -19,6 +19,13 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.10.0](https://github.com/perfect-panel/frontend/compare/v1.9.1...v1.10.0) (2026-06-28)
+
+### ✨ Features / 新功能
+
+* add plugin management page ([6a6f9e3](https://github.com/perfect-panel/frontend/commit/6a6f9e3f145909efa6fdd13b4559e978f59f5fab))
+* add plugin upload controls ([c91a87b](https://github.com/perfect-panel/frontend/commit/c91a87b0c4eb5b20154d31626a497567caa5fced))
+
 ## [1.9.1](https://github.com/perfect-panel/frontend/compare/v1.9.0...v1.9.1) (2026-06-21)
 
 ### 🐛 Bug Fixes / 问题修复
