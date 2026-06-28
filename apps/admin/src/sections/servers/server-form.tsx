@@ -533,7 +533,7 @@ export default function ServerForm(props: {
           return protocol;
         }
 
-        const { ech_enable, ech_server_name, ...rest } = protocol;
+        const { ech_enable: _ech_enable, ech_server_name: _ech_server_name, ...rest } = protocol;
         return rest;
       });
 
