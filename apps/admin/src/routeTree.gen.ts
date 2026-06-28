@@ -16,6 +16,7 @@ const DashboardRouteLazyRouteImport = createFileRoute('/dashboard')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const DashboardIndexLazyRouteImport = createFileRoute('/dashboard/')()
 const DashboardServersLazyRouteImport = createFileRoute('/dashboard/servers')()
+const DashboardPluginLazyRouteImport = createFileRoute('/dashboard/plugin')()
 const DashboardNodesLazyRouteImport = createFileRoute('/dashboard/nodes')()
 const DashboardUserIndexLazyRouteImport = createFileRoute('/dashboard/user/')()
 const DashboardTicketIndexLazyRouteImport =
@@ -108,6 +109,13 @@ const DashboardServersLazyRoute = DashboardServersLazyRouteImport.update({
   getParentRoute: () => DashboardRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/dashboard/servers.lazy').then((d) => d.Route),
+)
+const DashboardPluginLazyRoute = DashboardPluginLazyRouteImport.update({
+  id: '/plugin',
+  path: '/plugin',
+  getParentRoute: () => DashboardRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/plugin.lazy').then((d) => d.Route),
 )
 const DashboardNodesLazyRoute = DashboardNodesLazyRouteImport.update({
   id: '/nodes',
@@ -315,6 +323,7 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
+  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
@@ -346,6 +355,7 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
+  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
@@ -379,6 +389,7 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
+  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
@@ -413,6 +424,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/nodes'
+    | '/dashboard/plugin'
     | '/dashboard/servers'
     | '/dashboard/'
     | '/dashboard/log/balance'
@@ -444,6 +456,7 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard/nodes'
+    | '/dashboard/plugin'
     | '/dashboard/servers'
     | '/dashboard'
     | '/dashboard/log/balance'
@@ -476,6 +489,7 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/nodes'
+    | '/dashboard/plugin'
     | '/dashboard/servers'
     | '/dashboard/'
     | '/dashboard/log/balance'
@@ -538,6 +552,13 @@ declare module '@tanstack/react-router' {
       path: '/servers'
       fullPath: '/dashboard/servers'
       preLoaderRoute: typeof DashboardServersLazyRouteImport
+      parentRoute: typeof DashboardRouteLazyRoute
+    }
+    '/dashboard/plugin': {
+      id: '/dashboard/plugin'
+      path: '/plugin'
+      fullPath: '/dashboard/plugin'
+      preLoaderRoute: typeof DashboardPluginLazyRouteImport
       parentRoute: typeof DashboardRouteLazyRoute
     }
     '/dashboard/nodes': {
@@ -727,6 +748,7 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteLazyRouteChildren {
   DashboardNodesLazyRoute: typeof DashboardNodesLazyRoute
+  DashboardPluginLazyRoute: typeof DashboardPluginLazyRoute
   DashboardServersLazyRoute: typeof DashboardServersLazyRoute
   DashboardIndexLazyRoute: typeof DashboardIndexLazyRoute
   DashboardLogBalanceLazyRoute: typeof DashboardLogBalanceLazyRoute
@@ -758,6 +780,7 @@ interface DashboardRouteLazyRouteChildren {
 
 const DashboardRouteLazyRouteChildren: DashboardRouteLazyRouteChildren = {
   DashboardNodesLazyRoute: DashboardNodesLazyRoute,
+  DashboardPluginLazyRoute: DashboardPluginLazyRoute,
   DashboardServersLazyRoute: DashboardServersLazyRoute,
   DashboardIndexLazyRoute: DashboardIndexLazyRoute,
   DashboardLogBalanceLazyRoute: DashboardLogBalanceLazyRoute,

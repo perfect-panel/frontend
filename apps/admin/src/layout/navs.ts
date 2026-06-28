@@ -117,6 +117,11 @@ export function useNavs() {
             icon: "flat-color-icons:currency-exchange",
           },
           {
+            title: t("Plugin Management", "Plugin Management"),
+            url: "/dashboard/plugin",
+            icon: "flat-color-icons:services",
+          },
+          {
             title: t("ADS Config", "ADS Config"),
             url: "/dashboard/ads",
             icon: "flat-color-icons:electrical-sensor",
