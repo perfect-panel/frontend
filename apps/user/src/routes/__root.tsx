@@ -53,7 +53,7 @@ export const Route = createRootRouteWithContext()({
           <meta content={description} name="description" />
           <meta content={keywords} name="keywords" />
           <link href={url} rel="canonical" />
-          <link href={logo} rel="icon" type="image/*" />
+          <link href={logo} rel="icon" />
           <link href={logo} rel="apple-touch-icon" sizes="180x180" />
           <link href="/site.webmanifest" rel="manifest" />
         </Helmet>
