@@ -169,13 +169,15 @@
   },
   "socialAuthMethods": "Social Authentication Methods",
   "telegram": {
-    "clientId": "Bot ID",
-    "clientIdDescription": "Telegram Bot ID, available from @BotFather",
-    "clientSecret": "Bot Token",
-    "clientSecretDescription": "Telegram Bot Token, available from @BotFather",
+    "botToken": "Bot Token",
+    "botTokenDescription": "Telegram Bot Token from @BotFather",
     "description": "Authenticate users with Telegram accounts",
     "enable": "Enable",
     "enableDescription": "When enabled, users can sign in with their Telegram account",
-    "title": "Telegram Sign-In"
+    "enableNotify": "Enable Notifications",
+    "enableNotifyDescription": "Send order and expiry notifications to users via Telegram",
+    "title": "Telegram Sign-In",
+    "webhookDomain": "Webhook Domain",
+    "webhookDomainDescription": "Public HTTPS URL of this server. Leave empty to use long-polling."
   }
 }
