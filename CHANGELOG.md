@@ -19,6 +19,19 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.10.1-dev.1](https://github.com/perfect-panel/frontend/compare/v1.10.0...v1.10.1-dev.1) (2026-07-07)
+
+### 🐛 Bug Fixes / 问题修复
+
+* correctly detect iOS devices requesting desktop site ([2d1798d](https://github.com/perfect-panel/frontend/commit/2d1798df66c33005db6cf80ee63b152bbb25970b)), closes [#96](https://github.com/perfect-panel/frontend/issues/96)
+* prioritize mobile device detection in getPlatform() ([388630c](https://github.com/perfect-panel/frontend/commit/388630cb5dcc4334c07d29413ce8c8582ae5d3db)), closes [#96](https://github.com/perfect-panel/frontend/issues/96)
+* remove invalid favicon mime type ([313beb2](https://github.com/perfect-panel/frontend/commit/313beb2bfd8c9d1999e3aea799f05d906105b444))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.9.2-dev.1 / 发布版本 1.9.2-dev.1 [skip ci] ([ef4c32e](https://github.com/perfect-panel/frontend/commit/ef4c32e9973cba7a29511ccc47f86065816ce741))
+* **release:** Release 1.9.2-dev.2 / 发布版本 1.9.2-dev.2 [skip ci] ([12f7cde](https://github.com/perfect-panel/frontend/commit/12f7cdedebac08331531daa41e68074803e32ef9))
+
 ## [1.10.0](https://github.com/perfect-panel/frontend/compare/v1.9.1...v1.10.0) (2026-06-28)
 
 ### ✨ Features / 新功能
