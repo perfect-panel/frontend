@@ -34,8 +34,9 @@ import { z } from "zod";
 
 const telegramSchema = z.object({
   enabled: z.boolean(),
-  bot: z.string().optional(),
   bot_token: z.string().optional(),
+  enable_notify: z.boolean(),
+  webhook_domain: z.string().optional(),
 });
 
 type TelegramFormData = z.infer<typeof telegramSchema>;
@@ -61,8 +62,9 @@ export default function TelegramForm() {
     resolver: zodResolver(telegramSchema),
     defaultValues: {
       enabled: false,
-      bot: "",
       bot_token: "",
+      enable_notify: false,
+      webhook_domain: "",
     },
   });
 
@@ -70,8 +72,9 @@ export default function TelegramForm() {
     if (data) {
       form.reset({
         enabled: data.enabled,
-        bot: data.config?.bot || "",
         bot_token: data.config?.bot_token || "",
+        enable_notify: data.config?.enable_notify ?? false,
+        webhook_domain: data.config?.webhook_domain || "",
       });
     }
   }, [data, form]);
@@ -84,8 +87,9 @@ export default function TelegramForm() {
         enabled: values.enabled,
         config: {
           ...data?.config,
-          bot: values.bot,
           bot_token: values.bot_token,
+          enable_notify: values.enable_notify,
+          webhook_domain: values.webhook_domain,
         },
       } as API.UpdateAuthMethodConfigRequest);
       toast.success(t("common.saveSuccess", "Saved successfully"));
@@ -158,21 +162,22 @@ export default function TelegramForm() {
 
               <FormField
                 control={form.control}
-                name="bot"
+                name="bot_token"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>{t("telegram.clientId", "Bot ID")}</FormLabel>
+                    <FormLabel>{t("telegram.botToken", "Bot Token")}</FormLabel>
                     <FormControl>
                       <EnhancedInput
                         onValueChange={field.onChange}
-                        placeholder="6123456789"
+                        placeholder="123456789:AAHn_xxxxxxxxxxxxxxxxxxxxxxxx"
+                        type="password"
                         value={field.value}
                       />
                     </FormControl>
                     <FormDescription>
                       {t(
-                        "telegram.clientIdDescription",
-                        "Telegram Bot ID, available from @BotFather"
+                        "telegram.botTokenDescription",
+                        "Telegram Bot Token from @BotFather"
                       )}
                     </FormDescription>
                     <FormMessage />
@@ -182,24 +187,49 @@ export default function TelegramForm() {
 
               <FormField
                 control={form.control}
-                name="bot_token"
+                name="webhook_domain"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>
-                      {t("telegram.clientSecret", "Bot Token")}
+                      {t("telegram.webhookDomain", "Webhook Domain")}
                     </FormLabel>
                     <FormControl>
                       <EnhancedInput
                         onValueChange={field.onChange}
-                        placeholder="6123456789:AAHn_xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx"
-                        type="password"
+                        placeholder="https://your-domain.com"
                         value={field.value}
                       />
                     </FormControl>
                     <FormDescription>
                       {t(
-                        "telegram.clientSecretDescription",
-                        "Telegram Bot Token, available from @BotFather"
+                        "telegram.webhookDomainDescription",
+                        "Public HTTPS URL of this server. Leave empty to use long-polling."
+                      )}
+                    </FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
+
+              <FormField
+                control={form.control}
+                name="enable_notify"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>
+                      {t("telegram.enableNotify", "Enable Notifications")}
+                    </FormLabel>
+                    <FormControl>
+                      <Switch
+                        checked={field.value}
+                        className="!mt-0 float-end"
+                        onCheckedChange={field.onChange}
+                      />
+                    </FormControl>
+                    <FormDescription>
+                      {t(
+                        "telegram.enableNotifyDescription",
+                        "Send order and expiry notifications to users via Telegram"
                       )}
                     </FormDescription>
                     <FormMessage />

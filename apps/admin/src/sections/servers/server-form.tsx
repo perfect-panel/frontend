@@ -529,12 +529,33 @@ export default function ServerForm(props: {
     const filteredProtocols = (values?.protocols || [])
       .filter((protocol: any) => protocol?.enable)
       .map((protocol: any) => {
-        if (protocol.ech_enable === true) {
-          return protocol;
-        }
+        const protocolType = protocol.type as ProtocolType;
+        const fields = PROTOCOL_FIELDS[protocolType] || [];
+        const hiddenFieldNames = new Set(
+          fields
+            .filter(
+              (field) => field.condition && !field.condition(protocol, {})
+            )
+            .map((field) => field.name)
+        );
+        const shouldStripEch = protocol.ech_enable !== true;
 
-        const { ech_enable: _ech_enable, ech_server_name: _ech_server_name, ...rest } = protocol;
-        return rest;
+        return Object.fromEntries(
+          Object.entries(protocol).filter(([key]) => {
+            if (hiddenFieldNames.has(key)) {
+              return false;
+            }
+
+            if (
+              shouldStripEch &&
+              (key === "ech_enable" || key === "ech_server_name")
+            ) {
+              return false;
+            }
+
+            return true;
+          })
+        );
       });
 
     const result = {

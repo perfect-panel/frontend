@@ -197,7 +197,9 @@ export default function DocumentForm<T extends Record<string, any>>({
                           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">
                             {"{{site_name}}"}
                           </code>
-                          <span>{t("form.variables.siteName", "Site name")}</span>
+                          <span>
+                            {t("form.variables.siteName", "Site name")}
+                          </span>
                         </div>
                         <div className="flex items-center gap-2">
                           <code className="rounded bg-muted px-1.5 py-0.5 font-mono text-foreground">

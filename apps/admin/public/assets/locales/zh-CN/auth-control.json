@@ -169,13 +169,15 @@
   },
   "socialAuthMethods": "社交账号认证方式",
   "telegram": {
-    "clientId": "机器人 ID",
-    "clientIdDescription": "Telegram 机器人 ID，可从 @BotFather 获取",
-    "clientSecret": "机器人令牌",
-    "clientSecretDescription": "Telegram 机器人令牌，可从 @BotFather 获取",
+    "botToken": "机器人令牌",
+    "botTokenDescription": "Telegram 机器人令牌，从 @BotFather 获取",
     "description": "使用 Telegram 账户验证用户身份",
     "enable": "启用",
     "enableDescription": "启用后，用户可以使用 Telegram 账户登录",
-    "title": "Telegram 登录"
+    "enableNotify": "启用通知",
+    "enableNotifyDescription": "向用户发送订单和到期通知",
+    "title": "Telegram 登录",
+    "webhookDomain": "Webhook 域名",
+    "webhookDomainDescription": "本服务器的公共 HTTPS 地址。留空则使用长轮询模式。"
   }
 }

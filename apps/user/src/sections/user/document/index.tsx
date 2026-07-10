@@ -19,6 +19,7 @@ export default function Document() {
   const { t, i18n } = useTranslation("document");
   const locale = i18n.language;
   const { common } = useGlobalStore();
+  const showTutorial = common.subscribe?.show_tutorial !== false;
 
   const { data } = useQuery({
     queryKey: ["queryDocumentList"],
@@ -43,7 +44,7 @@ export default function Document() {
       const list = await getTutorialList();
       return list.get(locale);
     },
-    enabled: common.subscribe?.show_tutorial !== false,
+    enabled: showTutorial,
   });
 
   if (
@@ -85,7 +86,7 @@ export default function Document() {
         </>
       )}
 
-      {TutorialList && TutorialList?.length > 0 && (
+      {showTutorial && TutorialList && TutorialList?.length > 0 && (
         <>
           <h2 className="flex items-center gap-1.5 font-semibold">
             {t("tutorial", "Tutorial")}
