@@ -527,28 +527,36 @@ export default function ServerForm(props: {
     }
 
     const filteredProtocols = (values?.protocols || [])
-        .filter((protocol: any) => protocol?.enable)
-        .map((protocol: any) => {
-          // 浅拷贝一份当前协议数据，避免直接修改表单内部状态
-          const cleanedProtocol = { ...protocol };
-          const protocolType = cleanedProtocol.type as ProtocolType;
-          const fields = PROTOCOL_FIELDS[protocolType] || [];
+      .filter((protocol: any) => protocol?.enable)
+      .map((protocol: any) => {
+        const protocolType = protocol.type as ProtocolType;
+        const fields = PROTOCOL_FIELDS[protocolType] || [];
+        const hiddenFieldNames = new Set(
+          fields
+            .filter(
+              (field) => field.condition && !field.condition(protocol, {})
+            )
+            .map((field) => field.name)
+        );
+        const shouldStripEch = protocol.ech_enable !== true;
 
-          // 1. 核心修复：根据 schema 的 condition 清理被隐藏的脏数据
-          for (const field of fields) {
-            if (field.condition && !field.condition(cleanedProtocol, {})) {
-              delete cleanedProtocol[field.name];
+        return Object.fromEntries(
+          Object.entries(protocol).filter(([key]) => {
+            if (hiddenFieldNames.has(key)) {
+              return false;
             }
-          }
 
-          // 2. 保留原有的 ECH 清理逻辑
-          if (cleanedProtocol.ech_enable !== true) {
-            delete cleanedProtocol.ech_enable;
-            delete cleanedProtocol.ech_server_name;
-          }
+            if (
+              shouldStripEch &&
+              (key === "ech_enable" || key === "ech_server_name")
+            ) {
+              return false;
+            }
 
-          return cleanedProtocol;
-        });
+            return true;
+          })
+        );
+      });
 
     const result = {
       name: values.name,

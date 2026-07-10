@@ -248,8 +248,8 @@ export function Markdown({ children, components }: MarkdownProps) {
           ...components,
         }}
         rehypePlugins={[rehypeRaw, rehypeKatex]}
-        urlTransform={appUrlTransform}
         remarkPlugins={[remarkGfm, remarkToc, remarkMath]}
+        urlTransform={appUrlTransform}
       >
         {children}
       </ReactMarkdown>

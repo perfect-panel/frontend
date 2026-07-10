@@ -11,7 +11,10 @@ if (!token) {
   process.exit(1);
 }
 
-const event = eventPath && existsSync(eventPath) ? JSON.parse(readFileSync(eventPath, "utf8")) : {};
+const event =
+  eventPath && existsSync(eventPath)
+    ? JSON.parse(readFileSync(eventPath, "utf8"))
+    : {};
 
 async function github(path) {
   const response = await fetch(`https://api.github.com${path}`, {
@@ -23,7 +26,9 @@ async function github(path) {
   });
 
   if (!response.ok) {
-    throw new Error(`GitHub API ${path} failed: ${response.status} ${response.statusText}`);
+    throw new Error(
+      `GitHub API ${path} failed: ${response.status} ${response.statusText}`
+    );
   }
 
   return response.json();
@@ -68,5 +73,8 @@ const report = {
 };
 
 mkdirSync(".automation", { recursive: true });
-writeFileSync(join(".automation", "context.json"), `${JSON.stringify(report, null, 2)}\n`);
+writeFileSync(
+  join(".automation", "context.json"),
+  `${JSON.stringify(report, null, 2)}\n`
+);
 console.log(JSON.stringify(report, null, 2));

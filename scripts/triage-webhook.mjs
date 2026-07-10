@@ -4,7 +4,7 @@ import { readFileSync } from "node:fs";
 const webhookUrl = process.env.BRIDGE_WEBHOOK_URL;
 const webhookSecret = process.env.BRIDGE_WEBHOOK_SECRET;
 
-if (!webhookUrl || !webhookSecret) {
+if (!(webhookUrl && webhookSecret)) {
   console.error("BRIDGE_WEBHOOK_URL and BRIDGE_WEBHOOK_SECRET are required");
   process.exit(1);
 }

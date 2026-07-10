@@ -165,9 +165,7 @@ export default function TelegramForm() {
                 name="bot_token"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>
-                      {t("telegram.botToken", "Bot Token")}
-                    </FormLabel>
+                    <FormLabel>{t("telegram.botToken", "Bot Token")}</FormLabel>
                     <FormControl>
                       <EnhancedInput
                         onValueChange={field.onChange}
