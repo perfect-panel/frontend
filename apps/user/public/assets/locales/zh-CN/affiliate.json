@@ -1,11 +1,25 @@
 {
+  "availableCommission": "可提现佣金",
   "commissionInfo": "佣金信息",
   "commissionRate": "佣金比例",
   "copyInviteLink": "复制邀请链接",
   "copySuccess": "复制成功",
+  "invalidWithdrawAmount": "请输入有效金额",
   "inviteCode": "邀请码",
   "inviteRecords": "邀请记录",
   "registrationTime": "注册时间",
+  "submitWithdraw": "提交提现",
+  "submitting": "提交中...",
   "totalCommission": "累计佣金",
-  "userIdentifier": "用户标识"
+  "userIdentifier": "用户标识",
+  "withdraw": "提现",
+  "withdrawAmount": "提现金额",
+  "withdrawAmountExceeds": "金额超过可提现佣金",
+  "withdrawCommission": "佣金提现",
+  "withdrawContentRequired": "请输入提现信息",
+  "withdrawDescription": "提交佣金提现申请，等待管理员审核。",
+  "withdrawFailed": "提现申请提交失败",
+  "withdrawInfo": "提现信息",
+  "withdrawInfoPlaceholder": "请输入收款账号或提现说明",
+  "withdrawSuccess": "提现申请已提交"
 }
