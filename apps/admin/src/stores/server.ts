@@ -1,5 +1,6 @@
 import { filterServerList } from "@workspace/ui/services/admin/server";
 import { create } from "zustand";
+import { fetchAllPaginated } from "./pagination";
 
 interface ServerState {
   // Data
@@ -35,9 +36,9 @@ export const useServerStore = create<ServerState>((set, get) => ({
 
     set({ loading: true });
     try {
-      const { data } = await filterServerList({ page: 1, size: 999_999_999 });
+      const servers = await fetchAllPaginated(filterServerList);
       set({
-        servers: data?.data?.list || [],
+        servers,
         loaded: true,
       });
     } catch (_error) {
