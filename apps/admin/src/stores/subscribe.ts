@@ -1,5 +1,6 @@
 import { getSubscribeList } from "@workspace/ui/services/admin/subscribe";
 import { create } from "zustand";
+import { fetchAllPaginated } from "./pagination";
 
 interface SubscribeState {
   // Data
@@ -29,9 +30,9 @@ export const useSubscribeStore = create<SubscribeState>((set, get) => ({
 
     set({ loading: true });
     try {
-      const { data } = await getSubscribeList({ page: 1, size: 999_999_999 });
+      const subscribes = await fetchAllPaginated(getSubscribeList);
       set({
-        subscribes: data?.data?.list || [],
+        subscribes,
         loaded: true,
       });
     } catch (_error) {
