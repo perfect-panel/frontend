@@ -5,6 +5,8 @@ on:
     branches: [main, next, beta, develop]
     paths-ignore:
       - 'docs/**'
+  release:
+    types: [published]
 
 permissions:
   contents: write
