@@ -19,6 +19,25 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.11.0](https://github.com/perfect-panel/frontend/compare/v1.10.4...v1.11.0) (2026-07-14)
+
+### ✨ Features / 新功能
+
+* support subscription token user search ([1884b36](https://github.com/perfect-panel/frontend/commit/1884b3609dcd746110f09c30889a7c6a5a959e5d))
+
+### 🐛 Bug Fixes / 问题修复
+
+* copy subscription URL on app import ([79334ba](https://github.com/perfect-panel/frontend/commit/79334bafb41a581cd413856e16533c0fb18d0380))
+* load admin store lookup data by pages ([b5091b3](https://github.com/perfect-panel/frontend/commit/b5091b3dc163d7309410877b0fb4270a483e4876))
+
+### 👷 Continuous Integration / CI/CD
+
+* trigger release workflow on published releases ([700fc05](https://github.com/perfect-panel/frontend/commit/700fc05ebc1fc71cbffd2227ae4a3cc5ba0bb5dc))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.11.0-dev.1 / 发布版本 1.11.0-dev.1 [skip ci] ([6ee8d96](https://github.com/perfect-panel/frontend/commit/6ee8d9679de0534e0715b238db0a5bee7fa373f2))
+
 ## [1.11.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.10.2...v1.11.0-dev.1) (2026-07-14)
 
 ### ✨ Features / 新功能
