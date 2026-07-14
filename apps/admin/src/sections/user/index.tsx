@@ -61,6 +61,7 @@ export default function User() {
     user_id: sp.user_id || undefined,
     subscribe_id: sp.subscribe_id || undefined,
     user_subscribe_id: sp.user_subscribe_id || undefined,
+    user_subscribe_token: sp.user_subscribe_token || undefined,
   };
 
   return (
@@ -79,7 +80,7 @@ export default function User() {
             confirmText={t("confirm", "Confirm")}
             description={t(
               "deleteDescription",
-              "This action cannot be undone."
+              "This action cannot be undone.",
             )}
             key="edit"
             onConfirm={async () => {
@@ -270,7 +271,7 @@ export default function User() {
         ),
       }}
       initialFilters={initialFilters}
-      key={initialFilters.user_id}
+      key={JSON.stringify(initialFilters)}
       params={[
         {
           key: "subscribe_id",
@@ -292,11 +293,21 @@ export default function User() {
           key: "user_subscribe_id",
           placeholder: t("subscriptionId", "Subscription ID"),
         },
+        {
+          key: "user_subscribe_token",
+          placeholder: t(
+            "subscriptionTokenOrUrl",
+            "Subscription URL / Token / UUID",
+          ),
+        },
       ]}
       request={async (pagination, filter) => {
         const { data } = await getUserList({
           ...pagination,
           ...filter,
+          user_subscribe_token: extractSubscribeTokenOrUuid(
+            filter.user_subscribe_token,
+          ),
         });
         return {
           list: data.data?.list || [],
@@ -305,6 +316,32 @@ export default function User() {
       }}
     />
   );
+}
+
+function extractSubscribeTokenOrUuid(value: unknown) {
+  if (typeof value !== "string") {
+    return undefined;
+  }
+  const input = value.trim();
+  if (!input) {
+    return undefined;
+  }
+  const queryIndex = input.indexOf("?");
+  const search =
+    queryIndex !== -1
+      ? input.slice(queryIndex + 1).split("#", 1)[0]
+      : input.startsWith("token=") || input.startsWith("uuid=")
+        ? input
+        : "";
+  if (search) {
+    const params = new URLSearchParams(search);
+    const tokenOrUuid = params.get("token") ?? params.get("uuid");
+    if (tokenOrUuid !== null) {
+      const trimmedTokenOrUuid = tokenOrUuid.trim();
+      return trimmedTokenOrUuid || undefined;
+    }
+  }
+  return input;
 }
 
 function ProfileSheet({

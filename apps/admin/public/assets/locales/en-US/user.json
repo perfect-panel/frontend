@@ -111,6 +111,7 @@
   "subscriptionLogs": "Subscription Logs",
   "subscriptionName": "subscriptionName",
   "subscriptionNotifications": "Subscription Notifications",
+  "subscriptionTokenOrUrl": "Subscription URL / Token / UUID",
   "telephone": "Phone",
   "telephonePlaceholder": "Enter phone number",
   "token": "token",

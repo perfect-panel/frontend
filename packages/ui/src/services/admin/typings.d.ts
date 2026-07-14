@@ -1145,6 +1145,7 @@ declare namespace API {
     unscoped?: boolean;
     subscribe_id?: number;
     user_subscribe_id?: number;
+    user_subscribe_token?: string;
   };
 
   type GetUserListRequest = {
@@ -1155,6 +1156,7 @@ declare namespace API {
     unscoped?: boolean;
     subscribe_id?: number;
     user_subscribe_id?: number;
+    user_subscribe_token?: string;
   };
 
   type GetUserListResponse = {

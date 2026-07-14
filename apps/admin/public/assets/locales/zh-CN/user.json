@@ -111,6 +111,7 @@
   "subscriptionLogs": "订阅日志",
   "subscriptionName": "订阅名称",
   "subscriptionNotifications": "订阅通知",
+  "subscriptionTokenOrUrl": "订阅地址 / Token / UUID",
   "telephone": "电话",
   "telephonePlaceholder": "输入电话号码",
   "token": "令牌",
