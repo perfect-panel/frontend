@@ -1,11 +1,25 @@
 {
+  "availableCommission": "Available Commission",
   "commissionInfo": "Commission Info",
   "commissionRate": "Commission Rate",
   "copyInviteLink": "Copy Invite Link",
   "copySuccess": "Copy Success",
+  "invalidWithdrawAmount": "Please enter a valid amount",
   "inviteCode": "Invite Code",
   "inviteRecords": "Invite Records",
   "registrationTime": "Registration Time",
+  "submitWithdraw": "Submit Withdrawal",
+  "submitting": "Submitting...",
   "totalCommission": "Total Commission",
-  "userIdentifier": "User Identifier"
+  "userIdentifier": "User Identifier",
+  "withdraw": "Withdraw",
+  "withdrawAmount": "Withdrawal Amount",
+  "withdrawAmountExceeds": "Amount exceeds available commission",
+  "withdrawCommission": "Withdraw Commission",
+  "withdrawContentRequired": "Please enter withdrawal info",
+  "withdrawDescription": "Submit a commission withdrawal request for admin review.",
+  "withdrawFailed": "Failed to submit withdrawal request",
+  "withdrawInfo": "Withdrawal Info",
+  "withdrawInfoPlaceholder": "Enter payment account or withdrawal instructions",
+  "withdrawSuccess": "Withdrawal request submitted"
 }
