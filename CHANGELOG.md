@@ -19,6 +19,22 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.11.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.10.2...v1.11.0-dev.1) (2026-07-14)
+
+### ✨ Features / 新功能
+
+* support subscription token user search ([1884b36](https://github.com/perfect-panel/frontend/commit/1884b3609dcd746110f09c30889a7c6a5a959e5d))
+
+### 🐛 Bug Fixes / 问题修复
+
+* remove invalid favicon mime type ([313beb2](https://github.com/perfect-panel/frontend/commit/313beb2bfd8c9d1999e3aea799f05d906105b444))
+* unblock frontend release workflow ([e9ed6ea](https://github.com/perfect-panel/frontend/commit/e9ed6eac8f780277b291dfcfddab43babf81a8b6))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.10.1-dev.1 / 发布版本 1.10.1-dev.1 [skip ci] ([8649a93](https://github.com/perfect-panel/frontend/commit/8649a9338cc712f136186b6c4bfc9961875a4a9e))
+* **release:** Release 1.10.1-dev.2 / 发布版本 1.10.1-dev.2 [skip ci] ([9fa0781](https://github.com/perfect-panel/frontend/commit/9fa07813faadbb1d5bb35416fe161edd3bc88ab6))
+
 ## [1.10.2](https://github.com/perfect-panel/frontend/compare/v1.10.1...v1.10.2) (2026-07-10)
 
 ### 🐛 Bug Fixes / 问题修复
