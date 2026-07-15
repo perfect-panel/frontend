@@ -2,7 +2,14 @@ import type { protocols } from "./constants";
 
 export type FieldConfig = {
   name: string;
-  type: "input" | "select" | "switch" | "number" | "textarea";
+  type:
+    | "input"
+    | "select"
+    | "switch"
+    | "number"
+    | "textarea"
+    | "string-list"
+    | "json";
   label: string;
   required?: boolean;
   placeholder?: string;

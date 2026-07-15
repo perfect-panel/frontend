@@ -393,6 +393,7 @@ declare namespace API {
   type NodeDNS = {
     proto: string;
     address: string;
+    server_name?: string;
     domains: string[];
   };
 
@@ -405,15 +406,27 @@ declare namespace API {
     password: string;
     uuid?: string;
     cipher?: string;
+    plugin?: string;
+    plugin_opts?: Record<string, unknown> | string;
     security?: string;
     sni?: string;
+    alpn?: string[];
     allow_insecure?: boolean;
     fingerprint?: string;
     transport?: string;
     host?: string;
     path?: string;
     service_name?: string;
+    xhttp_mode?: string;
+    xhttp_extra?: string;
     flow?: string;
+    encryption?: string;
+    encryption_mode?: string;
+    encryption_rtt?: string;
+    encryption_ticket?: string;
+    encryption_client_padding?: string;
+    encryption_password?: string;
+    multiplex?: string;
     uot?: boolean;
     uot_version?: number;
     congestion_controller?: string;
@@ -567,9 +580,13 @@ declare namespace API {
   type Protocol = {
     type: string;
     port: number;
+    version?: number;
+    mode?: string;
     enable: boolean;
     security?: string;
+    network?: string;
     sni?: string;
+    alpn?: string[];
     allow_insecure?: boolean;
     fingerprint?: string;
     reality_server_addr?: string;
@@ -583,24 +600,36 @@ declare namespace API {
     service_name?: string;
     cipher?: string;
     server_key?: string;
+    plugin?: string;
+    plugin_opts?: Record<string, unknown> | string;
     flow?: string;
+    uot?: boolean;
+    uot_version?: number;
+    accept_proxy_protocol?: boolean;
     hop_ports?: string;
     hop_interval?: number;
     obfs_password?: string;
     disable_sni?: boolean;
     reduce_rtt?: boolean;
+    heartbeat?: number;
     udp_relay_mode?: string;
     congestion_controller?: string;
+    quic_congestion_control?: string;
     /** mux, eg: off/low/medium/high */
     multiplex?: string;
     /** padding scheme */
     padding_scheme?: string;
+    traffic_pattern?: string;
+    user_hint_is_mandatory?: boolean;
     /** upload speed limit */
     up_mbps?: number;
     /** download speed limit */
     down_mbps?: number;
     /** obfs, 'none', 'http', 'tls' */
     obfs?: string;
+    protocol?: string;
+    protocol_param?: string;
+    obfs_param?: string;
     /** obfs host */
     obfs_host?: string;
     /** obfs path */
@@ -625,6 +654,8 @@ declare namespace API {
     encryption_client_padding?: string;
     /** encryption password */
     encryption_password?: string;
+    ech_enable?: boolean;
+    ech_server_name?: string;
     /** Traffic ratio, default is 1 */
     ratio?: number;
     /** Certificate mode, `none`｜`http`｜`dns`｜`self` */

@@ -55,6 +55,7 @@ import { OutboundConfigInput } from "./outbound-config-input";
 const dnsConfigSchema = z.object({
   proto: z.string(),
   address: z.string(),
+  server_name: z.string().optional(),
   domains: z.array(z.string()),
 });
 
@@ -347,6 +348,14 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
                                   placeholder: "8.8.8.8:53",
                                 },
                                 {
+                                  name: "server_name",
+                                  type: "text",
+                                  placeholder: t(
+                                    "server_config.fields.dns_server_name_placeholder",
+                                    "TLS server name (optional)"
+                                  ),
+                                },
+                                {
                                   name: "domains",
                                   type: "textarea",
                                   className: "col-span-2",
@@ -360,6 +369,7 @@ export default function ServerNodeConfig({ server }: { server: API.Server }) {
                                 const converted = values.map((item: any) => ({
                                   proto: item.proto,
                                   address: item.address,
+                                  server_name: item.server_name || "",
                                   domains:
                                     typeof item.domains === "string"
                                       ? splitLines(item.domains)

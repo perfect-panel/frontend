@@ -1,16 +1,23 @@
 import { z } from "zod";
 import {
+  ALPN_VALUES,
   CERT_MODES,
   ENCRYPTION_MODES,
   ENCRYPTION_RTT,
   ENCRYPTION_TYPES,
   FLOWS,
   multiplexLevels,
+  NAIVE_CONGESTION,
   SECURITY,
+  SHADOWSOCKS_PLUGINS,
+  SNELL_OBFS,
+  SNELL_V6_MODES,
   SS_CIPHERS,
+  SSR_CIPHERS,
+  SSR_OBFS,
+  SSR_PROTOCOLS,
   TRANSPORTS,
   TUIC_CONGESTION,
-  TUIC_UDP_RELAY_MODES,
   XHTTP_MODES,
 } from "./constants";
 
@@ -18,65 +25,95 @@ const nullableString = z.string().nullish();
 const nullableBool = z.boolean().nullish();
 const nullablePort = z.number().int().min(0).max(65_535).nullish();
 const nullableRatio = z.number().min(0).nullish();
+const nullableInteger = z.preprocess(
+  (value) =>
+    value === "" || value === null || value === undefined
+      ? undefined
+      : Number(value),
+  z.number().int().optional()
+);
+const nullableALPN = z.array(z.enum(ALPN_VALUES)).nullish();
 
-const ss = z.object({
+const pluginOptions = z
+  .union([
+    z.record(z.string(), z.unknown()),
+    z.string().transform((value) => {
+      try {
+        const parsed = JSON.parse(value);
+        return parsed !== null &&
+          typeof parsed === "object" &&
+          !Array.isArray(parsed)
+          ? (parsed as Record<string, unknown>)
+          : value;
+      } catch {
+        return value;
+      }
+    }),
+  ])
+  .nullish();
+
+const common = {
   ratio: nullableRatio,
-  type: z.literal("shadowsocks"),
   enable: nullableBool,
   port: nullablePort,
-  cipher: z.enum(SS_CIPHERS).nullish(),
-  server_key: nullableString,
-  obfs: z.enum(["none", "http", "tls"] as const).nullish(),
-  obfs_host: nullableString,
-  obfs_path: nullableString,
-  uot: nullableBool,
-  uot_version: z.number().int().min(1).max(2).nullish(),
+};
+
+const certificate = {
+  sni: nullableString,
   cert_mode: z.enum(CERT_MODES).nullish(),
   cert_dns_provider: nullableString,
   cert_dns_env: nullableString,
-});
+};
 
-const vmess = z.object({
-  ratio: nullableRatio,
-  type: z.literal("vmess"),
-  enable: nullableBool,
+const stream = {
   host: nullableString,
-  port: nullablePort,
-  transport: z.enum(TRANSPORTS.vmess).nullish(),
-  security: z.enum(SECURITY.vmess).nullish(),
+  transport: nullableString,
   path: nullableString,
   service_name: nullableString,
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
-});
+  xhttp_mode: z.enum(XHTTP_MODES).nullish(),
+  xhttp_extra: nullableString,
+  alpn: nullableALPN,
+  multiplex: z.enum(multiplexLevels).nullish(),
+};
 
-const vless = z.object({
-  ratio: nullableRatio,
-  type: z.literal("vless"),
-  enable: nullableBool,
-  host: nullableString,
-  port: nullablePort,
-  transport: z.enum(TRANSPORTS.vless).nullish(),
-  security: z.enum(SECURITY.vless).nullish(),
-  path: nullableString,
-  service_name: nullableString,
-  flow: z.enum(FLOWS.vless).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
+const reality = {
   reality_server_addr: nullableString,
   reality_server_port: nullablePort,
   reality_private_key: nullableString,
   reality_public_key: nullableString,
   reality_short_id: nullableString,
-  xhttp_mode: z.enum(XHTTP_MODES).nullish(),
-  xhttp_extra: nullableString,
+};
+
+const shadowsocks = z.object({
+  ...common,
+  type: z.literal("shadowsocks"),
+  cipher: z.enum(SS_CIPHERS).nullish(),
+  server_key: nullableString,
+  plugin: z.enum(SHADOWSOCKS_PLUGINS).nullish(),
+  plugin_opts: pluginOptions,
+  multiplex: z.enum(multiplexLevels).nullish(),
+  uot: nullableBool,
+  uot_version: nullableInteger,
+  ...certificate,
+});
+
+const vmess = z.object({
+  ...common,
+  ...stream,
+  ...certificate,
+  ...reality,
+  type: z.literal("vmess"),
+  security: z.enum(SECURITY.vmess).nullish(),
+});
+
+const vless = z.object({
+  ...common,
+  ...stream,
+  ...certificate,
+  ...reality,
+  type: z.literal("vless"),
+  security: z.enum(SECURITY.vless).nullish(),
+  flow: z.enum(FLOWS.vless).nullish(),
   encryption: z.enum(ENCRYPTION_TYPES).nullish(),
   encryption_mode: z.enum(ENCRYPTION_MODES).nullish(),
   encryption_rtt: z.enum(ENCRYPTION_RTT).nullish(),
@@ -85,158 +122,102 @@ const vless = z.object({
   encryption_private_key: nullableString,
   encryption_client_padding: nullableString,
   encryption_password: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
 });
 
 const trojan = z.object({
-  ratio: nullableRatio,
+  ...common,
+  ...stream,
+  ...certificate,
+  ...reality,
   type: z.literal("trojan"),
-  enable: nullableBool,
-  host: nullableString,
-  port: nullablePort,
-  transport: z.enum(TRANSPORTS.trojan).nullish(),
   security: z.enum(SECURITY.trojan).nullish(),
-  path: nullableString,
-  service_name: nullableString,
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
 });
 
-const hysteria = z.object({
-  ratio: nullableRatio,
-  type: z.literal("hysteria"),
-  enable: nullableBool,
-  hop_ports: nullableString,
-  hop_interval: z.number().nullish(),
+const hysteria2 = z.object({
+  ...common,
+  ...certificate,
+  type: z.literal("hysteria2"),
+  security: z.enum(SECURITY.hysteria2).nullish(),
   obfs_password: nullableString,
   obfs: z.enum(["none", "salamander"] as const).nullish(),
-  port: nullablePort,
-  security: z.enum(SECURITY.hysteria).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  up_mbps: z.number().nullish(),
-  down_mbps: z.number().nullish(),
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
+  up_mbps: nullableInteger,
+  down_mbps: nullableInteger,
 });
 
 const tuic = z.object({
-  ratio: nullableRatio,
+  ...common,
+  ...certificate,
   type: z.literal("tuic"),
-  enable: nullableBool,
-  host: nullableString,
-  port: nullablePort,
-  disable_sni: z.boolean().nullish(),
-  reduce_rtt: z.boolean().nullish(),
-  udp_relay_mode: z.enum(TUIC_UDP_RELAY_MODES).nullish(),
-  congestion_controller: z.enum(TUIC_CONGESTION).nullish(),
+  version: nullableInteger,
   security: z.enum(SECURITY.tuic).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
+  alpn: nullableALPN,
+  reduce_rtt: nullableBool,
+  heartbeat: nullableInteger,
+  congestion_controller: z.enum(TUIC_CONGESTION).nullish(),
+  multiplex: z.enum(multiplexLevels).nullish(),
 });
 
 const anytls = z.object({
-  ratio: nullableRatio,
+  ...common,
+  ...certificate,
+  ...reality,
   type: z.literal("anytls"),
-  enable: nullableBool,
-  port: nullablePort,
   security: z.enum(SECURITY.anytls).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
   padding_scheme: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
-  reality_server_addr: nullableString,
-  reality_server_port: nullablePort,
-  reality_private_key: nullableString,
-  reality_public_key: nullableString,
-  reality_short_id: nullableString,
-});
-
-const socks = z.object({
-  ratio: nullableRatio,
-  type: z.literal("socks"),
-  enable: nullableBool,
-  port: nullablePort,
+  multiplex: z.enum(multiplexLevels).nullish(),
 });
 
 const naive = z.object({
-  ratio: nullableRatio,
+  ...common,
+  ...certificate,
   type: z.literal("naive"),
-  enable: nullableBool,
-  port: nullablePort,
   security: z.enum(SECURITY.naive).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
-});
-
-const http = z.object({
-  ratio: nullableRatio,
-  type: z.literal("http"),
-  enable: nullableBool,
-  port: nullablePort,
-  security: z.enum(SECURITY.http).nullish(),
-  sni: nullableString,
-  allow_insecure: nullableBool,
-  fingerprint: nullableString,
-  cert_mode: z.enum(CERT_MODES).nullish(),
-  cert_dns_provider: nullableString,
-  cert_dns_env: nullableString,
-  ech_enable: z.boolean().nullish(),
-  ech_server_name: nullableString,
+  network: z.enum(["tcp,udp", "tcp", "udp"] as const).nullish(),
+  quic_congestion_control: z.enum(NAIVE_CONGESTION).nullish(),
 });
 
 const mieru = z.object({
-  ratio: nullableRatio,
+  ...common,
   type: z.literal("mieru"),
-  enable: nullableBool,
-  port: nullablePort,
-  multiplex: z.enum(multiplexLevels).nullish(),
   transport: z.enum(TRANSPORTS.mieru).nullish(),
+  traffic_pattern: nullableString,
+  user_hint_is_mandatory: nullableBool,
+});
+
+const shadowsocksr = z.object({
+  ...common,
+  type: z.literal("shadowsocksr"),
+  transport: z.enum(TRANSPORTS.shadowsocksr).nullish(),
+  cipher: z.enum(SSR_CIPHERS).nullish(),
+  server_key: nullableString,
+  protocol: z.enum(SSR_PROTOCOLS).nullish(),
+  protocol_param: nullableString,
+  obfs: z.enum(SSR_OBFS).nullish(),
+  obfs_param: nullableString,
+});
+
+const snell = z.object({
+  ...common,
+  type: z.literal("snell"),
+  version: nullableInteger,
+  mode: z.enum(SNELL_V6_MODES).nullish(),
+  server_key: nullableString,
+  obfs: z.enum(SNELL_OBFS).nullish(),
+  multiplex: z.enum(multiplexLevels).nullish(),
 });
 
 export const protocolApiScheme = z.discriminatedUnion("type", [
-  ss,
+  shadowsocks,
   vmess,
   vless,
   trojan,
-  hysteria,
+  hysteria2,
   tuic,
   anytls,
-  socks,
   naive,
-  http,
   mieru,
+  shadowsocksr,
+  snell,
 ]);
 
 export const formSchema = z.object({

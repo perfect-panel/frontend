@@ -87,8 +87,9 @@ function getFieldValue(
   item: OutboundConfigFormData,
   field: OutboundFieldConfig
 ) {
-  if (field.name === "rules") {
-    return Array.isArray(item.rules) ? item.rules.join("\n") : "";
+  if (field.type === "string-list" || field.name === "rules") {
+    const value = item[field.name];
+    return Array.isArray(value) ? value.join("\n") : "";
   }
   return item[field.name] ?? "";
 }
@@ -112,7 +113,7 @@ function getItemTitle(item: OutboundConfigFormData, index: number) {
 function getItemBadges(item: OutboundConfigFormData) {
   return [
     getOutboundProtocolLabel(item.protocol),
-    item.transport && !["tuic", "hysteria"].includes(item.transport)
+    item.transport && !["tuic", "hysteria2"].includes(item.transport)
       ? item.transport.toUpperCase()
       : "",
     item.security && item.security !== "none"
@@ -175,7 +176,9 @@ export function OutboundConfigInput({
       next = {
         ...current,
         [field.name]:
-          field.name === "rules" ? splitLines(String(fieldValue)) : fieldValue,
+          field.name === "rules" || field.type === "string-list"
+            ? splitLines(String(fieldValue))
+            : fieldValue,
       };
     }
 
@@ -250,6 +253,7 @@ export function OutboundConfigInput({
         );
 
       case "textarea":
+      case "string-list":
         return (
           <div className={cn("space-y-2", field.className)} key={field.name}>
             <Label>{label}</Label>
