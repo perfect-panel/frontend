@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.11.0-dev.4](https://github.com/perfect-panel/frontend/compare/v1.11.0-dev.3...v1.11.0-dev.4) (2026-07-16)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** copy server node config ([c812c90](https://github.com/perfect-panel/frontend/commit/c812c90a7658e28756ca287d7493064448834de5))
+
 ## [1.11.0-dev.3](https://github.com/perfect-panel/frontend/compare/v1.11.0-dev.2...v1.11.0-dev.3) (2026-07-16)
 
 ### 🐛 Bug Fixes / 问题修复
