@@ -1,3 +1,4 @@
+import { useSearch } from "@tanstack/react-router";
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
 import {
@@ -25,6 +26,7 @@ import { UserDetail } from "../user/user-detail";
 
 export default function Order() {
   const { t } = useTranslation("order");
+  const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
 
   const statusOptions = [
     {
@@ -56,6 +58,10 @@ export default function Order() {
   const ref = useRef<ProTableActions>(null);
 
   const { subscribes, getSubscribeName } = useSubscribe();
+
+  const initialFilters = {
+    user_id: sp.user_id ? Number(sp.user_id) : undefined,
+  };
 
   return (
     <ProTable<API.Order, any>
@@ -229,6 +235,8 @@ export default function Order() {
           },
         },
       ]}
+      initialFilters={initialFilters}
+      key={JSON.stringify(initialFilters)}
       params={[
         {
           key: "status",
