@@ -112,6 +112,19 @@ function normalizeMultiplexValue(
   }
 }
 
+const PRESERVED_HIDDEN_PROTOCOL_FIELDS = new Set([
+  "server_key",
+  "reality_private_key",
+  "reality_public_key",
+  "reality_short_id",
+  "encryption_ticket",
+  "encryption_server_padding",
+  "encryption_private_key",
+  "encryption_client_padding",
+  "encryption_password",
+  "obfs_password",
+]);
+
 function DynamicField({
   field,
   control,
@@ -686,7 +699,10 @@ export default function ServerForm(props: {
         );
         const normalized = Object.fromEntries(
           Object.entries(protocol).filter(([key]) => {
-            if (hiddenFieldNames.has(key)) {
+            if (
+              hiddenFieldNames.has(key) &&
+              !PRESERVED_HIDDEN_PROTOCOL_FIELDS.has(key)
+            ) {
               return false;
             }
 
