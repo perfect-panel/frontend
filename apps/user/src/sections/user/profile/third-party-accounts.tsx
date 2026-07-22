@@ -27,10 +27,14 @@ import { AreaCodeSelect } from "@workspace/ui/composed/area-code-select";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   bindOAuth,
+  bindTelegram,
   unbindOAuth,
+  unbindTelegram,
   updateBindEmail,
   updateBindMobile,
 } from "@workspace/ui/services/user/user";
+import { useCountDown } from "ahooks";
+import { QRCodeCanvas } from "qrcode.react";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -170,6 +174,118 @@ function MobileBindDialog({
   );
 }
 
+function TelegramBindDialog({
+  onSuccess,
+  children,
+}: {
+  onSuccess: () => void;
+  children: React.ReactNode;
+}) {
+  const { t } = useTranslation("profile");
+  const [open, setOpen] = useState(false);
+  const [link, setLink] = useState<API.BindTelegramResponse>();
+  const [loading, setLoading] = useState(false);
+
+  const [countDown, formattedRes] = useCountDown({
+    targetDate: link?.expired_at,
+  });
+
+  const fetchTelegramLink = async () => {
+    setLoading(true);
+    try {
+      const res = await bindTelegram();
+      if (res.data?.data?.url) {
+        setLink(res.data.data);
+      }
+    } catch (_error) {
+      toast.error(t("thirdParty.bindFailed", "Failed to connect"));
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const handleOpenChange = (nextOpen: boolean) => {
+    setOpen(nextOpen);
+    if (nextOpen && !link) {
+      fetchTelegramLink();
+    }
+  };
+
+  const { minutes, seconds } = formattedRes;
+
+  const countdownDisplay =
+    countDown > 0
+      ? `${minutes.toString().padStart(2, "0")}:${seconds
+          .toString()
+          .padStart(2, "0")}`
+      : t("thirdParty.telegram.expired", "Expired");
+
+  return (
+    <Dialog onOpenChange={handleOpenChange} open={open}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+      <DialogContent className="sm:max-w-[425px]">
+        <DialogHeader>
+          <DialogTitle>
+            {t("thirdParty.bindTelegram", "Connect Telegram")}
+          </DialogTitle>
+        </DialogHeader>
+        <div className="flex flex-col items-center gap-4 text-center">
+          {link?.url ? (
+            <>
+              <div className="rounded-lg bg-white p-3">
+                <QRCodeCanvas size={180} value={link.url} />
+              </div>
+              <p className="text-muted-foreground text-sm">
+                {t(
+                  "thirdParty.telegram.description",
+                  "Open Telegram with the button below, or scan the QR code on desktop. The link is valid for 5 minutes."
+                )}
+              </p>
+              <p className="font-medium text-sm">
+                {t("thirdParty.telegram.validFor", "Valid for")}:{" "}
+                {countdownDisplay}
+              </p>
+              <div className="flex w-full gap-2">
+                <Button asChild className="flex-1">
+                  <a href={link.url} rel="noreferrer" target="_blank">
+                    {t("thirdParty.telegram.open", "Open Telegram")}
+                  </a>
+                </Button>
+                <Button
+                  className="flex-1"
+                  onClick={async () => {
+                    await onSuccess();
+                    setOpen(false);
+                  }}
+                  variant="outline"
+                >
+                  {t("thirdParty.telegram.refresh", "I have started the bot")}
+                </Button>
+              </div>
+              {countDown <= 0 && (
+                <Button
+                  className="w-full"
+                  disabled={loading}
+                  onClick={fetchTelegramLink}
+                  variant="outline"
+                >
+                  {t("thirdParty.telegram.refreshLink", "Get a new link")}
+                </Button>
+              )}
+            </>
+          ) : (
+            <Button disabled={loading} onClick={fetchTelegramLink}>
+              {loading
+                ? t("thirdParty.loading", "Loading...")
+                : t("thirdParty.telegram.getLink", "Get Telegram link")}
+            </Button>
+          )}
+        </div>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
 export default function ThirdPartyAccounts() {
   const { t } = useTranslation("profile");
   const { user, getUserInfo, common } = useGlobalStore();
@@ -252,9 +368,16 @@ export default function ThirdPartyAccounts() {
       (auth) => auth.auth_type === account.id
     )?.auth_identifier;
     if (isBound) {
-      await unbindOAuth({ method: account.id });
+      if (account.id === "telegram") {
+        await unbindTelegram();
+      } else {
+        await unbindOAuth({ method: account.id });
+      }
       await getUserInfo();
     } else {
+      if (account.id === "telegram") {
+        return;
+      }
       const res = await bindOAuth({
         method: account.id,
         redirect: `${window.location.origin}/bind/${account.id}`,
@@ -336,6 +459,12 @@ export default function ThirdPartyAccounts() {
                         )}
                       </Button>
                     </MobileBindDialog>
+                  ) : account.id === "telegram" && !method?.auth_identifier ? (
+                    <TelegramBindDialog onSuccess={getUserInfo}>
+                      <Button className="whitespace-nowrap" variant="default">
+                        {t("thirdParty.bind", "Connect")}
+                      </Button>
+                    </TelegramBindDialog>
                   ) : (
                     <Button
                       className="whitespace-nowrap"
