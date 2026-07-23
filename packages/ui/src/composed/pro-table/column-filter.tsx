@@ -31,6 +31,7 @@ export function ColumnFilter<TData>({
       }
       return newFilters;
     });
+    table.setPageIndex(0);
   };
 
   const toDateInput = (d: Date) => {
