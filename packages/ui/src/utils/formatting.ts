@@ -31,6 +31,6 @@ export function differenceInDays(
 ) {
   const diffInMs = differenceInMilliseconds(dateLeft, dateRight);
   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-  if (diffInDays >= 1) return diffInDays.toFixed(0);
+  if (Math.abs(diffInDays) >= 1) return Math.trunc(diffInDays);
   return Number(diffInDays.toFixed(2));
 }

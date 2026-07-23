@@ -228,7 +228,6 @@ export default function Content() {
             return (
               <Card
                 className={cn("relative", {
-                  "relative opacity-80 grayscale": isActuallyExpired,
                   "relative hidden opacity-60 blur-[0.3px] grayscale":
                     item.status === 4,
                 })}
@@ -272,7 +271,11 @@ export default function Content() {
                   </div>
                 )}
                 <CardHeader className="flex flex-row flex-wrap items-center justify-between gap-2 space-y-0">
-                  <CardTitle className="font-medium">
+                  <CardTitle
+                    className={cn("font-medium", {
+                      "opacity-80 grayscale": isActuallyExpired,
+                    })}
+                  >
                     {item.subscribe.name}
                     <p className="mt-1 text-foreground/50 text-sm">
                       {t("expireAt", "Expires At")}:{" "}
@@ -283,48 +286,52 @@ export default function Content() {
                   </CardTitle>
                   {item.status !== 4 && (
                     <div className="flex flex-wrap gap-2">
-                      <AlertDialog>
-                        <AlertDialogTrigger asChild>
-                          <Button size="sm" variant="destructive">
-                            {t("resetSubscription", "Reset Subscription")}
-                          </Button>
-                        </AlertDialogTrigger>
-                        <AlertDialogContent>
-                          <AlertDialogHeader>
-                            <AlertDialogTitle>
-                              {t("prompt", "Prompt")}
-                            </AlertDialogTitle>
-                            <AlertDialogDescription>
-                              {t(
-                                "confirmResetSubscription",
-                                "Are you sure you want to reset your subscription?"
-                              )}
-                            </AlertDialogDescription>
-                          </AlertDialogHeader>
-                          <AlertDialogFooter>
-                            <AlertDialogCancel>
-                              {t("cancel", "Cancel")}
-                            </AlertDialogCancel>
-                            <AlertDialogAction
-                              onClick={async () => {
-                                await resetUserSubscribeToken({
-                                  user_subscribe_id: item.id,
-                                });
-                                await refetch();
-                                toast.success(
-                                  t("resetSuccess", "Reset Success")
-                                );
-                              }}
-                            >
-                              {t("confirm", "Confirm")}
-                            </AlertDialogAction>
-                          </AlertDialogFooter>
-                        </AlertDialogContent>
-                      </AlertDialog>
-                      <ResetTraffic
-                        id={item.id}
-                        replacement={item.subscribe.replacement}
-                      />
+                      {!isActuallyExpired && (
+                        <AlertDialog>
+                          <AlertDialogTrigger asChild>
+                            <Button size="sm" variant="destructive">
+                              {t("resetSubscription", "Reset Subscription")}
+                            </Button>
+                          </AlertDialogTrigger>
+                          <AlertDialogContent>
+                            <AlertDialogHeader>
+                              <AlertDialogTitle>
+                                {t("prompt", "Prompt")}
+                              </AlertDialogTitle>
+                              <AlertDialogDescription>
+                                {t(
+                                  "confirmResetSubscription",
+                                  "Are you sure you want to reset your subscription?"
+                                )}
+                              </AlertDialogDescription>
+                            </AlertDialogHeader>
+                            <AlertDialogFooter>
+                              <AlertDialogCancel>
+                                {t("cancel", "Cancel")}
+                              </AlertDialogCancel>
+                              <AlertDialogAction
+                                onClick={async () => {
+                                  await resetUserSubscribeToken({
+                                    user_subscribe_id: item.id,
+                                  });
+                                  await refetch();
+                                  toast.success(
+                                    t("resetSuccess", "Reset Success")
+                                  );
+                                }}
+                              >
+                                {t("confirm", "Confirm")}
+                              </AlertDialogAction>
+                            </AlertDialogFooter>
+                          </AlertDialogContent>
+                        </AlertDialog>
+                      )}
+                      {!isActuallyExpired && (
+                        <ResetTraffic
+                          id={item.id}
+                          replacement={item.subscribe.replacement}
+                        />
+                      )}
                       {item.expire_time !== 0 && item.subscribe.sell && (
                         <Renewal id={item.id} subscribe={item.subscribe} />
                       )}
@@ -336,7 +343,11 @@ export default function Content() {
                     </div>
                   )}
                 </CardHeader>
-                <CardContent>
+                <CardContent
+                  className={cn({
+                    "opacity-80 grayscale": isActuallyExpired,
+                  })}
+                >
                   <ul className="grid grid-cols-2 gap-3 *:flex *:flex-col *:justify-between lg:grid-cols-4">
                     <li>
                       <span className="text-muted-foreground">
