@@ -28,9 +28,8 @@ export function formatDate(date?: Date | number, showTime = true) {
 export function differenceInDays(
   dateLeft: Date | number,
   dateRight: Date | number
-) {
+): number {
   const diffInMs = differenceInMilliseconds(dateLeft, dateRight);
   const diffInDays = diffInMs / (1000 * 60 * 60 * 24);
-  if (diffInDays >= 1) return diffInDays.toFixed(0);
-  return Number(diffInDays.toFixed(2));
+  return Math.trunc(diffInDays);
 }
