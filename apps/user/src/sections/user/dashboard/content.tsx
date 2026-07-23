@@ -391,12 +391,13 @@ export default function Content() {
                         {t("expirationDays", "Expiration Days")}
                       </span>
                       <span className="font-semibold text-2xl">
-                        {}
                         {item.expire_time
-                          ? differenceInDays(
-                              new Date(item.expire_time),
-                              new Date()
-                            ) || t("unknown", "Unknown")
+                          ? Math.abs(
+                              differenceInDays(
+                                new Date(item.expire_time),
+                                new Date()
+                              )
+                            )
                           : t("noLimit", "No Limit")}
                       </span>
                     </li>
