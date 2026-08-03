@@ -213,29 +213,110 @@ Add in Netlify console under Site settings → Build & deploy → Environment:
 
 ### Method 4: Deploy with Cloudflare Pages
 
+This monorepo already ships Cloudflare Pages Functions under each app
+(`apps/admin/functions`, `apps/user/functions`) plus SPA `_redirects` /
+`_headers`. When `VITE_API_BASE_URL` is empty, the SPA calls same-origin
+`/v1/*`, and the Pages Function proxies those requests to your backend.
+
 #### 1. Connect GitHub Repository
 
 Login to Cloudflare Dashboard → Workers & Pages → Create application → Pages → Connect to Git
 
 #### 2. Configure Build Settings
 
+Paths below are relative to the selected **Root directory**.
+
 **Admin Web**:
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/admin && bun run build`
-- **Build output directory**: `apps/admin/dist`
 - **Root directory**: `apps/admin`
+- **Build command**: `cd ../.. && bun install && bun run build --filter=ppanel-admin-web`
+- **Build output directory**: `dist`
 
 **User Web**:
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/user && bun run build`
-- **Build output directory**: `apps/user/dist`
 - **Root directory**: `apps/user`
+- **Build command**: `cd ../.. && bun install && bun run build --filter=ppanel-user-web`
+- **Build output directory**: `dist`
 
 #### 3. Configure Environment Variables
 
-Add in Settings → Environment variables:
-- `VITE_API_BASE_URL`
-- `VITE_CDN_URL`
+Build-time (Vite):
+- `VITE_API_BASE_URL` — leave empty to use same-origin `/v1/*` proxy
+- `VITE_API_PREFIX` — optional path prefix (default empty)
+- `VITE_CDN_URL` — optional
+
+Runtime (Pages Function proxy):
+- `API_BASE_URL` — real PPanel backend origin, e.g. `https://api.example.com`
+
+> Do not put secrets into `VITE_*` variables. Anything prefixed with `VITE_`
+> is embedded into the browser bundle.
+
+### Method 5: Deploy with Cloudflare Workers (Static Assets)
+
+Official one-click targets today focus on Vercel/Netlify. This repository
+also includes first-class **Workers Static Assets** configs:
+
+| App | Config | Worker entry |
+| --- | --- | --- |
+| Admin | `apps/admin/wrangler.toml` | `apps/admin/worker.ts` |
+| User | `apps/user/wrangler.toml` | `apps/user/worker.ts` |
+
+Shared proxy logic lives in each app under `cloudflare/api-proxy.ts`
+(and monorepo-root `cloudflare/api-proxy.ts` for root Pages deploys).
+
+#### 1. Build
+
+```bash
+# from monorepo root
+bun install
+bun run build --filter=ppanel-admin-web
+# or
+bun run build --filter=ppanel-user-web
+```
+
+#### 2. Login and deploy
+
+```bash
+# Admin
+cd apps/admin
+bun x wrangler login
+bun x wrangler deploy
+# or: bun run deploy:cf
+
+# User
+cd apps/user
+bun x wrangler login
+bun x wrangler deploy
+```
+
+#### 3. Configure backend proxy
+
+Leave frontend build env empty so API calls stay same-origin:
+
+```bash
+# apps/admin/.env / apps/user/.env (build time)
+VITE_API_BASE_URL=
+VITE_API_PREFIX=
+```
+
+Set the Worker/Pages runtime backend:
+
+```bash
+# optional CLI override
+bun x wrangler deploy --var API_BASE_URL:https://api.example.com
+```
+
+Or set `API_BASE_URL` in the Cloudflare dashboard for the Worker.
+
+#### 4. What the Worker config does
+
+- Serves the Vite `dist/` assets from the edge
+- SPA fallback via `not_found_handling = "single-page-application"`
+- Runs Worker code only for `/v1` and `/v1/*` (`run_worker_first`)
+- Proxies those API requests to `API_BASE_URL`
+
+This matches Cloudflare's current Workers Static Assets model and avoids
+hosting the SPA as a traditional Node server.
 
 ## Self-Hosted Server Deployment
 

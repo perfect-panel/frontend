@@ -213,29 +213,109 @@ netlify deploy --prod --dir=dist
 
 ### 方式四：使用 Cloudflare Pages
 
+本仓库已为各应用提供 Cloudflare Pages Functions
+（`apps/admin/functions`、`apps/user/functions`）以及 SPA 所需的
+`_redirects` / `_headers`。当 `VITE_API_BASE_URL` 为空时，前端会请求
+同源 `/v1/*`，由 Pages Function 代理到真实后端。
+
 #### 1. 连接 GitHub 仓库
 
 登录 Cloudflare Dashboard → Workers & Pages → Create application → Pages → Connect to Git
 
 #### 2. 配置构建设置
 
+下列路径均相对于所选 **Root directory**。
+
 **管理端**：
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/admin && bun run build`
-- **Build output directory**: `apps/admin/dist`
 - **Root directory**: `apps/admin`
+- **Build command**: `cd ../.. && bun install && bun run build --filter=ppanel-admin-web`
+- **Build output directory**: `dist`
 
 **用户端**：
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/user && bun run build`
-- **Build output directory**: `apps/user/dist`
 - **Root directory**: `apps/user`
+- **Build command**: `cd ../.. && bun install && bun run build --filter=ppanel-user-web`
+- **Build output directory**: `dist`
 
 #### 3. 配置环境变量
 
-在 Settings → Environment variables 中添加：
-- `VITE_API_BASE_URL`
-- `VITE_CDN_URL`
+构建期（Vite）：
+- `VITE_API_BASE_URL` — 留空则走同源 `/v1/*` 代理
+- `VITE_API_PREFIX` — 可选路径前缀（默认空）
+- `VITE_CDN_URL` — 可选
+
+运行期（Pages Function 代理）：
+- `API_BASE_URL` — 真实 PPanel 后端源站，例如 `https://api.example.com`
+
+> 不要把密钥写进 `VITE_*`。所有 `VITE_` 前缀变量都会打进浏览器包。
+
+### 方式五：使用 Cloudflare Workers（Static Assets）
+
+官方一键部署目前主要覆盖 Vercel/Netlify。本仓库额外提供了可用的
+**Workers Static Assets** 配置：
+
+| 应用 | 配置 | Worker 入口 |
+| --- | --- | --- |
+| 管理端 | `apps/admin/wrangler.toml` | `apps/admin/worker.ts` |
+| 用户端 | `apps/user/wrangler.toml` | `apps/user/worker.ts` |
+
+共享代理逻辑位于各应用的 `cloudflare/api-proxy.ts`
+（monorepo 根目录也保留一份供根级 Pages 部署使用）。
+
+#### 1. 构建
+
+```bash
+# 在 monorepo 根目录
+bun install
+bun run build --filter=ppanel-admin-web
+# 或
+bun run build --filter=ppanel-user-web
+```
+
+#### 2. 登录并部署
+
+```bash
+# 管理端
+cd apps/admin
+bun x wrangler login
+bun x wrangler deploy
+# 或: bun run deploy:cf
+
+# 用户端
+cd apps/user
+bun x wrangler login
+bun x wrangler deploy
+```
+
+#### 3. 配置后端代理
+
+构建时保持前端 API 基址为空，让请求走同源：
+
+```bash
+# apps/admin/.env / apps/user/.env（构建期）
+VITE_API_BASE_URL=
+VITE_API_PREFIX=
+```
+
+运行时设置 Worker/Pages 后端：
+
+```bash
+# 可选 CLI 覆盖
+bun x wrangler deploy --var API_BASE_URL:https://api.example.com
+```
+
+也可在 Cloudflare 控制台为 Worker 设置 `API_BASE_URL`。
+
+#### 4. Worker 配置作用
+
+- 在边缘托管 Vite `dist/` 静态资源
+- 通过 `not_found_handling = "single-page-application"` 支持 SPA 路由
+- 仅对 `/v1` 与 `/v1/*` 优先执行 Worker（`run_worker_first`）
+- 将这些 API 请求代理到 `API_BASE_URL`
+
+该方案对齐 Cloudflare 当前 Workers Static Assets 模型，无需再挂
+Node 服务器托管前端。
 
 ## 自建服务器部署
 

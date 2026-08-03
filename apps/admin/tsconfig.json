@@ -2,6 +2,13 @@
   "$schema": "https://json.schemastore.org/tsconfig",
   "extends": "@workspace/typescript-config/base.json",
   "include": ["**/*.ts", "**/*.tsx", "src/types/**/*.d.ts"],
+  "exclude": [
+    "node_modules",
+    "dist",
+    "worker.ts",
+    "cloudflare/**",
+    "functions/**"
+  ],
   "compilerOptions": {
     "target": "ES2022",
     "jsx": "react-jsx",

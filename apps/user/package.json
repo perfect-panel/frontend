@@ -6,6 +6,7 @@
     "dev": "vite --port 3000",
     "build": "vite build && tsc",
     "serve": "vite preview",
+    "deploy:cf": "bun x wrangler deploy",
     "lint": "biome lint",
     "check": "biome check",
     "test": "vitest run",

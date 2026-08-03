@@ -1,0 +1,27 @@
+# Cloudflare Workers Static Assets deploy for PPanel User Web
+# Docs: https://developers.cloudflare.com/workers/static-assets/
+#
+# Build first:
+#   cd ../.. && bun install && bun run build --filter=ppanel-user-web
+# Deploy:
+#   bun x wrangler deploy
+#
+# Runtime vars (set in dashboard or via `wrangler secret` / `wrangler vars`):
+#   API_BASE_URL = https://your-ppanel-backend.example.com
+
+name = "ppanel-user-web"
+main = "./worker.ts"
+compatibility_date = "2026-08-01"
+workers_dev = true
+
+[assets]
+directory = "./dist"
+binding = "ASSETS"
+# SPA fallback for TanStack Router client routes
+not_found_handling = "single-page-application"
+# Only API traffic runs Worker code first; static assets stay free/edge-cached
+run_worker_first = ["/v1", "/v1/*"]
+
+[vars]
+# Override in Cloudflare dashboard for production backends
+API_BASE_URL = "https://api.ppanel.dev"
