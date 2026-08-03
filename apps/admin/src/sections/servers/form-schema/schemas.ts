@@ -149,6 +149,9 @@ const hysteria2 = z.object({
   ...ech,
   type: z.literal("hysteria2"),
   security: z.enum(SECURITY.hysteria2).nullish(),
+  allow_insecure: nullableBool,
+  hop_ports: nullableString,
+  hop_interval: nullableInteger,
   obfs_password: nullableString,
   obfs: z.enum(["none", "salamander"] as const).nullish(),
   up_mbps: nullableInteger,
@@ -279,6 +282,29 @@ function trimmed(value: unknown) {
   return typeof value === "string" ? value.trim() : "";
 }
 
+function parseHopPorts(value: string): boolean {
+  for (const token of value.split(",")) {
+    const part = token.trim();
+    if (!part) return false;
+
+    const bounds = part.split("-").map((bound) => Number(bound.trim()));
+    if (
+      bounds.length > 2 ||
+      bounds.some(
+        (bound) => !Number.isInteger(bound) || bound < 1 || bound > 65_535
+      )
+    ) {
+      return false;
+    }
+
+    const start = bounds[0] as number;
+    const end = (bounds[1] ?? start) as number;
+    if (start > end) return false;
+  }
+
+  return true;
+}
+
 // Rules the node enforces when it starts an inbound. Breaking one makes it
 // reject the whole generation, so they are caught before the config is stored.
 function refineProtocol(
@@ -288,6 +314,46 @@ function refineProtocol(
   const type = String(protocol.type ?? "");
   const security = lowered(protocol.security);
   const transport = lowered(protocol.transport);
+
+  if (type === "hysteria2") {
+    const hopPorts = trimmed(protocol.hop_ports);
+    const hopInterval = protocol.hop_interval;
+    const hasHopPorts = hopPorts.length > 0;
+    const hasHopInterval = typeof hopInterval === "number" && hopInterval > 0;
+
+    if (hasHopPorts && !parseHopPorts(hopPorts)) {
+      ctx.addIssue({
+        code: "custom",
+        message:
+          "Hysteria2 hop ports must be comma-separated ports or ranges from 1 to 65535.",
+        path: ["hop_ports"],
+      });
+    }
+
+    if (hasHopPorts && !hasHopInterval) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Hysteria2 hop interval is required when hop ports are set.",
+        path: ["hop_interval"],
+      });
+    }
+
+    if (!hasHopPorts && hasHopInterval) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Hysteria2 hop ports are required when hop interval is set.",
+        path: ["hop_ports"],
+      });
+    }
+
+    if (typeof hopInterval === "number" && hopInterval < 0) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Hysteria2 hop interval cannot be negative.",
+        path: ["hop_interval"],
+      });
+    }
+  }
 
   if (type === "shadowsocks") {
     const cipher = lowered(protocol.cipher);
