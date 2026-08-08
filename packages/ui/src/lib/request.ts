@@ -5,15 +5,17 @@ import axios, { type InternalAxiosRequestConfig } from "axios";
 import { toast } from "sonner";
 
 function handleError(response: {
-  data?: { code?: number; message?: string };
+  data?: { code?: number; msg?: string; message?: string };
   config?: { skipErrorHandler?: boolean };
   message?: string;
-}) {
+}): string | undefined {
   const code = response.data?.code;
-  if (code && [40_002, 40_003, 40_004, 40_005].includes(code))
-    return window.logout();
-  if (response?.config?.skipErrorHandler) return;
-  if (!isBrowser()) return;
+  if (code && [40_002, 40_003, 40_004, 40_005].includes(code)) {
+    window.logout();
+    return;
+  }
+  const serverMessage = response.data?.msg || response.data?.message;
+  if (!isBrowser()) return serverMessage || response.message;
 
   const t = window.i18n.t;
 
@@ -162,14 +164,17 @@ function handleError(response: {
   };
 
   const message =
-    response.data?.message ||
     (code ? ERROR_MESSAGES[code] : undefined) ||
+    serverMessage ||
     t(
       "components:error.unknown",
       "An error occurred in the system, please try again later."
     );
 
+  if (response?.config?.skipErrorHandler) return message;
+
   toast.error(message);
+  return message;
 }
 
 const request = axios.create({
@@ -194,7 +199,7 @@ request.interceptors.response.use(
   (response) => {
     const { code } = response.data;
     if (code !== 200 && code !== 0) {
-      handleError({
+      const message = handleError({
         data: response.data,
         config: {
           skipErrorHandler: (response.config as { skipErrorHandler?: boolean })
@@ -202,7 +207,11 @@ request.interceptors.response.use(
         },
         message: response.statusText,
       });
-      throw response;
+      throw Object.assign(new Error(message ?? "Request failed"), {
+        code,
+        data: response.data,
+        response,
+      });
     }
     return response;
   },
