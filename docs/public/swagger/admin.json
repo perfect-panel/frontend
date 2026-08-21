@@ -2592,10 +2592,16 @@
                     {
                         "type": "integer",
                         "name": "page",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
+                        "enum": [
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
                         "type": "integer",
                         "name": "scope",
                         "in": "query"
@@ -2604,10 +2610,17 @@
                         "maximum": 100,
                         "type": "integer",
                         "name": "size",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
                         "type": "integer",
                         "name": "status",
                         "in": "query"
@@ -2870,17 +2883,23 @@
                     {
                         "type": "integer",
                         "name": "page",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
                         "maximum": 100,
                         "type": "integer",
                         "name": "size",
-                        "in": "query",
-                        "required": true
+                        "in": "query"
                     },
                     {
+                        "enum": [
+                            0,
+                            1,
+                            2,
+                            3,
+                            4,
+                            5
+                        ],
                         "type": "integer",
                         "name": "status",
                         "in": "query"
@@ -7334,6 +7353,11 @@
         },
         "dto.CreateBatchSendEmailTaskRequest": {
             "type": "object",
+            "required": [
+                "content",
+                "scope",
+                "subject"
+            ],
             "properties": {
                 "additional": {
                     "type": "string"
@@ -7348,16 +7372,26 @@
                     "type": "integer"
                 },
                 "register_end_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "register_start_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "scheduled": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "scope": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
                 },
                 "subject": {
                     "type": "string"
@@ -7582,10 +7616,16 @@
                     "type": "integer"
                 },
                 "end_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "gift_type": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [
+                        0,
+                        1,
+                        2
+                    ]
                 },
                 "gift_value": {
                     "type": "integer"
@@ -7597,7 +7637,8 @@
                     "type": "boolean"
                 },
                 "start_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "subscribers": {
                     "type": "array",
@@ -8329,6 +8370,9 @@
         },
         "dto.GetBatchSendEmailTaskStatusRequest": {
             "type": "object",
+            "required": [
+                "id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer"
@@ -8446,7 +8490,13 @@
         },
         "dto.GetPreSendEmailCountRequest": {
             "type": "object",
+            "required": [
+                "scope"
+            ],
             "properties": {
+                "additional": {
+                    "type": "string"
+                },
                 "register_end_time": {
                     "type": "integer"
                 },
@@ -8454,7 +8504,14 @@
                     "type": "integer"
                 },
                 "scope": {
-                    "type": "integer"
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2,
+                        3,
+                        4,
+                        5
+                    ]
                 }
             }
         },
@@ -9593,13 +9650,15 @@
             "type": "object",
             "properties": {
                 "end_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "is_active": {
                     "type": "boolean"
                 },
                 "start_time": {
-                    "type": "integer"
+                    "type": "integer",
+                    "minimum": 0
                 },
                 "subscribers": {
                     "type": "array",
@@ -10139,6 +10198,9 @@
         },
         "dto.StopBatchSendEmailTaskRequest": {
             "type": "object",
+            "required": [
+                "id"
+            ],
             "properties": {
                 "id": {
                     "type": "integer"
