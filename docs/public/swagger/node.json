@@ -503,7 +503,7 @@
                     "type": "boolean"
                 },
                 "alpn": {
-                    "description": "TLS/HTTP/QUIC 协议通用字段：TLS ALPN 列表，当前主要用于 VLESS、VMess、Trojan、TUIC。",
+                    "description": "TLS/HTTP/QUIC 协议通用字段：TLS ALPN 列表；Nowhere 必须且只能设置一个值，默认 now/1。",
                     "type": "array",
                     "items": {
                         "type": "string"
@@ -538,11 +538,11 @@
                     "type": "integer"
                 },
                 "ech_enable": {
-                    "description": "TLS ECH 兼容字段：是否启用 Encrypted ClientHello；当前节点入站尚未实现。",
+                    "description": "订阅客户端字段：是否启用 Encrypted ClientHello；节点配置下发时会过滤。",
                     "type": "boolean"
                 },
                 "ech_server_name": {
-                    "description": "TLS ECH 兼容字段：ECH 外层 ServerName；当前节点入站尚未实现。",
+                    "description": "订阅客户端字段：ECH 外层 ServerName；节点配置下发时会过滤。",
                     "type": "string"
                 },
                 "enable": {
@@ -614,7 +614,7 @@
                     "type": "string"
                 },
                 "network": {
-                    "description": "监听网络通用字段：选择 tcp、udp 或 both；Naive、Mieru、SSR、TUIC、Snell 等协议会按各自能力校验。",
+                    "description": "监听网络通用字段：选择 tcp、udp 或 both；Nowhere 规范化为 mix、tcp 或 udp，其他协议按各自能力校验。",
                     "type": "string"
                 },
                 "obfs": {
@@ -721,7 +721,7 @@
                     "type": "string"
                 },
                 "type": {
-                    "description": "通用字段：协议类型标识，例如 shadowsocks、vless、vmess、hysteria2、tuic。",
+                    "description": "通用字段：协议类型标识，例如 shadowsocks、vless、vmess、hysteria2、tuic、nowhere。",
                     "type": "string"
                 },
                 "udp_relay_mode": {
@@ -745,7 +745,7 @@
                     "type": "boolean"
                 },
                 "version": {
-                    "description": "Snell/TUIC 共用字段：Snell 使用协议版本；TUIC 仅接受 5（0 表示默认）。",
+                    "description": "版本字段：Snell 接受 5/6，TUIC 接受 5，Nowhere 接受 1；0 表示使用协议默认值。",
                     "type": "integer"
                 },
                 "xhttp_extra": {
