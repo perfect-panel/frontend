@@ -1527,6 +1527,9 @@
                 },
                 "referral_percentage": {
                     "type": "integer"
+                },
+                "withdrawal_method": {
+                    "type": "string"
                 }
             }
         },

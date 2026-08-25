@@ -7079,6 +7079,113 @@
                 }
             }
         },
+        "/v1/admin/withdrawal/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Get withdrawal list",
+                "parameters": [
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "maximum": 100,
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "enum": [
+                            0,
+                            1,
+                            2
+                        ],
+                        "type": "integer",
+                        "name": "status",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "user_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/result.ResponseSuccessBean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.GetWithdrawalListResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
+        "/v1/admin/withdrawal/status": {
+            "put": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Review withdrawal",
+                "parameters": [
+                    {
+                        "description": "Request parameters",
+                        "name": "request",
+                        "in": "body",
+                        "required": true,
+                        "schema": {
+                            "$ref": "#/definitions/dto.ReviewWithdrawalRequest"
+                        }
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "$ref": "#/definitions/result.ResponseSuccessBean"
+                        }
+                    }
+                }
+            }
+        },
         "/v1/auth/check": {
             "get": {
                 "consumes": [
@@ -11616,7 +11723,8 @@
         "dto.CommissionWithdrawRequest": {
             "type": "object",
             "required": [
-                "amount"
+                "amount",
+                "content"
             ],
             "properties": {
                 "amount": {
@@ -11624,7 +11732,8 @@
                     "maximum": 2000000000
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 4000
                 }
             }
         },
@@ -13523,6 +13632,20 @@
                 }
             }
         },
+        "dto.GetWithdrawalListResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.WithdrawalLog"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.GiftLog": {
             "type": "object",
             "properties": {
@@ -13577,6 +13700,9 @@
                 },
                 "referral_percentage": {
                     "type": "integer"
+                },
+                "withdrawal_method": {
+                    "type": "string"
                 }
             }
         },
@@ -15390,6 +15516,28 @@
                 },
                 "today": {
                     "$ref": "#/definitions/dto.OrdersStatistics"
+                }
+            }
+        },
+        "dto.ReviewWithdrawalRequest": {
+            "type": "object",
+            "required": [
+                "id"
+            ],
+            "properties": {
+                "id": {
+                    "type": "integer"
+                },
+                "reason": {
+                    "type": "string",
+                    "maxLength": 500
+                },
+                "status": {
+                    "type": "integer",
+                    "enum": [
+                        1,
+                        2
+                    ]
                 }
             }
         },

@@ -2868,7 +2868,8 @@
         "dto.CommissionWithdrawRequest": {
             "type": "object",
             "required": [
-                "amount"
+                "amount",
+                "content"
             ],
             "properties": {
                 "amount": {
@@ -2876,7 +2877,8 @@
                     "maximum": 2000000000
                 },
                 "content": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 4000
                 }
             }
         },
