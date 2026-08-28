@@ -1,5 +1,7 @@
 {
   "accountEnable": "Account Enable",
+  "accountSearch": "Account",
+  "accountSearchPlaceholder": "Email / phone / username",
   "add": "Add",
   "administrator": "Administrator",
   "areaCodePlaceholder": "Area code",
@@ -51,6 +53,7 @@
   "loginLogs": "Login Logs",
   "loginNotifications": "Login Notifications",
   "loginStatus": "Login Status",
+  "manage": "Manage",
   "manager": "Administrator",
   "more": "More",
   "normal": "Normal",
@@ -67,6 +70,7 @@
   "referer": "Referer",
   "refererId": "Referer ID",
   "refererIdPlaceholder": "Enter referer ID",
+  "relatedRecords": "Related records",
   "referralCode": "Referral Code",
   "referralPercentage": "Referral Percentage",
   "referralPercentagePlaceholder": "Enter percentage",
@@ -111,6 +115,8 @@
   "subscriptionLogs": "Subscription Logs",
   "subscriptionName": "subscriptionName",
   "subscriptionNotifications": "Subscription Notifications",
+  "subscriptionProduct": "Subscription product",
+  "subscriptionToken": "Subscription token",
   "subscriptionTokenOrUrl": "Subscription URL / Token / UUID",
   "telephone": "Phone",
   "telephonePlaceholder": "Enter phone number",
@@ -135,5 +141,6 @@
   "userList": "User List",
   "userName": "Username",
   "userProfile": "User Profile",
+  "userSubscriptionId": "User subscription ID",
   "verified": "Verified"
 }

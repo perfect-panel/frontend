@@ -9,6 +9,8 @@
     "ip": "IP",
     "orderNo": "订单号",
     "platform": "平台",
+    "query": "收件人或内容",
+    "queryPlaceholder": "搜索消息记录",
     "remark": "备注",
     "server": "服务器",
     "serverId": "服务器 ID",
@@ -24,10 +26,35 @@
     "upload": "上传",
     "user": "用户",
     "userAgent": "用户代理",
-    "userId": "用户 ID"
+    "userId": "用户 ID",
+    "userSubscribeId": "用户订阅 ID"
   },
   "detail": "详情",
   "failed": "失败",
+  "navigation": {
+    "description": "在同一调查流程中快速切换不同日志来源。",
+    "group": {
+      "account": "账号活动",
+      "communication": "消息记录",
+      "finance": "资金记录",
+      "traffic": "流量分析"
+    },
+    "item": {
+      "balance": "余额",
+      "commission": "佣金",
+      "email": "邮件",
+      "gift": "赠送",
+      "login": "登录",
+      "mobile": "短信",
+      "register": "注册",
+      "resetSubscribe": "订阅重置",
+      "serverTraffic": "服务器流量",
+      "subscribe": "订阅访问",
+      "subscribeTraffic": "订阅流量",
+      "trafficDetails": "流量明细"
+    },
+    "title": "日志检索"
+  },
   "sent": "已发送",
   "success": "成功",
   "title": {

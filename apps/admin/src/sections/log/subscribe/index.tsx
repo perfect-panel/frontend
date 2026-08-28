@@ -13,10 +13,16 @@ import { useTranslation } from "react-i18next";
 import { IpLink } from "@/components/ip-link";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
+import { useTableSearchParams } from "@/utils/use-table-search-params";
 
 export default function SubscribeLogPage() {
   const { t } = useTranslation("log");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
+  const syncFilters = useTableSearchParams([
+    "date",
+    "user_id",
+    "user_subscribe_id",
+  ]);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -82,12 +88,13 @@ export default function SubscribeLogPage() {
       ]}
       header={{ title: t("title.subscribe", "Subscribe Log") }}
       initialFilters={initialFilters}
+      onFiltersChange={syncFilters}
       params={[
         { key: "date", type: "date" },
         { key: "user_id", placeholder: t("column.userId", "User ID") },
         {
           key: "user_subscribe_id",
-          placeholder: t("column.subscribeId", "Subscribe ID"),
+          placeholder: t("column.userSubscribeId", "User subscription ID"),
         },
       ]}
       request={async (pagination, filter) => {

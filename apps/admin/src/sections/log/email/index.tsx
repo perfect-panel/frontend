@@ -6,10 +6,12 @@ import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { getLogEmailList as filterEmailLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/utils/common";
+import { useTableSearchParams } from "@/utils/use-table-search-params";
 
 export default function EmailLogPage() {
   const { t } = useTranslation("log");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
+  const syncFilters = useTableSearchParams(["date", "search"]);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -72,7 +74,15 @@ export default function EmailLogPage() {
       ]}
       header={{ title: t("title.email", "Email Log") }}
       initialFilters={initialFilters}
-      params={[{ key: "search" }, { key: "date", type: "date" }]}
+      onFiltersChange={syncFilters}
+      params={[
+        {
+          key: "search",
+          label: t("column.query", "Recipient or content"),
+          placeholder: t("column.queryPlaceholder", "Search messages"),
+        },
+        { key: "date", type: "date" },
+      ]}
       request={async (pagination, filter) => {
         const { data } = await filterEmailLog({
           page: pagination.page,

@@ -57,6 +57,23 @@
     "pageInfo": "第 {{page}} 页，共 {{total}} 页",
     "rowsPerPage": "每页行数"
   },
+  "table": {
+    "applyFilters": "应用筛选",
+    "choose": "请选择",
+    "clearFilters": "清除",
+    "columns": "选择显示列",
+    "fields": {
+      "date": "日期",
+      "search": "搜索"
+    },
+    "filters": "筛选条件",
+    "loadError": "数据加载失败",
+    "loading": "正在加载",
+    "refresh": "刷新数据",
+    "reset": "重置表格",
+    "retry": "重试",
+    "unappliedChanges": "筛选条件尚未应用"
+  },
   "theme": {
     "dark": "深色",
     "light": "浅色",
