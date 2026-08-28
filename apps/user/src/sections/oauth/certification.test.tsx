@@ -13,6 +13,7 @@ const mocks = vi.hoisted(() => ({
   search: { code: "oauth-code", state: "oauth-state" },
   setAuthorization: vi.fn(),
   takeOAuthCfToken: vi.fn(),
+  takeOAuthInvite: vi.fn(),
 }));
 
 vi.mock("@tanstack/react-router", () => ({
@@ -36,6 +37,7 @@ vi.mock("@/utils/common", () => ({
 
 vi.mock("@/utils/oauth", () => ({
   takeOAuthCfToken: mocks.takeOAuthCfToken,
+  takeOAuthInvite: mocks.takeOAuthInvite,
 }));
 
 beforeEach(() => {
@@ -44,6 +46,7 @@ beforeEach(() => {
   mocks.getUserInfo.mockResolvedValue(undefined);
   mocks.navigate.mockResolvedValue(undefined);
   mocks.takeOAuthCfToken.mockReturnValue("turnstile-token");
+  mocks.takeOAuthInvite.mockReturnValue("invite-code");
 });
 
 afterEach(() => {
@@ -70,6 +73,7 @@ describe("OAuth callback certification", () => {
       method: "google",
       callback: mocks.search,
       cf_token: "turnstile-token",
+      invite: "invite-code",
     });
     expect(mocks.setAuthorization).toHaveBeenCalledWith("jwt");
     expect(mocks.getUserInfo).toHaveBeenCalledTimes(1);

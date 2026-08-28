@@ -1,5 +1,10 @@
 import { afterEach, describe, expect, it, vi } from "vitest";
-import { storeOAuthCfToken, takeOAuthCfToken } from "./oauth";
+import {
+  storeOAuthCfToken,
+  storeOAuthInvite,
+  takeOAuthCfToken,
+  takeOAuthInvite,
+} from "./oauth";
 
 function createSessionStorage(): Storage {
   const values = new Map<string, string>();
@@ -28,5 +33,17 @@ describe("OAuth Turnstile token persistence", () => {
 
     expect(takeOAuthCfToken()).toBe("turnstile-token");
     expect(takeOAuthCfToken()).toBeUndefined();
+  });
+});
+
+describe("OAuth invitation persistence", () => {
+  it("survives the provider round trip and is consumed once", () => {
+    const sessionStorage = createSessionStorage();
+    vi.stubGlobal("window", { sessionStorage });
+
+    storeOAuthInvite("invite-code");
+
+    expect(takeOAuthInvite()).toBe("invite-code");
+    expect(takeOAuthInvite()).toBeUndefined();
   });
 });
