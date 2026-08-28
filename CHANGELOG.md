@@ -19,6 +19,18 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.16.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.15.1-dev.1...v1.16.0-dev.1) (2026-08-28)
+
+### ✨ Features / 新功能
+
+* **admin:** sync APIs and add withdrawal management ([61a1b1d](https://github.com/perfect-panel/frontend/commit/61a1b1d74536a568ccfd5a2ae9184990e0a08e65))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([b3facb3](https://github.com/perfect-panel/frontend/commit/b3facb31cb014e2d40643f6a105fe2025b8d1705))
+* **api:** sync Swagger from backend ([db7b9dd](https://github.com/perfect-panel/frontend/commit/db7b9dd219c4db5ce1d6deb78ad56d686beffde5))
+* **api:** sync Swagger from backend ([2df835d](https://github.com/perfect-panel/frontend/commit/2df835d7f85605f9a97e725eb126cd887088a44b))
+
 ## [1.15.1-dev.1](https://github.com/perfect-panel/frontend/compare/v1.15.0...v1.15.1-dev.1) (2026-08-14)
 
 ### 🐛 Bug Fixes / 问题修复
