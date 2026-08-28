@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.18.0](https://github.com/perfect-panel/frontend/compare/v1.17.0...v1.18.0) (2026-08-28)
+
+### ✨ Features / 新功能
+
+* **admin:** improve server node configuration workflow ([e79fa78](https://github.com/perfect-panel/frontend/commit/e79fa78da19b28af928c25a50cd215cd9b65fbd1))
+
 ## [1.17.0](https://github.com/perfect-panel/frontend/compare/v1.16.1...v1.17.0) (2026-08-28)
 
 ### ✨ Features / 新功能
