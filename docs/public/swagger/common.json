@@ -1584,6 +1584,9 @@
                 "cf_token": {
                     "type": "string"
                 },
+                "invite": {
+                    "type": "string"
+                },
                 "method": {
                     "description": "google, facebook, apple, telegram, github etc.",
                     "type": "string"
