@@ -2,7 +2,7 @@
 
 import { Link, useNavigate } from "@tanstack/react-router";
 import { LanguageSwitch } from "@workspace/ui/composed/language-switch";
-import { DotLottieReact } from "@workspace/ui/composed/lottie";
+import { DeferredDotLottie } from "@workspace/ui/composed/lottie";
 import { ThemeSwitch } from "@workspace/ui/composed/theme-switch";
 import { useEffect } from "react";
 import { useGlobalStore } from "@/stores/global";
@@ -33,9 +33,9 @@ export default function Auth() {
               />
               <span className="font-semibold text-2xl">{site.site_name}</span>
             </Link>
-            <DotLottieReact
+            <DeferredDotLottie
               autoplay
-              className="mx-auto hidden w-full lg:block"
+              className="mx-auto hidden aspect-square w-full lg:block"
               loop
               src="./assets/lotties/login.json"
             />

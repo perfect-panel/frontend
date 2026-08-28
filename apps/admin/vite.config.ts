@@ -5,7 +5,13 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin } from "vite";
-import { fallbackLng, i18nNamespaces, supportedLngs } from "./src/config/i18n";
+import {
+  exactRouteI18nNamespaces,
+  fallbackLng,
+  routeI18nNamespaces,
+  sharedI18nNamespaces,
+  supportedLngs,
+} from "./src/config/i18n";
 
 // Pre-paint i18n bootstrap injected into index.html. Corrects the document
 // lang before first paint (the static lang="en-US" otherwise invites browser
@@ -19,13 +25,26 @@ function localePreloadPlugin(): Plugin {
   try {
     const supported = ${JSON.stringify(supportedLngs)};
     const fallback = ${JSON.stringify(fallbackLng)};
-    const namespaces = ${JSON.stringify(i18nNamespaces)};
+    const sharedNamespaces = ${JSON.stringify(sharedI18nNamespaces)};
+    const routeNamespaces = ${JSON.stringify(routeI18nNamespaces)};
+    const exactRouteNamespaces = ${JSON.stringify(exactRouteI18nNamespaces)};
     let lng = localStorage.getItem("language");
     if (!(lng && supported.includes(lng))) {
       const candidates = navigator.languages || [navigator.language];
       lng = candidates.find((l) => supported.includes(l)) || fallback;
     }
     document.documentElement.lang = lng;
+    const pathname = location.hash.slice(1).split("?")[0] || "/";
+    const namespaces = [...new Set([
+      ...sharedNamespaces,
+      ...Object.entries(routeNamespaces).flatMap(([route, values]) => {
+        const matches = route === "/"
+          ? pathname === route
+          : pathname === route || pathname.startsWith(route + "/");
+        return matches ? values : [];
+      }),
+      ...(exactRouteNamespaces[pathname] || []),
+    ])];
     const langs = lng === fallback ? [lng] : [lng, fallback];
     for (const lang of langs) {
       for (const ns of namespaces) {
