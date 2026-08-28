@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.16.1](https://github.com/perfect-panel/frontend/compare/v1.16.0...v1.16.1) (2026-08-28)
+
+### ⚡️ Performance Improvements / 性能优化
+
+* optimize frontend loading performance ([6c20295](https://github.com/perfect-panel/frontend/commit/6c202953d036877965a24e823f9c1f247fdb6a1c))
+
 ## [1.16.0](https://github.com/perfect-panel/frontend/compare/v1.15.0...v1.16.0) (2026-08-28)
 
 ### ✨ Features / 新功能
