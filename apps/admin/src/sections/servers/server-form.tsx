@@ -43,7 +43,7 @@ import { Switch } from "@workspace/ui/components/switch";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import { cn } from "@workspace/ui/lib/utils";
-import { useEffect, useState } from "react";
+import { type ReactNode, useEffect, useState } from "react";
 import { type Resolver, useForm, useWatch } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -506,7 +506,7 @@ function renderGroupCard(
 }
 
 export default function ServerForm(props: {
-  trigger: string;
+  trigger: ReactNode;
   title: string;
   loading?: boolean;
   initialValues?: Partial<API.Server>;
@@ -743,26 +743,24 @@ export default function ServerForm(props: {
     }
   }
 
+  function handleOpenChange(nextOpen: boolean) {
+    if (nextOpen && !initialValues) {
+      const full = PROTOCOLS.map((type) => getProtocolDefaultConfig(type));
+      form.reset({
+        name: "",
+        address: "",
+        country: "",
+        city: "",
+        protocols: full,
+      });
+    }
+    setOpen(nextOpen);
+  }
+
   return (
-    <Sheet onOpenChange={setOpen} open={open}>
+    <Sheet onOpenChange={handleOpenChange} open={open}>
       <SheetTrigger asChild>
-        <Button
-          onClick={() => {
-            if (!initialValues) {
-              const full = PROTOCOLS.map((t) => getProtocolDefaultConfig(t));
-              form.reset({
-                name: "",
-                address: "",
-                country: "",
-                city: "",
-                protocols: full,
-              });
-            }
-            setOpen(true);
-          }}
-        >
-          {trigger}
-        </Button>
+        {typeof trigger === "string" ? <Button>{trigger}</Button> : trigger}
       </SheetTrigger>
       <SheetContent className="w-[700px] max-w-full gap-0 md:max-w-3xl">
         <SheetHeader>

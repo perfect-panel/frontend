@@ -15,6 +15,7 @@ import { Label } from "@workspace/ui/components/label";
 import { getSystemNodeConfig as getNodeConfig } from "@workspace/ui/services/admin/admin";
 import {
   type ChangeEvent,
+  type ReactNode,
   useCallback,
   useEffect,
   useMemo,
@@ -25,9 +26,10 @@ import { toast } from "sonner";
 
 type Props = {
   server: API.Server;
+  trigger?: ReactNode;
 };
 
-export default function ServerInstall({ server }: Props) {
+export default function ServerInstall({ server, trigger }: Props) {
   const { t } = useTranslation("servers");
   const [open, setOpen] = useState(false);
   const [domain, setDomain] = useState("");
@@ -80,7 +82,9 @@ export default function ServerInstall({ server }: Props) {
   return (
     <Dialog onOpenChange={setOpen} open={open}>
       <DialogTrigger asChild>
-        <Button variant="secondary">{t("connect", "Connect")}</Button>
+        {trigger || (
+          <Button variant="secondary">{t("connect", "Connect")}</Button>
+        )}
       </DialogTrigger>
 
       <DialogContent className="w-[720px] max-w-full md:max-w-3xl">
