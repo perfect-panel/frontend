@@ -64,9 +64,12 @@ export function SidebarLeft({
     return path.startsWith(`${target}/`);
   };
 
-  const isGroupActive = (nav: NavItem) =>
-    (hasChildren(nav) && nav.items?.some((i: any) => isActiveUrl(i.url))) ||
-    ("url" in nav && nav.url ? isActiveUrl(nav.url as string) : false);
+  const isNavActive = (nav: NavItem): boolean =>
+    (nav.url ? isActiveUrl(nav.url) : false) ||
+    (nav.activeUrls?.some(isActiveUrl) ?? false) ||
+    (nav.items?.some(isNavActive) ?? false);
+
+  const isGroupActive = (nav: NavItem) => isNavActive(nav);
 
   React.useEffect(() => {
     setOpenGroups((prev) => {
@@ -126,7 +129,7 @@ export function SidebarLeft({
                 <Link
                   className={[
                     "flex w-full items-center gap-2 rounded-md px-2 py-1.5 text-sm",
-                    isActiveUrl(item.url)
+                    isNavActive(item)
                       ? "bg-accent text-accent-foreground"
                       : "hover:bg-accent/60",
                   ].join(" ")}
@@ -218,7 +221,7 @@ export function SidebarLeft({
                                 <SidebarMenuButton
                                   asChild
                                   className="h-8"
-                                  isActive={isActiveUrl(item.url)}
+                                  isActive={isNavActive(item)}
                                   size="sm"
                                   tooltip={item.title}
                                 >

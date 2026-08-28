@@ -7,6 +7,7 @@ export interface NavItem {
   icon?: string;
   items?: NavItem[];
   defaultOpen?: boolean;
+  activeUrls?: string[];
 }
 
 export function useNavs() {
@@ -135,64 +136,41 @@ export function useNavs() {
         icon: "flat-color-icons:statistics",
         items: [
           {
-            title: t("Login", "Login"),
+            title: t("Account Activity", "Account Activity"),
             url: "/dashboard/log/login",
             icon: "flat-color-icons:unlock",
+            activeUrls: [
+              "/dashboard/log/login",
+              "/dashboard/log/register",
+              "/dashboard/log/subscribe",
+              "/dashboard/log/reset-subscribe",
+            ],
           },
           {
-            title: t("Register", "Register"),
-            url: "/dashboard/log/register",
-            icon: "flat-color-icons:contacts",
-          },
-          {
-            title: t("Email", "Email"),
+            title: t("Communications", "Communications"),
             url: "/dashboard/log/email",
             icon: "flat-color-icons:feedback",
+            activeUrls: ["/dashboard/log/email", "/dashboard/log/mobile"],
           },
           {
-            title: t("Mobile", "Mobile"),
-            url: "/dashboard/log/mobile",
-            icon: "flat-color-icons:sms",
-          },
-          {
-            title: t("Subscribe", "Subscribe"),
-            url: "/dashboard/log/subscribe",
-            icon: "flat-color-icons:workflow",
-          },
-          {
-            title: t("Reset Subscribe", "Reset Subscribe"),
-            url: "/dashboard/log/reset-subscribe",
-            icon: "flat-color-icons:refresh",
-          },
-          {
-            title: t("Subscribe Traffic", "Subscribe Traffic"),
-            url: "/dashboard/log/subscribe-traffic",
-            icon: "flat-color-icons:statistics",
-          },
-          {
-            title: t("Server Traffic", "Server Traffic"),
+            title: t("Traffic Analytics", "Traffic Analytics"),
             url: "/dashboard/log/server-traffic",
             icon: "flat-color-icons:statistics",
+            activeUrls: [
+              "/dashboard/log/server-traffic",
+              "/dashboard/log/subscribe-traffic",
+              "/dashboard/log/traffic-details",
+            ],
           },
           {
-            title: t("Traffic Details", "Traffic Details"),
-            url: "/dashboard/log/traffic-details",
-            icon: "flat-color-icons:combo-chart",
-          },
-          {
-            title: t("Balance", "Balance"),
+            title: t("Financial Records", "Financial Records"),
             url: "/dashboard/log/balance",
             icon: "flat-color-icons:sales-performance",
-          },
-          {
-            title: t("Commission", "Commission"),
-            url: "/dashboard/log/commission",
-            icon: "flat-color-icons:debt",
-          },
-          {
-            title: t("Gift", "Gift"),
-            url: "/dashboard/log/gift",
-            icon: "flat-color-icons:donate",
+            activeUrls: [
+              "/dashboard/log/balance",
+              "/dashboard/log/commission",
+              "/dashboard/log/gift",
+            ],
           },
         ],
       },
@@ -217,7 +195,11 @@ export function findNavByUrl(navs: NavItem[], url: string) {
     path: NavItem[] = []
   ): NavItem[] {
     for (const item of items) {
-      if (item.url === url || (item.url && matchDynamicRoute(item.url, url))) {
+      if (
+        item.url === url ||
+        item.activeUrls?.includes(url) ||
+        (item.url && matchDynamicRoute(item.url, url))
+      ) {
         return [...path, item];
       }
       if (item.items) {

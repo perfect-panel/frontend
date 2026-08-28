@@ -2049,9 +2049,14 @@
                         "required": true
                     },
                     {
+                        "enum": [
+                            10,
+                            11
+                        ],
                         "type": "integer",
                         "name": "type",
-                        "in": "query"
+                        "in": "query",
+                        "required": true
                     }
                 ],
                 "responses": {
@@ -13722,12 +13727,18 @@
         },
         "dto.LogSetting": {
             "type": "object",
+            "required": [
+                "auto_clear",
+                "clear_days"
+            ],
             "properties": {
                 "auto_clear": {
                     "type": "boolean"
                 },
                 "clear_days": {
-                    "type": "integer"
+                    "type": "integer",
+                    "maximum": 3650,
+                    "minimum": 1
                 }
             }
         },
@@ -14078,6 +14089,9 @@
             "properties": {
                 "callback": {},
                 "cf_token": {
+                    "type": "string"
+                },
+                "invite": {
                     "type": "string"
                 },
                 "method": {

@@ -8,10 +8,17 @@ import { useTranslation } from "react-i18next";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";
 import { useServer } from "@/stores/server";
 import { formatDate } from "@/utils/common";
+import { useTableSearchParams } from "@/utils/use-table-search-params";
 
 export default function TrafficDetailsPage() {
   const { t } = useTranslation("log");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
+  const syncFilters = useTableSearchParams([
+    "date",
+    "server_id",
+    "user_id",
+    "subscribe_id",
+  ]);
   const { getServerName } = useServer();
 
   const today = new Date().toISOString().split("T")[0];
@@ -68,13 +75,14 @@ export default function TrafficDetailsPage() {
       ]}
       header={{ title: t("title.trafficDetails", "Traffic Details") }}
       initialFilters={initialFilters}
+      onFiltersChange={syncFilters}
       params={[
         { key: "date", type: "date" },
         { key: "server_id", placeholder: t("column.serverId", "Server ID") },
         { key: "user_id", placeholder: t("column.userId", "User ID") },
         {
           key: "subscribe_id",
-          placeholder: t("column.subscribeId", "Subscribe ID"),
+          placeholder: t("column.userSubscribeId", "User subscription ID"),
         },
       ]}
       request={async (pagination, filter) => {

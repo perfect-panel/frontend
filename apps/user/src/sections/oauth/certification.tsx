@@ -5,7 +5,7 @@ import { postAuthOauthLoginToken as oAuthLoginGetToken } from "@workspace/ui/ser
 import { useEffect, useRef } from "react";
 import { useGlobalStore } from "@/stores/global";
 import { getRedirectUrl, setAuthorization } from "@/utils/common";
-import { takeOAuthCfToken } from "@/utils/oauth";
+import { takeOAuthCfToken, takeOAuthInvite } from "@/utils/oauth";
 
 interface CertificationProps {
   platform: string;
@@ -28,10 +28,12 @@ export default function Certification({
     const completeLogin = async () => {
       try {
         const cfToken = takeOAuthCfToken();
+        const invite = takeOAuthInvite();
         const res = await oAuthLoginGetToken({
           method: platform,
           callback: searchParams as Record<string, string>,
           ...(cfToken && { cf_token: cfToken }),
+          ...(invite && { invite }),
         });
         const token = res?.data?.data?.token;
         if (!token) {

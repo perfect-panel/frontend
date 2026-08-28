@@ -1,4 +1,4 @@
-import { DotLottieReact } from "@workspace/ui/composed/lottie";
+import { DeferredDotLottie } from "@workspace/ui/composed/lottie";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -41,9 +41,9 @@ export function GlobalMap() {
           delay: 0.4,
         }}
       >
-        <DotLottieReact
+        <DeferredDotLottie
           autoplay
-          className="w-full scale-150"
+          className="size-full scale-150"
           loop
           src="./assets/lotties/global-map.json"
         />

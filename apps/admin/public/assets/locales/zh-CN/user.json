@@ -1,5 +1,7 @@
 {
   "accountEnable": "账户启用",
+  "accountSearch": "账号信息",
+  "accountSearchPlaceholder": "邮箱 / 手机号 / 用户名",
   "add": "添加",
   "administrator": "管理员",
   "areaCodePlaceholder": "区号",
@@ -51,6 +53,7 @@
   "loginLogs": "登录日志",
   "loginNotifications": "登录通知",
   "loginStatus": "登录状态",
+  "manage": "管理",
   "manager": "管理员",
   "more": "更多",
   "normal": "正常",
@@ -67,6 +70,7 @@
   "referer": "推荐人",
   "refererId": "推荐人 ID",
   "refererIdPlaceholder": "输入推荐人 ID",
+  "relatedRecords": "关联记录",
   "referralCode": "推荐码",
   "referralPercentage": "推荐百分比",
   "referralPercentagePlaceholder": "输入百分比",
@@ -111,6 +115,8 @@
   "subscriptionLogs": "订阅日志",
   "subscriptionName": "订阅名称",
   "subscriptionNotifications": "订阅通知",
+  "subscriptionProduct": "订阅套餐",
+  "subscriptionToken": "订阅凭证",
   "subscriptionTokenOrUrl": "订阅地址 / Token / UUID",
   "telephone": "电话",
   "telephonePlaceholder": "输入电话号码",
@@ -135,5 +141,6 @@
   "userList": "用户列表",
   "userName": "用户名",
   "userProfile": "用户资料",
+  "userSubscriptionId": "用户订阅 ID",
   "verified": "已验证"
 }

@@ -57,6 +57,23 @@
     "pageInfo": "Page {{page}} of {{total}}",
     "rowsPerPage": "Rows per page"
   },
+  "table": {
+    "applyFilters": "Apply filters",
+    "choose": "Choose...",
+    "clearFilters": "Clear",
+    "columns": "Choose columns",
+    "fields": {
+      "date": "Date",
+      "search": "Search"
+    },
+    "filters": "Filters",
+    "loadError": "Unable to load data",
+    "loading": "Loading",
+    "refresh": "Refresh",
+    "reset": "Reset table",
+    "retry": "Retry",
+    "unappliedChanges": "Unapplied changes"
+  },
   "theme": {
     "dark": "Dark",
     "light": "Light",

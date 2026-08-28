@@ -19,6 +19,44 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.16.1](https://github.com/perfect-panel/frontend/compare/v1.16.0...v1.16.1) (2026-08-28)
+
+### ⚡️ Performance Improvements / 性能优化
+
+* optimize frontend loading performance ([6c20295](https://github.com/perfect-panel/frontend/commit/6c202953d036877965a24e823f9c1f247fdb6a1c))
+
+## [1.16.0](https://github.com/perfect-panel/frontend/compare/v1.15.0...v1.16.0) (2026-08-28)
+
+### ✨ Features / 新功能
+
+* **admin:** sync APIs and add withdrawal management ([61a1b1d](https://github.com/perfect-panel/frontend/commit/61a1b1d74536a568ccfd5a2ae9184990e0a08e65))
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** add missing quota reset label to log types ([cdde298](https://github.com/perfect-panel/frontend/commit/cdde2989cd0203fa2faa578d73f294effb8f5f4f))
+* **admin:** prevent transaction number overflow ([0e91712](https://github.com/perfect-panel/frontend/commit/0e91712a32217455e5ec15c80e464ce6025fdb5a))
+* **admin:** prevent transaction number overflow ([#167](https://github.com/perfect-panel/frontend/issues/167)) ([737b038](https://github.com/perfect-panel/frontend/commit/737b038e86f4d355fd2ea8e4daf23dd44c93a9e7))
+* **admin:** wrap long order transaction numbers ([53cb860](https://github.com/perfect-panel/frontend/commit/53cb8605577df0947d3b4b09f5c412481a649140))
+* **admin:** wrap long order transaction numbers ([#168](https://github.com/perfect-panel/frontend/issues/168)) ([db504ca](https://github.com/perfect-panel/frontend/commit/db504ca524513a92297a9c6cae79119c380f81f4))
+* **auth:** repair OAuth callback flows ([f5f362e](https://github.com/perfect-panel/frontend/commit/f5f362ef16703c996ac79ff958c38246c687e960))
+* **automation:** make webhook dry runs side-effect free ([6aa091c](https://github.com/perfect-panel/frontend/commit/6aa091ca92747e089626bf54ca7699ef8bfa9667))
+* **dashboard:** say whether the day count is remaining or overdue ([52bd6f8](https://github.com/perfect-panel/frontend/commit/52bd6f8e28c4b276ff1997626d13bcd4ddd09186))
+* **dashboard:** spell out what resetting a subscription breaks ([317c460](https://github.com/perfect-panel/frontend/commit/317c460f6c1e877ddb0b8e99c2c26da577c7162e))
+* **pages:** preserve trusted client IP ([3ff807f](https://github.com/perfect-panel/frontend/commit/3ff807fdbde16e8802338c968afed50593433909))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([b3facb3](https://github.com/perfect-panel/frontend/commit/b3facb31cb014e2d40643f6a105fe2025b8d1705))
+* **api:** sync Swagger from backend ([db7b9dd](https://github.com/perfect-panel/frontend/commit/db7b9dd219c4db5ce1d6deb78ad56d686beffde5))
+* **api:** sync Swagger from backend ([2df835d](https://github.com/perfect-panel/frontend/commit/2df835d7f85605f9a97e725eb126cd887088a44b))
+
+### 🔧 Chores / 其他变更
+
+* **automation:** add webhook delivery dry runs ([2d9e644](https://github.com/perfect-panel/frontend/commit/2d9e644e0d8c5c47b9b0f30f88b66dd4ddfb05f5))
+* **release:** Release 1.15.1-dev.1 / 发布版本 1.15.1-dev.1 [skip ci] ([87f8530](https://github.com/perfect-panel/frontend/commit/87f85306461ed46d5d24ecaed0505838f7069aea))
+* **release:** Release 1.16.0-dev.1 / 发布版本 1.16.0-dev.1 [skip ci] ([7d2bb1f](https://github.com/perfect-panel/frontend/commit/7d2bb1f852c6c2dc88b3f193832515350fffafe0))
+* **release:** Release 1.16.0-dev.2 / 发布版本 1.16.0-dev.2 [skip ci] ([cf678e2](https://github.com/perfect-panel/frontend/commit/cf678e2943f2a4036894648ec3d5f3ea51f4343e))
+
 ## [1.16.0-dev.3](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.2...v1.16.0-dev.3) (2026-08-28)
 
 ### 🐛 Bug Fixes / 问题修复

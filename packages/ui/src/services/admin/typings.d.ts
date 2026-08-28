@@ -596,7 +596,7 @@ subscription URL does not carry them, in query-string form such as
     page: number;
     search?: string;
     size: number;
-    type?: number;
+    type: 10 | 11;
   };
 
   type getLogMobileListParams = {

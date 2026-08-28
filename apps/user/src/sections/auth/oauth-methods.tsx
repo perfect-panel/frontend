@@ -1,12 +1,13 @@
 "use client";
 
+import { useSearch } from "@tanstack/react-router";
 import { Button } from "@workspace/ui/components/button";
 import { Icon } from "@workspace/ui/composed/icon";
 import { postAuthOauthLogin as oAuthLogin } from "@workspace/ui/services/common/common";
 import { useRef, useState } from "react";
 import { useGlobalStore } from "@/stores/global";
 import { getRedirectUrl, setRedirectUrl } from "@/utils/common";
-import { storeOAuthCfToken } from "@/utils/oauth";
+import { storeOAuthCfToken, storeOAuthInvite } from "@/utils/oauth";
 import CloudFlareTurnstile, { type TurnstileRef } from "./turnstile";
 
 const icons = {
@@ -24,6 +25,7 @@ function isOAuthMethod(method: string): method is OAuthMethod {
 }
 
 export function OAuthMethods() {
+  const searchParams = useSearch({ strict: false }) as { invite?: string };
   const { common } = useGlobalStore();
   const { oauth_methods, verify } = common;
   const OAUTH_METHODS = oauth_methods?.filter(
@@ -52,11 +54,13 @@ export function OAuthMethods() {
       // Both values must survive the full-page round trip through the provider.
       setRedirectUrl(getRedirectUrl({ consumeStored: false }));
       storeOAuthCfToken(cfToken);
+      storeOAuthInvite(searchParams.invite);
       window.location.assign(redirect);
     } catch {
       // The request layer displays the API error. Reset one-time challenges so
       // the next attempt cannot accidentally reuse an expired token.
       storeOAuthCfToken();
+      storeOAuthInvite();
       setCfToken("");
       turnstile.current?.reset();
     } finally {

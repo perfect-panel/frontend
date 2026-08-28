@@ -9,10 +9,12 @@ import { Display } from "@/components/display";
 import { OrderLink } from "@/components/order-link";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
+import { useTableSearchParams } from "@/utils/use-table-search-params";
 
 export default function GiftLogPage() {
   const { t } = useTranslation("log");
   const sp = useSearch({ strict: false }) as Record<string, string | undefined>;
+  const syncFilters = useTableSearchParams(["date", "user_id"]);
 
   const today = new Date().toISOString().split("T")[0];
 
@@ -82,6 +84,7 @@ export default function GiftLogPage() {
       ]}
       header={{ title: t("title.gift", "Gift Log") }}
       initialFilters={initialFilters}
+      onFiltersChange={syncFilters}
       params={[
         { key: "date", type: "date" },
         { key: "user_id", placeholder: t("column.userId", "User ID") },

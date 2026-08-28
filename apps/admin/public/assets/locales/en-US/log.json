@@ -9,6 +9,8 @@
     "ip": "IP",
     "orderNo": "Order No.",
     "platform": "Platform",
+    "query": "Recipient or content",
+    "queryPlaceholder": "Search messages",
     "remark": "Remark",
     "server": "Server",
     "serverId": "Server ID",
@@ -24,10 +26,35 @@
     "upload": "Upload",
     "user": "User",
     "userAgent": "User Agent",
-    "userId": "User ID"
+    "userId": "User ID",
+    "userSubscribeId": "User subscription ID"
   },
   "detail": "Detail",
   "failed": "Failed",
+  "navigation": {
+    "description": "Switch log sources without leaving the current investigation.",
+    "group": {
+      "account": "Account activity",
+      "communication": "Communications",
+      "finance": "Financial records",
+      "traffic": "Traffic analytics"
+    },
+    "item": {
+      "balance": "Balance",
+      "commission": "Commission",
+      "email": "Email",
+      "gift": "Gift",
+      "login": "Login",
+      "mobile": "SMS",
+      "register": "Registration",
+      "resetSubscribe": "Subscription resets",
+      "serverTraffic": "Server traffic",
+      "subscribe": "Subscription access",
+      "subscribeTraffic": "Subscription traffic",
+      "trafficDetails": "Traffic details"
+    },
+    "title": "Log explorer"
+  },
   "sent": "Sent",
   "success": "Success",
   "title": {

@@ -18,6 +18,10 @@ vi.mock("@workspace/ui/services/common/common", () => ({
   postAuthOauthLogin: mocks.oauthLogin,
 }));
 
+vi.mock("@tanstack/react-router", () => ({
+  useSearch: () => ({ invite: "invite-code" }),
+}));
+
 vi.mock("@/stores/global", () => ({
   useGlobalStore: () => ({
     common: {

@@ -162,6 +162,7 @@ declare namespace API {
   type OAuthLoginGetTokenRequest = {
     callback: any;
     cf_token?: string;
+    invite?: string;
     /** google, facebook, apple, telegram, github etc. */
     method: string;
   };

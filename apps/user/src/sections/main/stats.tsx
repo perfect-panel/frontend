@@ -1,4 +1,4 @@
-import { DotLottieReact } from "@workspace/ui/composed/lottie";
+import { DeferredDotLottie } from "@workspace/ui/composed/lottie";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 
@@ -10,7 +10,7 @@ export function Stats() {
       name: t("users", "Users"),
       description: t("users_description", "Trusted by users worldwide"),
       icon: (
-        <DotLottieReact
+        <DeferredDotLottie
           autoplay
           className="size-24"
           loop
@@ -25,7 +25,7 @@ export function Stats() {
         "High-performance servers globally"
       ),
       icon: (
-        <DotLottieReact
+        <DeferredDotLottie
           autoplay
           className="size-24"
           loop
@@ -37,7 +37,7 @@ export function Stats() {
       name: t("locations", "Locations"),
       description: t("locations_description", "Available in multiple regions"),
       icon: (
-        <DotLottieReact
+        <DeferredDotLottie
           autoplay
           className="size-24"
           loop

@@ -13,6 +13,7 @@ import {
   getUserSubscribeDetail as getUserSubscribeById,
 } from "@workspace/ui/services/admin/admin";
 import { formatBytes } from "@workspace/ui/utils/formatting";
+import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 import { formatDate } from "@/utils/common";
@@ -27,14 +28,16 @@ export function UserSubscribeDetail({
   hoverCard?: boolean;
 }) {
   const { t } = useTranslation("user");
+  const [hoverOpen, setHoverOpen] = useState(false);
 
-  const { data } = useQuery({
-    enabled: id !== 0 && enabled,
+  const { data, isLoading } = useQuery({
+    enabled: id !== 0 && enabled && (!hoverCard || hoverOpen),
     queryKey: ["getUserSubscribeById", id],
     queryFn: async () => {
       const { data } = await getUserSubscribeById({ id });
       return data.data;
     },
+    staleTime: 60_000,
   });
 
   if (!id) return "--";
@@ -135,13 +138,15 @@ export function UserSubscribeDetail({
 
   if (hoverCard) {
     return (
-      <HoverCard>
+      <HoverCard onOpenChange={setHoverOpen} open={hoverOpen}>
         <HoverCardTrigger asChild>
           <Button className="p-0" variant="link">
-            {data?.subscribe?.name || t("loading")}
+            {data?.subscribe?.name || `#${id}`}
           </Button>
         </HoverCardTrigger>
-        <HoverCardContent className="w-96">{subscribeContent}</HoverCardContent>
+        <HoverCardContent className="w-96">
+          {isLoading ? t("loading", "Loading...") : subscribeContent}
+        </HoverCardContent>
       </HoverCard>
     );
   }
@@ -151,14 +156,16 @@ export function UserSubscribeDetail({
 
 export function UserDetail({ id }: { id: number }) {
   const { t } = useTranslation("user");
+  const [hoverOpen, setHoverOpen] = useState(false);
 
-  const { data } = useQuery({
-    enabled: id !== 0,
+  const { data, isLoading } = useQuery({
+    enabled: id !== 0 && hoverOpen,
     queryKey: ["getUserDetail", id],
     queryFn: async () => {
       const { data } = await getUserDetail({ id });
       return data.data;
     },
+    staleTime: 60_000,
   });
 
   if (!id) return "--";
@@ -168,53 +175,59 @@ export function UserDetail({ id }: { id: number }) {
     data?.auth_methods[0]?.auth_identifier;
 
   return (
-    <HoverCard>
+    <HoverCard onOpenChange={setHoverOpen} open={hoverOpen}>
       <HoverCardTrigger asChild>
         <Button asChild className="p-0" variant="link">
           <Link search={{ user_id: id }} to="/dashboard/user">
-            {identifier || t("loading", "Loading...")}
+            {identifier || `#${id}`}
           </Link>
         </Button>
       </HoverCardTrigger>
       <HoverCardContent>
-        <div className="grid gap-3">
-          <ul className="grid gap-3">
-            <li className="flex items-center justify-between font-semibold">
-              <span className="text-muted-foreground">ID</span>
-              <span>{data?.id}</span>
-            </li>
-            <li className="flex items-center justify-between font-semibold">
-              <span className="text-muted-foreground">
-                {t("balance", "Balance")}
-              </span>
-              <span>
-                <Display type="currency" value={data?.balance} />
-              </span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                {t("giftAmount", "Gift Amount")}
-              </span>
-              <span>
-                <Display type="currency" value={data?.gift_amount} />
-              </span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                {t("commission", "Commission")}
-              </span>
-              <span>
-                <Display type="currency" value={data?.commission} />
-              </span>
-            </li>
-            <li className="flex items-center justify-between">
-              <span className="text-muted-foreground">
-                {t("createdAt", "Created At")}
-              </span>
-              <span>{data?.created_at && formatDate(data?.created_at)}</span>
-            </li>
-          </ul>
-        </div>
+        {isLoading ? (
+          <div className="py-4 text-center text-muted-foreground text-sm">
+            {t("loading", "Loading...")}
+          </div>
+        ) : (
+          <div className="grid gap-3">
+            <ul className="grid gap-3">
+              <li className="flex items-center justify-between font-semibold">
+                <span className="text-muted-foreground">ID</span>
+                <span>{data?.id}</span>
+              </li>
+              <li className="flex items-center justify-between font-semibold">
+                <span className="text-muted-foreground">
+                  {t("balance", "Balance")}
+                </span>
+                <span>
+                  <Display type="currency" value={data?.balance} />
+                </span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">
+                  {t("giftAmount", "Gift Amount")}
+                </span>
+                <span>
+                  <Display type="currency" value={data?.gift_amount} />
+                </span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">
+                  {t("commission", "Commission")}
+                </span>
+                <span>
+                  <Display type="currency" value={data?.commission} />
+                </span>
+              </li>
+              <li className="flex items-center justify-between">
+                <span className="text-muted-foreground">
+                  {t("createdAt", "Created At")}
+                </span>
+                <span>{data?.created_at && formatDate(data?.created_at)}</span>
+              </li>
+            </ul>
+          </div>
+        )}
       </HoverCardContent>
     </HoverCard>
   );

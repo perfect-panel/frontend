@@ -1,7 +1,7 @@
 import { Link } from "@tanstack/react-router";
 import { HoverBorderGradient } from "@workspace/ui/components/hover-border-gradient";
 import { TextGenerateEffect } from "@workspace/ui/components/text-generate-effect";
-import { DotLottieReact } from "@workspace/ui/composed/lottie";
+import { DeferredDotLottie } from "@workspace/ui/composed/lottie";
 import { motion } from "framer-motion";
 import { useTranslation } from "react-i18next";
 import { useGlobalStore } from "@/stores/global";
@@ -52,8 +52,9 @@ export function Hero() {
         transition={{ type: "spring", stiffness: 80, damping: 15, delay: 0.5 }}
         viewport={{ once: true, amount: 0.3 }}
       >
-        <DotLottieReact
+        <DeferredDotLottie
           autoplay
+          className="aspect-video w-full"
           loop
           src="./assets/lotties/network-security.json"
         />
