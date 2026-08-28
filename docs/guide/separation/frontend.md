@@ -221,20 +221,24 @@ Login to Cloudflare Dashboard → Workers & Pages → Create application → Pag
 
 **Admin Web**:
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/admin && bun run build`
+- **Build command**: `bun install && bun --filter ppanel-admin-web build`
 - **Build output directory**: `apps/admin/dist`
-- **Root directory**: `apps/admin`
+- **Root directory**: Leave empty (repository root)
 
 **User Web**:
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/user && bun run build`
+- **Build command**: `bun install && bun --filter ppanel-user-web build`
 - **Build output directory**: `apps/user/dist`
-- **Root directory**: `apps/user`
+- **Root directory**: Leave empty (repository root)
+
+The repository root must remain the Pages project root so Cloudflare deploys
+the shared `/functions` directory used to proxy `/v1/*` requests.
 
 #### 3. Configure Environment Variables
 
 Add in Settings → Environment variables:
-- `VITE_API_BASE_URL`
+- `API_BASE_URL`: Backend API origin used by the Pages Function, for example
+  `https://api.your-domain.com`
 - `VITE_CDN_URL`
 
 ## Self-Hosted Server Deployment

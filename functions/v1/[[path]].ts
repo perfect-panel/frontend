@@ -2,6 +2,77 @@ interface Env {
   API_BASE_URL: string;
 }
 
+const UNTRUSTED_IP_HEADERS = [
+  "cf-connecting-ip",
+  "cf-connecting-ipv6",
+  "forwarded",
+  "true-client-ip",
+  "x-client-ip",
+  "x-forwarded-for",
+  "x-real-ip",
+];
+
+function isIPv4(value: string) {
+  const parts = value.split(".");
+  return (
+    parts.length === 4 &&
+    parts.every(
+      (part) =>
+        /^\d{1,3}$/.test(part) && Number(part) >= 0 && Number(part) <= 255
+    )
+  );
+}
+
+function isIPv6(value: string) {
+  if (!(value.includes(":") && /^[0-9a-f:.]+$/i.test(value))) {
+    return false;
+  }
+  try {
+    return new URL(`http://[${value}]/`).hostname.length > 2;
+  } catch {
+    return false;
+  }
+}
+
+function getCloudflareClientIp(headers: Headers) {
+  const ipv6 = headers.get("cf-connecting-ipv6")?.trim();
+  if (ipv6 && ipv6.length <= 45 && isIPv6(ipv6)) {
+    return ipv6;
+  }
+
+  const value = headers.get("cf-connecting-ip")?.trim();
+  if (!value || value.length > 45 || !(isIPv4(value) || isIPv6(value))) {
+    return;
+  }
+  return value;
+}
+
+export function buildUpstreamHeaders(
+  requestHeaders: Headers,
+  upstreamHost: string
+) {
+  const clientIp = getCloudflareClientIp(requestHeaders);
+  const headers = new Headers(requestHeaders);
+
+  for (const header of UNTRUSTED_IP_HEADERS) {
+    headers.delete(header);
+  }
+
+  if (clientIp) {
+    // Hertz reads X-Forwarded-For before X-Real-IP. Replace both values so a
+    // caller cannot prepend a spoofed address to the forwarding chain.
+    headers.set("x-forwarded-for", clientIp);
+    headers.set("x-real-ip", clientIp);
+  }
+
+  headers.set("Host", upstreamHost);
+  headers.delete("cf-ipcountry");
+  headers.delete("cf-ray");
+  headers.delete("cf-visitor");
+
+  return headers;
+}
+
 export const onRequest: PagesFunction<Env> = async (context) => {
   const { request, env } = context;
 
@@ -13,12 +84,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const url = new URL(request.url);
   const targetUrl = `${apiBase}${url.pathname}${url.search}`;
 
-  const headers = new Headers(request.headers);
-  headers.set("Host", new URL(apiBase).host);
-  headers.delete("cf-connecting-ip");
-  headers.delete("cf-ipcountry");
-  headers.delete("cf-ray");
-  headers.delete("cf-visitor");
+  const headers = buildUpstreamHeaders(request.headers, new URL(apiBase).host);
 
   const init: RequestInit = {
     method: request.method,

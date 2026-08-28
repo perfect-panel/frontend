@@ -221,20 +221,24 @@ netlify deploy --prod --dir=dist
 
 **管理端**：
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/admin && bun run build`
+- **Build command**: `bun install && bun --filter ppanel-admin-web build`
 - **Build output directory**: `apps/admin/dist`
-- **Root directory**: `apps/admin`
+- **Root directory**：留空（仓库根目录）
 
 **用户端**：
 - **Framework preset**: None
-- **Build command**: `cd .. && bun install && cd apps/user && bun run build`
+- **Build command**: `bun install && bun --filter ppanel-user-web build`
 - **Build output directory**: `apps/user/dist`
-- **Root directory**: `apps/user`
+- **Root directory**：留空（仓库根目录）
+
+必须以仓库根目录作为 Pages 项目根目录，Cloudflare 才会部署共用的
+`/functions` 目录，用它代理 `/v1/*` 请求。
 
 #### 3. 配置环境变量
 
 在 Settings → Environment variables 中添加：
-- `VITE_API_BASE_URL`
+- `API_BASE_URL`：Pages Function 使用的后端 API 源站，例如
+  `https://api.your-domain.com`
 - `VITE_CDN_URL`
 
 ## 自建服务器部署

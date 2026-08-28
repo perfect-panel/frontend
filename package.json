@@ -18,7 +18,7 @@
     "docs:build": "turbo docs:build",
     "lint": "turbo lint",
     "check": "turbo check",
-    "test": "turbo test",
+    "test": "turbo test && bun test tests/functions",
     "openapi": "turbo openapi",
     "i18n:extract": "turbo i18n:extract",
     "i18n:sync": "turbo i18n:sync",
