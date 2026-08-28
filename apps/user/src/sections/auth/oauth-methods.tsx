@@ -3,7 +3,11 @@
 import { Button } from "@workspace/ui/components/button";
 import { Icon } from "@workspace/ui/composed/icon";
 import { postAuthOauthLogin as oAuthLogin } from "@workspace/ui/services/common/common";
+import { useRef, useState } from "react";
 import { useGlobalStore } from "@/stores/global";
+import { getRedirectUrl, setRedirectUrl } from "@/utils/common";
+import { storeOAuthCfToken } from "@/utils/oauth";
+import CloudFlareTurnstile, { type TurnstileRef } from "./turnstile";
 
 const icons = {
   apple: "uil:apple",
@@ -11,14 +15,55 @@ const icons = {
   facebook: "logos:facebook",
   github: "uil:github",
   telegram: "logos:telegram",
-};
+} as const;
+
+type OAuthMethod = keyof typeof icons;
+
+function isOAuthMethod(method: string): method is OAuthMethod {
+  return Object.hasOwn(icons, method);
+}
 
 export function OAuthMethods() {
   const { common } = useGlobalStore();
-  const { oauth_methods } = common;
+  const { oauth_methods, verify } = common;
   const OAUTH_METHODS = oauth_methods?.filter(
-    (method: string) => !["mobile", "email", "device"].includes(method)
+    (method: string): method is OAuthMethod => isOAuthMethod(method)
   );
+  const [cfToken, setCfToken] = useState("");
+  const [loadingMethod, setLoadingMethod] = useState<OAuthMethod>();
+  const turnstile = useRef<TurnstileRef>(null);
+  const requiresRegistrationVerification = Boolean(
+    verify.enable_register_verify && verify.turnstile_site_key
+  );
+
+  const handleOAuthLogin = async (method: OAuthMethod) => {
+    setLoadingMethod(method);
+    try {
+      const { data } = await oAuthLogin({
+        method,
+        // OAuth providers disallow URL fragments (#) in redirect URIs.
+        // Use a real path (with trailing slash so static hosting can serve /oauth/<provider>/index.html)
+        // which then bridges into our hash-router at /#/oauth/<provider>.
+        redirect: `${window.location.origin}/oauth/${method}/`,
+      });
+      const redirect = data.data?.redirect;
+      if (!redirect) return;
+
+      // Both values must survive the full-page round trip through the provider.
+      setRedirectUrl(getRedirectUrl({ consumeStored: false }));
+      storeOAuthCfToken(cfToken);
+      window.location.assign(redirect);
+    } catch {
+      // The request layer displays the API error. Reset one-time challenges so
+      // the next attempt cannot accidentally reuse an expired token.
+      storeOAuthCfToken();
+      setCfToken("");
+      turnstile.current?.reset();
+    } finally {
+      setLoadingMethod(undefined);
+    }
+  };
+
   return (
     OAUTH_METHODS?.length > 0 && (
       <>
@@ -28,29 +73,37 @@ export function OAuthMethods() {
           </span>
         </div>
         <div className="mt-6 flex justify-center gap-4 *:size-12 *:p-2">
-          {OAUTH_METHODS?.map((method: string) => (
+          {OAUTH_METHODS.map((method) => (
             <Button
-              asChild
+              aria-label={`Continue with ${method}`}
+              disabled={
+                Boolean(loadingMethod) ||
+                (requiresRegistrationVerification && !cfToken)
+              }
               key={method}
-              onClick={async () => {
-                const { data } = await oAuthLogin({
-                  method,
-                  // OAuth providers disallow URL fragments (#) in redirect URIs.
-                  // Use a real path (with trailing slash so static hosting can serve /oauth/<provider>/index.html)
-                  // which then bridges into our hash-router at /#/oauth/<provider>.
-                  redirect: `${window.location.origin}/oauth/${method}/`,
-                });
-                if (data.data?.redirect) {
-                  window.location.href = data.data?.redirect;
-                }
-              }}
+              onClick={() => handleOAuthLogin(method)}
               size="icon"
+              title={`Continue with ${method}`}
+              type="button"
               variant="ghost"
             >
-              <Icon icon={icons[method as keyof typeof icons]} />
+              <Icon
+                className={loadingMethod === method ? "animate-pulse" : ""}
+                icon={icons[method]}
+              />
             </Button>
           ))}
         </div>
+        {requiresRegistrationVerification && (
+          <div className="mt-4 flex justify-center">
+            <CloudFlareTurnstile
+              id="oauth-turnstile"
+              onChange={(token) => setCfToken(token || "")}
+              ref={turnstile}
+              value={cfToken}
+            />
+          </div>
+        )}
       </>
     )
   );

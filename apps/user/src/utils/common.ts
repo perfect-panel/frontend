@@ -38,16 +38,46 @@ export function setAuthorization(token: string): void {
   setCookie("Authorization", token);
 }
 
-export function getRedirectUrl(): string {
+function normalizeRedirectUrl(value?: string | null): string | undefined {
+  if (
+    !value?.startsWith("/") ||
+    value.startsWith("//") ||
+    value.startsWith("/\\")
+  ) {
+    return;
+  }
+  return value;
+}
+
+function getLocationRedirectUrl(): string | undefined {
+  const hashQueryIndex = window.location.hash.indexOf("?");
+  const hashSearch =
+    hashQueryIndex >= 0 ? window.location.hash.slice(hashQueryIndex + 1) : "";
+  const hashRedirect = new URLSearchParams(hashSearch).get("redirect");
+  const searchRedirect = new URLSearchParams(window.location.search).get(
+    "redirect"
+  );
+
+  return normalizeRedirectUrl(hashRedirect ?? searchRedirect);
+}
+
+export function getRedirectUrl(options?: { consumeStored?: boolean }): string {
   if (typeof window === "undefined") return "/dashboard";
-  const params = new URLSearchParams(window.location.search);
-  const redirect = params.get("redirect");
-  return redirect?.startsWith("/") ? redirect : "/dashboard";
+
+  const storedRedirect = normalizeRedirectUrl(
+    window.sessionStorage.getItem("redirect-url")
+  );
+  if (options?.consumeStored !== false) {
+    window.sessionStorage.removeItem("redirect-url");
+  }
+
+  return getLocationRedirectUrl() ?? storedRedirect ?? "/dashboard";
 }
 
 export function setRedirectUrl(value?: string) {
-  if (value) {
-    sessionStorage.setItem("redirect-url", value);
+  const redirect = normalizeRedirectUrl(value);
+  if (redirect) {
+    window.sessionStorage.setItem("redirect-url", redirect);
   }
 }
 
@@ -57,6 +87,7 @@ export function Logout() {
 
   const pathname = location.pathname;
   const hash = location.hash.slice(1); // 移除 '#'
+  const hashPathname = hash.split("?", 1)[0] || "";
 
   if (
     !(
@@ -71,11 +102,11 @@ export function Logout() {
   }
 
   if (
-    hash &&
+    hashPathname &&
     !(
-      ["", "/", "/auth", "/tos", "/privacy-policy"].includes(hash) ||
-      hash.startsWith("/purchasing") ||
-      hash.startsWith("/oauth/")
+      ["", "/", "/auth", "/tos", "/privacy-policy"].includes(hashPathname) ||
+      hashPathname.startsWith("/purchasing") ||
+      hashPathname.startsWith("/oauth/")
     )
   ) {
     setRedirectUrl(hash);

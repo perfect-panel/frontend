@@ -1,4 +1,4 @@
-interface Env {
+export interface Env {
   API_BASE_URL: string;
 }
 
@@ -73,9 +73,11 @@ export function buildUpstreamHeaders(
   return headers;
 }
 
-export const onRequest: PagesFunction<Env> = async (context) => {
-  const { request, env } = context;
-
+export async function proxyRequest(
+  request: Request,
+  env: Env,
+  upstreamFetch: typeof fetch = fetch
+) {
   const apiBase = (env.API_BASE_URL || "https://api.ppanel.dev").replace(
     /\/$/,
     ""
@@ -89,7 +91,10 @@ export const onRequest: PagesFunction<Env> = async (context) => {
   const init: RequestInit = {
     method: request.method,
     headers,
-    redirect: "follow",
+    // Apple Sign-In posts to the backend callback, which responds with a 302
+    // to the frontend callback page. That redirect must reach the browser;
+    // following it inside the proxy loses both the Location and navigation.
+    redirect: "manual",
   };
 
   if (
@@ -100,7 +105,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     init.body = request.body;
   }
 
-  const response = await fetch(targetUrl, init);
+  const response = await upstreamFetch(targetUrl, init);
 
   const responseHeaders = new Headers(response.headers);
   responseHeaders.delete("set-cookie");
@@ -126,4 +131,7 @@ export const onRequest: PagesFunction<Env> = async (context) => {
     statusText: response.statusText,
     headers: responseHeaders,
   });
-};
+}
+
+export const onRequest: PagesFunction<Env> = async ({ request, env }) =>
+  proxyRequest(request, env);
