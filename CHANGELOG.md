@@ -19,6 +19,21 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.17.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.16.1...v1.17.0-dev.1) (2026-08-28)
+
+### ✨ Features / 新功能
+
+* improve admin user and log workflows ([e444a13](https://github.com/perfect-panel/frontend/commit/e444a1338d4451b8b7c81973f4ec8d83c0c624e2))
+* support invite codes in OAuth login ([9f6a3ca](https://github.com/perfect-panel/frontend/commit/9f6a3cab190a976f0c777c5894a6ce0183b91182))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([117ad81](https://github.com/perfect-panel/frontend/commit/117ad816f93d02a3d003502eb95c08442289dc86))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.16.0-dev.3 / 发布版本 1.16.0-dev.3 [skip ci] ([3af3fc5](https://github.com/perfect-panel/frontend/commit/3af3fc5337d4c4f32d11c887b211ec4e44d60cc9))
+
 ## [1.16.1](https://github.com/perfect-panel/frontend/compare/v1.16.0...v1.16.1) (2026-08-28)
 
 ### ⚡️ Performance Improvements / 性能优化
