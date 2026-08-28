@@ -19,6 +19,13 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.16.0-dev.3](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.2...v1.16.0-dev.3) (2026-08-28)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **auth:** repair OAuth callback flows ([f5f362e](https://github.com/perfect-panel/frontend/commit/f5f362ef16703c996ac79ff958c38246c687e960))
+* **pages:** preserve trusted client IP ([3ff807f](https://github.com/perfect-panel/frontend/commit/3ff807fdbde16e8802338c968afed50593433909))
+
 ## [1.16.0-dev.2](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.1...v1.16.0-dev.2) (2026-08-28)
 
 ### 🐛 Bug Fixes / 问题修复
