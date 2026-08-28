@@ -19,6 +19,13 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.16.0-dev.2](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.1...v1.16.0-dev.2) (2026-08-28)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** add missing quota reset label to log types ([cdde298](https://github.com/perfect-panel/frontend/commit/cdde2989cd0203fa2faa578d73f294effb8f5f4f))
+* **dashboard:** spell out what resetting a subscription breaks ([317c460](https://github.com/perfect-panel/frontend/commit/317c460f6c1e877ddb0b8e99c2c26da577c7162e))
+
 ## [1.16.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.15.1-dev.1...v1.16.0-dev.1) (2026-08-28)
 
 ### ✨ Features / 新功能
