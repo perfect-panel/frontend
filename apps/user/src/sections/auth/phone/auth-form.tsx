@@ -2,10 +2,10 @@
 
 import { useNavigate, useSearch } from "@tanstack/react-router";
 import {
-  telephoneLogin,
-  telephoneResetPassword,
-  telephoneUserRegister,
-} from "@workspace/ui/services/common/auth";
+  postAuthLoginTelephone as telephoneLogin,
+  postAuthResetTelephone as telephoneResetPassword,
+  postAuthRegisterTelephone as telephoneUserRegister,
+} from "@workspace/ui/services/common/common";
 import type { ReactNode } from "react";
 import { useEffect, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";

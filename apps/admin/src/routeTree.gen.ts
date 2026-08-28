@@ -15,8 +15,10 @@ import { Route as rootRouteImport } from './routes/__root'
 const DashboardRouteLazyRouteImport = createFileRoute('/dashboard')()
 const IndexLazyRouteImport = createFileRoute('/')()
 const DashboardIndexLazyRouteImport = createFileRoute('/dashboard/')()
+const DashboardWithdrawalLazyRouteImport = createFileRoute(
+  '/dashboard/withdrawal',
+)()
 const DashboardServersLazyRouteImport = createFileRoute('/dashboard/servers')()
-const DashboardPluginLazyRouteImport = createFileRoute('/dashboard/plugin')()
 const DashboardNodesLazyRouteImport = createFileRoute('/dashboard/nodes')()
 const DashboardUserIndexLazyRouteImport = createFileRoute('/dashboard/user/')()
 const DashboardTicketIndexLazyRouteImport =
@@ -103,19 +105,19 @@ const DashboardIndexLazyRoute = DashboardIndexLazyRouteImport.update({
 } as any).lazy(() =>
   import('./routes/dashboard/index.lazy').then((d) => d.Route),
 )
+const DashboardWithdrawalLazyRoute = DashboardWithdrawalLazyRouteImport.update({
+  id: '/withdrawal',
+  path: '/withdrawal',
+  getParentRoute: () => DashboardRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/withdrawal.lazy').then((d) => d.Route),
+)
 const DashboardServersLazyRoute = DashboardServersLazyRouteImport.update({
   id: '/servers',
   path: '/servers',
   getParentRoute: () => DashboardRouteLazyRoute,
 } as any).lazy(() =>
   import('./routes/dashboard/servers.lazy').then((d) => d.Route),
-)
-const DashboardPluginLazyRoute = DashboardPluginLazyRouteImport.update({
-  id: '/plugin',
-  path: '/plugin',
-  getParentRoute: () => DashboardRouteLazyRoute,
-} as any).lazy(() =>
-  import('./routes/dashboard/plugin.lazy').then((d) => d.Route),
 )
 const DashboardNodesLazyRoute = DashboardNodesLazyRouteImport.update({
   id: '/nodes',
@@ -323,8 +325,8 @@ export interface FileRoutesByFullPath {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
-  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
+  '/dashboard/withdrawal': typeof DashboardWithdrawalLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
@@ -355,8 +357,8 @@ export interface FileRoutesByFullPath {
 export interface FileRoutesByTo {
   '/': typeof IndexLazyRoute
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
-  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
+  '/dashboard/withdrawal': typeof DashboardWithdrawalLazyRoute
   '/dashboard': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
@@ -389,8 +391,8 @@ export interface FileRoutesById {
   '/': typeof IndexLazyRoute
   '/dashboard': typeof DashboardRouteLazyRouteWithChildren
   '/dashboard/nodes': typeof DashboardNodesLazyRoute
-  '/dashboard/plugin': typeof DashboardPluginLazyRoute
   '/dashboard/servers': typeof DashboardServersLazyRoute
+  '/dashboard/withdrawal': typeof DashboardWithdrawalLazyRoute
   '/dashboard/': typeof DashboardIndexLazyRoute
   '/dashboard/log/balance': typeof DashboardLogBalanceLazyRoute
   '/dashboard/log/commission': typeof DashboardLogCommissionLazyRoute
@@ -424,8 +426,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/nodes'
-    | '/dashboard/plugin'
     | '/dashboard/servers'
+    | '/dashboard/withdrawal'
     | '/dashboard/'
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
@@ -456,8 +458,8 @@ export interface FileRouteTypes {
   to:
     | '/'
     | '/dashboard/nodes'
-    | '/dashboard/plugin'
     | '/dashboard/servers'
+    | '/dashboard/withdrawal'
     | '/dashboard'
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
@@ -489,8 +491,8 @@ export interface FileRouteTypes {
     | '/'
     | '/dashboard'
     | '/dashboard/nodes'
-    | '/dashboard/plugin'
     | '/dashboard/servers'
+    | '/dashboard/withdrawal'
     | '/dashboard/'
     | '/dashboard/log/balance'
     | '/dashboard/log/commission'
@@ -547,18 +549,18 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardIndexLazyRouteImport
       parentRoute: typeof DashboardRouteLazyRoute
     }
+    '/dashboard/withdrawal': {
+      id: '/dashboard/withdrawal'
+      path: '/withdrawal'
+      fullPath: '/dashboard/withdrawal'
+      preLoaderRoute: typeof DashboardWithdrawalLazyRouteImport
+      parentRoute: typeof DashboardRouteLazyRoute
+    }
     '/dashboard/servers': {
       id: '/dashboard/servers'
       path: '/servers'
       fullPath: '/dashboard/servers'
       preLoaderRoute: typeof DashboardServersLazyRouteImport
-      parentRoute: typeof DashboardRouteLazyRoute
-    }
-    '/dashboard/plugin': {
-      id: '/dashboard/plugin'
-      path: '/plugin'
-      fullPath: '/dashboard/plugin'
-      preLoaderRoute: typeof DashboardPluginLazyRouteImport
       parentRoute: typeof DashboardRouteLazyRoute
     }
     '/dashboard/nodes': {
@@ -748,8 +750,8 @@ declare module '@tanstack/react-router' {
 
 interface DashboardRouteLazyRouteChildren {
   DashboardNodesLazyRoute: typeof DashboardNodesLazyRoute
-  DashboardPluginLazyRoute: typeof DashboardPluginLazyRoute
   DashboardServersLazyRoute: typeof DashboardServersLazyRoute
+  DashboardWithdrawalLazyRoute: typeof DashboardWithdrawalLazyRoute
   DashboardIndexLazyRoute: typeof DashboardIndexLazyRoute
   DashboardLogBalanceLazyRoute: typeof DashboardLogBalanceLazyRoute
   DashboardLogCommissionLazyRoute: typeof DashboardLogCommissionLazyRoute
@@ -780,8 +782,8 @@ interface DashboardRouteLazyRouteChildren {
 
 const DashboardRouteLazyRouteChildren: DashboardRouteLazyRouteChildren = {
   DashboardNodesLazyRoute: DashboardNodesLazyRoute,
-  DashboardPluginLazyRoute: DashboardPluginLazyRoute,
   DashboardServersLazyRoute: DashboardServersLazyRoute,
+  DashboardWithdrawalLazyRoute: DashboardWithdrawalLazyRoute,
   DashboardIndexLazyRoute: DashboardIndexLazyRoute,
   DashboardLogBalanceLazyRoute: DashboardLogBalanceLazyRoute,
   DashboardLogCommissionLazyRoute: DashboardLogCommissionLazyRoute,

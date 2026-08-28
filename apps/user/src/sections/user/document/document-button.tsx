@@ -6,8 +6,10 @@ import { buttonVariants } from "@workspace/ui/components/button";
 import { Markdown } from "@workspace/ui/composed/markdown";
 import { useOutsideClick } from "@workspace/ui/hooks/use-outside-click";
 import { cn } from "@workspace/ui/lib/utils";
-import { queryDocumentDetail } from "@workspace/ui/services/user/document";
-import { queryUserSubscribe } from "@workspace/ui/services/user/user";
+import {
+  getV1PublicDocumentDetail as queryDocumentDetail,
+  getV1PublicUserSubscribe as queryUserSubscribe,
+} from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { AnimatePresence, motion } from "framer-motion";
 import { type RefObject, useEffect, useId, useRef, useState } from "react";

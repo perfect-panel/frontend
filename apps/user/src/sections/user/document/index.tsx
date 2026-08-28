@@ -8,7 +8,7 @@ import {
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import Empty from "@workspace/ui/composed/empty";
-import { queryDocumentList } from "@workspace/ui/services/user/document";
+import { getV1PublicDocumentList as queryDocumentList } from "@workspace/ui/services/user/user";
 import { useTranslation } from "react-i18next";
 import { DocumentButton } from "@/sections/user/document/document-button";
 import { getTutorialList } from "@/sections/user/document/tutorial";

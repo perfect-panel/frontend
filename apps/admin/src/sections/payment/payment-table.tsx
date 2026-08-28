@@ -12,11 +12,11 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  createPaymentMethod,
-  deletePaymentMethod,
-  getPaymentMethodList,
-  updatePaymentMethod,
-} from "@workspace/ui/services/admin/payment";
+  postPayment as createPaymentMethod,
+  deletePayment as deletePaymentMethod,
+  getPaymentList as getPaymentMethodList,
+  putPayment as updatePaymentMethod,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

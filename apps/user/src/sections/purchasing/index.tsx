@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { useSearch } from "@tanstack/react-router";
-import { getSubscription } from "@workspace/ui/services/user/portal";
+import { getV1PublicPortalSubscribe as getSubscription } from "@workspace/ui/services/user/user";
 import { useTranslation } from "react-i18next";
 import Content from "./content";
 

@@ -10,7 +10,7 @@ import {
   SheetTrigger,
 } from "@workspace/ui/components/sheet";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { getUserSubscribeById } from "@workspace/ui/services/admin/user";
+import { getUserSubscribeDetail as getUserSubscribeById } from "@workspace/ui/services/admin/admin";
 import { formatBytes } from "@workspace/ui/utils/formatting";
 import { Users } from "lucide-react";
 import { useState } from "react";

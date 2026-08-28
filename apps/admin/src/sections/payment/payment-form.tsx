@@ -32,7 +32,7 @@ import {
 import { MarkdownEditor } from "@workspace/ui/composed/editor/markdown";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
-import { getPaymentPlatform } from "@workspace/ui/services/admin/payment";
+import { getPaymentPlatform } from "@workspace/ui/services/admin/admin";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";

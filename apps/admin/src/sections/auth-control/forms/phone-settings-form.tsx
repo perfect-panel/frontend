@@ -35,10 +35,10 @@ import { Icon } from "@workspace/ui/composed/icon";
 import TagInput from "@workspace/ui/composed/tag-input";
 import {
   getAuthMethodConfig,
-  getSmsPlatform,
-  testSmsSend,
-  updateAuthMethodConfig,
-} from "@workspace/ui/services/admin/authMethod";
+  getAuthMethodSmsPlatform as getSmsPlatform,
+  postAuthMethodTestSmsSend as testSmsSend,
+  putAuthMethodConfig as updateAuthMethodConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

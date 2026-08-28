@@ -1,7 +1,7 @@
 import { Button } from "@workspace/ui/components/button";
 import {
-  sendEmailCode,
-  sendSmsCode,
+  postCommonSendCode as sendEmailCode,
+  postCommonSendSmsCode as sendSmsCode,
 } from "@workspace/ui/services/common/common";
 import { useCountDown } from "ahooks";
 import { useState } from "react";

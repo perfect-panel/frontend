@@ -11,7 +11,7 @@ import {
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
-import { recharge } from "@workspace/ui/services/user/order";
+import { postV1PublicOrderRecharge as recharge } from "@workspace/ui/services/user/user";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { LoaderCircle } from "lucide-react";
 import type React from "react";
@@ -81,7 +81,7 @@ export default function Recharge(
               balance={false}
               onAvailableMethodsChange={setAvailableMethodsCount}
               onChange={(value) => setParams({ ...params, payment: value })}
-              value={params.payment}
+              value={params.payment ?? -1}
             />
             {hasNoPaymentMethods && (
               <div className="text-muted-foreground text-sm">

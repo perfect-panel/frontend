@@ -7,7 +7,7 @@ import {
   RadioGroupItem,
 } from "@workspace/ui/components/radio-group";
 import { cn } from "@workspace/ui/lib/utils";
-import { getAvailablePaymentMethods } from "@workspace/ui/services/user/portal";
+import { getV1PublicPortalPaymentMethod as getAvailablePaymentMethods } from "@workspace/ui/services/user/user";
 import type React from "react";
 import { memo, useEffect } from "react";
 import { useTranslation } from "react-i18next";

@@ -15,8 +15,8 @@ import {
 import { cn } from "@workspace/ui/lib/utils";
 import {
   getOrderList,
-  updateOrderStatus,
-} from "@workspace/ui/services/admin/order";
+  putOrderStatus as updateOrderStatus,
+} from "@workspace/ui/services/admin/admin";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";

@@ -9,7 +9,7 @@ import {
 } from "@workspace/ui/components/sheet";
 import { Icon } from "@workspace/ui/composed/icon";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { queryQuotaTaskList } from "@workspace/ui/services/admin/marketing";
+import { getMarketingQuotaList as queryQuotaTaskList } from "@workspace/ui/services/admin/admin";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
@@ -75,7 +75,7 @@ export default function QuotaTaskManager() {
         <ScrollArea className="h-[calc(100dvh-48px-36px-env(safe-area-inset-top))] px-6">
           <div className="mt-4 space-y-4">
             {open && (
-              <ProTable<API.QuotaTask, API.QueryQuotaTaskListParams>
+              <ProTable<API.QuotaTask, API.getMarketingQuotaListParams>
                 columns={[
                   {
                     accessorKey: "subscribers",

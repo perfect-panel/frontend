@@ -18,7 +18,6 @@
   "Node Management": "节点管理",
   "Order Management": "订单管理",
   "Payment Config": "支付配置",
-  "Plugin Management": "插件管理",
   "Product Management": "商品管理",
   "Register": "注册",
   "Reset Subscribe": "重置订阅",
@@ -32,5 +31,6 @@
   "Ticket Management": "工单管理",
   "Traffic Details": "流量详情",
   "User Management": "用户管理",
-  "Users & Support": "用户与支持"
+  "Users & Support": "用户与支持",
+  "Withdrawal Management": "佣金提现管理"
 }

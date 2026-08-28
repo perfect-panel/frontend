@@ -5,7 +5,7 @@ import {
   ProList,
   type ProListActions,
 } from "@workspace/ui/composed/pro-list/pro-list";
-import { queryUserBalanceLog } from "@workspace/ui/services/user/user";
+import { getV1PublicUserBalanceLog as queryUserBalanceLog } from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";

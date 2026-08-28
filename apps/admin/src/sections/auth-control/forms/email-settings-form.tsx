@@ -32,9 +32,9 @@ import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   getAuthMethodConfig,
-  testEmailSend,
-  updateAuthMethodConfig,
-} from "@workspace/ui/services/admin/authMethod";
+  postAuthMethodTestEmailSend as testEmailSend,
+  putAuthMethodConfig as updateAuthMethodConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

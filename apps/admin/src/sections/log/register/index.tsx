@@ -9,7 +9,7 @@ import {
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterRegisterLog } from "@workspace/ui/services/admin/log";
+import { getLogRegisterList as filterRegisterLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { IpLink } from "@/components/ip-link";
 import { UserDetail } from "@/sections/user/user-detail";

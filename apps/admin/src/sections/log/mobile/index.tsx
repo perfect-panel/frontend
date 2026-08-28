@@ -3,7 +3,7 @@
 import { useSearch } from "@tanstack/react-router";
 import { Badge } from "@workspace/ui/components/badge";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterMobileLog } from "@workspace/ui/services/admin/log";
+import { getLogMobileList as filterMobileLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { formatDate } from "@/utils/common";
 

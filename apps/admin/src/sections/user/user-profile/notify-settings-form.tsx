@@ -14,7 +14,7 @@ import {
   FormLabel,
 } from "@workspace/ui/components/form";
 import { Switch } from "@workspace/ui/components/switch";
-import { updateUserNotifySetting } from "@workspace/ui/services/admin/user";
+import { putUserNotify as updateUserNotifySetting } from "@workspace/ui/services/admin/admin";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

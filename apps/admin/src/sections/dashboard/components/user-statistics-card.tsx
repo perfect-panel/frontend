@@ -23,7 +23,7 @@ import {
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import Empty from "@workspace/ui/composed/empty";
-import { queryUserStatistics } from "@workspace/ui/services/admin/console";
+import { getConsoleUser as queryUserStatistics } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import {
   Area,

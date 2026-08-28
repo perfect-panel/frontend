@@ -27,9 +27,9 @@ import { Combobox } from "@workspace/ui/composed/combobox";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  createQuotaTask,
-  queryQuotaTaskPreCount,
-} from "@workspace/ui/services/admin/marketing";
+  postMarketingQuotaCreate as createQuotaTask,
+  postMarketingQuotaPreCount as queryQuotaTaskPreCount,
+} from "@workspace/ui/services/admin/admin";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
@@ -52,7 +52,7 @@ export default function QuotaBroadcastForm() {
     end_time: z.string().optional(),
     reset_traffic: z.boolean(),
     days: z.number().optional(),
-    gift_type: z.number(),
+    gift_type: z.union([z.literal(0), z.literal(1), z.literal(2)]),
     gift_value: z.number().optional(),
   });
 

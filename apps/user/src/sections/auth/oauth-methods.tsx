@@ -2,7 +2,7 @@
 
 import { Button } from "@workspace/ui/components/button";
 import { Icon } from "@workspace/ui/composed/icon";
-import { oAuthLogin } from "@workspace/ui/services/common/oauth";
+import { postAuthOauthLogin as oAuthLogin } from "@workspace/ui/services/common/common";
 import { useGlobalStore } from "@/stores/global";
 
 const icons = {

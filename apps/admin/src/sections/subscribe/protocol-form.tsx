@@ -53,11 +53,11 @@ import {
 } from "@workspace/ui/composed/pro-table/index";
 import { UploadImage } from "@workspace/ui/composed/upload-image";
 import {
-  createSubscribeApplication,
-  deleteSubscribeApplication,
-  getSubscribeApplicationList,
-  updateSubscribeApplication,
-} from "@workspace/ui/services/admin/application";
+  postApplication as createSubscribeApplication,
+  deleteApplicationSubscribeApplication as deleteSubscribeApplication,
+  getApplicationSubscribeApplicationList as getSubscribeApplicationList,
+  putApplicationSubscribeApplication as updateSubscribeApplication,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

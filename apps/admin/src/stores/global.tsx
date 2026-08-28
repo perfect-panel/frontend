@@ -1,4 +1,4 @@
-import { currentUser } from "@workspace/ui/services/admin/user";
+import { getUserCurrent as currentUser } from "@workspace/ui/services/admin/admin";
 import { isBrowser } from "@workspace/ui/utils/index";
 import { create } from "zustand";
 
@@ -82,6 +82,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       forced_invite: false,
       referral_percentage: 0,
       only_first_purchase: false,
+      withdrawal_method: "",
     },
     currency: {
       currency_unit: "USD",
@@ -94,6 +95,9 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       pan_domain: false,
       user_agent_limit: false,
       user_agent_list: "",
+      profile_update_interval: 0,
+      profile_web_page_url: "",
+      show_tutorial: false,
     },
     verify_code: {
       verify_code_expire_time: 5,

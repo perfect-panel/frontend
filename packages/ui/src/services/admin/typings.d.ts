@@ -1,131 +1,43 @@
 declare namespace API {
   type Ads = {
+    content: string;
+    created_at: number;
+    description: string;
+    end_time: number;
     id: number;
+    start_time: number;
+    status: number;
+    target_url: string;
     title: string;
     type: string;
-    content: string;
-    description: string;
-    target_url: string;
-    start_time: number;
-    end_time: number;
-    status: number;
-    created_at: number;
     updated_at: number;
-  };
-
-  type AlipayNotifyResponse = {
-    return_code: string;
   };
 
   type Announcement = {
-    id: number;
-    title: string;
     content: string;
-    show: boolean;
+    created_at: number;
+    id: number;
     pinned: boolean;
     popup: boolean;
-    created_at: number;
+    show: boolean;
+    title: string;
     updated_at: number;
   };
 
-  type AnyTLS = {
-    port: number;
-    security_config: SecurityConfig;
-  };
-
-  type Application = {
-    id: number;
-    icon: string;
-    name: string;
-    description: string;
-    subscribe_type: string;
-  };
-
-  type ApplicationPlatform = {
-    ios?: ApplicationVersion[];
-    macos?: ApplicationVersion[];
-    linux?: ApplicationVersion[];
-    android?: ApplicationVersion[];
-    windows?: ApplicationVersion[];
-    harmony?: ApplicationVersion[];
-  };
-
-  type ApplicationResponse = {
-    applications: ApplicationResponseInfo[];
-  };
-
-  type ApplicationResponseInfo = {
-    id: number;
-    name: string;
-    icon: string;
-    description: string;
-    subscribe_type: string;
-    platform: ApplicationPlatform;
-  };
-
-  type ApplicationVersion = {
-    id: number;
-    url: string;
-    version: string;
-    description: string;
-    is_default: boolean;
-  };
-
-  type AppUserSubcbribe = {
-    id: number;
-    name: string;
-    upload: number;
-    traffic: number;
-    download: number;
-    device_limit: number;
-    start_time: string;
-    expire_time: string;
-    list: AppUserSubscbribeNode[];
-  };
-
-  type AppUserSubscbribeNode = {
-    id: number;
-    name: string;
-    uuid: string;
-    protocol: string;
-    relay_mode: string;
-    relay_node: string;
-    server_addr: string;
-    speed_limit: number;
-    tags: string[];
-    traffic: number;
-    traffic_ratio: number;
-    upload: number;
-    config: string;
-    country: string;
-    city: string;
-    latitude: string;
-    longitude: string;
-    created_at: number;
-    download: number;
-  };
-
-  type AuthConfig = {
-    mobile: MobileAuthenticateConfig;
-    email: EmailAuthticateConfig;
-    device: DeviceAuthticateConfig;
-    register: PubilcRegisterConfig;
-  };
-
   type AuthMethodConfig = {
+    config: any;
+    enabled: boolean;
     id: number;
     method: string;
-    config: Record<string, any>;
-    enabled: boolean;
   };
 
   type BalanceLog = {
+    amount: number;
+    balance: number;
+    order_no: string;
+    timestamp: number;
     type: number;
     user_id: number;
-    amount: number;
-    order_no?: string;
-    balance: number;
-    timestamp: number;
   };
 
   type BatchDeleteCouponRequest = {
@@ -149,260 +61,250 @@ declare namespace API {
   };
 
   type BatchSendEmailTask = {
-    id: number;
-    subject: string;
-    content: string;
-    recipients: string;
-    scope: number;
-    register_start_time: number;
-    register_end_time: number;
     additional: string;
-    scheduled: number;
+    content: string;
+    created_at: number;
+    current: number;
+    errors: string;
+    id: number;
     interval: number;
     limit: number;
+    recipients: string;
+    register_end_time: number;
+    register_start_time: number;
+    scheduled: number;
+    scope: number;
     status: number;
-    errors: string;
+    subject: string;
     total: number;
-    current: number;
-    created_at: number;
     updated_at: number;
-  };
-
-  type CheckoutOrderRequest = {
-    orderNo: string;
-    returnUrl?: string;
-  };
-
-  type CheckoutOrderResponse = {
-    type: string;
-    checkout_url?: string;
-    stripe?: StripePayment;
-  };
-
-  type CloseOrderRequest = {
-    orderNo: string;
   };
 
   type CommissionLog = {
-    type: number;
-    user_id: number;
     amount: number;
     order_no: string;
     timestamp: number;
+    type: number;
+    user_id: number;
   };
 
   type Coupon = {
-    id: number;
-    name: string;
     code: string;
     count: number;
-    type: number;
-    discount: number;
-    start_time: number;
-    expire_time: number;
-    user_limit: number;
-    subscribe: number[];
-    used_count: number;
-    enable: boolean;
     created_at: number;
+    discount: number;
+    enable: boolean;
+    expire_time: number;
+    id: number;
+    name: string;
+    start_time: number;
+    subscribe: number[];
+    type: number;
     updated_at: number;
+    used_count: number;
+    user_limit: number;
   };
 
   type CreateAdsRequest = {
-    title: string;
-    type: string;
-    content: string;
-    description: string;
-    target_url: string;
-    start_time: number;
-    end_time: number;
-    status: number;
+    content?: string;
+    description?: string;
+    end_time?: number;
+    start_time?: number;
+    status?: number;
+    target_url?: string;
+    title?: string;
+    type?: string;
   };
 
   type CreateAnnouncementRequest = {
-    title: string;
     content: string;
+    title: string;
   };
 
   type CreateBatchSendEmailTaskRequest = {
-    subject: string;
-    content: string;
-    scope: number;
-    register_start_time?: number;
-    register_end_time?: number;
     additional?: string;
-    scheduled?: number;
+    content: string;
     interval?: number;
     limit?: number;
+    register_end_time?: number;
+    register_start_time?: number;
+    scheduled?: number;
+    scope: 1 | 2 | 3 | 4 | 5;
+    subject: string;
   };
 
   type CreateCouponRequest = {
-    name: string;
     code?: string;
     count?: number;
-    type: number;
     discount: number;
-    start_time: number;
-    expire_time: number;
-    user_limit?: number;
-    subscribe?: number[];
-    used_count?: number;
     enable?: boolean;
+    expire_time: number;
+    name: string;
+    start_time: number;
+    subscribe?: number[];
+    type: number;
+    used_count?: number;
+    user_limit?: number;
   };
 
   type CreateDocumentRequest = {
-    title: string;
     content: string;
+    show?: boolean;
     tags?: string[];
-    show: boolean;
+    title: string;
   };
 
   type CreateNodeRequest = {
-    name: string;
+    address?: string;
+    enabled?: boolean;
+    name?: string;
+    port?: number;
+    protocol?: string;
+    server_id?: number;
     tags?: string[];
-    port: number;
-    address: string;
-    server_id: number;
-    protocol: string;
-    enabled: boolean;
   };
 
   type CreateOrderRequest = {
-    user_id: number;
-    type: number;
-    quantity?: number;
-    price: number;
     amount: number;
-    discount?: number;
+    commission?: number;
     coupon?: string;
     coupon_discount?: number;
-    commission: number;
+    discount?: number;
     fee_amount: number;
     payment_id: number;
-    trade_no?: string;
+    price: number;
+    quantity?: number;
     status?: number;
     subscribe_id?: number;
+    trade_no?: string;
+    type: number;
+    user_id: number;
   };
 
   type CreatePaymentMethodRequest = {
+    config: any;
+    description?: string;
+    domain?: string;
+    enable: boolean;
+    fee_amount?: number;
+    fee_mode?: number;
+    fee_percent?: number;
+    icon?: string;
     name: string;
     platform: string;
-    description: string;
-    icon?: string;
-    domain?: string;
-    config: Record<string, any>;
-    fee_mode: number;
-    fee_percent?: number;
-    fee_amount?: number;
-    enable: boolean;
+    sort?: number;
   };
 
   type CreateQuotaTaskRequest = {
-    subscribers: number[];
-    is_active: boolean;
-    start_time: number;
-    end_time: number;
-    reset_traffic: boolean;
-    days: number;
-    gift_type: number;
-    gift_value: number;
+    days?: number;
+    end_time?: number;
+    gift_type?: 0 | 1 | 2;
+    gift_value?: number;
+    is_active?: boolean;
+    reset_traffic?: boolean;
+    start_time?: number;
+    subscribers?: number[];
   };
 
   type CreateServerRequest = {
-    name: string;
-    country?: string;
+    address?: string;
     city?: string;
-    address: string;
+    country?: string;
+    name?: string;
+    protocols?: Protocol[];
     sort?: number;
-    protocols: Protocol[];
   };
 
   type CreateSubscribeApplicationRequest = {
-    name: string;
+    /** DefaultParams holds the template params this client should receive when the
+subscription URL does not carry them, in query-string form such as
+"mode=rule&emoji=1". */
+    default_params?: string;
     description?: string;
+    download_link?: DownloadLink;
     icon?: string;
+    is_default?: boolean;
+    name?: string;
+    output_format?: string;
     scheme?: string;
-    user_agent: string;
-    is_default: boolean;
-    template: string;
-    output_format: string;
-    download_link: DownloadLink;
+    template?: string;
+    user_agent?: string;
   };
 
   type CreateSubscribeGroupRequest = {
+    description?: string;
     name: string;
-    description: string;
   };
 
   type CreateSubscribeRequest = {
+    allow_deduction?: boolean;
+    deduction_ratio?: number;
+    description?: string;
+    device_limit?: number;
+    discount?: SubscribeDiscount[];
+    inventory?: number;
+    language?: string;
     name: string;
-    language: string;
-    description: string;
-    unit_price: number;
-    unit_time: string;
-    discount: SubscribeDiscount[];
-    replacement: number;
-    inventory: number;
-    traffic: number;
-    speed_limit: number;
-    device_limit: number;
-    quota: number;
-    nodes: number[];
-    node_tags: string[];
-    show: boolean;
-    sell: boolean;
-    deduction_ratio: number;
-    allow_deduction: boolean;
-    reset_cycle: number;
-    renewal_reset: boolean;
-    show_original_price: boolean;
+    node_tags?: string[];
+    nodes?: number[];
+    quota?: number;
+    renewal_reset?: boolean;
+    replacement?: number;
+    reset_cycle?: number;
+    sell?: boolean;
+    show?: boolean;
+    show_original_price?: boolean;
+    speed_limit?: number;
+    traffic?: number;
+    unit_price?: number;
+    unit_time?: string;
   };
 
   type CreateTicketFollowRequest = {
-    ticket_id: number;
-    from: string;
-    type: number;
     content: string;
+    from: string;
+    ticket_id: number;
+    type: number;
   };
 
   type CreateUserAuthMethodRequest = {
-    user_id: number;
-    auth_type: string;
-    auth_identifier: string;
+    auth_identifier?: string;
+    auth_type?: string;
+    user_id?: number;
   };
 
   type CreateUserRequest = {
-    email: string;
-    telephone: string;
-    telephone_area_code: string;
-    password: string;
-    product_id: number;
-    duration: number;
-    referral_percentage: number;
-    only_first_purchase: boolean;
-    referer_user: string;
-    refer_code: string;
-    balance: number;
-    commission: number;
-    gift_amount: number;
-    is_admin: boolean;
+    balance?: number;
+    commission?: number;
+    duration?: number;
+    email?: string;
+    gift_amount?: number;
+    is_admin?: boolean;
+    only_first_purchase?: boolean;
+    password?: string;
+    product_id?: number;
+    refer_code?: string;
+    referer_user?: string;
+    referral_percentage?: number;
+    telephone?: string;
+    telephone_area_code?: string;
   };
 
   type CreateUserSubscribeRequest = {
-    user_id: number;
-    expired_at: number;
-    traffic: number;
-    subscribe_id: number;
+    expired_at?: number;
+    subscribe_id?: number;
+    traffic?: number;
+    user_id?: number;
   };
 
   type CurrencyConfig = {
     access_key: string;
-    currency_unit: string;
     currency_symbol: string;
+    currency_unit: string;
   };
 
   type DeleteAdsRequest = {
-    id: number;
+    id?: number;
   };
 
   type DeleteAnnouncementRequest = {
@@ -418,7 +320,7 @@ declare namespace API {
   };
 
   type DeleteNodeRequest = {
-    id: number;
+    id?: number;
   };
 
   type DeletePaymentMethodRequest = {
@@ -426,11 +328,11 @@ declare namespace API {
   };
 
   type DeleteServerRequest = {
-    id: number;
+    id?: number;
   };
 
   type DeleteSubscribeApplicationRequest = {
-    id: number;
+    id?: number;
   };
 
   type DeleteSubscribeGroupRequest = {
@@ -442,451 +344,170 @@ declare namespace API {
   };
 
   type DeleteUserAuthMethodRequest = {
-    user_id: number;
-    auth_type: string;
+    auth_type?: string;
+    user_id?: number;
   };
 
   type DeleteUserDeivceRequest = {
-    id: number;
-  };
-
-  type DeleteUserParams = {
-    id: number;
+    id?: number;
   };
 
   type DeleteUserSubscribeRequest = {
-    user_subscribe_id: number;
-  };
-
-  type DeviceAuthticateConfig = {
-    enable: boolean;
-    show_ads: boolean;
-    enable_security: boolean;
-    only_real_device: boolean;
+    user_subscribe_id?: number;
   };
 
   type Document = {
-    id: number;
-    title: string;
     content: string;
-    tags: string[];
-    show: boolean;
     created_at: number;
+    id: number;
+    show: boolean;
+    tags: string[];
+    title: string;
     updated_at: number;
   };
 
   type DownloadLink = {
-    ios?: string;
     android?: string;
-    windows?: string;
-    mac?: string;
-    linux?: string;
     harmony?: string;
-  };
-
-  type EmailAuthticateConfig = {
-    enable: boolean;
-    enable_verify: boolean;
-    enable_domain_suffix: boolean;
-    domain_suffix_list: string;
-  };
-
-  type EPayNotifyRequest = {
-    pid: number;
-    trade_no: string;
-    out_trade_no: string;
-    type: string;
-    name: string;
-    money: string;
-    trade_status: string;
-    param: string;
-    sign: string;
-    sign_type: string;
-  };
-
-  type FilterBalanceLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-  };
-
-  type FilterBalanceLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
+    ios?: string;
+    linux?: string;
+    mac?: string;
+    windows?: string;
   };
 
   type FilterBalanceLogResponse = {
-    total: number;
     list: BalanceLog[];
-  };
-
-  type FilterCommissionLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-  };
-
-  type FilterCommissionLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
+    total: number;
   };
 
   type FilterCommissionLogResponse = {
-    total: number;
     list: CommissionLog[];
-  };
-
-  type FilterEmailLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
+    total: number;
   };
 
   type FilterEmailLogResponse = {
-    total: number;
     list: MessageLog[];
-  };
-
-  type FilterGiftLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-  };
-
-  type FilterGiftLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
+    total: number;
   };
 
   type FilterGiftLogResponse = {
-    total: number;
     list: GiftLog[];
-  };
-
-  type FilterLoginLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-  };
-
-  type FilterLoginLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
+    total: number;
   };
 
   type FilterLoginLogResponse = {
-    total: number;
     list: LoginLog[];
-  };
-
-  type FilterLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-  };
-
-  type FilterMobileLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
+    total: number;
   };
 
   type FilterMobileLogResponse = {
-    total: number;
     list: MessageLog[];
-  };
-
-  type FilterNodeListParams = {
-    page: number;
-    size: number;
-    search?: string;
-  };
-
-  type FilterNodeListRequest = {
-    page: number;
-    size: number;
-    search?: string;
+    total: number;
   };
 
   type FilterNodeListResponse = {
-    total: number;
     list: Node[];
-  };
-
-  type FilterRegisterLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-  };
-
-  type FilterRegisterLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
+    total: number;
   };
 
   type FilterRegisterLogResponse = {
-    total: number;
     list: RegisterLog[];
-  };
-
-  type FilterResetSubscribeLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_subscribe_id?: number;
-  };
-
-  type FilterResetSubscribeLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_subscribe_id?: number;
+    total: number;
   };
 
   type FilterResetSubscribeLogResponse = {
-    total: number;
     list: ResetSubscribeLog[];
-  };
-
-  type FilterServerListParams = {
-    page: number;
-    size: number;
-    search?: string;
-  };
-
-  type FilterServerListRequest = {
-    page: number;
-    size: number;
-    search?: string;
+    total: number;
   };
 
   type FilterServerListResponse = {
-    total: number;
     list: Server[];
-  };
-
-  type FilterServerTrafficLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    server_id?: number;
-  };
-
-  type FilterServerTrafficLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    server_id?: number;
+    total: number;
   };
 
   type FilterServerTrafficLogResponse = {
-    total: number;
     list: ServerTrafficLog[];
-  };
-
-  type FilterSubscribeLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-    user_subscribe_id?: number;
-  };
-
-  type FilterSubscribeLogRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-    user_subscribe_id?: number;
+    total: number;
   };
 
   type FilterSubscribeLogResponse = {
-    total: number;
     list: SubscribeLog[];
-  };
-
-  type FilterSubscribeTrafficRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-    user_subscribe_id?: number;
+    total: number;
   };
 
   type FilterSubscribeTrafficResponse = {
-    total: number;
     list: UserSubscribeTrafficLog[];
-  };
-
-  type FilterTrafficLogDetailsParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    server_id?: number;
-    subscribe_id?: number;
-    user_id?: number;
-  };
-
-  type FilterTrafficLogDetailsRequest = {
-    page?: number;
-    size?: number;
-    date?: string;
-    search?: string;
-    server_id?: number;
-    subscribe_id?: number;
-    user_id?: number;
+    total: number;
   };
 
   type FilterTrafficLogDetailsResponse = {
-    total: number;
     list: TrafficLogDetails[];
-  };
-
-  type FilterUserSubscribeTrafficLogParams = {
-    page: number;
-    size: number;
-    date?: string;
-    search?: string;
-    user_id?: number;
-    user_subscribe_id?: number;
+    total: number;
   };
 
   type Follow = {
-    id: number;
-    ticket_id: number;
-    from: string;
-    type: number;
     content: string;
     created_at: number;
-  };
-
-  type GetAdsDetailParams = {
+    from: string;
     id: number;
+    ticket_id: number;
+    type: number;
   };
 
-  type GetAdsDetailRequest = {
-    id: number;
+  type getAdsDetailParams = {
+    id?: number;
   };
 
-  type GetAdsListParams = {
+  type getAdsListParams = {
     page: number;
+    search?: string;
     size: number;
     status?: number;
-    search?: string;
-  };
-
-  type GetAdsListRequest = {
-    page: number;
-    size: number;
-    status?: number;
-    search?: string;
   };
 
   type GetAdsListResponse = {
-    total: number;
     list: Ads[];
+    total: number;
   };
 
-  type GetAnnouncementListParams = {
+  type getAnnouncementDetailParams = {
+    id: number;
+  };
+
+  type getAnnouncementListParams = {
     page: number;
-    size: number;
-    show?: boolean;
     pinned?: boolean;
     popup?: boolean;
     search?: string;
-  };
-
-  type GetAnnouncementListRequest = {
-    page: number;
-    size: number;
     show?: boolean;
-    pinned?: boolean;
-    popup?: boolean;
-    search?: string;
+    size: number;
   };
 
   type GetAnnouncementListResponse = {
-    total: number;
     list: Announcement[];
+    total: number;
   };
 
-  type GetAnnouncementParams = {
-    id: number;
+  type getApplicationPreviewParams = {
+    id?: number;
   };
 
-  type GetAnnouncementRequest = {
-    id: number;
+  type getApplicationSubscribeApplicationListParams = {
+    page: number;
+    size: number;
   };
 
-  type GetAuthMethodConfigParams = {
-    method: string;
-  };
-
-  type GetAuthMethodConfigRequest = {
-    method: string;
+  type getAuthMethodConfigParams = {
+    method?: string;
   };
 
   type GetAuthMethodListResponse = {
     list: AuthMethodConfig[];
   };
 
-  type GetAvailablePaymentMethodsResponse = {
-    list: PaymentMethod[];
-  };
-
-  type GetBatchSendEmailTaskListParams = {
-    page: number;
-    size: number;
-    scope?: number;
-    status?: number;
-  };
-
-  type GetBatchSendEmailTaskListRequest = {
-    page: number;
-    size: number;
-    scope?: number;
-    status?: number;
-  };
-
   type GetBatchSendEmailTaskListResponse = {
-    total: number;
     list: BatchSendEmailTask[];
+    total: number;
   };
 
   type GetBatchSendEmailTaskStatusRequest = {
@@ -894,181 +515,245 @@ declare namespace API {
   };
 
   type GetBatchSendEmailTaskStatusResponse = {
-    status: number;
     current: number;
-    total: number;
     errors: string;
+    status: number;
+    total: number;
   };
 
-  type GetCouponListParams = {
+  type getCouponListParams = {
     page: number;
+    search?: string;
     size: number;
     subscribe?: number;
-    search?: string;
-  };
-
-  type GetCouponListRequest = {
-    page: number;
-    size: number;
-    subscribe?: number;
-    search?: string;
   };
 
   type GetCouponListResponse = {
-    total: number;
     list: Coupon[];
+    total: number;
   };
 
   type GetDetailRequest = {
     id: number;
   };
 
-  type GetDocumentDetailRequest = {
+  type getDocumentDetailParams = {
     id: number;
   };
 
-  type GetDocumentListParams = {
+  type getDocumentListParams = {
     page: number;
+    search?: string;
     size: number;
     tag?: string;
-    search?: string;
-  };
-
-  type GetDocumentListRequest = {
-    page: number;
-    size: number;
-    tag?: string;
-    search?: string;
   };
 
   type GetDocumentListResponse = {
-    total: number;
     list: Document[];
+    total: number;
   };
 
-  type GetMessageLogListParams = {
+  type getLogBalanceListParams = {
+    date?: string;
     page: number;
-    size: number;
-    type: number;
     search?: string;
+    size: number;
+    user_id?: number;
   };
 
-  type GetMessageLogListRequest = {
+  type getLogCommissionListParams = {
+    date?: string;
     page: number;
-    size: number;
-    type: number;
     search?: string;
+    size: number;
+    user_id?: number;
+  };
+
+  type getLogEmailListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+  };
+
+  type getLogGiftListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
+  };
+
+  type getLogLoginListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
+  };
+
+  type getLogMessageListParams = {
+    page: number;
+    search?: string;
+    size: number;
+    type?: number;
+  };
+
+  type getLogMobileListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+  };
+
+  type getLogRegisterListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
+  };
+
+  type getLogServerTrafficListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    server_id?: number;
+    size: number;
+  };
+
+  type getLogSubscribeListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
+    user_subscribe_id?: number;
+  };
+
+  type getLogSubscribeResetListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_subscribe_id?: number;
+  };
+
+  type getLogSubscribeTrafficListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
+    user_subscribe_id?: number;
+  };
+
+  type getLogTrafficDetailsParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    server_id?: number;
+    size: number;
+    subscribe_id?: number;
+    user_id?: number;
+  };
+
+  type getMarketingEmailBatchListParams = {
+    page?: number;
+    scope?: 1 | 2 | 3 | 4 | 5;
+    size?: number;
+    status?: 0 | 1 | 2 | 3 | 4 | 5;
+  };
+
+  type getMarketingQuotaListParams = {
+    page?: number;
+    size?: number;
+    status?: 0 | 1 | 2 | 3 | 4 | 5;
   };
 
   type GetMessageLogListResponse = {
-    total: number;
     list: MessageLog[];
+    total: number;
   };
 
   type GetNodeMultiplierResponse = {
     periods: TimePeriod[];
   };
 
-  type GetOrderListParams = {
+  type getOrderListParams = {
     page: number;
+    search?: string;
     size: number;
-    user_id?: number;
     status?: number;
     subscribe_id?: number;
-    search?: string;
-  };
-
-  type GetOrderListRequest = {
-    page: number;
-    size: number;
     user_id?: number;
-    status?: number;
-    subscribe_id?: number;
-    search?: string;
   };
 
   type GetOrderListResponse = {
-    total: number;
     list: Order[];
+    total: number;
   };
 
-  type GetPaymentMethodListParams = {
+  type getPaymentListParams = {
+    enable?: boolean;
     page: number;
-    size: number;
     platform?: string;
     search?: string;
-    enable?: boolean;
-  };
-
-  type GetPaymentMethodListRequest = {
-    page: number;
     size: number;
-    platform?: string;
-    search?: string;
-    enable?: boolean;
   };
 
   type GetPaymentMethodListResponse = {
-    total: number;
     list: PaymentMethodDetail[];
+    total: number;
   };
 
   type GetPreSendEmailCountRequest = {
-    scope: number;
-    register_start_time?: number;
+    additional?: string;
     register_end_time?: number;
+    register_start_time?: number;
+    scope: 1 | 2 | 3 | 4 | 5;
   };
 
   type GetPreSendEmailCountResponse = {
     count: number;
   };
 
-  type GetServerProtocolsParams = {
-    id: number;
+  type getServerListParams = {
+    page: number;
+    search?: string;
+    size: number;
   };
 
-  type GetServerProtocolsRequest = {
-    id: number;
+  type getServerNodeConfigParams = {
+    server_id: number;
+  };
+
+  type GetServerNodeConfigResponse = {
+    effective: ServerNodeConfigValues;
+    global: ServerNodeConfigValues;
+    override: ServerNodeConfigOverride;
+  };
+
+  type getServerNodeListParams = {
+    page: number;
+    search?: string;
+    size: number;
+  };
+
+  type getServerProtocolsParams = {
+    id?: number;
   };
 
   type GetServerProtocolsResponse = {
     protocols: Protocol[];
   };
 
-  type GetServerNodeConfigParams = {
-    server_id: number;
-  };
-
-  type GetServerNodeConfigRequest = {
-    server_id: number;
-  };
-
-  type GetServerNodeConfigResponse = {
-    global: ServerNodeConfigValues;
-    override: ServerNodeConfigOverride;
-    effective: ServerNodeConfigValues;
-  };
-
-  type GetSubscribeApplicationListParams = {
-    page: number;
-    size: number;
-  };
-
-  type GetSubscribeApplicationListRequest = {
-    page: number;
-    size: number;
-  };
-
   type GetSubscribeApplicationListResponse = {
-    total: number;
     list: SubscribeApplication[];
+    total: number;
   };
 
-  type GetSubscribeDetailsParams = {
-    id: number;
-  };
-
-  type GetSubscribeDetailsRequest = {
+  type getSubscribeDetailsParams = {
     id: number;
   };
 
@@ -1077,18 +762,11 @@ declare namespace API {
     total: number;
   };
 
-  type GetSubscribeListParams = {
-    page: number;
-    size: number;
+  type getSubscribeListParams = {
     language?: string;
-    search?: string;
-  };
-
-  type GetSubscribeListRequest = {
     page: number;
-    size: number;
-    language?: string;
     search?: string;
+    size: number;
   };
 
   type GetSubscribeListResponse = {
@@ -1096,84 +774,59 @@ declare namespace API {
     total: number;
   };
 
-  type GetTicketListParams = {
-    page: number;
-    size: number;
-    user_id?: number;
-    status?: number;
-    search?: string;
+  type getTicketDetailParams = {
+    id: number;
   };
 
-  type GetTicketListRequest = {
+  type getTicketListParams = {
     page: number;
-    size: number;
-    user_id?: number;
-    status?: number;
     search?: string;
+    size: number;
+    status?: number;
+    user_id?: number;
   };
 
   type GetTicketListResponse = {
-    total: number;
     list: Ticket[];
+    total: number;
   };
 
-  type GetTicketParams = {
-    id: number;
+  type getToolIpLocationParams = {
+    ip: string;
   };
 
-  type GetTicketRequest = {
-    id: number;
-  };
-
-  type GetUserAuthMethodRequest = {
-    user_id: number;
+  type getUserAuthMethodParams = {
+    user_id?: number;
   };
 
   type GetUserAuthMethodResponse = {
     auth_methods: UserAuthMethod[];
   };
 
-  type GetUserDetailParams = {
+  type getUserDetailParams = {
     id: number;
   };
 
-  type GetUserListParams = {
+  type getUserListParams = {
     page: number;
-    size: number;
     search?: string;
-    user_id?: number;
-    unscoped?: boolean;
-    subscribe_id?: number;
-    user_subscribe_id?: number;
-    user_subscribe_token?: string;
-  };
-
-  type GetUserListRequest = {
-    page: number;
     size: number;
-    search?: string;
-    user_id?: number;
-    unscoped?: boolean;
     subscribe_id?: number;
+    unscoped?: boolean;
+    user_id?: number;
     user_subscribe_id?: number;
     user_subscribe_token?: string;
   };
 
   type GetUserListResponse = {
-    total: number;
     list: User[];
+    total: number;
   };
 
-  type GetUserLoginLogsParams = {
+  type getUserLoginLogsParams = {
     page: number;
     size: number;
-    user_id: number;
-  };
-
-  type GetUserLoginLogsRequest = {
-    page: number;
-    size: number;
-    user_id: number;
+    user_id?: number;
   };
 
   type GetUserLoginLogsResponse = {
@@ -1181,26 +834,15 @@ declare namespace API {
     total: number;
   };
 
-  type GetUserSubscribeByIdParams = {
+  type getUserSubscribeDetailParams = {
     id: number;
   };
 
-  type GetUserSubscribeByIdRequest = {
-    id: number;
-  };
-
-  type GetUserSubscribeDevicesParams = {
+  type getUserSubscribeDeviceParams = {
     page: number;
     size: number;
-    user_id: number;
-    subscribe_id: number;
-  };
-
-  type GetUserSubscribeDevicesRequest = {
-    page: number;
-    size: number;
-    user_id: number;
-    subscribe_id: number;
+    subscribe_id?: number;
+    user_id?: number;
   };
 
   type GetUserSubscribeDevicesResponse = {
@@ -1208,29 +850,16 @@ declare namespace API {
     total: number;
   };
 
-  type GetUserSubscribeListRequest = {
-    page: number;
-    size: number;
-    user_id: number;
-  };
-
   type GetUserSubscribeListResponse = {
     list: UserSubscribe[];
     total: number;
   };
 
-  type GetUserSubscribeLogsParams = {
+  type getUserSubscribeLogsParams = {
     page: number;
     size: number;
-    user_id: number;
     subscribe_id?: number;
-  };
-
-  type GetUserSubscribeLogsRequest = {
-    page: number;
-    size: number;
-    user_id: number;
-    subscribe_id?: number;
+    user_id?: number;
   };
 
   type GetUserSubscribeLogsResponse = {
@@ -1238,22 +867,16 @@ declare namespace API {
     total: number;
   };
 
-  type GetUserSubscribeParams = {
+  type getUserSubscribeParams = {
     page: number;
     size: number;
-    user_id: number;
+    user_id?: number;
   };
 
-  type GetUserSubscribeResetTrafficLogsParams = {
+  type getUserSubscribeResetLogsParams = {
     page: number;
     size: number;
-    user_subscribe_id: number;
-  };
-
-  type GetUserSubscribeResetTrafficLogsRequest = {
-    page: number;
-    size: number;
-    user_subscribe_id: number;
+    user_subscribe_id?: number;
   };
 
   type GetUserSubscribeResetTrafficLogsResponse = {
@@ -1261,22 +884,13 @@ declare namespace API {
     total: number;
   };
 
-  type GetUserSubscribeTrafficLogsParams = {
+  type getUserSubscribeTrafficLogsParams = {
+    end_time?: number;
     page: number;
     size: number;
-    user_id: number;
-    subscribe_id: number;
-    start_time: number;
-    end_time: number;
-  };
-
-  type GetUserSubscribeTrafficLogsRequest = {
-    page: number;
-    size: number;
-    user_id: number;
-    subscribe_id: number;
-    start_time: number;
-    end_time: number;
+    start_time?: number;
+    subscribe_id?: number;
+    user_id?: number;
   };
 
   type GetUserSubscribeTrafficLogsResponse = {
@@ -1284,50 +898,51 @@ declare namespace API {
     total: number;
   };
 
+  type getWithdrawalListParams = {
+    page: number;
+    size: number;
+    status?: 0 | 1 | 2;
+    user_id?: number;
+  };
+
+  type GetWithdrawalListResponse = {
+    list: WithdrawalLog[];
+    total: number;
+  };
+
   type GiftLog = {
-    type: number;
-    user_id: number;
-    order_no: string;
-    subscribe_id: number;
     amount: number;
     balance: number;
-    remark?: string;
+    order_no: string;
+    remark: string;
+    subscribe_id: number;
     timestamp: number;
-  };
-
-  type HasMigrateSeverNodeResponse = {
-    has_migrate: boolean;
-  };
-
-  type Hysteria2 = {
-    port: number;
-    hop_ports: string;
-    hop_interval: number;
-    obfs_password: string;
-    security_config: SecurityConfig;
+    type: number;
+    user_id: number;
   };
 
   type InviteConfig = {
     forced_invite: boolean;
-    referral_percentage: number;
     only_first_purchase: boolean;
+    referral_percentage: number;
+    withdrawal_method: string;
   };
 
   type KickOfflineRequest = {
-    id: number;
+    id?: number;
   };
 
   type LoginLog = {
-    user_id: number;
-    method: string;
     login_ip: string;
-    user_agent: string;
+    method: string;
     success: boolean;
     timestamp: number;
+    user_agent: string;
+    user_id: number;
   };
 
   type LogResponse = {
-    list: Record<string, any>;
+    list: any;
   };
 
   type LogSetting = {
@@ -1336,26 +951,14 @@ declare namespace API {
   };
 
   type MessageLog = {
-    id: number;
-    type: number;
-    platform: string;
-    to: string;
-    subject: string;
-    content: Record<string, any>;
-    status: number;
+    content: any;
     created_at: number;
-  };
-
-  type MigrateServerNodeResponse = {
-    succee: number;
-    fail: number;
-    message?: string;
-  };
-
-  type MobileAuthenticateConfig = {
-    enable: boolean;
-    enable_whitelist: boolean;
-    whitelist: string[];
+    id: number;
+    platform: string;
+    status: number;
+    subject: string;
+    to: string;
+    type: number;
   };
 
   type ModuleConfig = {
@@ -1368,234 +971,167 @@ declare namespace API {
   };
 
   type Node = {
+    address: string;
+    created_at: number;
+    enabled: boolean;
     id: number;
     name: string;
-    tags: string[];
     port: number;
-    address: string;
-    server_id: number;
     protocol: string;
-    enabled: boolean;
-    sort?: number;
-    created_at: number;
+    server_id: number;
+    sort: number;
+    tags: string[];
     updated_at: number;
   };
 
   type NodeConfig = {
-    node_secret: string;
+    block: string[];
+    dns: NodeDNS[];
+    ip_strategy: string;
     node_pull_interval: number;
     node_push_interval: number;
-    traffic_report_threshold: number;
-    ip_strategy: string;
-    dns: NodeDNS[];
-    block: string[];
+    node_secret: string;
     outbound: NodeOutbound[];
+    traffic_report_threshold: number;
   };
 
   type NodeDNS = {
-    proto: string;
     address: string;
-    server_name?: string;
     domains: string[];
+    proto: string;
+    server_name?: string;
   };
 
   type NodeOutbound = {
-    name: string;
-    protocol: string;
     address: string;
-    port: number;
-    user?: string;
-    password: string;
-    uuid?: string;
-    cipher?: string;
-    plugin?: string;
-    plugin_opts?: Record<string, unknown> | string;
-    security?: string;
-    sni?: string;
-    alpn?: string[];
     allow_insecure?: boolean;
-    fingerprint?: string;
-    transport?: string;
-    host?: string;
-    path?: string;
-    service_name?: string;
-    xhttp_mode?: string;
-    xhttp_extra?: string;
-    flow?: string;
+    alpn?: string[];
+    cipher?: string;
+    congestion_controller?: string;
     encryption?: string;
+    encryption_client_padding?: string;
     encryption_mode?: string;
+    encryption_password?: string;
     encryption_rtt?: string;
     encryption_ticket?: string;
-    encryption_client_padding?: string;
-    encryption_password?: string;
-    multiplex?: string;
-    uot?: boolean;
-    uot_version?: number;
-    congestion_controller?: string;
-    udp_stream?: boolean;
-    reduce_rtt?: boolean;
+    fingerprint?: string;
+    flow?: string;
     heartbeat?: number;
+    host?: string;
+    multiplex?: string;
+    name: string;
+    password: string;
+    path?: string;
+    plugin?: string;
+    plugin_opts?: any;
+    port: number;
+    protocol: string;
     reality_public_key?: string;
     reality_short_id?: string;
-    spider_x?: string;
-    settings?: string;
-    stream_settings?: string;
+    reduce_rtt?: boolean;
     rules: string[];
-  };
-
-  type ServerNodeConfigValues = {
-    ip_strategy: string;
-    dns: NodeDNS[];
-    block: string[];
-    outbound: NodeOutbound[];
-  };
-
-  type ServerNodeConfigOverride = {
-    inherit_ip_strategy: boolean;
-    ip_strategy: string;
-    inherit_dns: boolean;
-    dns: NodeDNS[];
-    inherit_block: boolean;
-    block: string[];
-    inherit_outbound: boolean;
-    outbound: NodeOutbound[];
-  };
-
-  type NodeRelay = {
-    host: string;
-    port: number;
-    prefix: string;
+    security?: string;
+    service_name?: string;
+    settings?: string;
+    sni?: string;
+    spider_x?: string;
+    stream_settings?: string;
+    transport?: string;
+    udp_stream?: boolean;
+    uot?: boolean;
+    uot_version?: number;
+    user?: string;
+    uuid?: string;
+    xhttp_extra?: string;
+    xhttp_mode?: string;
   };
 
   type Order = {
-    id: number;
-    user_id: number;
-    order_no: string;
-    type: number;
-    quantity: number;
-    price: number;
     amount: number;
-    gift_amount: number;
-    discount: number;
+    commission: number;
     coupon: string;
     coupon_discount: number;
-    commission?: number;
-    payment: PaymentMethod;
-    fee_amount: number;
-    trade_no: string;
-    status: number;
-    subscribe_id: number;
     created_at: number;
-    updated_at: number;
-  };
-
-  type OrderDetail = {
-    id: number;
-    user_id: number;
-    order_no: string;
-    type: number;
-    quantity: number;
-    price: number;
-    amount: number;
-    gift_amount: number;
     discount: number;
-    coupon: string;
-    coupon_discount: number;
-    commission?: number;
-    payment: PaymentMethod;
-    method: string;
     fee_amount: number;
-    trade_no: string;
+    gift_amount: number;
+    id: number;
+    order_no: string;
+    payment: PaymentMethod;
+    price: number;
+    quantity: number;
     status: number;
     subscribe_id: number;
-    subscribe: Subscribe;
-    created_at: number;
+    trade_no: string;
+    type: number;
     updated_at: number;
+    user_id: number;
   };
 
   type OrdersStatistics = {
-    date?: string;
     amount_total: number;
+    date: string;
+    list: OrdersStatistics[];
     new_order_amount: number;
     renewal_order_amount: number;
-    list?: OrdersStatistics[];
   };
 
   type PaymentConfig = {
+    config: any;
+    description: string;
+    domain: string;
+    enable: boolean;
+    fee_amount: number;
+    fee_mode: number;
+    fee_percent: number;
+    icon: string;
     id: number;
     name: string;
     platform: string;
-    description: string;
-    icon?: string;
-    domain?: string;
-    config: Record<string, any>;
-    fee_mode: number;
-    fee_percent?: number;
-    fee_amount?: number;
-    enable: boolean;
+    sort: number;
   };
 
   type PaymentMethod = {
+    description: string;
+    fee_amount: number;
+    fee_mode: number;
+    fee_percent: number;
+    icon: string;
     id: number;
     name: string;
     platform: string;
-    description: string;
-    icon: string;
-    fee_mode: number;
-    fee_percent: number;
-    fee_amount: number;
+    sort: number;
   };
 
   type PaymentMethodDetail = {
-    id: number;
-    name: string;
-    platform: string;
+    config: any;
     description: string;
-    icon: string;
     domain: string;
-    config: Record<string, any>;
+    enable: boolean;
+    fee_amount: number;
     fee_mode: number;
     fee_percent: number;
-    fee_amount: number;
-    enable: boolean;
+    icon: string;
+    id: number;
+    name: string;
     notify_url: string;
+    platform: string;
+    sort: number;
   };
 
   type PlatformInfo = {
     platform: string;
-    platform_url: string;
     platform_field_description: Record<string, any>;
+    platform_url: string;
   };
 
   type PlatformResponse = {
     list: PlatformInfo[];
   };
 
-  type PreOrderResponse = {
-    price: number;
-    amount: number;
-    discount: number;
-    gift_amount: number;
-    coupon: string;
-    coupon_discount: number;
-    fee_amount: number;
-  };
-
-  type PreRenewalOrderResponse = {
-    orderNo: string;
-  };
-
   type PreViewNodeMultiplierResponse = {
     current_time: string;
     ratio: number;
-  };
-
-  type PreviewSubscribeTemplateParams = {
-    id: number;
-  };
-
-  type PreviewSubscribeTemplateRequest = {
-    id: number;
   };
 
   type PreviewSubscribeTemplateResponse = {
@@ -1608,291 +1144,202 @@ declare namespace API {
   };
 
   type Protocol = {
-    type: string;
-    port: number;
-    version?: number;
-    mode?: string;
+    /** 监听器通用兼容字段：是否接收 PROXY protocol；当前节点入站尚未统一启用。 */
+    accept_proxy_protocol: boolean;
+    /** TLS 客户端兼容字段：允许跳过证书校验；入站配置通常不消费，不能作为服务端证书配置使用。 */
+    allow_insecure: boolean;
+    /** TLS/HTTP/QUIC 协议通用字段：TLS ALPN 列表；Nowhere 必须且只能设置一个值，默认 now/1。 */
+    alpn: string[];
+    /** TLS 协议通用字段：cert_mode=dns 时传给 DNS 服务商的环境变量/凭据配置。 */
+    cert_dns_env: string;
+    /** TLS 协议通用字段：cert_mode=dns 时使用的 DNS 服务商标识。 */
+    cert_dns_provider: string;
+    /** TLS 协议通用字段：证书来源模式，支持 file、self、http、dns；none 表示不配置证书。 */
+    cert_mode: string;
+    /** Shadowsocks/SSR 共用字段：Shadowsocks method 或 SSR cipher。 */
+    cipher: string;
+    /** QUIC 协议共用字段：TUIC 的主拥塞控制字段，也是 Naive 的旧字段别名。 */
+    congestion_controller: string;
+    /** TLS 客户端兼容字段：禁用 SNI；当前服务端入站不消费。 */
+    disable_sni: boolean;
+    /** Hysteria2 专属字段：服务端下行带宽参数，单位为 Mbps。 */
+    down_mbps: number;
+    /** 订阅客户端字段：是否启用 Encrypted ClientHello；节点配置下发时会过滤。 */
+    ech_enable: boolean;
+    /** 订阅客户端字段：ECH 外层 ServerName；节点配置下发时会过滤。 */
+    ech_server_name: string;
+    /** 通用字段：是否启用该入站协议。 */
     enable: boolean;
-    security?: string;
-    network?: string;
-    sni?: string;
-    alpn?: string[];
-    allow_insecure?: boolean;
-    fingerprint?: string;
-    reality_server_addr?: string;
-    reality_server_port?: number;
-    reality_private_key?: string;
-    reality_public_key?: string;
-    reality_short_id?: string;
-    transport?: string;
-    host?: string;
-    path?: string;
-    service_name?: string;
-    cipher?: string;
-    server_key?: string;
-    plugin?: string;
-    plugin_opts?: Record<string, unknown> | string;
-    flow?: string;
-    uot?: boolean;
-    uot_version?: number;
-    accept_proxy_protocol?: boolean;
-    hop_ports?: string;
-    hop_interval?: number;
-    obfs_password?: string;
-    disable_sni?: boolean;
-    reduce_rtt?: boolean;
-    heartbeat?: number;
-    udp_relay_mode?: string;
-    congestion_controller?: string;
-    quic_congestion_control?: string;
-    /** mux, eg: off/low/medium/high */
-    multiplex?: string;
-    /** padding scheme */
-    padding_scheme?: string;
-    traffic_pattern?: string;
-    user_hint_is_mandatory?: boolean;
-    /** upload speed limit */
-    up_mbps?: number;
-    /** download speed limit */
-    down_mbps?: number;
-    /** obfs, 'none', 'http', 'tls' */
-    obfs?: string;
-    protocol?: string;
-    protocol_param?: string;
-    obfs_param?: string;
-    /** obfs host */
-    obfs_host?: string;
-    /** obfs path */
-    obfs_path?: string;
-    /** xhttp mode */
-    xhttp_mode?: string;
-    /** xhttp extra path */
-    xhttp_extra?: string;
-    /** encryption，'none', 'mlkem768x25519plus' */
-    encryption?: string;
-    /** encryption mode，'native', 'xorpub', 'random' */
-    encryption_mode?: string;
-    /** encryption rtt，'0rtt', '1rtt' */
-    encryption_rtt?: string;
-    /** encryption ticket */
-    encryption_ticket?: string;
-    /** encryption server padding */
-    encryption_server_padding?: string;
-    /** encryption private key */
-    encryption_private_key?: string;
-    /** encryption client padding */
-    encryption_client_padding?: string;
-    /** encryption password */
-    encryption_password?: string;
-    ech_enable?: boolean;
-    ech_server_name?: string;
-    /** Traffic ratio, default is 1 */
-    ratio?: number;
-    /** Certificate mode, `none`｜`http`｜`dns`｜`self` */
-    cert_mode?: string;
-    /** DNS provider for certificate */
-    cert_dns_provider?: string;
-    /** Environment for DNS provider */
-    cert_dns_env?: string;
-  };
-
-  type PubilcRegisterConfig = {
-    stop_register: boolean;
-    enable_ip_register_limit: boolean;
-    ip_register_limit: number;
-    ip_register_limit_duration: number;
-  };
-
-  type PubilcVerifyCodeConfig = {
-    verify_code_interval: number;
-  };
-
-  type PurchaseOrderRequest = {
-    subscribe_id: number;
-    quantity: number;
-    payment?: number;
-    coupon?: string;
-  };
-
-  type PurchaseOrderResponse = {
-    order_no: string;
-  };
-
-  type QueryAnnouncementRequest = {
-    page: number;
-    size: number;
-    pinned: boolean;
-    popup: boolean;
-  };
-
-  type QueryAnnouncementResponse = {
-    total: number;
-    announcements: Announcement[];
-  };
-
-  type QueryDocumentDetailRequest = {
-    id: number;
-  };
-
-  type QueryDocumentListResponse = {
-    total: number;
-    list: Document[];
-  };
-
-  type QueryIPLocationParams = {
-    ip: string;
-  };
-
-  type QueryIPLocationRequest = {
-    ip: string;
+    /** VLESS Encryption 专属字段：加密套件，如 none、mlkem768x25519plus。 */
+    encryption: string;
+    /** VLESS Encryption 客户端信息字段：客户端方向 padding 规则，用于订阅输出。 */
+    encryption_client_padding: string;
+    /** VLESS Encryption 专属字段：密钥封装模式，如 native、xorpub、random。 */
+    encryption_mode: string;
+    /** VLESS Encryption 客户端信息字段：1-RTT/派生认证密码，用于订阅输出。 */
+    encryption_password: string;
+    /** VLESS Encryption 服务端专属字段：ML-KEM/X25519 私钥材料。 */
+    encryption_private_key: string;
+    /** VLESS Encryption 专属字段：握手往返模式，取值 0rtt 或 1rtt。 */
+    encryption_rtt: string;
+    /** VLESS Encryption 服务端专属字段：服务端方向 padding 规则。 */
+    encryption_server_padding: string;
+    /** VLESS Encryption 服务端专属字段：0-RTT ticket。 */
+    encryption_ticket: string;
+    /** TLS 客户端兼容字段：uTLS 指纹；当前节点入站不消费，仅为出站/旧配置兼容保留。 */
+    fingerprint: string;
+    /** VLESS 专属字段：XTLS Vision 流控模式，当前有效值为 xtls-rprx-vision。 */
+    flow: string;
+    /** TUIC 专属字段：连接心跳间隔，单位为秒；0 使用节点默认值。 */
+    heartbeat: number;
+    /** Hysteria2/TUIC 类 QUIC 协议字段：端口跳跃时间间隔；当前节点入站尚未启用该能力。 */
+    hop_interval: number;
+    /** Hysteria2/TUIC 类 QUIC 协议字段：端口跳跃范围；当前节点入站尚未启用该能力。 */
+    hop_ports: string;
+    /** VLESS/VMess/Trojan 传输字段：WebSocket、HTTPUpgrade 或 XHTTP 的 Host。 */
+    host: string;
+    /** Snell 专属字段：Snell v6 的工作模式；其他协议不应设置。 */
+    mode: string;
+    /** 协议无关能力字段：多路复用级别（off、low、medium、high），适用于支持 mux 的流协议。 */
+    multiplex: string;
+    /** 监听网络通用字段：选择 tcp、udp 或 both；Nowhere 规范化为 mix、tcp 或 udp，其他协议按各自能力校验。 */
+    network: string;
+    /** 混淆协议共用字段：Hysteria2 的 Salamander、Snell v5 的 obfs、SSR 的 obfs 方法。 */
+    obfs: string;
+    /** 旧混淆实现兼容字段：混淆目标 Host；当前节点入站不消费，Shadowsocks 插件应使用 plugin_opts。 */
+    obfs_host: string;
+    /** SSR 专属字段：SSR obfs_param。 */
+    obfs_param: string;
+    /** Hysteria2 专属字段：Salamander 混淆密码，仅在 obfs=salamander 时使用。 */
+    obfs_password: string;
+    /** 旧混淆实现兼容字段：混淆请求路径；当前节点入站不消费，Shadowsocks 插件应使用 plugin_opts。 */
+    obfs_path: string;
+    /** AnyTLS 专属字段：TLS record padding 方案。 */
+    padding_scheme: string;
+    /** VLESS/VMess/Trojan 传输字段：WebSocket、HTTPUpgrade 或 XHTTP 的请求路径。 */
+    path: string;
+    /** Shadowsocks（AEAD/2022）专属字段：入站插件名，如 obfs、v2ray-plugin、shadow-tls、restls。 */
+    plugin: string;
+    /** Shadowsocks（AEAD/2022）专属字段：所选入站插件的结构化参数。 */
+    plugin_opts: any;
+    /** 通用字段：入站监听端口。 */
+    port: number;
+    /** SSR 专属字段：SSR protocol 方法；JSON 名称 protocol 与顶层 type 不同。 */
+    protocol: string;
+    /** SSR 专属字段：SSR protocol_param。 */
+    protocol_param: string;
+    /** QUIC 协议共用字段：Naive 的主拥塞控制字段，也是 TUIC 的兼容别名。 */
+    quic_congestion_control: string;
+    /** 面板通用字段：流量计费倍率，默认值为 1；不参与节点协议握手。 */
+    ratio: number;
+    /** VLESS/VMess REALITY 服务端专属字段：服务端 X25519 私钥。 */
+    reality_private_key: string;
+    /** VLESS/VMess REALITY 客户端信息字段：由私钥对应的公钥，主要用于订阅输出。 */
+    reality_public_key: string;
+    /** VLESS/VMess REALITY 专属字段：REALITY 握手转发目标地址。 */
+    reality_server_addr: string;
+    /** VLESS/VMess REALITY 专属字段：REALITY 握手转发目标端口。 */
+    reality_server_port: number;
+    /** VLESS/VMess REALITY 专属字段：允许客户端使用的 short ID。 */
+    reality_short_id: string;
+    /** TUIC 专属字段：启用 QUIC 0-RTT，以减少首次握手往返。 */
+    reduce_rtt: boolean;
+    /** TLS/REALITY 协议通用字段：选择 none、tls 或 reality；实际可选值由具体协议限制。 */
+    security: string;
+    /** 密钥型协议共用字段：Shadowsocks 2022 服务端密钥、SSR 密码或 Snell PSK。 */
+    server_key: string;
+    /** VLESS/VMess/Trojan gRPC 传输专属字段：gRPC service name。 */
+    service_name: string;
+    /** TLS 协议通用字段：证书域名及 TLS ServerName；REALITY 也用它作为服务端名称。 */
+    sni: string;
+    /** Mieru 专属字段：流量形态/包长分布配置。 */
+    traffic_pattern: string;
+    /** VLESS/VMess/Trojan 通用传输字段：tcp、ws、httpupgrade、grpc 或 xhttp。 */
+    transport: string;
+    /** 通用字段：协议类型标识，例如 shadowsocks、vless、vmess、hysteria2、tuic、nowhere。 */
+    type: string;
+    /** TUIC/Hysteria 兼容字段：旧实现的 UDP relay 模式；当前节点入站不消费。 */
+    udp_relay_mode: string;
+    /** 协议无关能力字段：UDP over TCP 开关，供支持 UoT 的协议使用，并非某一协议专属。 */
+    uot: boolean;
+    /** 协议无关能力字段：UoT 协议版本，当前支持 1 或 2；0 表示使用默认版本。 */
+    uot_version: number;
+    /** Hysteria2 专属字段：服务端上行带宽参数，单位为 Mbps。 */
+    up_mbps: number;
+    /** Mieru 专属字段：是否强制客户端携带可识别用户的 user hint。 */
+    user_hint_is_mandatory: boolean;
+    /** 版本字段：Snell 接受 5/6，TUIC 接受 5，Nowhere 接受 1；0 表示使用协议默认值。 */
+    version: number;
+    /** VLESS/VMess/Trojan XHTTP 传输专属字段：XHTTP 扩展路径/参数。 */
+    xhttp_extra: string;
+    /** VLESS/VMess/Trojan XHTTP 传输专属字段：XHTTP 工作模式，如 auto、packet-up、stream-up。 */
+    xhttp_mode: string;
   };
 
   type QueryIPLocationResponse = {
-    country: string;
-    region?: string;
     city: string;
+    country: string;
+    region: string;
   };
 
   type QueryNodeTagResponse = {
     tags: string[];
   };
 
-  type QueryOrderDetailRequest = {
-    order_no: string;
-  };
-
-  type QueryOrderListRequest = {
-    page: number;
-    size: number;
-  };
-
-  type QueryOrderListResponse = {
-    total: number;
-    list: OrderDetail[];
-  };
-
-  type QueryQuotaTaskListParams = {
-    page: number;
-    size: number;
-    status?: number;
-  };
-
-  type QueryQuotaTaskListRequest = {
-    page: number;
-    size: number;
-    status?: number;
-  };
-
   type QueryQuotaTaskListResponse = {
-    total: number;
     list: QuotaTask[];
+    total: number;
   };
 
   type QueryQuotaTaskPreCountRequest = {
-    subscribers: number[];
-    is_active: boolean;
-    start_time: number;
-    end_time: number;
+    end_time?: number;
+    is_active?: boolean;
+    start_time?: number;
+    subscribers?: number[];
   };
 
   type QueryQuotaTaskPreCountResponse = {
     count: number;
   };
 
-  type QueryQuotaTaskStatusRequest = {
-    id: number;
-  };
-
-  type QueryQuotaTaskStatusResponse = {
-    status: number;
-    current: number;
-    total: number;
-    errors: string;
-  };
-
-  type QuerySubscribeGroupListResponse = {
-    list: SubscribeGroup[];
-    total: number;
-  };
-
-  type QuerySubscribeListResponse = {
-    list: Subscribe[];
-    total: number;
-  };
-
-  type QueryUserAffiliateCountResponse = {
-    registers: number;
-    total_commission: number;
-  };
-
-  type QueryUserAffiliateListRequest = {
-    page: number;
-    size: number;
-  };
-
-  type QueryUserAffiliateListResponse = {
-    list: UserAffiliate[];
-    total: number;
-  };
-
   type QuotaTask = {
-    id: number;
-    subscribers: number[];
-    is_active: boolean;
-    start_time: number;
-    end_time: number;
-    reset_traffic: boolean;
+    created_at: number;
+    current: number;
     days: number;
+    end_time: number;
+    errors: string;
     gift_type: number;
     gift_value: number;
+    id: number;
+    is_active: boolean;
     /** UserSubscribe IDs */
     objects: number[];
+    reset_traffic: boolean;
+    start_time: number;
     status: number;
+    subscribers: number[];
     total: number;
-    current: number;
-    errors: string;
-    created_at: number;
     updated_at: number;
   };
 
-  type RechargeOrderRequest = {
-    amount: number;
-    payment: number;
-  };
-
-  type RechargeOrderResponse = {
-    order_no: string;
-  };
-
   type RegisterConfig = {
-    stop_register: boolean;
+    enable_ip_register_limit: boolean;
     enable_trial: boolean;
+    ip_register_limit: number;
+    ip_register_limit_duration: number;
+    stop_register: boolean;
     trial_subscribe: number;
     trial_time: number;
     trial_time_unit: string;
-    enable_ip_register_limit: boolean;
-    ip_register_limit: number;
-    ip_register_limit_duration: number;
   };
 
   type RegisterLog = {
-    user_id: number;
     auth_method: string;
     identifier: string;
     register_ip: string;
-    user_agent: string;
     timestamp: number;
-  };
-
-  type RenewalOrderRequest = {
-    user_subscribe_id: number;
-    quantity: number;
-    payment: number;
-    coupon?: string;
-  };
-
-  type RenewalOrderResponse = {
-    order_no: string;
+    user_agent: string;
+    user_id: number;
   };
 
   type ResetAllSubscribeTokenResponse = {
@@ -1900,88 +1347,80 @@ declare namespace API {
   };
 
   type ResetSortRequest = {
-    sort: SortItem[];
+    sort?: SortItem[];
   };
 
   type ResetSubscribeLog = {
+    order_no: string;
+    timestamp: number;
     type: number;
     user_id: number;
     user_subscribe_id: number;
-    order_no?: string;
-    timestamp: number;
   };
 
   type ResetSubscribeTrafficLog = {
     id: number;
+    order_no: string;
+    timestamp: number;
     type: number;
     user_subscribe_id: number;
-    order_no?: string;
-    timestamp: number;
-  };
-
-  type ResetTrafficOrderRequest = {
-    user_subscribe_id: number;
-    payment: number;
-  };
-
-  type ResetTrafficOrderResponse = {
-    order_no: string;
   };
 
   type ResetUserSubscribeTokenRequest = {
-    user_subscribe_id: number;
+    user_subscribe_id?: number;
   };
 
   type ResetUserSubscribeTrafficRequest = {
-    user_subscribe_id: number;
+    user_subscribe_id?: number;
   };
 
-  type Response = {
-    /** 状态码 */
-    code?: number;
-    /** 消息 */
-    msg?: string;
-    /** 数据 */
-    data?: Record<string, any>;
+  type ResponseSuccessBean = {
+    code: number;
+    msg: string;
   };
 
   type RevenueStatisticsResponse = {
-    today: OrdersStatistics;
-    monthly: OrdersStatistics;
     all: OrdersStatistics;
+    monthly: OrdersStatistics;
+    today: OrdersStatistics;
   };
 
-  type SecurityConfig = {
-    sni: string;
-    allow_insecure: boolean;
-    fingerprint: string;
-    reality_server_addr: string;
-    reality_server_port: number;
-    reality_private_key: string;
-    reality_public_key: string;
-    reality_short_id: string;
+  type ReviewWithdrawalRequest = {
+    id: number;
+    reason?: string;
+    status?: 1 | 2;
   };
 
   type Server = {
-    id: number;
-    name: string;
-    country: string;
-    city: string;
     address: string;
-    sort: number;
-    protocols: Protocol[];
-    last_reported_at: number;
-    status: ServerStatus;
+    city: string;
+    country: string;
     created_at: number;
+    id: number;
+    last_reported_at: number;
+    name: string;
+    protocols: Protocol[];
+    sort: number;
+    status: ServerStatus;
     updated_at: number;
   };
 
-  type ServerGroup = {
-    id: number;
-    name: string;
-    description: string;
-    created_at: number;
-    updated_at: number;
+  type ServerNodeConfigOverride = {
+    block: string[];
+    dns: NodeDNS[];
+    inherit_block: boolean;
+    inherit_dns: boolean;
+    inherit_ip_strategy: boolean;
+    inherit_outbound: boolean;
+    ip_strategy: string;
+    outbound: NodeOutbound[];
+  };
+
+  type ServerNodeConfigValues = {
+    block: string[];
+    dns: NodeDNS[];
+    ip_strategy: string;
+    outbound: NodeOutbound[];
   };
 
   type ServerOnlineIP = {
@@ -1990,97 +1429,72 @@ declare namespace API {
   };
 
   type ServerOnlineUser = {
+    expired_at: number;
     ip: ServerOnlineIP[];
-    user_id: number;
     subscribe: string;
     subscribe_id: number;
     traffic: number;
-    expired_at: number;
-  };
-
-  type ServerRuleGroup = {
-    id: number;
-    icon: string;
-    name: string;
-    type: string;
-    tags: string[];
-    rules: string;
-    enable: boolean;
-    default: boolean;
-    created_at: number;
-    updated_at: number;
+    user_id: number;
   };
 
   type ServerStatus = {
     cpu: number;
-    mem: number;
     disk: number;
-    protocol: string;
+    mem: number;
     online: ServerOnlineUser[];
+    protocol: string;
     status: string;
   };
 
   type ServerTotalDataResponse = {
-    online_users: number;
-    online_servers: number;
-    offline_servers: number;
-    today_upload: number;
-    today_download: number;
-    monthly_upload: number;
     monthly_download: number;
-    updated_at: number;
+    monthly_upload: number;
+    offline_servers: number;
+    online_servers: number;
+    online_users: number;
     server_traffic_ranking_today: ServerTrafficData[];
     server_traffic_ranking_yesterday: ServerTrafficData[];
+    today_download: number;
+    today_upload: number;
+    updated_at: number;
     user_traffic_ranking_today: UserTrafficData[];
     user_traffic_ranking_yesterday: UserTrafficData[];
   };
 
   type ServerTrafficData = {
-    server_id: number;
-    name: string;
-    upload: number;
     download: number;
+    name: string;
+    server_id: number;
+    upload: number;
   };
 
   type ServerTrafficLog = {
-    /** Server ID */
-    server_id: number;
-    /** Upload traffic in bytes */
-    upload: number;
-    /** Download traffic in bytes */
-    download: number;
-    /** Total traffic in bytes (Upload + Download) */
-    total: number;
     /** Date in YYYY-MM-DD format */
     date: string;
     /** Whether to show detailed traffic */
     details: boolean;
+    /** Download traffic in bytes */
+    download: number;
+    /** Server ID */
+    server_id: number;
+    /** Total traffic in bytes (Upload + Download) */
+    total: number;
+    /** Upload traffic in bytes */
+    upload: number;
   };
 
   type SetNodeMultiplierRequest = {
-    periods: TimePeriod[];
-  };
-
-  type Shadowsocks = {
-    method: string;
-    port: number;
-    server_key: string;
+    periods?: TimePeriod[];
   };
 
   type SiteConfig = {
+    custom_data: string;
+    custom_html: string;
     host: string;
-    site_name: string;
+    keywords: string;
     site_desc: string;
     site_logo: string;
-    keywords: string;
-    custom_html: string;
-    custom_data: string;
-  };
-
-  type SiteCustomDataContacts = {
-    email: string;
-    telephone: string;
-    address: string;
+    site_name: string;
   };
 
   type SortItem = {
@@ -2092,129 +1506,115 @@ declare namespace API {
     id: number;
   };
 
-  type StripePayment = {
-    method: string;
-    client_secret: string;
-    publishable_key: string;
-  };
-
   type Subscribe = {
-    id: number;
-    name: string;
-    language: string;
+    allow_deduction: boolean;
+    created_at: number;
+    deduction_ratio: number;
     description: string;
+    device_limit: number;
+    discount: SubscribeDiscount[];
+    id: number;
+    inventory: number;
+    language: string;
+    name: string;
+    node_tags: string[];
+    nodes: number[];
+    quota: number;
+    renewal_reset: boolean;
+    replacement: number;
+    reset_cycle: number;
+    sell: boolean;
+    show: boolean;
+    show_original_price: boolean;
+    sort: number;
+    speed_limit: number;
+    traffic: number;
     unit_price: number;
     unit_time: string;
-    discount: SubscribeDiscount[];
-    replacement: number;
-    inventory: number;
-    traffic: number;
-    speed_limit: number;
-    device_limit: number;
-    quota: number;
-    nodes: number[];
-    node_tags: string[];
-    show: boolean;
-    sell: boolean;
-    sort: number;
-    deduction_ratio: number;
-    allow_deduction: boolean;
-    reset_cycle: number;
-    renewal_reset: boolean;
-    show_original_price: boolean;
-    created_at: number;
     updated_at: number;
   };
 
   type SubscribeApplication = {
-    id: number;
-    name: string;
-    description?: string;
-    icon?: string;
-    scheme?: string;
-    user_agent: string;
-    is_default: boolean;
-    template: string;
-    output_format: string;
-    download_link?: DownloadLink;
     created_at: number;
+    default_params: string;
+    description: string;
+    download_link: DownloadLink;
+    icon: string;
+    id: number;
+    is_default: boolean;
+    name: string;
+    output_format: string;
+    scheme: string;
+    template: string;
     updated_at: number;
+    user_agent: string;
   };
 
   type SubscribeConfig = {
-    single_model: boolean;
-    subscribe_path: string;
-    subscribe_domain: string;
     pan_domain: boolean;
+    profile_update_interval: number;
+    profile_web_page_url: string;
+    show_tutorial: boolean;
+    single_model: boolean;
+    subscribe_domain: string;
+    subscribe_path: string;
     user_agent_limit: boolean;
     user_agent_list: string;
-    show_tutorial?: boolean;
   };
 
   type SubscribeDiscount = {
-    quantity: number;
     discount: number;
+    quantity: number;
   };
 
   type SubscribeGroup = {
+    created_at: number;
+    description: string;
     id: number;
     name: string;
-    description: string;
-    created_at: number;
     updated_at: number;
   };
 
   type SubscribeItem = {
-    id?: number;
-    name?: string;
-    language?: string;
-    description?: string;
-    unit_price?: number;
-    unit_time?: string;
-    discount?: SubscribeDiscount[];
-    replacement?: number;
-    inventory?: number;
-    traffic?: number;
-    speed_limit?: number;
-    device_limit?: number;
-    quota?: number;
-    nodes?: number[];
-    node_tags?: string[];
-    show?: boolean;
-    sell?: boolean;
-    sort?: number;
-    deduction_ratio?: number;
-    allow_deduction?: boolean;
-    reset_cycle?: number;
-    renewal_reset?: boolean;
-    show_original_price?: boolean;
-    created_at?: number;
-    updated_at?: number;
+    allow_deduction: boolean;
+    created_at: number;
+    deduction_ratio: number;
+    description: string;
+    device_limit: number;
+    discount: SubscribeDiscount[];
+    id: number;
+    inventory: number;
+    language: string;
+    name: string;
+    node_tags: string[];
+    nodes: number[];
+    quota: number;
+    renewal_reset: boolean;
+    replacement: number;
+    reset_cycle: number;
+    sell: boolean;
+    show: boolean;
+    show_original_price: boolean;
     sold: number;
+    sort: number;
+    speed_limit: number;
+    traffic: number;
+    unit_price: number;
+    unit_time: string;
+    updated_at: number;
   };
 
   type SubscribeLog = {
-    user_id: number;
+    client_ip: string;
+    timestamp: number;
     token: string;
     user_agent: string;
-    client_ip: string;
+    user_id: number;
     user_subscribe_id: number;
-    timestamp: number;
   };
 
   type SubscribeSortRequest = {
-    sort: SortItem[];
-  };
-
-  type SubscribeType = {
-    subscribe_types: string[];
-  };
-
-  type TelegramConfig = {
-    telegram_bot_token: string;
-    telegram_group_url: string;
-    telegram_notify: boolean;
-    telegram_web_hook_domain: string;
+    sort?: SortItem[];
   };
 
   type TestEmailSendRequest = {
@@ -2227,14 +1627,14 @@ declare namespace API {
   };
 
   type Ticket = {
-    id: number;
-    title: string;
-    description: string;
-    user_id: number;
-    follow?: Follow[];
-    status: number;
     created_at: number;
+    description: string;
+    follow: Follow[];
+    id: number;
+    status: number;
+    title: string;
     updated_at: number;
+    user_id: number;
   };
 
   type TicketWaitRelpyResponse = {
@@ -2242,18 +1642,18 @@ declare namespace API {
   };
 
   type TimePeriod = {
-    start_time: string;
     end_time: string;
     multiplier: number;
+    start_time: string;
   };
 
   type ToggleNodeStatusRequest = {
-    id: number;
-    enable: boolean;
+    enable?: boolean;
+    id?: number;
   };
 
   type ToggleUserSubscribeStatusRequest = {
-    user_subscribe_id: number;
+    user_subscribe_id?: number;
   };
 
   type TosConfig = {
@@ -2261,201 +1661,175 @@ declare namespace API {
   };
 
   type TrafficLog = {
+    download: number;
     id: number;
     server_id: number;
-    user_id: number;
     subscribe_id: number;
-    download: number;
-    upload: number;
     timestamp: number;
+    upload: number;
+    user_id: number;
   };
 
   type TrafficLogDetails = {
+    download: number;
     id: number;
     server_id: number;
-    user_id: number;
     subscribe_id: number;
-    download: number;
-    upload: number;
     timestamp: number;
-  };
-
-  type TransportConfig = {
-    path: string;
-    host: string;
-    service_name: string;
-  };
-
-  type Trojan = {
-    port: number;
-    transport: string;
-    transport_config: TransportConfig;
-    security: string;
-    security_config: SecurityConfig;
-  };
-
-  type Tuic = {
-    port: number;
-    disable_sni: boolean;
-    reduce_rtt: boolean;
-    udp_relay_mode: string;
-    congestion_controller: string;
-    security_config: SecurityConfig;
+    upload: number;
+    user_id: number;
   };
 
   type UpdateAdsRequest = {
-    id: number;
-    title: string;
-    type: string;
-    content: string;
-    description: string;
-    target_url: string;
-    start_time: number;
-    end_time: number;
-    status: number;
-  };
-
-  type UpdateAnnouncementEnableRequest = {
-    id: number;
-    enable: boolean;
+    content?: string;
+    description?: string;
+    end_time?: number;
+    id?: number;
+    start_time?: number;
+    status?: number;
+    target_url?: string;
+    title?: string;
+    type?: string;
   };
 
   type UpdateAnnouncementRequest = {
+    content?: string;
     id: number;
-    title: string;
-    content: string;
-    show: boolean;
-    pinned: boolean;
-    popup: boolean;
+    pinned?: boolean;
+    popup?: boolean;
+    show?: boolean;
+    title?: string;
   };
 
   type UpdateAuthMethodConfigRequest = {
-    id: number;
-    method: string;
-    config: Record<string, any>;
-    enabled: boolean;
+    config?: any;
+    enabled?: boolean;
+    id?: number;
+    method?: string;
   };
 
   type UpdateCouponRequest = {
-    id: number;
-    name: string;
     code?: string;
     count?: number;
-    type: number;
     discount: number;
-    start_time: number;
-    expire_time: number;
-    user_limit?: number;
-    subscribe?: number[];
-    used_count?: number;
     enable?: boolean;
+    expire_time: number;
+    id: number;
+    name: string;
+    start_time: number;
+    subscribe?: number[];
+    type: number;
+    used_count?: number;
+    user_limit?: number;
   };
 
   type UpdateDocumentRequest = {
-    id: number;
-    title: string;
     content: string;
+    id: number;
+    show?: boolean;
     tags?: string[];
-    show: boolean;
+    title: string;
   };
 
   type UpdateNodeRequest = {
-    id: number;
-    name: string;
+    address?: string;
+    enabled?: boolean;
+    id?: number;
+    name?: string;
+    port?: number;
+    protocol?: string;
+    server_id?: number;
     tags?: string[];
-    port: number;
-    address: string;
-    server_id: number;
-    protocol: string;
-    enabled: boolean;
   };
 
   type UpdateOrderStatusRequest = {
     id: number;
-    status: number;
     payment_id?: number;
+    status: number;
     trade_no?: string;
   };
 
   type UpdatePaymentMethodRequest = {
+    config: any;
+    description?: string;
+    domain?: string;
+    enable: boolean;
+    fee_amount?: number;
+    fee_mode?: number;
+    fee_percent?: number;
+    icon?: string;
     id: number;
     name: string;
     platform: string;
-    description: string;
-    icon?: string;
-    domain?: string;
-    config: Record<string, any>;
-    fee_mode: number;
-    fee_percent?: number;
-    fee_amount?: number;
-    enable: boolean;
-  };
-
-  type UpdateServerRequest = {
-    id: number;
-    name: string;
-    country?: string;
-    city?: string;
-    address: string;
     sort?: number;
-    protocols: Protocol[];
   };
 
   type UpdateServerNodeConfigRequest = {
+    block?: string[];
+    dns?: NodeDNS[];
+    inherit_block?: boolean;
+    inherit_dns?: boolean;
+    inherit_ip_strategy?: boolean;
+    inherit_outbound?: boolean;
+    ip_strategy?: string;
+    outbound?: NodeOutbound[];
     server_id: number;
-    inherit_ip_strategy: boolean;
-    ip_strategy: string;
-    inherit_dns: boolean;
-    dns: NodeDNS[];
-    inherit_block: boolean;
-    block: string[];
-    inherit_outbound: boolean;
-    outbound: NodeOutbound[];
+  };
+
+  type UpdateServerRequest = {
+    address?: string;
+    city?: string;
+    country?: string;
+    id?: number;
+    name?: string;
+    protocols?: Protocol[];
+    sort?: number;
   };
 
   type UpdateSubscribeApplicationRequest = {
-    id: number;
-    name: string;
+    default_params?: string;
     description?: string;
-    icon?: string;
-    scheme?: string;
-    user_agent: string;
-    is_default: boolean;
-    template: string;
-    output_format: string;
     download_link?: DownloadLink;
+    icon?: string;
+    id?: number;
+    is_default?: boolean;
+    name?: string;
+    output_format?: string;
+    scheme?: string;
+    template?: string;
+    user_agent?: string;
   };
 
   type UpdateSubscribeGroupRequest = {
+    description?: string;
     id: number;
     name: string;
-    description: string;
   };
 
   type UpdateSubscribeRequest = {
+    allow_deduction?: boolean;
+    deduction_ratio?: number;
+    description?: string;
+    device_limit?: number;
+    discount?: SubscribeDiscount[];
     id: number;
+    inventory?: number;
+    language?: string;
     name: string;
-    language: string;
-    description: string;
-    unit_price: number;
-    unit_time: string;
-    discount: SubscribeDiscount[];
-    replacement: number;
-    inventory: number;
-    traffic: number;
-    speed_limit: number;
-    device_limit: number;
-    quota: number;
-    nodes: number[];
-    node_tags: string[];
-    show: boolean;
-    sell: boolean;
-    sort: number;
-    deduction_ratio: number;
-    allow_deduction: boolean;
-    reset_cycle: number;
-    renewal_reset: boolean;
-    show_original_price: boolean;
+    node_tags?: string[];
+    nodes?: number[];
+    quota?: number;
+    renewal_reset?: boolean;
+    replacement?: number;
+    reset_cycle?: number;
+    sell?: boolean;
+    show?: boolean;
+    show_original_price?: boolean;
+    sort?: number;
+    speed_limit?: number;
+    traffic?: number;
+    unit_price?: number;
+    unit_time?: string;
   };
 
   type UpdateTicketStatusRequest = {
@@ -2464,223 +1838,211 @@ declare namespace API {
   };
 
   type UpdateUserAuthMethodRequest = {
-    user_id: number;
-    auth_type: string;
-    auth_identifier: string;
+    auth_identifier?: string;
+    auth_type?: string;
+    user_id?: number;
   };
 
   type UpdateUserBasiceInfoRequest = {
+    avatar?: string;
+    balance?: number;
+    commission?: number;
+    enable?: boolean;
+    gift_amount?: number;
+    is_admin?: boolean;
+    only_first_purchase?: boolean;
+    password?: string;
+    refer_code?: string;
+    referer_id?: number;
+    referral_percentage?: number;
+    telegram?: number;
     user_id: number;
-    password: string;
-    avatar: string;
-    balance: number;
-    commission: number;
-    referral_percentage: number;
-    only_first_purchase: boolean;
-    gift_amount: number;
-    telegram: number;
-    refer_code: string;
-    referer_id: number;
-    enable: boolean;
-    is_admin: boolean;
   };
 
   type UpdateUserNotifySettingRequest = {
+    enable_balance_notify?: boolean;
+    enable_login_notify?: boolean;
+    enable_subscribe_notify?: boolean;
+    enable_trade_notify?: boolean;
     user_id: number;
-    enable_balance_notify: boolean;
-    enable_login_notify: boolean;
-    enable_subscribe_notify: boolean;
-    enable_trade_notify: boolean;
   };
 
   type UpdateUserSubscribeRequest = {
-    user_subscribe_id: number;
-    subscribe_id: number;
-    traffic: number;
-    expired_at: number;
-    upload: number;
-    download: number;
+    download?: number;
+    expired_at?: number;
+    subscribe_id?: number;
+    traffic?: number;
+    upload?: number;
+    user_subscribe_id?: number;
   };
 
   type User = {
-    id: number;
+    auth_methods: UserAuthMethod[];
     avatar: string;
     balance: number;
     commission: number;
-    referral_percentage: number;
-    only_first_purchase: boolean;
-    gift_amount: number;
-    telegram: number;
-    refer_code: string;
-    referer_id: number;
+    created_at: number;
+    deleted_at: number;
     enable: boolean;
-    is_admin?: boolean;
     enable_balance_notify: boolean;
     enable_login_notify: boolean;
     enable_subscribe_notify: boolean;
     enable_trade_notify: boolean;
-    auth_methods: UserAuthMethod[];
-    user_devices: UserDevice[];
+    gift_amount: number;
+    id: number;
+    is_admin: boolean;
+    only_first_purchase: boolean;
+    refer_code: string;
+    referer_id: number;
+    referral_percentage: number;
     rules: string[];
-    created_at: number;
+    telegram: number;
     updated_at: number;
-    deleted_at?: number;
-  };
-
-  type UserAffiliate = {
-    avatar: string;
-    identifier: string;
-    registered_at: number;
-    enable: boolean;
+    user_devices: UserDevice[];
   };
 
   type UserAuthMethod = {
-    auth_type: string;
     auth_identifier: string;
+    auth_type: string;
     verified: boolean;
   };
 
   type UserDevice = {
-    id: number;
-    ip: string;
-    identifier: string;
-    user_agent: string;
-    online: boolean;
-    enabled: boolean;
     created_at: number;
+    enabled: boolean;
+    id: number;
+    identifier: string;
+    ip: string;
+    online: boolean;
     updated_at: number;
+    user_agent: string;
   };
 
   type UserLoginLog = {
     id: number;
-    user_id: number;
     login_ip: string;
-    user_agent: string;
     success: boolean;
     timestamp: number;
+    user_agent: string;
+    user_id: number;
   };
 
   type UserStatistics = {
-    date?: string;
-    register: number;
+    date: string;
+    list: UserStatistics[];
     new_order_users: number;
+    register: number;
     renewal_order_users: number;
-    list?: UserStatistics[];
   };
 
   type UserStatisticsResponse = {
-    today: UserStatistics;
-    monthly: UserStatistics;
     all: UserStatistics;
+    monthly: UserStatistics;
+    today: UserStatistics;
   };
 
   type UserSubscribe = {
-    id: number;
-    user_id: number;
-    order_id: number;
-    subscribe_id: number;
-    subscribe: Subscribe;
-    start_time: number;
+    created_at: number;
+    download: number;
     expire_time: number;
     finished_at: number;
+    id: number;
+    order_id: number;
     reset_time: number;
-    traffic: number;
-    download: number;
-    upload: number;
-    token: string;
-    status: number;
     short: string;
-    created_at: number;
+    start_time: number;
+    status: number;
+    subscribe: Subscribe;
+    subscribe_id: number;
+    token: string;
+    traffic: number;
     updated_at: number;
+    upload: number;
+    user_id: number;
   };
 
   type UserSubscribeDetail = {
-    id: number;
-    user_id: number;
-    user: User;
-    order_id: number;
-    subscribe_id: number;
-    subscribe: Subscribe;
-    start_time: number;
-    expire_time: number;
-    reset_time: number;
-    traffic: number;
-    download: number;
-    upload: number;
-    token: string;
-    status: number;
     created_at: number;
+    download: number;
+    expire_time: number;
+    id: number;
+    order_id: number;
+    reset_time: number;
+    start_time: number;
+    status: number;
+    subscribe: Subscribe;
+    subscribe_id: number;
+    token: string;
+    traffic: number;
     updated_at: number;
+    upload: number;
+    user: User;
+    user_id: number;
   };
 
   type UserSubscribeLog = {
     id: number;
+    ip: string;
+    timestamp: number;
+    token: string;
+    user_agent: string;
     user_id: number;
     user_subscribe_id: number;
-    token: string;
-    ip: string;
-    user_agent: string;
-    timestamp: number;
   };
 
   type UserSubscribeTrafficLog = {
-    /** Subscribe ID */
-    subscribe_id: number;
-    /** User ID */
-    user_id: number;
-    /** Upload traffic in bytes */
-    upload: number;
-    /** Download traffic in bytes */
-    download: number;
-    /** Total traffic in bytes (Upload + Download) */
-    total: number;
     /** Date in YYYY-MM-DD format */
     date: string;
     /** Whether to show detailed traffic */
     details: boolean;
+    /** Download traffic in bytes */
+    download: number;
+    /** Subscribe ID */
+    subscribe_id: number;
+    /** Total traffic in bytes (Upload + Download) */
+    total: number;
+    /** Upload traffic in bytes */
+    upload: number;
+    /** User ID */
+    user_id: number;
   };
 
   type UserTrafficData = {
-    /** user_subscribe id the traffic was billed to */
+    download: number;
+    /** SID identifies the user_subscribe row the traffic was billed to, UID the
+user owning it. UID is carried separately so the console can still name
+the user after the subscription row is gone. */
     sid: number;
-    /** user id owning the subscription */
     uid: number;
     upload: number;
-    download: number;
   };
 
   type VerifyCodeConfig = {
     verify_code_expire_time: number;
-    verify_code_limit: number;
     verify_code_interval: number;
+    verify_code_limit: number;
   };
 
   type VerifyConfig = {
-    turnstile_site_key: string;
-    turnstile_secret: string;
     enable_login_verify: boolean;
     enable_register_verify: boolean;
     enable_reset_password_verify: boolean;
+    turnstile_secret: string;
+    turnstile_site_key: string;
   };
 
   type VersionResponse = {
     version: string;
   };
 
-  type Vless = {
-    port: number;
-    flow: string;
-    transport: string;
-    transport_config: TransportConfig;
-    security: string;
-    security_config: SecurityConfig;
-  };
-
-  type Vmess = {
-    port: number;
-    transport: string;
-    transport_config: TransportConfig;
-    security: string;
-    security_config: SecurityConfig;
+  type WithdrawalLog = {
+    amount: number;
+    content: string;
+    created_at: number;
+    id: number;
+    reason: string;
+    status: number;
+    updated_at: number;
+    user_id: number;
   };
 }

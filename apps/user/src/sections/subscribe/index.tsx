@@ -13,8 +13,10 @@ import { Separator } from "@workspace/ui/components/separator";
 import Empty from "@workspace/ui/composed/empty";
 import { Icon } from "@workspace/ui/composed/icon";
 import { cn } from "@workspace/ui/lib/utils";
-import { querySubscribeList } from "@workspace/ui/services/user/subscribe";
-import { queryUserSubscribe } from "@workspace/ui/services/user/user";
+import {
+  getV1PublicSubscribeList as querySubscribeList,
+  getV1PublicUserSubscribe as queryUserSubscribe,
+} from "@workspace/ui/services/user/user";
 import { differenceInDays, formatDate } from "@workspace/ui/utils/formatting";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

@@ -40,9 +40,9 @@ import { ArrayInput } from "@workspace/ui/composed/dynamic-Inputs";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  getNodeConfig,
-  updateNodeConfig,
-} from "@workspace/ui/services/admin/system";
+  getSystemNodeConfig as getNodeConfig,
+  putSystemNodeConfig as updateNodeConfig,
+} from "@workspace/ui/services/admin/admin";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { DicesIcon } from "lucide-react";
 import { uid } from "radash";

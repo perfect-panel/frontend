@@ -12,7 +12,10 @@ import {
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
 import { Separator } from "@workspace/ui/components/separator";
-import { preCreateOrder, renewal } from "@workspace/ui/services/user/order";
+import {
+  postV1PublicOrderPre as preCreateOrder,
+  postV1PublicOrderRenewal as renewal,
+} from "@workspace/ui/services/user/user";
 import { LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useRef, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";

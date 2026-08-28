@@ -37,9 +37,9 @@ import { HTMLEditor } from "@workspace/ui/composed/editor/html";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  createBatchSendEmailTask,
-  getPreSendEmailCount,
-} from "@workspace/ui/services/admin/marketing";
+  postMarketingEmailBatchSend as createBatchSendEmailTask,
+  postMarketingEmailBatchPreSendCount as getPreSendEmailCount,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
@@ -63,7 +63,13 @@ export default function EmailBroadcastForm() {
         1,
         `${t("content", "Email Content")} ${t("cannotBeEmpty", "cannot be empty")}`
       ),
-    scope: z.number(),
+    scope: z.union([
+      z.literal(1),
+      z.literal(2),
+      z.literal(3),
+      z.literal(4),
+      z.literal(5),
+    ]),
     register_start_time: z.string().optional(),
     register_end_time: z.string().optional(),
     additional: z

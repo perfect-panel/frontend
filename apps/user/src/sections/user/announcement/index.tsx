@@ -4,7 +4,7 @@ import { useQuery } from "@tanstack/react-query";
 import { Timeline } from "@workspace/ui/components/timeline";
 import Empty from "@workspace/ui/composed/empty";
 import { Markdown } from "@workspace/ui/composed/markdown";
-import { queryAnnouncement } from "@workspace/ui/services/user/announcement";
+import { getV1PublicAnnouncementList as queryAnnouncement } from "@workspace/ui/services/user/user";
 
 export default function Announcement() {
   const { data } = useQuery({

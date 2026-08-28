@@ -1,0 +1,32 @@
+{
+  "actions": "Actions",
+  "amount": "Amount",
+  "approve": "Approve",
+  "approveDescription": "Confirm that this withdrawal has been verified and can be approved.",
+  "approveSuccess": "Withdrawal approved",
+  "approveTitle": "Approve this withdrawal?",
+  "cancel": "Cancel",
+  "confirmApprove": "Approve",
+  "confirmReject": "Confirm Reject",
+  "reasonPlaceholder": "Explain why this withdrawal cannot be approved",
+  "reasonRequired": "Please enter a rejection reason",
+  "reject": "Reject",
+  "rejectDescription": "The rejection reason will be recorded for this request.",
+  "rejectionReason": "Rejection Reason",
+  "rejectSuccess": "Withdrawal rejected",
+  "rejectTitle": "Reject this withdrawal?",
+  "reviewedAt": "Reviewed At",
+  "reviewFailed": "Failed to review withdrawal",
+  "reviewing": "Reviewing...",
+  "status": {
+    "approved": "Approved",
+    "label": "Status",
+    "pending": "Pending",
+    "rejected": "Rejected"
+  },
+  "submittedAt": "Submitted At",
+  "title": "Commission Withdrawals",
+  "user": "User",
+  "userId": "User ID",
+  "withdrawalInfo": "Withdrawal Info"
+}

@@ -2,7 +2,7 @@
 
 import { useSearch } from "@tanstack/react-router";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterTrafficLogDetails } from "@workspace/ui/services/admin/log";
+import { getLogTrafficDetails as filterTrafficLogDetails } from "@workspace/ui/services/admin/admin";
 import { formatBytes } from "@workspace/ui/utils/formatting";
 import { useTranslation } from "react-i18next";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";

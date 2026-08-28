@@ -1,7 +1,7 @@
 "use client";
 
 import { useRouter, useSearch } from "@tanstack/react-router";
-import { oAuthLoginGetToken } from "@workspace/ui/services/common/oauth";
+import { postAuthOauthLoginToken as oAuthLoginGetToken } from "@workspace/ui/services/common/common";
 import { useEffect } from "react";
 import { getRedirectUrl, setAuthorization } from "@/utils/common";
 

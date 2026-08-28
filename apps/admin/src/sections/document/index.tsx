@@ -6,12 +6,12 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  batchDeleteDocument,
-  createDocument,
+  deleteDocumentBatch as batchDeleteDocument,
+  postDocument as createDocument,
   deleteDocument,
   getDocumentList,
-  updateDocument,
-} from "@workspace/ui/services/admin/document";
+  putDocument as updateDocument,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

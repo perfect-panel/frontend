@@ -14,9 +14,9 @@ import {
 import { Separator } from "@workspace/ui/components/separator";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  purchaseCheckout,
-  queryPurchaseOrder,
-} from "@workspace/ui/services/user/portal";
+  postV1PublicPortalOrderCheckout as purchaseCheckout,
+  getV1PublicPortalOrderStatus as queryPurchaseOrder,
+} from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { useCountDown } from "ahooks";
 import { addMinutes, format } from "date-fns";

@@ -1,0 +1,32 @@
+{
+  "actions": "操作",
+  "amount": "提现金额",
+  "approve": "通过",
+  "approveDescription": "请确认该提现申请已核验，可以通过。",
+  "approveSuccess": "提现申请已通过",
+  "approveTitle": "通过该提现申请？",
+  "cancel": "取消",
+  "confirmApprove": "确认通过",
+  "confirmReject": "确认驳回",
+  "reasonPlaceholder": "请说明无法通过该提现申请的原因",
+  "reasonRequired": "请输入驳回原因",
+  "reject": "驳回",
+  "rejectDescription": "驳回原因将记录在该提现申请中。",
+  "rejectionReason": "驳回原因",
+  "rejectSuccess": "提现申请已驳回",
+  "rejectTitle": "驳回该提现申请？",
+  "reviewedAt": "审核时间",
+  "reviewFailed": "提现审核失败",
+  "reviewing": "审核中...",
+  "status": {
+    "approved": "已通过",
+    "label": "状态",
+    "pending": "待审核",
+    "rejected": "已驳回"
+  },
+  "submittedAt": "申请时间",
+  "title": "佣金提现管理",
+  "user": "用户",
+  "userId": "用户 ID",
+  "withdrawalInfo": "提现信息"
+}

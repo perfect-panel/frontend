@@ -7,12 +7,12 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  batchDeleteCoupon,
-  createCoupon,
+  deleteCouponBatch as batchDeleteCoupon,
+  postCoupon as createCoupon,
   deleteCoupon,
   getCouponList,
-  updateCoupon,
-} from "@workspace/ui/services/admin/coupon";
+  putCoupon as updateCoupon,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

@@ -2,8 +2,8 @@
 
 import { Button } from "@workspace/ui/components/button";
 import {
-  sendEmailCode,
-  sendSmsCode,
+  postCommonSendCode as sendEmailCode,
+  postCommonSendSmsCode as sendSmsCode,
 } from "@workspace/ui/services/common/common";
 import { useEffect, useState } from "react";
 import { useTranslation } from "react-i18next";

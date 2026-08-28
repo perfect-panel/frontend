@@ -11,7 +11,10 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
-import { preUnsubscribe, unsubscribe } from "@workspace/ui/services/user/user";
+import {
+  postV1PublicUserUnsubscribePre as preUnsubscribe,
+  postV1PublicUserUnsubscribe as unsubscribe,
+} from "@workspace/ui/services/user/user";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

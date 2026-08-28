@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@workspace/ui/components/dialog";
-import { resetTraffic } from "@workspace/ui/services/user/order";
+import { postV1PublicOrderReset as resetTraffic } from "@workspace/ui/services/user/user";
 import { LoaderCircle } from "lucide-react";
 import { useEffect, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";
@@ -77,7 +77,7 @@ export default function ResetTraffic({
                   payment: value,
                 });
               }}
-              value={params.payment}
+              value={params.payment ?? -1}
             />
           </div>
           <Button

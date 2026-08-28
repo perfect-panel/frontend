@@ -3,7 +3,7 @@
 import { useSearch } from "@tanstack/react-router";
 import { Badge } from "@workspace/ui/components/badge";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterResetSubscribeLog } from "@workspace/ui/services/admin/log";
+import { getLogSubscribeResetList as filterResetSubscribeLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { OrderLink } from "@/components/order-link";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";

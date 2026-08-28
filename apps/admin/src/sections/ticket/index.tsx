@@ -18,11 +18,11 @@ import {
 } from "@workspace/ui/composed/pro-table/pro-table";
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  createTicketFollow,
-  getTicket,
+  postTicketFollow as createTicketFollow,
+  getTicketDetail as getTicket,
   getTicketList,
-  updateTicketStatus,
-} from "@workspace/ui/services/admin/ticket";
+  putTicket as updateTicketStatus,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

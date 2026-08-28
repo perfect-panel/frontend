@@ -39,12 +39,12 @@ import {
 } from "@workspace/ui/composed/pro-list/pro-list";
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  createUserTicket,
-  createUserTicketFollow,
-  getUserTicketDetails,
-  getUserTicketList,
-  updateUserTicketStatus,
-} from "@workspace/ui/services/user/ticket";
+  postV1PublicTicket as createUserTicket,
+  postV1PublicTicketFollow as createUserTicketFollow,
+  getV1PublicTicketDetail as getUserTicketDetails,
+  getV1PublicTicketList as getUserTicketList,
+  putV1PublicTicket as updateUserTicketStatus,
+} from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { useEffect, useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

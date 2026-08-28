@@ -26,9 +26,9 @@ import { Textarea } from "@workspace/ui/components/textarea";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  getSubscribeConfig,
-  updateSubscribeConfig,
-} from "@workspace/ui/services/admin/system";
+  getSystemSubscribeConfig as getSubscribeConfig,
+  putSystemSubscribeConfig as updateSubscribeConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { type Resolver, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

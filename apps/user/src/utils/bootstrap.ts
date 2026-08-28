@@ -1,4 +1,4 @@
-import { getGlobalConfig } from "@workspace/ui/services/common/common";
+import { getCommonSiteConfig as getGlobalConfig } from "@workspace/ui/services/common/common";
 import { loadRequiredData } from "./global-config";
 
 let initialConfigPromise: Promise<API.GetGlobalConfigResponse> | undefined;

@@ -25,9 +25,9 @@ import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import { UploadImage } from "@workspace/ui/composed/upload-image";
 import {
-  getSiteConfig,
-  updateSiteConfig,
-} from "@workspace/ui/services/admin/system";
+  getSystemSiteConfig as getSiteConfig,
+  putSystemSiteConfig as updateSiteConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

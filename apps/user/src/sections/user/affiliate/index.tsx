@@ -22,9 +22,9 @@ import { Input } from "@workspace/ui/components/input";
 import { Textarea } from "@workspace/ui/components/textarea";
 import { ProList } from "@workspace/ui/composed/pro-list/pro-list";
 import {
-  commissionWithdraw,
-  queryUserAffiliate,
-  queryUserAffiliateList,
+  postV1PublicUserCommissionWithdraw as commissionWithdraw,
+  getV1PublicUserAffiliateCount as queryUserAffiliate,
+  getV1PublicUserAffiliateList as queryUserAffiliateList,
 } from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { Copy } from "lucide-react";

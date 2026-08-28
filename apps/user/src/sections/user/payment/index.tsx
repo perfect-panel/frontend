@@ -13,8 +13,10 @@ import {
 } from "@workspace/ui/components/card";
 import { Separator } from "@workspace/ui/components/separator";
 import { Icon } from "@workspace/ui/composed/icon";
-import { queryOrderDetail } from "@workspace/ui/services/user/order";
-import { purchaseCheckout } from "@workspace/ui/services/user/portal";
+import {
+  postV1PublicPortalOrderCheckout as purchaseCheckout,
+  getV1PublicOrderDetail as queryOrderDetail,
+} from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { useCountDown } from "ahooks";
 import { addMinutes, format } from "date-fns";
@@ -96,7 +98,7 @@ export default function Page() {
           <div className="grid gap-0.5">
             <CardTitle className="flex flex-col text-lg">
               {t("orderNumber", "Order Number")}
-              <span>{data?.orderNo}</span>
+              <span>{data?.order_no}</span>
             </CardTitle>
             <CardDescription>
               {t("createdAt", "Created At")}: {formatDate(data?.created_at)}

@@ -8,7 +8,10 @@ import { Separator } from "@workspace/ui/components/separator";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import { cn } from "@workspace/ui/lib/utils";
-import { prePurchaseOrder, purchase } from "@workspace/ui/services/user/portal";
+import {
+  postV1PublicPortalPre as prePurchaseOrder,
+  postV1PublicPortalPurchase as purchase,
+} from "@workspace/ui/services/user/user";
 import { LoaderCircle } from "lucide-react";
 import { useCallback, useEffect, useState, useTransition } from "react";
 import { useTranslation } from "react-i18next";

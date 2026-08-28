@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { createLazyFileRoute } from "@tanstack/react-router";
 import { Markdown } from "@workspace/ui/composed/markdown";
-import { getTos } from "@workspace/ui/services/common/common";
+import { getCommonSiteTos as getTos } from "@workspace/ui/services/common/common";
 
 export const Route = createLazyFileRoute("/(main)/tos")({
   component: () => {

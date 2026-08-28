@@ -1,4 +1,4 @@
-import { queryUserInfo } from "@workspace/ui/services/user/user";
+import { getV1PublicUserInfo as queryUserInfo } from "@workspace/ui/services/user/user";
 import { isBrowser } from "@workspace/ui/utils/index";
 import { create } from "zustand";
 import { buildUserSubscribeUrls } from "@/utils/subscription";
@@ -66,6 +66,7 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       forced_invite: false,
       referral_percentage: 0,
       only_first_purchase: false,
+      withdrawal_method: "",
     },
     currency: {
       currency_unit: "USD",
@@ -78,6 +79,8 @@ export const useGlobalStore = create<GlobalStore>((set, get) => ({
       pan_domain: false,
       user_agent_limit: false,
       user_agent_list: "",
+      profile_update_interval: 0,
+      profile_web_page_url: "",
       show_tutorial: false,
     },
     verify_code: {

@@ -7,11 +7,11 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  createAds,
+  postAds as createAds,
   deleteAds,
   getAdsList,
-  updateAds,
-} from "@workspace/ui/services/admin/ads";
+  putAds as updateAds,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

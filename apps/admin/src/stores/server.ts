@@ -1,4 +1,4 @@
-import { filterServerList } from "@workspace/ui/services/admin/server";
+import { getServerList as filterServerList } from "@workspace/ui/services/admin/admin";
 import { create } from "zustand";
 import { fetchAllPaginated } from "./pagination";
 

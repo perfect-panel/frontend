@@ -1,7 +1,7 @@
 import {
-  filterNodeList,
-  queryNodeTag,
-} from "@workspace/ui/services/admin/server";
+  getServerNodeList as filterNodeList,
+  getServerNodeTags as queryNodeTag,
+} from "@workspace/ui/services/admin/admin";
 import { create } from "zustand";
 import { fetchAllPaginated } from "./pagination";
 

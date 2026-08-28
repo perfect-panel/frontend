@@ -23,9 +23,9 @@ import { Switch } from "@workspace/ui/components/switch";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  getVerifyConfig,
-  updateVerifyConfig,
-} from "@workspace/ui/services/admin/system";
+  getSystemVerifyConfig as getVerifyConfig,
+  putSystemVerifyConfig as updateVerifyConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

@@ -22,9 +22,9 @@ import {
 import { MarkdownEditor } from "@workspace/ui/composed/editor/index";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  getPrivacyPolicyConfig,
-  updatePrivacyPolicyConfig,
-} from "@workspace/ui/services/admin/system";
+  getSystemPrivacy as getPrivacyPolicyConfig,
+  putSystemPrivacy as updatePrivacyPolicyConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

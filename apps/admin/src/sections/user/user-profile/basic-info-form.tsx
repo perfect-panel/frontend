@@ -18,7 +18,7 @@ import { Input } from "@workspace/ui/components/input";
 import { Switch } from "@workspace/ui/components/switch";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { UploadImage } from "@workspace/ui/composed/upload-image";
-import { updateUserBasicInfo } from "@workspace/ui/services/admin/user";
+import { putUserBasic as updateUserBasicInfo } from "@workspace/ui/services/admin/admin";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

@@ -19,9 +19,9 @@ import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import Empty from "@workspace/ui/composed/empty";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  queryServerTotalData,
-  queryTicketWaitReply,
-} from "@workspace/ui/services/admin/console";
+  getConsoleServer as queryServerTotalData,
+  getConsoleTicket as queryTicketWaitReply,
+} from "@workspace/ui/services/admin/admin";
 import { formatBytes } from "@workspace/ui/utils/formatting";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";

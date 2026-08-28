@@ -1,4 +1,4 @@
-import { getSubscribeList } from "@workspace/ui/services/admin/subscribe";
+import { getSubscribeList } from "@workspace/ui/services/admin/admin";
 import { create } from "zustand";
 import { fetchAllPaginated } from "./pagination";
 

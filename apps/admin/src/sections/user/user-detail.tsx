@@ -10,8 +10,8 @@ import {
 } from "@workspace/ui/components/hover-card";
 import {
   getUserDetail,
-  getUserSubscribeById,
-} from "@workspace/ui/services/admin/user";
+  getUserSubscribeDetail as getUserSubscribeById,
+} from "@workspace/ui/services/admin/admin";
 import { formatBytes } from "@workspace/ui/utils/formatting";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";

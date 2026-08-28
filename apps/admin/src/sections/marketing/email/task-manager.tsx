@@ -21,9 +21,9 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  getBatchSendEmailTaskList,
-  stopBatchSendEmailTask,
-} from "@workspace/ui/services/admin/marketing";
+  getMarketingEmailBatchList as getBatchSendEmailTaskList,
+  postMarketingEmailBatchStop as stopBatchSendEmailTask,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -104,7 +104,7 @@ export default function EmailTaskManager() {
           <div className="mt-4 space-y-4">
             <ProTable<
               API.BatchSendEmailTask,
-              API.GetBatchSendEmailTaskListParams
+              API.getMarketingEmailBatchListParams
             >
               action={ref}
               actions={{

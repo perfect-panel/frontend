@@ -26,12 +26,12 @@ import { Input } from "@workspace/ui/components/input";
 import { AreaCodeSelect } from "@workspace/ui/composed/area-code-select";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  bindOAuth,
-  bindTelegram,
-  unbindOAuth,
-  unbindTelegram,
-  updateBindEmail,
-  updateBindMobile,
+  postV1PublicUserBindOauth as bindOAuth,
+  getV1PublicUserBindTelegram as bindTelegram,
+  postV1PublicUserUnbindOauth as unbindOAuth,
+  postV1PublicUserUnbindTelegram as unbindTelegram,
+  putV1PublicUserBindEmail as updateBindEmail,
+  putV1PublicUserBindMobile as updateBindMobile,
 } from "@workspace/ui/services/user/user";
 import { useCountDown } from "ahooks";
 import { QRCodeCanvas } from "qrcode.react";
@@ -286,6 +286,12 @@ function TelegramBindDialog({
   );
 }
 
+type BindOAuthMethod = API.BindOAuthRequest["method"];
+
+function isBindOAuthMethod(method: string): method is BindOAuthMethod {
+  return ["google", "apple", "telegram", "github"].includes(method);
+}
+
 export default function ThirdPartyAccounts() {
   const { t } = useTranslation("profile");
   const { user, getUserInfo, common } = useGlobalStore();
@@ -348,7 +354,11 @@ export default function ThirdPartyAccounts() {
       type: "OAuth",
       descriptionDefault: "Sign in with Device ID",
     },
-  ].filter((account) => oauth_methods?.includes(account.id));
+  ].filter(
+    (account) =>
+      oauth_methods?.includes(account.id) &&
+      (account.type === "Basic" || isBindOAuthMethod(account.id))
+  );
 
   const [editValues, setEditValues] = useState<Record<string, any>>({});
 
@@ -375,6 +385,9 @@ export default function ThirdPartyAccounts() {
       }
       await getUserInfo();
     } else {
+      if (!isBindOAuthMethod(account.id)) {
+        return;
+      }
       const res = await bindOAuth({
         method: account.id,
         // Trailing slash so static hosting serves /bind/<provider>/index.html,

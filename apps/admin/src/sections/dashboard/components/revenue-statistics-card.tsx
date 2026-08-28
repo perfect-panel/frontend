@@ -23,7 +23,7 @@ import {
   TabsTrigger,
 } from "@workspace/ui/components/tabs";
 import Empty from "@workspace/ui/composed/empty";
-import { queryRevenueStatistics } from "@workspace/ui/services/admin/console";
+import { getConsoleRevenue as queryRevenueStatistics } from "@workspace/ui/services/admin/admin";
 import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { useTranslation } from "react-i18next";
 import {

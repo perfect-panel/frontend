@@ -3,7 +3,7 @@
 import { useSearch } from "@tanstack/react-router";
 import { Badge } from "@workspace/ui/components/badge";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterBalanceLog } from "@workspace/ui/services/admin/log";
+import { getLogBalanceList as filterBalanceLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 import { OrderLink } from "@/components/order-link";

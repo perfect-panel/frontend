@@ -29,12 +29,12 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  createUser,
+  postUser as createUser,
   deleteUser,
   getUserDetail,
   getUserList,
-  updateUserBasicInfo,
-} from "@workspace/ui/services/admin/user";
+  putUserBasic as updateUserBasicInfo,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -65,7 +65,7 @@ export default function User() {
   };
 
   return (
-    <ProTable<API.User, API.GetUserListParams>
+    <ProTable<API.User, API.getUserListParams>
       action={ref}
       actions={{
         render: (row) => [

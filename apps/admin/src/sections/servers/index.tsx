@@ -9,14 +9,14 @@ import {
 } from "@workspace/ui/composed/pro-table/pro-table";
 import { cn } from "@workspace/ui/lib/utils";
 import {
-  createServer,
-  deleteServer,
-  filterServerList,
+  postServerCreate as createServer,
+  postServerOpenApiDelete as deleteServer,
+  getServerList as filterServerList,
   getServerNodeConfig,
-  resetSortWithServer,
-  updateServer,
-  updateServerNodeConfig,
-} from "@workspace/ui/services/admin/server";
+  postServerServerSort as resetSortWithServer,
+  postServerUpdate as updateServer,
+  postServerNodeConfigUpdate as updateServerNodeConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";
@@ -177,7 +177,11 @@ export default function Servers() {
                     createServer(body),
                     getServerNodeConfig({ server_id: row.id }),
                   ]);
-                  const newServerId = createResp.data?.data?.id;
+                  const createData =
+                    createResp.data as API.ResponseSuccessBean & {
+                      data?: { id?: number };
+                    };
+                  const newServerId = createData.data?.id;
                   const override = configResp.data?.data?.override;
 
                   if (newServerId && override) {

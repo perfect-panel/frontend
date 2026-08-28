@@ -18,7 +18,6 @@
   "Node Management": "Node Management",
   "Order Management": "Order Management",
   "Payment Config": "Payment Config",
-  "Plugin Management": "Plugin Management",
   "Product Management": "Product Management",
   "Register": "Register",
   "Reset Subscribe": "Reset Subscribe",
@@ -32,5 +31,6 @@
   "Ticket Management": "Ticket Management",
   "Traffic Details": "Traffic Details",
   "User Management": "User Management",
-  "Users & Support": "Users & Support"
+  "Users & Support": "Users & Support",
+  "Withdrawal Management": "Withdrawal Management"
 }

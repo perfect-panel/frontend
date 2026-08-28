@@ -39,8 +39,8 @@ import { ArrayInput } from "@workspace/ui/composed/dynamic-Inputs";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   getServerNodeConfig,
-  updateServerNodeConfig,
-} from "@workspace/ui/services/admin/server";
+  postServerNodeConfigUpdate as updateServerNodeConfig,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { type Control, useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

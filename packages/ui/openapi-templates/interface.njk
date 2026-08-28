@@ -1,0 +1,54 @@
+declare namespace {{ namespace }} {
+  {% for type in list -%}
+    {%- if type.props.length %}
+      {%- if type.isEnum %}
+        enum {{ type.typeName | safe }}
+      {%- else %}
+        {{ declareType }} {{ type.typeName | safe }} {{ equalSymbol }}
+      {%- endif %}
+      {%- for prop in type.props %}
+        {%- if prop.length > 1 %}
+          {
+        {%- endif %}
+        {%- if prop.length == 1 %}
+          {%- if not prop[0].$ref or prop[0].name %}
+          {
+          {%- endif %}
+        {%- endif %}
+          {%- for p in prop %}
+            {%- if p.desc %}
+              /** {{ p.desc }} */
+            {%- endif %}
+            {%- if p["$ref"] and not p.name %}
+              // {{ p.$ref }}
+              {{ p.type | safe }}
+            {%- else %}
+              {%- if nullable %}
+                '{{ p.name }}': {{ p.type | safe }}{{'' if p.required else '| null'}};
+              {%- else %}
+                '{{ p.name }}'{{ '' if p.required else '?' }}: {{ p.type | safe }};
+              {%- endif %}
+            {%- endif %}
+          {%- endfor %}
+        {%- if prop.length > 1 %}
+          }
+        {%- endif %}
+        {%- if prop.length == 1 %}
+          {%- if not prop[0].$ref or prop[0].name %}
+          }
+          {%- endif %}
+        {%- endif %}
+        {%- if prop.length == 0 %}
+          {}
+        {%- endif %}
+        {{ '' if loop.last === true else ' & '  }}
+      {%- endfor %}
+    {%- else %}
+      {%- if type.isEnum  %}
+        enum {{ type.typeName | safe }} {{ type.type }};
+      {%- else %}
+        type {{ type.typeName | safe }} = {{ type.type }};
+      {%- endif %}
+    {%- endif %}
+  {% endfor %}
+}

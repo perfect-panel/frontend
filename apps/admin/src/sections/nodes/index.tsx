@@ -9,13 +9,13 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  createNode,
-  deleteNode,
-  filterNodeList,
-  resetSortWithNode,
-  toggleNodeStatus,
-  updateNode,
-} from "@workspace/ui/services/admin/server";
+  postServerNodeCreate as createNode,
+  postServerNodeOpenApiDelete as deleteNode,
+  getServerNodeList as filterNodeList,
+  postServerNodeSort as resetSortWithNode,
+  postServerNodeStatusToggle as toggleNodeStatus,
+  postServerNodeUpdate as updateNode,
+} from "@workspace/ui/services/admin/admin";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

@@ -16,7 +16,7 @@ import {
 } from "@workspace/ui/components/dialog";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import { Icon } from "@workspace/ui/composed/icon";
-import { getSystemLog } from "@workspace/ui/services/admin/tool";
+import { getToolLog as getSystemLog } from "@workspace/ui/services/admin/admin";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 

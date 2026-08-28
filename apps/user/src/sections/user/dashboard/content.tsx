@@ -28,10 +28,13 @@ import { Separator } from "@workspace/ui/components/separator";
 import { Tabs, TabsList, TabsTrigger } from "@workspace/ui/components/tabs";
 import { Icon } from "@workspace/ui/composed/icon";
 import { cn } from "@workspace/ui/lib/utils";
-import { getClient, getStat } from "@workspace/ui/services/common/common";
 import {
-  queryUserSubscribe,
-  resetUserSubscribeToken,
+  getCommonClient as getClient,
+  getCommonSiteStat as getStat,
+} from "@workspace/ui/services/common/common";
+import {
+  getV1PublicUserSubscribe as queryUserSubscribe,
+  putV1PublicUserSubscribeToken as resetUserSubscribeToken,
 } from "@workspace/ui/services/user/user";
 import { differenceInDays, formatDate } from "@workspace/ui/utils/formatting";
 import { isBrowser } from "@workspace/ui/utils/index";

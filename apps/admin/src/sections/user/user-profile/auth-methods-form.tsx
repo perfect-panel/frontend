@@ -8,10 +8,10 @@ import {
 } from "@workspace/ui/components/card";
 import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import {
-  createUserAuthMethod,
+  postUserAuthMethod as createUserAuthMethod,
   deleteUserAuthMethod,
-  updateUserAuthMethod,
-} from "@workspace/ui/services/admin/user";
+  putUserAuthMethod as updateUserAuthMethod,
+} from "@workspace/ui/services/admin/admin";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

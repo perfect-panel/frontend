@@ -8,7 +8,7 @@ import {
   TooltipTrigger,
 } from "@workspace/ui/components/tooltip";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
-import { filterSubscribeLog } from "@workspace/ui/services/admin/log";
+import { getLogSubscribeList as filterSubscribeLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
 import { IpLink } from "@/components/ip-link";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";

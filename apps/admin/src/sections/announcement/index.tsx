@@ -6,11 +6,11 @@ import {
   type ProTableActions,
 } from "@workspace/ui/composed/pro-table/pro-table";
 import {
-  createAnnouncement,
+  postAnnouncement as createAnnouncement,
   deleteAnnouncement,
   getAnnouncementList,
-  updateAnnouncement,
-} from "@workspace/ui/services/admin/announcement";
+  putAnnouncement as updateAnnouncement,
+} from "@workspace/ui/services/admin/admin";
 import { format } from "date-fns";
 import { useRef, useState } from "react";
 import { useTranslation } from "react-i18next";

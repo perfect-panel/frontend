@@ -13,7 +13,10 @@ import {
   ProList,
   type ProListActions,
 } from "@workspace/ui/composed/pro-list/pro-list";
-import { closeOrder, queryOrderList } from "@workspace/ui/services/user/order";
+import {
+  postV1PublicOrderClose as closeOrder,
+  getV1PublicOrderList as queryOrderList,
+} from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
 import { useRef } from "react";
 import { useTranslation } from "react-i18next";

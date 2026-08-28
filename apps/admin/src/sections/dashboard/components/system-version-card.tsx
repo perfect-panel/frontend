@@ -20,8 +20,10 @@ import {
   CardTitle,
 } from "@workspace/ui/components/card";
 import { Icon } from "@workspace/ui/composed/icon";
-import { getModuleConfig } from "@workspace/ui/services/admin/system";
-import { restartSystem } from "@workspace/ui/services/admin/tool";
+import {
+  getSystemModule as getModuleConfig,
+  getToolRestart as restartSystem,
+} from "@workspace/ui/services/admin/admin";
 import { basicCheckServiceVersion } from "@workspace/ui/services/gateway/basicCheckServiceVersion";
 import { basicUpdateService } from "@workspace/ui/services/gateway/basicUpdateService";
 import { useState } from "react";

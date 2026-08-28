@@ -24,8 +24,8 @@ import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   getLogSetting,
-  updateLogSetting,
-} from "@workspace/ui/services/admin/log";
+  postLogSetting as updateLogSetting,
+} from "@workspace/ui/services/admin/admin";
 import { useEffect, useState } from "react";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";

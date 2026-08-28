@@ -16,7 +16,7 @@ import {
   FormMessage,
 } from "@workspace/ui/components/form";
 import { Input } from "@workspace/ui/components/input";
-import { updateUserPassword } from "@workspace/ui/services/user/user";
+import { putV1PublicUserPassword as updateUserPassword } from "@workspace/ui/services/user/user";
 import { useForm } from "react-hook-form";
 import { useTranslation } from "react-i18next";
 import { toast } from "sonner";

@@ -57,6 +57,11 @@ export function useNavs() {
             icon: "flat-color-icons:todo-list",
           },
           {
+            title: t("Withdrawal Management", "Withdrawal Management"),
+            url: "/dashboard/withdrawal",
+            icon: "flat-color-icons:currency-exchange",
+          },
+          {
             title: t("Coupon Management", "Coupon Management"),
             url: "/dashboard/coupon",
             icon: "flat-color-icons:bookmark",
@@ -115,11 +120,6 @@ export function useNavs() {
             title: t("Payment Config", "Payment Config"),
             url: "/dashboard/payment",
             icon: "flat-color-icons:currency-exchange",
-          },
-          {
-            title: t("Plugin Management", "Plugin Management"),
-            url: "/dashboard/plugin",
-            icon: "flat-color-icons:services",
           },
           {
             title: t("ADS Config", "ADS Config"),
