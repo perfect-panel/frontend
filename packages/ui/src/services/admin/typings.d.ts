@@ -428,6 +428,11 @@ subscription URL does not carry them, in query-string form such as
     total: number;
   };
 
+  type FilterOrderLogResponse = {
+    list: OrderLog[];
+    total: number;
+  };
+
   type FilterRegisterLogResponse = {
     list: RegisterLog[];
     total: number;
@@ -622,6 +627,14 @@ subscription URL does not carry them, in query-string form such as
     page: number;
     search?: string;
     size: number;
+  };
+
+  type getLogOrderListParams = {
+    date?: string;
+    page: number;
+    search?: string;
+    size: number;
+    user_id?: number;
   };
 
   type getLogRegisterListParams = {
@@ -1108,6 +1121,34 @@ subscription URL does not carry them, in query-string form such as
     trade_no: string;
     type: number;
     updated_at: number;
+    user_id: number;
+  };
+
+  type OrderLog = {
+    actor_id: number;
+    amount: number;
+    client_ip: string;
+    coupon_discount: number;
+    discount: number;
+    fee_amount: number;
+    gift_amount: number;
+    id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
+    method: string;
+    order_no: string;
+    order_type: number;
+    payment_id: number;
+    price: number;
+    quantity: number;
+    source: string;
+    subscribe_id: number;
+    timestamp: number;
+    user_agent: string;
     user_id: number;
   };
 

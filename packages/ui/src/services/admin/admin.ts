@@ -749,6 +749,23 @@ export async function getLogMobileList(
   });
 }
 
+/** Filter order creation logs GET /v1/admin/log/order/list */
+export async function getLogOrderList(
+  // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
+  params: API.getLogOrderListParams,
+  options?: { [key: string]: any }
+) {
+  return request<
+    API.ResponseSuccessBean & { data?: API.FilterOrderLogResponse }
+  >(`${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/log/order/list`, {
+    method: "GET",
+    params: {
+      ...params,
+    },
+    ...(options || {}),
+  });
+}
+
 /** Filter register log GET /v1/admin/log/register/list */
 export async function getLogRegisterList(
   // 叠加生成的Param类型 (非body参数swagger默认没有生成对象)
