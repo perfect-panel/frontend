@@ -9,6 +9,7 @@ import EmailLogPage from "./email";
 import GiftLogPage from "./gift";
 import LoginLogPage from "./login";
 import MobileLogPage from "./mobile";
+import OrderLogPage from "./order";
 import RegisterLogPage from "./register";
 import ResetSubscribeLogPage from "./reset-subscribe";
 import SubscribeLogPage from "./subscribe";
@@ -52,6 +53,7 @@ describe("log request source columns", () => {
     ["subscription reset", ResetSubscribeLogPage],
     ["email", EmailLogPage],
     ["SMS", MobileLogPage],
+    ["order creation", OrderLogPage],
     ["balance", BalanceLogPage],
     ["commission", CommissionLogPage],
     ["gift", GiftLogPage],

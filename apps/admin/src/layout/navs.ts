@@ -167,6 +167,7 @@ export function useNavs() {
             url: "/dashboard/log/balance",
             icon: "flat-color-icons:sales-performance",
             activeUrls: [
+              "/dashboard/log/order",
               "/dashboard/log/balance",
               "/dashboard/log/commission",
               "/dashboard/log/gift",
