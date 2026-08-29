@@ -19,6 +19,20 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.20.0](https://github.com/perfect-panel/frontend/compare/v1.19.1...v1.20.0) (2026-08-29)
+
+### ✨ Features / 新功能
+
+* **admin:** add order creation log page ([9e51a57](https://github.com/perfect-panel/frontend/commit/9e51a5749f8802e2924caa16d36c9f3f5d7cb284))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([db65b6f](https://github.com/perfect-panel/frontend/commit/db65b6f37d81891940874a1f8168341f2d8b1bc9))
+
+### 🔧 Chores / 其他变更
+
+* **api:** regenerate OpenAPI client ([9565d73](https://github.com/perfect-panel/frontend/commit/9565d730e88773cdeeb63631ffd398887fe9e84a))
+
 ## [1.19.1](https://github.com/perfect-panel/frontend/compare/v1.19.0...v1.19.1) (2026-08-29)
 
 ### 🐛 Bug Fixes / 问题修复
