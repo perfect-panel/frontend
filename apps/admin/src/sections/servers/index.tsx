@@ -2,7 +2,15 @@
 
 import { Badge } from "@workspace/ui/components/badge";
 import { Button } from "@workspace/ui/components/button";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@workspace/ui/components/dropdown-menu";
 import { ConfirmButton } from "@workspace/ui/composed/confirm-button";
+import { Icon } from "@workspace/ui/composed/icon";
 import {
   ProTable,
   type ProTableActions,
@@ -82,6 +90,103 @@ function RegionIpCell({
   );
 }
 
+function ServerMoreActions({
+  server,
+  loading,
+  referencedByNodes,
+  onEdit,
+  onCopy,
+  onDelete,
+}: {
+  server: API.Server;
+  loading: boolean;
+  referencedByNodes: boolean;
+  onEdit: (values: Partial<API.Server>) => Promise<boolean>;
+  onCopy: () => Promise<void>;
+  onDelete: () => Promise<void>;
+}) {
+  const { t } = useTranslation("servers");
+  const editRef = useRef<HTMLButtonElement>(null);
+  const connectRef = useRef<HTMLButtonElement>(null);
+  const deleteRef = useRef<HTMLButtonElement>(null);
+
+  return (
+    <>
+      <DropdownMenu modal={false}>
+        <DropdownMenuTrigger asChild>
+          <Button
+            aria-label={t("moreActions", "More actions")}
+            size="icon"
+            variant="outline"
+          >
+            <Icon icon="mdi:dots-horizontal" />
+          </Button>
+        </DropdownMenuTrigger>
+        <DropdownMenuContent align="end" className="min-w-44">
+          <DropdownMenuItem
+            onSelect={(event) => {
+              event.preventDefault();
+              editRef.current?.click();
+            }}
+          >
+            <Icon icon="mdi:pencil-outline" />
+            {t("edit", "Edit")}
+          </DropdownMenuItem>
+          <DropdownMenuItem
+            onSelect={(event) => {
+              event.preventDefault();
+              connectRef.current?.click();
+            }}
+          >
+            <Icon icon="mdi:console-line" />
+            {t("connect", "Connect")}
+          </DropdownMenuItem>
+          <DropdownMenuItem disabled={loading} onSelect={onCopy}>
+            <Icon icon="mdi:content-copy" />
+            {t("copy", "Copy")}
+          </DropdownMenuItem>
+          <DropdownMenuSeparator />
+          <DropdownMenuItem
+            disabled={referencedByNodes}
+            onSelect={(event) => {
+              event.preventDefault();
+              deleteRef.current?.click();
+            }}
+            variant="destructive"
+          >
+            <Icon icon="mdi:trash-can-outline" />
+            {t("delete", "Delete")}
+          </DropdownMenuItem>
+        </DropdownMenuContent>
+      </DropdownMenu>
+
+      <ServerForm
+        initialValues={server}
+        loading={loading}
+        onSubmit={onEdit}
+        title={t("drawerEditTitle", "Edit Server")}
+        trigger={<Button aria-hidden="true" className="hidden" ref={editRef} />}
+      />
+      <ServerInstall
+        server={server}
+        trigger={
+          <Button aria-hidden="true" className="hidden" ref={connectRef} />
+        }
+      />
+      <ConfirmButton
+        cancelText={t("cancel", "Cancel")}
+        confirmText={t("confirm", "Confirm")}
+        description={t("confirmDeleteDesc", "This action cannot be undone.")}
+        onConfirm={onDelete}
+        title={t("confirmDeleteTitle", "Delete this server?")}
+        trigger={
+          <Button aria-hidden="true" className="hidden" ref={deleteRef} />
+        }
+      />
+    </>
+  );
+}
+
 export default function Servers() {
   const { t } = useTranslation("servers");
   const { isServerReferencedByNodes } = useNode();
@@ -89,6 +194,56 @@ export default function Servers() {
 
   const [loading, setLoading] = useState(false);
   const ref = useRef<ProTableActions>(null);
+
+  async function copyServer(row: API.Server) {
+    setLoading(true);
+    const {
+      id: _id,
+      created_at: _created_at,
+      updated_at: _updated_at,
+      last_reported_at: _last_reported_at,
+      status: _status,
+      ...others
+    } = row as Record<string, unknown>;
+    const body: API.CreateServerRequest = {
+      name: others.name as string,
+      country: others.country as string,
+      city: others.city as string,
+      address: others.address as string,
+      protocols: (others.protocols as API.Protocol[]) || [],
+    };
+    try {
+      const [createResp, configResp] = await Promise.all([
+        createServer(body),
+        getServerNodeConfig({ server_id: row.id }),
+      ]);
+      const createData = createResp.data as API.ResponseSuccessBean & {
+        data?: { id?: number };
+      };
+      const newServerId = createData.data?.id;
+      const override = configResp.data?.data?.override;
+
+      if (newServerId && override) {
+        await updateServerNodeConfig({
+          server_id: newServerId,
+          inherit_ip_strategy: override.inherit_ip_strategy,
+          ip_strategy: override.ip_strategy,
+          inherit_dns: override.inherit_dns,
+          dns: override.dns || [],
+          inherit_block: override.inherit_block,
+          block: override.block || [],
+          inherit_outbound: override.inherit_outbound,
+          outbound: override.outbound || [],
+        });
+      }
+
+      toast.success(t("copied", "Copied"));
+      ref.current?.refresh();
+      fetchServers();
+    } finally {
+      setLoading(false);
+    }
+  }
 
   return (
     <div className="space-y-4">
@@ -100,11 +255,18 @@ export default function Servers() {
         action={ref}
         actions={{
           render: (row) => [
-            <ServerForm
-              initialValues={row}
-              key="edit"
+            <ServerNodeConfig key="node-config" server={row} />,
+            <ServerMoreActions
+              key="more"
               loading={loading}
-              onSubmit={async (values) => {
+              onCopy={() => copyServer(row)}
+              onDelete={async () => {
+                await deleteServer({ id: row.id } as API.DeleteServerRequest);
+                toast.success(t("deleted", "Deleted"));
+                ref.current?.refresh();
+                fetchServers();
+              }}
+              onEdit={async (values) => {
                 setLoading(true);
                 try {
                   await updateServer({
@@ -124,91 +286,9 @@ export default function Servers() {
                   return false;
                 }
               }}
-              title={t("drawerEditTitle", "Edit Server")}
-              trigger={t("edit", "Edit")}
+              referencedByNodes={isServerReferencedByNodes(row.id)}
+              server={row}
             />,
-            <ServerInstall key="install" server={row} />,
-            <ServerNodeConfig key="node-config" server={row} />,
-            <ConfirmButton
-              cancelText={t("cancel", "Cancel")}
-              confirmText={t("confirm", "Confirm")}
-              description={t(
-                "confirmDeleteDesc",
-                "This action cannot be undone."
-              )}
-              key="delete"
-              onConfirm={async () => {
-                await deleteServer({ id: row.id } as API.DeleteServerRequest);
-                toast.success(t("deleted", "Deleted"));
-                ref.current?.refresh();
-                fetchServers();
-              }}
-              title={t("confirmDeleteTitle", "Delete this server?")}
-              trigger={
-                <Button
-                  disabled={isServerReferencedByNodes(row.id)}
-                  variant="destructive"
-                >
-                  {t("delete", "Delete")}
-                </Button>
-              }
-            />,
-            <Button
-              key="copy"
-              onClick={async () => {
-                setLoading(true);
-                const {
-                  id: _id,
-                  created_at: _created_at,
-                  updated_at: _updated_at,
-                  last_reported_at: _last_reported_at,
-                  status: _status,
-                  ...others
-                } = row as Record<string, unknown>;
-                const body: API.CreateServerRequest = {
-                  name: others.name as string,
-                  country: others.country as string,
-                  city: others.city as string,
-                  address: others.address as string,
-                  protocols: (others.protocols as API.Protocol[]) || [],
-                };
-                try {
-                  const [createResp, configResp] = await Promise.all([
-                    createServer(body),
-                    getServerNodeConfig({ server_id: row.id }),
-                  ]);
-                  const createData =
-                    createResp.data as API.ResponseSuccessBean & {
-                      data?: { id?: number };
-                    };
-                  const newServerId = createData.data?.id;
-                  const override = configResp.data?.data?.override;
-
-                  if (newServerId && override) {
-                    await updateServerNodeConfig({
-                      server_id: newServerId,
-                      inherit_ip_strategy: override.inherit_ip_strategy,
-                      ip_strategy: override.ip_strategy,
-                      inherit_dns: override.inherit_dns,
-                      dns: override.dns || [],
-                      inherit_block: override.inherit_block,
-                      block: override.block || [],
-                      inherit_outbound: override.inherit_outbound,
-                      outbound: override.outbound || [],
-                    });
-                  }
-
-                  toast.success(t("copied", "Copied"));
-                  ref.current?.refresh();
-                  fetchServers();
-                } finally {
-                  setLoading(false);
-                }
-              }}
-              variant="outline"
-            >
-              {t("copy", "Copy")}
-            </Button>,
           ],
           batchRender(rows) {
             const hasReferencedServers = rows.some((row) =>

@@ -67,6 +67,7 @@
   "ipAddresses": "IP 地址",
   "memory": "内存",
   "mode": "模式",
+  "moreActions": "更多操作",
   "multiplex": "多路复用",
   "name": "名称",
   "network": "网络",
@@ -106,7 +107,7 @@
   "security_short_id": "Reality Short ID",
   "security_sni": "SNI",
   "server_config": {
-    "description": "管理节点通信密钥、拉取/推送间隔。",
+    "description": "配置所有服务器默认继承的通信、DNS、出站和屏蔽规则。",
     "dynamic_multiplier": "动态倍率",
     "dynamic_multiplier_desc": "定义时间段和倍率来调整流量计费。",
     "fields": {
@@ -150,16 +151,34 @@
       "dns": "DNS 配置",
       "outbound": "出站规则"
     },
-    "title": "节点配置"
+    "title": "全局节点默认配置"
   },
   "server_node_config": {
-    "inherit_block": "继承全局屏蔽规则",
-    "inherit_dns": "继承全局 DNS",
-    "inherit_ip_strategy": "继承全局 IP 策略",
-    "inherit_outbound": "继承全局出站规则",
+    "description": "选择此服务器继承哪些全局配置，以及覆盖哪些配置。",
+    "globalPreview": "正在使用全局配置",
+    "global_block_summary": "全局配置提供了 {{count}} 条屏蔽规则。",
+    "global_dns_summary": "全局配置提供了 {{count}} 条 DNS 配置。",
+    "global_ip_strategy_summary": "当前全局值：{{value}}",
+    "global_outbound_summary": "全局配置提供了 {{count}} 条出站规则。",
+    "inherit_block": "使用全局屏蔽规则",
+    "inherit_block_desc": "关闭后，可以为这台服务器单独维护屏蔽列表。",
+    "inherit_dns": "使用全局 DNS 配置",
+    "inherit_dns_desc": "关闭后，可以为这台服务器单独维护 DNS 列表。",
+    "inherit_ip_strategy": "使用全局 IP 策略",
+    "inherit_ip_strategy_desc": "关闭后，可以为这台服务器选择不同的 IP 偏好。",
+    "inherit_outbound": "使用全局出站规则",
+    "inherit_outbound_desc": "关闭后，可以为这台服务器单独配置出站路由。",
+    "loadError": "加载当前配置前不能进行修改，请重试。",
+    "loadErrorTitle": "无法加载节点配置",
+    "loading": "正在加载节点配置",
+    "modeCustom": "自定义",
+    "modeInherited": "继承",
+    "noChanges": "没有未保存的修改",
+    "retry": "重试",
     "saveSuccess": "保存成功",
-    "title": "节点配置",
-    "trigger": "节点配置"
+    "title": "节点配置覆盖",
+    "trigger": "节点配置",
+    "unsavedChanges": "有未保存的修改"
   },
   "server_key": "服务器密钥",
   "server_key_auto_placeholder": "留空自动生成；更新时留空保留当前值",

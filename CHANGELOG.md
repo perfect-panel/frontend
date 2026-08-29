@@ -19,7 +19,19 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
-## [1.17.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.16.1...v1.17.0-dev.1) (2026-08-28)
+## [1.18.1](https://github.com/perfect-panel/frontend/compare/v1.18.0...v1.18.1) (2026-08-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** restore dashboard sponsors ([41dd6c7](https://github.com/perfect-panel/frontend/commit/41dd6c76a03b0f741444e6f9b5db43e3d67c928a))
+
+## [1.18.0](https://github.com/perfect-panel/frontend/compare/v1.17.0...v1.18.0) (2026-08-28)
+
+### ✨ Features / 新功能
+
+* **admin:** improve server node configuration workflow ([e79fa78](https://github.com/perfect-panel/frontend/commit/e79fa78da19b28af928c25a50cd215cd9b65fbd1))
+
+## [1.17.0](https://github.com/perfect-panel/frontend/compare/v1.16.1...v1.17.0) (2026-08-28)
 
 ### ✨ Features / 新功能
 
@@ -29,10 +41,6 @@ This document records all notable changes to ShadCN Admin.
 ### 📚 Documentation / 文档更新
 
 * **api:** sync Swagger from backend ([117ad81](https://github.com/perfect-panel/frontend/commit/117ad816f93d02a3d003502eb95c08442289dc86))
-
-### 🔧 Chores / 其他变更
-
-* **release:** Release 1.16.0-dev.3 / 发布版本 1.16.0-dev.3 [skip ci] ([3af3fc5](https://github.com/perfect-panel/frontend/commit/3af3fc5337d4c4f32d11c887b211ec4e44d60cc9))
 
 ## [1.16.1](https://github.com/perfect-panel/frontend/compare/v1.16.0...v1.16.1) (2026-08-28)
 
@@ -71,13 +79,6 @@ This document records all notable changes to ShadCN Admin.
 * **release:** Release 1.15.1-dev.1 / 发布版本 1.15.1-dev.1 [skip ci] ([87f8530](https://github.com/perfect-panel/frontend/commit/87f85306461ed46d5d24ecaed0505838f7069aea))
 * **release:** Release 1.16.0-dev.1 / 发布版本 1.16.0-dev.1 [skip ci] ([7d2bb1f](https://github.com/perfect-panel/frontend/commit/7d2bb1f852c6c2dc88b3f193832515350fffafe0))
 * **release:** Release 1.16.0-dev.2 / 发布版本 1.16.0-dev.2 [skip ci] ([cf678e2](https://github.com/perfect-panel/frontend/commit/cf678e2943f2a4036894648ec3d5f3ea51f4343e))
-
-## [1.16.0-dev.3](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.2...v1.16.0-dev.3) (2026-08-28)
-
-### 🐛 Bug Fixes / 问题修复
-
-* **auth:** repair OAuth callback flows ([f5f362e](https://github.com/perfect-panel/frontend/commit/f5f362ef16703c996ac79ff958c38246c687e960))
-* **pages:** preserve trusted client IP ([3ff807f](https://github.com/perfect-panel/frontend/commit/3ff807fdbde16e8802338c968afed50593433909))
 
 ## [1.16.0-dev.2](https://github.com/perfect-panel/frontend/compare/v1.16.0-dev.1...v1.16.0-dev.2) (2026-08-28)
 

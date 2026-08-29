@@ -67,6 +67,7 @@
   "ipAddresses": "IP Addresses",
   "memory": "Memory",
   "mode": "Mode",
+  "moreActions": "More actions",
   "multiplex": "Multiplex",
   "name": "Name",
   "network": "Network",
@@ -106,7 +107,7 @@
   "security_short_id": "Reality Short ID",
   "security_sni": "SNI",
   "server_config": {
-    "description": "Manage node communication keys, pull/push intervals.",
+    "description": "Configure the communication, DNS, outbound, and block defaults inherited by every server.",
     "dynamic_multiplier": "Dynamic multiplier",
     "dynamic_multiplier_desc": "Define time slots and multipliers to adjust traffic accounting.",
     "fields": {
@@ -150,16 +151,34 @@
       "dns": "DNS Configuration",
       "outbound": "Outbound Rules"
     },
-    "title": "Node configuration"
+    "title": "Global node defaults"
   },
   "server_node_config": {
-    "inherit_block": "Inherit global block rules",
-    "inherit_dns": "Inherit global DNS",
-    "inherit_ip_strategy": "Inherit global IP strategy",
-    "inherit_outbound": "Inherit global outbound rules",
+    "description": "Choose which global settings this server inherits and which ones it overrides.",
+    "globalPreview": "Using global configuration",
+    "global_block_summary": "{{count}} block rules are provided by the global configuration.",
+    "global_dns_summary": "{{count}} DNS entries are provided by the global configuration.",
+    "global_ip_strategy_summary": "Current global value: {{value}}",
+    "global_outbound_summary": "{{count}} outbound rules are provided by the global configuration.",
+    "inherit_block": "Use global block rules",
+    "inherit_block_desc": "Turn this off to define a block list only for this server.",
+    "inherit_dns": "Use global DNS configuration",
+    "inherit_dns_desc": "Turn this off to maintain a DNS list only for this server.",
+    "inherit_ip_strategy": "Use global IP strategy",
+    "inherit_ip_strategy_desc": "Turn this off to choose a different IP preference for this server.",
+    "inherit_outbound": "Use global outbound rules",
+    "inherit_outbound_desc": "Turn this off to define outbound routing only for this server.",
+    "loadError": "Nothing can be changed until the current server configuration is loaded.",
+    "loadErrorTitle": "Unable to load configuration",
+    "loading": "Loading configuration",
+    "modeCustom": "Custom",
+    "modeInherited": "Inherited",
+    "noChanges": "No unsaved changes",
+    "retry": "Retry",
     "saveSuccess": "Saved successfully",
-    "title": "Node Config",
-    "trigger": "Node Config"
+    "title": "Node configuration overrides",
+    "trigger": "Node config",
+    "unsavedChanges": "Unsaved changes"
   },
   "server_key": "Server Key",
   "server_key_auto_placeholder": "Leave blank to auto-generate; blank on update keeps current value",

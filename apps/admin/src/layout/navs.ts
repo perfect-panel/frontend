@@ -58,7 +58,7 @@ export function useNavs() {
             icon: "flat-color-icons:todo-list",
           },
           {
-            title: t("Withdrawal Management", "Withdrawal Management"),
+            title: t("Commission Management", "Commission Management"),
             url: "/dashboard/withdrawal",
             icon: "flat-color-icons:currency-exchange",
           },

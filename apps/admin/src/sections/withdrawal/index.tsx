@@ -278,7 +278,7 @@ export default function WithdrawalPage() {
               : formatDate(row.original.updated_at),
         },
       ]}
-      header={{ title: t("title", "Commission Withdrawals") }}
+      header={{ title: t("title", "Commission Management") }}
       initialFilters={initialFilters}
       key={JSON.stringify(initialFilters)}
       params={[
