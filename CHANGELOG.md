@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.20.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.19.2-dev.1...v1.20.0-dev.1) (2026-08-29)
+
+### ✨ Features / 新功能
+
+* **admin:** add order creation log page ([9e71a98](https://github.com/perfect-panel/frontend/commit/9e71a9852ef2f5bf1b9599f2fdbd11b434429cd2))
+
 ## [1.19.2-dev.1](https://github.com/perfect-panel/frontend/compare/v1.19.1...v1.19.2-dev.1) (2026-08-29)
 
 ### 🐛 Bug Fixes / 问题修复
