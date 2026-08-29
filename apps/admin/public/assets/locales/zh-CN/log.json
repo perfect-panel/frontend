@@ -12,6 +12,7 @@
     "query": "收件人或内容",
     "queryPlaceholder": "搜索消息记录",
     "remark": "备注",
+    "requestSource": "请求来源",
     "server": "服务器",
     "serverId": "服务器 ID",
     "status": "状态",
@@ -25,7 +26,7 @@
     "type": "类型",
     "upload": "上传",
     "user": "用户",
-    "userAgent": "用户代理",
+    "userAgent": "User-Agent",
     "userId": "用户 ID",
     "userSubscribeId": "用户订阅 ID"
   },
@@ -54,6 +55,23 @@
       "trafficDetails": "流量明细"
     },
     "title": "日志检索"
+  },
+  "requestSource": {
+    "account": "账号",
+    "actor": "操作主体",
+    "anonymous": "匿名或系统",
+    "city": "城市",
+    "country": "国家或地区",
+    "description": "查看请求身份、地理位置与网络风险元数据。",
+    "ip": "IP",
+    "location": "地理位置",
+    "network": "网络",
+    "organization": "网络组织",
+    "region": "区域",
+    "request": "请求",
+    "title": "请求来源详情",
+    "unknownIp": "IP 不可用",
+    "viewDetails": "查看请求来源详情"
   },
   "sent": "已发送",
   "success": "成功",

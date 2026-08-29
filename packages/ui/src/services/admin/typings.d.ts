@@ -32,11 +32,20 @@ declare namespace API {
   };
 
   type BalanceLog = {
+    actor_id: number;
     amount: number;
     balance: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
   };
 
@@ -81,10 +90,19 @@ declare namespace API {
   };
 
   type CommissionLog = {
+    actor_id: number;
     amount: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
   };
 
@@ -911,13 +929,22 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type GiftLog = {
+    actor_id: number;
     amount: number;
     balance: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     remark: string;
     subscribe_id: number;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
   };
 
@@ -933,6 +960,13 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type LoginLog = {
+    actor_id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     login_ip: string;
     method: string;
     success: boolean;
@@ -951,14 +985,23 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type MessageLog = {
+    actor_id: number;
+    client_ip: string;
     content: any;
     created_at: number;
     id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     platform: string;
     status: number;
     subject: string;
     to: string;
     type: number;
+    user_agent: string;
   };
 
   type ModuleConfig = {
@@ -1334,8 +1377,15 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type RegisterLog = {
+    actor_id: number;
     auth_method: string;
     identifier: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     register_ip: string;
     timestamp: number;
     user_agent: string;
@@ -1351,18 +1401,36 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type ResetSubscribeLog = {
+    actor_id: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
     user_subscribe_id: number;
   };
 
   type ResetSubscribeTrafficLog = {
+    actor_id: number;
+    client_ip: string;
     id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_subscribe_id: number;
   };
 
@@ -1605,7 +1673,14 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type SubscribeLog = {
+    actor_id: number;
     client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     timestamp: number;
     token: string;
     user_agent: string;
@@ -1919,7 +1994,14 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type UserLoginLog = {
+    actor_id: number;
     id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     login_ip: string;
     success: boolean;
     timestamp: number;
@@ -1981,8 +2063,15 @@ subscription URL does not carry them, in query-string form such as
   };
 
   type UserSubscribeLog = {
+    actor_id: number;
     id: number;
     ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     timestamp: number;
     token: string;
     user_agent: string;

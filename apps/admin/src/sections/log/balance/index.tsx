@@ -7,6 +7,7 @@ import { getLogBalanceList as filterBalanceLog } from "@workspace/ui/services/ad
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 import { OrderLink } from "@/components/order-link";
+import { RequestSource } from "@/sections/log/request-source";
 import { UserDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
 import { useTableSearchParams } from "@/utils/use-table-search-params";
@@ -81,6 +82,11 @@ export default function BalanceLogPage() {
           cell: ({ row }) => (
             <Badge>{getBalanceTypeText(row.original.type)}</Badge>
           ),
+        },
+        {
+          id: "request_source",
+          header: t("column.requestSource", "Request source"),
+          cell: ({ row }) => <RequestSource metadata={row.original} />,
         },
         {
           accessorKey: "timestamp",
