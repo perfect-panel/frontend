@@ -2719,11 +2719,35 @@
         "dto.BalanceLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "integer"
                 },
                 "balance": {
                     "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -2733,6 +2757,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -2848,8 +2875,32 @@
         "dto.CommissionLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -2859,6 +2910,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -4012,8 +4066,29 @@
         "dto.UserLoginLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "login_ip": {
                     "type": "string"
@@ -4150,10 +4225,31 @@
         "dto.UserSubscribeLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
                     "type": "string"
                 },
                 "timestamp": {

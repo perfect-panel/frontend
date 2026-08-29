@@ -11406,11 +11406,35 @@
         "dto.BalanceLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "integer"
                 },
                 "balance": {
                     "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -11420,6 +11444,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -11708,8 +11735,32 @@
         "dto.CommissionLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -11719,6 +11770,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -13654,11 +13708,35 @@
         "dto.GiftLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "amount": {
                     "type": "integer"
                 },
                 "balance": {
                     "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -13674,6 +13752,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -13745,6 +13826,27 @@
         "dto.LoginLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
+                },
                 "login_ip": {
                     "type": "string"
                 },
@@ -13776,12 +13878,36 @@
         "dto.MessageLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
                 "content": {},
                 "created_at": {
                     "type": "integer"
                 },
                 "id": {
                     "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "platform": {
                     "type": "string"
@@ -13797,6 +13923,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 }
             }
         },
@@ -15353,10 +15482,31 @@
         "dto.RegisterLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "auth_method": {
                     "type": "string"
                 },
                 "identifier": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
                     "type": "string"
                 },
                 "register_ip": {
@@ -15447,6 +15597,30 @@
         "dto.ResetSubscribeLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
+                },
                 "order_no": {
                     "type": "string"
                 },
@@ -15455,6 +15629,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
@@ -15467,8 +15644,32 @@
         "dto.ResetSubscribeTrafficLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "order_no": {
                     "type": "string"
@@ -15478,6 +15679,9 @@
                 },
                 "type": {
                     "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_subscribe_id": {
                     "type": "integer"
@@ -16343,7 +16547,28 @@
         "dto.SubscribeLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "client_ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
                     "type": "string"
                 },
                 "timestamp": {
@@ -17495,8 +17720,29 @@
         "dto.UserLoginLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
                 },
                 "login_ip": {
                     "type": "string"
@@ -17773,10 +18019,31 @@
         "dto.UserSubscribeLog": {
             "type": "object",
             "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
                 "id": {
                     "type": "integer"
                 },
                 "ip": {
+                    "type": "string"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
                     "type": "string"
                 },
                 "timestamp": {
