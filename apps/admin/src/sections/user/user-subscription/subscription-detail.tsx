@@ -89,7 +89,7 @@ export function SubscriptionDetail({
               { accessorKey: "identifier", header: "IMEI" },
               {
                 accessorKey: "user_agent",
-                header: t("userAgent", "User Agent"),
+                header: t("userAgent", "User-Agent"),
               },
               {
                 accessorKey: "ip",

@@ -19,6 +19,21 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.19.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.18.1...v1.19.0-dev.1) (2026-08-29)
+
+### ✨ Features / 新功能
+
+* **admin:** display log request risk metadata ([6ce8a8a](https://github.com/perfect-panel/frontend/commit/6ce8a8ae5f596d8d9b0971f83cd945f9229aed2d))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([411e72b](https://github.com/perfect-panel/frontend/commit/411e72becbb38bcd80c5bb97443a863b803527a8))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.16.0-dev.3 / 发布版本 1.16.0-dev.3 [skip ci] ([3af3fc5](https://github.com/perfect-panel/frontend/commit/3af3fc5337d4c4f32d11c887b211ec4e44d60cc9))
+* **release:** Release 1.17.0-dev.1 / 发布版本 1.17.0-dev.1 [skip ci] ([77e56ad](https://github.com/perfect-panel/frontend/commit/77e56ad6e9a784829e28c0b338cf29b3b7ba8420))
+
 ## [1.18.1](https://github.com/perfect-panel/frontend/compare/v1.18.0...v1.18.1) (2026-08-29)
 
 ### 🐛 Bug Fixes / 问题修复

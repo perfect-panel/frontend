@@ -2,16 +2,10 @@
 
 import { useSearch } from "@tanstack/react-router";
 import { Badge } from "@workspace/ui/components/badge";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@workspace/ui/components/tooltip";
 import { ProTable } from "@workspace/ui/composed/pro-table/pro-table";
 import { getLogLoginList as filterLoginLog } from "@workspace/ui/services/admin/admin";
 import { useTranslation } from "react-i18next";
-import { IpLink } from "@/components/ip-link";
+import { RequestSource } from "@/sections/log/request-source";
 import { UserDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
 import { useTableSearchParams } from "@/utils/use-table-search-params";
@@ -42,32 +36,11 @@ export default function LoginLogPage() {
         },
 
         {
-          accessorKey: "login_ip",
-          header: t("column.ip", "IP"),
+          id: "request_source",
+          header: t("column.requestSource", "Request source"),
           cell: ({ row }) => (
-            <IpLink ip={String((row.original as any).login_ip || "")} />
+            <RequestSource ip={row.original.login_ip} metadata={row.original} />
           ),
-        },
-        {
-          accessorKey: "user_agent",
-          header: t("column.userAgent", "User Agent"),
-          cell: ({ row }) => {
-            const userAgent = String(row.original.user_agent || "");
-            return (
-              <TooltipProvider>
-                <Tooltip>
-                  <TooltipTrigger asChild>
-                    <div className="max-w-48 cursor-help truncate">
-                      {userAgent}
-                    </div>
-                  </TooltipTrigger>
-                  <TooltipContent>
-                    <p className="wrap-break-word max-w-md">{userAgent}</p>
-                  </TooltipContent>
-                </Tooltip>
-              </TooltipProvider>
-            );
-          },
         },
         {
           accessorKey: "success",

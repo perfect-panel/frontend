@@ -11,11 +11,20 @@ declare namespace API {
   };
 
   type BalanceLog = {
+    actor_id: number;
     amount: number;
     balance: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
   };
 
@@ -56,10 +65,19 @@ declare namespace API {
   };
 
   type CommissionLog = {
+    actor_id: number;
     amount: number;
+    client_ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     order_no: string;
     timestamp: number;
     type: number;
+    user_agent: string;
     user_id: number;
   };
 
@@ -599,7 +617,14 @@ declare namespace API {
   };
 
   type UserLoginLog = {
+    actor_id: number;
     id: number;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     login_ip: string;
     success: boolean;
     timestamp: number;
@@ -648,8 +673,15 @@ declare namespace API {
   };
 
   type UserSubscribeLog = {
+    actor_id: number;
     id: number;
     ip: string;
+    ip_as_organization: string;
+    ip_asn: number;
+    ip_city: string;
+    ip_country: string;
+    ip_country_code: string;
+    ip_region: string;
     timestamp: number;
     token: string;
     user_agent: string;

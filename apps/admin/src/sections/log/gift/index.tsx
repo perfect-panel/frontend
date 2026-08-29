@@ -7,6 +7,7 @@ import { getLogGiftList as filterGiftLog } from "@workspace/ui/services/admin/ad
 import { useTranslation } from "react-i18next";
 import { Display } from "@/components/display";
 import { OrderLink } from "@/components/order-link";
+import { RequestSource } from "@/sections/log/request-source";
 import { UserDetail, UserSubscribeDetail } from "@/sections/user/user-detail";
 import { formatDate } from "@/utils/common";
 import { useTableSearchParams } from "@/utils/use-table-search-params";
@@ -76,6 +77,11 @@ export default function GiftLogPage() {
           ),
         },
         { accessorKey: "remark", header: t("column.remark", "Remark") },
+        {
+          id: "request_source",
+          header: t("column.requestSource", "Request source"),
+          cell: ({ row }) => <RequestSource metadata={row.original} />,
+        },
         {
           accessorKey: "timestamp",
           header: t("column.time", "Time"),

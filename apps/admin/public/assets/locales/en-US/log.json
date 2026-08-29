@@ -12,6 +12,7 @@
     "query": "Recipient or content",
     "queryPlaceholder": "Search messages",
     "remark": "Remark",
+    "requestSource": "Request source",
     "server": "Server",
     "serverId": "Server ID",
     "status": "Status",
@@ -25,7 +26,7 @@
     "type": "Type",
     "upload": "Upload",
     "user": "User",
-    "userAgent": "User Agent",
+    "userAgent": "User-Agent",
     "userId": "User ID",
     "userSubscribeId": "User subscription ID"
   },
@@ -54,6 +55,23 @@
       "trafficDetails": "Traffic details"
     },
     "title": "Log explorer"
+  },
+  "requestSource": {
+    "account": "Account",
+    "actor": "Actor",
+    "anonymous": "Anonymous or system",
+    "city": "City",
+    "country": "Country or region",
+    "description": "Request identity, location and network risk metadata.",
+    "ip": "IP",
+    "location": "Location",
+    "network": "Network",
+    "organization": "Organization",
+    "region": "Region",
+    "request": "Request",
+    "title": "Request source details",
+    "unknownIp": "IP unavailable",
+    "viewDetails": "View request source details"
   },
   "sent": "Sent",
   "success": "Success",
