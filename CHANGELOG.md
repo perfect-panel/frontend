@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.19.1](https://github.com/perfect-panel/frontend/compare/v1.19.0...v1.19.1) (2026-08-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** correct timezone offset display ([4e6d5ff](https://github.com/perfect-panel/frontend/commit/4e6d5ff99783749fec3d670bf048088c6d31b54e))
+
 ## [1.19.0](https://github.com/perfect-panel/frontend/compare/v1.18.1...v1.19.0) (2026-08-29)
 
 ### ✨ Features / 新功能
