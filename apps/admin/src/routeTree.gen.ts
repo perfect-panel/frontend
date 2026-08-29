@@ -70,6 +70,9 @@ const DashboardLogResetSubscribeLazyRouteImport = createFileRoute(
 const DashboardLogRegisterLazyRouteImport = createFileRoute(
   '/dashboard/log/register',
 )()
+const DashboardLogOrderLazyRouteImport = createFileRoute(
+  '/dashboard/log/order',
+)()
 const DashboardLogMobileLazyRouteImport = createFileRoute(
   '/dashboard/log/mobile',
 )()
@@ -285,6 +288,13 @@ const DashboardLogRegisterLazyRoute =
   } as any).lazy(() =>
     import('./routes/dashboard/log/register.lazy').then((d) => d.Route),
   )
+const DashboardLogOrderLazyRoute = DashboardLogOrderLazyRouteImport.update({
+  id: '/order',
+  path: '/order',
+  getParentRoute: () => DashboardLogRouteLazyRoute,
+} as any).lazy(() =>
+  import('./routes/dashboard/log/order.lazy').then((d) => d.Route),
+)
 const DashboardLogMobileLazyRoute = DashboardLogMobileLazyRouteImport.update({
   id: '/mobile',
   path: '/mobile',
@@ -343,6 +353,7 @@ export interface FileRoutesByFullPath {
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
+  '/dashboard/log/order': typeof DashboardLogOrderLazyRoute
   '/dashboard/log/register': typeof DashboardLogRegisterLazyRoute
   '/dashboard/log/reset-subscribe': typeof DashboardLogResetSubscribeLazyRoute
   '/dashboard/log/server-traffic': typeof DashboardLogServerTrafficLazyRoute
@@ -376,6 +387,7 @@ export interface FileRoutesByTo {
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
+  '/dashboard/log/order': typeof DashboardLogOrderLazyRoute
   '/dashboard/log/register': typeof DashboardLogRegisterLazyRoute
   '/dashboard/log/reset-subscribe': typeof DashboardLogResetSubscribeLazyRoute
   '/dashboard/log/server-traffic': typeof DashboardLogServerTrafficLazyRoute
@@ -411,6 +423,7 @@ export interface FileRoutesById {
   '/dashboard/log/gift': typeof DashboardLogGiftLazyRoute
   '/dashboard/log/login': typeof DashboardLogLoginLazyRoute
   '/dashboard/log/mobile': typeof DashboardLogMobileLazyRoute
+  '/dashboard/log/order': typeof DashboardLogOrderLazyRoute
   '/dashboard/log/register': typeof DashboardLogRegisterLazyRoute
   '/dashboard/log/reset-subscribe': typeof DashboardLogResetSubscribeLazyRoute
   '/dashboard/log/server-traffic': typeof DashboardLogServerTrafficLazyRoute
@@ -447,6 +460,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
+    | '/dashboard/log/order'
     | '/dashboard/log/register'
     | '/dashboard/log/reset-subscribe'
     | '/dashboard/log/server-traffic'
@@ -480,6 +494,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
+    | '/dashboard/log/order'
     | '/dashboard/log/register'
     | '/dashboard/log/reset-subscribe'
     | '/dashboard/log/server-traffic'
@@ -514,6 +529,7 @@ export interface FileRouteTypes {
     | '/dashboard/log/gift'
     | '/dashboard/log/login'
     | '/dashboard/log/mobile'
+    | '/dashboard/log/order'
     | '/dashboard/log/register'
     | '/dashboard/log/reset-subscribe'
     | '/dashboard/log/server-traffic'
@@ -724,6 +740,13 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof DashboardLogRegisterLazyRouteImport
       parentRoute: typeof DashboardLogRouteLazyRoute
     }
+    '/dashboard/log/order': {
+      id: '/dashboard/log/order'
+      path: '/order'
+      fullPath: '/dashboard/log/order'
+      preLoaderRoute: typeof DashboardLogOrderLazyRouteImport
+      parentRoute: typeof DashboardLogRouteLazyRoute
+    }
     '/dashboard/log/mobile': {
       id: '/dashboard/log/mobile'
       path: '/mobile'
@@ -776,6 +799,7 @@ interface DashboardLogRouteLazyRouteChildren {
   DashboardLogGiftLazyRoute: typeof DashboardLogGiftLazyRoute
   DashboardLogLoginLazyRoute: typeof DashboardLogLoginLazyRoute
   DashboardLogMobileLazyRoute: typeof DashboardLogMobileLazyRoute
+  DashboardLogOrderLazyRoute: typeof DashboardLogOrderLazyRoute
   DashboardLogRegisterLazyRoute: typeof DashboardLogRegisterLazyRoute
   DashboardLogResetSubscribeLazyRoute: typeof DashboardLogResetSubscribeLazyRoute
   DashboardLogServerTrafficLazyRoute: typeof DashboardLogServerTrafficLazyRoute
@@ -791,6 +815,7 @@ const DashboardLogRouteLazyRouteChildren: DashboardLogRouteLazyRouteChildren = {
   DashboardLogGiftLazyRoute: DashboardLogGiftLazyRoute,
   DashboardLogLoginLazyRoute: DashboardLogLoginLazyRoute,
   DashboardLogMobileLazyRoute: DashboardLogMobileLazyRoute,
+  DashboardLogOrderLazyRoute: DashboardLogOrderLazyRoute,
   DashboardLogRegisterLazyRoute: DashboardLogRegisterLazyRoute,
   DashboardLogResetSubscribeLazyRoute: DashboardLogResetSubscribeLazyRoute,
   DashboardLogServerTrafficLazyRoute: DashboardLogServerTrafficLazyRoute,
