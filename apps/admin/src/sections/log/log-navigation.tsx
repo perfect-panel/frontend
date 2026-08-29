@@ -40,6 +40,7 @@ const logGroups = [
   {
     key: "finance",
     routes: [
+      { key: "order", url: "/dashboard/log/order" },
       { key: "balance", url: "/dashboard/log/balance" },
       { key: "commission", url: "/dashboard/log/commission" },
       { key: "gift", url: "/dashboard/log/gift" },
