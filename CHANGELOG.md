@@ -19,6 +19,12 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.18.1](https://github.com/perfect-panel/frontend/compare/v1.18.0...v1.18.1) (2026-08-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** restore dashboard sponsors ([41dd6c7](https://github.com/perfect-panel/frontend/commit/41dd6c76a03b0f741444e6f9b5db43e3d67c928a))
+
 ## [1.18.0](https://github.com/perfect-panel/frontend/compare/v1.17.0...v1.18.0) (2026-08-28)
 
 ### ✨ Features / 新功能
