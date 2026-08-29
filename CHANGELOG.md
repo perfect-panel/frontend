@@ -19,6 +19,22 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.19.2-dev.1](https://github.com/perfect-panel/frontend/compare/v1.19.1...v1.19.2-dev.1) (2026-08-29)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** correct timezone offset display ([94d477e](https://github.com/perfect-panel/frontend/commit/94d477e97f6740367d127875ae40542a608cf746))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([db65b6f](https://github.com/perfect-panel/frontend/commit/db65b6f37d81891940874a1f8168341f2d8b1bc9))
+
+### 🔧 Chores / 其他变更
+
+* **api:** regenerate OpenAPI client ([6a0bb81](https://github.com/perfect-panel/frontend/commit/6a0bb81c74f5803bec0e7b17a34217d6ab0cfe55))
+* **release:** Release 1.19.0-dev.2 / 发布版本 1.19.0-dev.2 [skip ci] ([63e4eac](https://github.com/perfect-panel/frontend/commit/63e4eac4e4cb11594618fab411f89a9c8bf488ed))
+* **release:** Release 1.19.1-dev.1 / 发布版本 1.19.1-dev.1 [skip ci] ([9bfc10e](https://github.com/perfect-panel/frontend/commit/9bfc10ed41442bd6e2c3ba0d1a53bf281eae4af5))
+
 ## [1.19.1](https://github.com/perfect-panel/frontend/compare/v1.19.0...v1.19.1) (2026-08-29)
 
 ### 🐛 Bug Fixes / 问题修复
