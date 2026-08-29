@@ -19,17 +19,11 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
-## [1.20.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.19.2-dev.1...v1.20.0-dev.1) (2026-08-29)
+## [1.20.0](https://github.com/perfect-panel/frontend/compare/v1.19.1...v1.20.0) (2026-08-29)
 
 ### ✨ Features / 新功能
 
-* **admin:** add order creation log page ([9e71a98](https://github.com/perfect-panel/frontend/commit/9e71a9852ef2f5bf1b9599f2fdbd11b434429cd2))
-
-## [1.19.2-dev.1](https://github.com/perfect-panel/frontend/compare/v1.19.1...v1.19.2-dev.1) (2026-08-29)
-
-### 🐛 Bug Fixes / 问题修复
-
-* **admin:** correct timezone offset display ([94d477e](https://github.com/perfect-panel/frontend/commit/94d477e97f6740367d127875ae40542a608cf746))
+* **admin:** add order creation log page ([9e51a57](https://github.com/perfect-panel/frontend/commit/9e51a5749f8802e2924caa16d36c9f3f5d7cb284))
 
 ### 📚 Documentation / 文档更新
 
@@ -37,9 +31,7 @@ This document records all notable changes to ShadCN Admin.
 
 ### 🔧 Chores / 其他变更
 
-* **api:** regenerate OpenAPI client ([6a0bb81](https://github.com/perfect-panel/frontend/commit/6a0bb81c74f5803bec0e7b17a34217d6ab0cfe55))
-* **release:** Release 1.19.0-dev.2 / 发布版本 1.19.0-dev.2 [skip ci] ([63e4eac](https://github.com/perfect-panel/frontend/commit/63e4eac4e4cb11594618fab411f89a9c8bf488ed))
-* **release:** Release 1.19.1-dev.1 / 发布版本 1.19.1-dev.1 [skip ci] ([9bfc10e](https://github.com/perfect-panel/frontend/commit/9bfc10ed41442bd6e2c3ba0d1a53bf281eae4af5))
+* **api:** regenerate OpenAPI client ([9565d73](https://github.com/perfect-panel/frontend/commit/9565d730e88773cdeeb63631ffd398887fe9e84a))
 
 ## [1.19.1](https://github.com/perfect-panel/frontend/compare/v1.19.0...v1.19.1) (2026-08-29)
 
