@@ -140,20 +140,29 @@ function getRecommendedTimezones(): string[] {
   }
 }
 
-function getTimezoneOffset(timezone: string): string {
+export function getTimezoneOffset(timezone: string, date = new Date()): string {
   try {
-    const now = new Date();
+    const offsetName = new Intl.DateTimeFormat("en-US", {
+      timeZone: timezone,
+      timeZoneName: "longOffset",
+    })
+      .formatToParts(date)
+      .find((part) => part.type === "timeZoneName")?.value;
 
-    const utc = new Date(now.getTime() + now.getTimezoneOffset() * 60_000);
-    const targetTime = new Date(
-      utc.toLocaleString("en-US", { timeZone: timezone })
-    );
-    const offset = (targetTime.getTime() - utc.getTime()) / (1000 * 60 * 60);
-    const sign = offset >= 0 ? "+" : "-";
-    const hours = Math.floor(Math.abs(offset));
-    const minutes = Math.floor((Math.abs(offset) - hours) * 60);
+    if (!offsetName || offsetName === "GMT" || offsetName === "UTC") {
+      return "UTC+00:00";
+    }
 
-    return `UTC${sign}${hours.toString().padStart(2, "0")}:${minutes.toString().padStart(2, "0")}`;
+    const match = /^(?:GMT|UTC)([+-])(\d{1,2})(?::?(\d{2}))?$/.exec(offsetName);
+    if (!match) return "UTC+00:00";
+
+    const [, sign, hour = "0", minute = "0"] = match;
+    const hours = Number(hour);
+    const minutes = Number(minute);
+    if (hours > 23 || minutes > 59) return "UTC+00:00";
+    if (hours === 0 && minutes === 0) return "UTC+00:00";
+
+    return `UTC${sign}${hour.padStart(2, "0")}:${minute.padStart(2, "0")}`;
   } catch {
     return "UTC+00:00";
   }
