@@ -2145,6 +2145,75 @@
                 }
             }
         },
+        "/v1/admin/log/order/list": {
+            "get": {
+                "security": [
+                    {
+                        "BearerAuth": []
+                    }
+                ],
+                "consumes": [
+                    "application/json"
+                ],
+                "produces": [
+                    "application/json"
+                ],
+                "tags": [
+                    "admin"
+                ],
+                "summary": "Filter order creation logs",
+                "parameters": [
+                    {
+                        "type": "string",
+                        "name": "date",
+                        "in": "query"
+                    },
+                    {
+                        "type": "integer",
+                        "name": "page",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "string",
+                        "name": "search",
+                        "in": "query"
+                    },
+                    {
+                        "maximum": 100,
+                        "type": "integer",
+                        "name": "size",
+                        "in": "query",
+                        "required": true
+                    },
+                    {
+                        "type": "integer",
+                        "name": "user_id",
+                        "in": "query"
+                    }
+                ],
+                "responses": {
+                    "200": {
+                        "description": "OK",
+                        "schema": {
+                            "allOf": [
+                                {
+                                    "$ref": "#/definitions/result.ResponseSuccessBean"
+                                },
+                                {
+                                    "type": "object",
+                                    "properties": {
+                                        "data": {
+                                            "$ref": "#/definitions/dto.FilterOrderLogResponse"
+                                        }
+                                    }
+                                }
+                            ]
+                        }
+                    }
+                }
+            }
+        },
         "/v1/admin/log/register/list": {
             "get": {
                 "security": [
@@ -12972,6 +13041,20 @@
                 }
             }
         },
+        "dto.FilterOrderLogResponse": {
+            "type": "object",
+            "properties": {
+                "list": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/dto.OrderLog"
+                    }
+                },
+                "total": {
+                    "type": "integer"
+                }
+            }
+        },
         "dto.FilterRegisterLogResponse": {
             "type": "object",
             "properties": {
@@ -14392,6 +14475,86 @@
                 },
                 "updated_at": {
                     "type": "integer"
+                },
+                "user_id": {
+                    "type": "integer"
+                }
+            }
+        },
+        "dto.OrderLog": {
+            "type": "object",
+            "properties": {
+                "actor_id": {
+                    "type": "integer"
+                },
+                "amount": {
+                    "type": "integer"
+                },
+                "client_ip": {
+                    "type": "string"
+                },
+                "coupon_discount": {
+                    "type": "integer"
+                },
+                "discount": {
+                    "type": "integer"
+                },
+                "fee_amount": {
+                    "type": "integer"
+                },
+                "gift_amount": {
+                    "type": "integer"
+                },
+                "id": {
+                    "type": "integer"
+                },
+                "ip_as_organization": {
+                    "type": "string"
+                },
+                "ip_asn": {
+                    "type": "integer"
+                },
+                "ip_city": {
+                    "type": "string"
+                },
+                "ip_country": {
+                    "type": "string"
+                },
+                "ip_country_code": {
+                    "type": "string"
+                },
+                "ip_region": {
+                    "type": "string"
+                },
+                "method": {
+                    "type": "string"
+                },
+                "order_no": {
+                    "type": "string"
+                },
+                "order_type": {
+                    "type": "integer"
+                },
+                "payment_id": {
+                    "type": "integer"
+                },
+                "price": {
+                    "type": "integer"
+                },
+                "quantity": {
+                    "type": "integer"
+                },
+                "source": {
+                    "type": "string"
+                },
+                "subscribe_id": {
+                    "type": "integer"
+                },
+                "timestamp": {
+                    "type": "integer"
+                },
+                "user_agent": {
+                    "type": "string"
                 },
                 "user_id": {
                     "type": "integer"
