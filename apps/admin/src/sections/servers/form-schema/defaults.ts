@@ -31,6 +31,10 @@ const ech = {
   ech_server_name: null,
 };
 
+const fingerprint = {
+  fingerprint: "chrome",
+};
+
 const reality = {
   reality_server_addr: null,
   reality_server_port: null,
@@ -61,6 +65,7 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         ...certificate,
         ...reality,
         ...ech,
+        ...fingerprint,
         type: "vmess",
         security: "none",
       } as any;
@@ -71,6 +76,7 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         ...certificate,
         ...reality,
         ...ech,
+        ...fingerprint,
         type: "vless",
         security: "none",
         flow: "none",
@@ -90,6 +96,7 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         ...certificate,
         ...reality,
         ...ech,
+        ...fingerprint,
         type: "trojan",
         security: "tls",
         cert_mode: "self",
@@ -130,6 +137,7 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         ...certificate,
         ...reality,
         ...ech,
+        ...fingerprint,
         type: "anytls",
         security: "tls",
         padding_scheme: null,

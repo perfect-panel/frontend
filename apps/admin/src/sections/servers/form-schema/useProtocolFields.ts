@@ -12,6 +12,7 @@ import {
   ENCRYPTION_MODES,
   ENCRYPTION_RTT,
   ENCRYPTION_TYPES,
+  FINGERPRINTS,
   FLOWS,
   MIERU_MULTIPLEX,
   multiplexLevels,
@@ -305,6 +306,16 @@ export function useProtocolFields() {
       group: "security",
     });
 
+    const fingerprint = (): FieldConfig => ({
+      name: "fingerprint",
+      type: "select",
+      label: t("security_fingerprint", "Fingerprint"),
+      options: FINGERPRINTS,
+      defaultValue: "chrome",
+      group: "security",
+      condition: (protocol) => protocol.security !== "none",
+    });
+
     return {
       shadowsocks: [
         ratio(),
@@ -375,6 +386,7 @@ export function useProtocolFields() {
         port(),
         ...streamFields(TRANSPORTS.vmess),
         streamSecurity(SECURITY.vmess),
+        fingerprint(),
         ...certificateFields((protocol) => protocol.security === "tls"),
         ...echFields(),
         ...realityFields(),
@@ -395,6 +407,7 @@ export function useProtocolFields() {
             ["tls", "reality"].includes(protocol.security),
         },
         streamSecurity(SECURITY.vless),
+        fingerprint(),
         ...certificateFields((protocol) => protocol.security === "tls"),
         ...echFields(),
         ...realityFields(),
@@ -492,6 +505,7 @@ export function useProtocolFields() {
         port(),
         ...streamFields(TRANSPORTS.trojan),
         streamSecurity(SECURITY.trojan),
+        fingerprint(),
         ...certificateFields((protocol) => protocol.security === "tls"),
         ...echFields(),
         ...realityFields(),
@@ -610,6 +624,7 @@ export function useProtocolFields() {
           group: "basic",
         },
         streamSecurity(SECURITY.anytls),
+        fingerprint(),
         ...certificateFields((protocol) => protocol.security === "tls"),
         ...echFields(),
         ...realityFields(),

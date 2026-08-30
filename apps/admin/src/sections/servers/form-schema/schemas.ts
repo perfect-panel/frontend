@@ -5,6 +5,7 @@ import {
   ENCRYPTION_MODES,
   ENCRYPTION_RTT,
   ENCRYPTION_TYPES,
+  FINGERPRINTS,
   FLOWS,
   MIERU_MULTIPLEX,
   multiplexLevels,
@@ -84,6 +85,10 @@ const ech = {
   ech_server_name: nullableString,
 };
 
+const fingerprint = {
+  fingerprint: z.enum(FINGERPRINTS).nullish(),
+};
+
 const reality = {
   reality_server_addr: nullableString,
   reality_server_port: nullablePort,
@@ -111,6 +116,7 @@ const vmess = z.object({
   ...certificate,
   ...reality,
   ...ech,
+  ...fingerprint,
   type: z.literal("vmess"),
   security: z.enum(SECURITY.vmess).nullish(),
 });
@@ -121,6 +127,7 @@ const vless = z.object({
   ...certificate,
   ...reality,
   ...ech,
+  ...fingerprint,
   type: z.literal("vless"),
   security: z.enum(SECURITY.vless).nullish(),
   flow: z.enum(FLOWS.vless).nullish(),
@@ -140,6 +147,7 @@ const trojan = z.object({
   ...certificate,
   ...reality,
   ...ech,
+  ...fingerprint,
   type: z.literal("trojan"),
   security: z.enum(SECURITY.trojan).nullish(),
 });
@@ -177,6 +185,7 @@ const anytls = z.object({
   ...certificate,
   ...reality,
   ...ech,
+  ...fingerprint,
   type: z.literal("anytls"),
   security: z.enum(SECURITY.anytls).nullish(),
   padding_scheme: nullableString,

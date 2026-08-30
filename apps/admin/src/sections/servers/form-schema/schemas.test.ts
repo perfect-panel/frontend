@@ -1,4 +1,5 @@
 import { describe, expect, it } from "vitest";
+import { getProtocolDefaultConfig } from "./defaults";
 import { formSchema } from "./schemas";
 
 const validServer = {
@@ -110,6 +111,37 @@ describe("TLS protocol form schemas", () => {
     expect(result.protocols[0]).toMatchObject({
       type,
       allow_insecure: true,
+    });
+  });
+});
+
+describe("client fingerprint protocol fields", () => {
+  it.each([
+    "vmess",
+    "vless",
+    "trojan",
+    "anytls",
+  ] as const)("defaults %s to the Chrome fingerprint", (type) => {
+    expect(getProtocolDefaultConfig(type)).toMatchObject({
+      fingerprint: "chrome",
+    });
+  });
+
+  it.each([
+    "vmess",
+    "vless",
+    "trojan",
+    "anytls",
+  ] as const)("keeps the selected fingerprint for %s", (type) => {
+    const result = formSchema.parse({
+      name: `${type} node`,
+      address: "node.example.com",
+      protocols: [{ type, fingerprint: "firefox" }],
+    });
+
+    expect(result.protocols[0]).toMatchObject({
+      type,
+      fingerprint: "firefox",
     });
   });
 });
