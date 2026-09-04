@@ -60,6 +60,7 @@ export default function Order() {
   const { subscribes, getSubscribeName } = useSubscribe();
 
   const initialFilters = {
+    search: sp.search || undefined,
     user_id: sp.user_id ? Number(sp.user_id) : undefined,
   };
 
