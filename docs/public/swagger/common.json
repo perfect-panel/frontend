@@ -154,6 +154,7 @@
         },
         "/v1/auth/login/device": {
             "post": {
+                "description": "When device security is enabled, requests and response data use a signed data/time/sign envelope. Each request needs a fresh nonce; see docs/device-authentication.md. The User-Agent is read from the HTTP header.",
                 "consumes": [
                     "application/json"
                 ],
@@ -1346,6 +1347,7 @@
                     "type": "boolean"
                 },
                 "only_real_device": {
+                    "description": "Requires authenticated device transport, not hardware attestation.",
                     "type": "boolean"
                 },
                 "show_ads": {
@@ -1356,20 +1358,17 @@
         "dto.DeviceLoginRequest": {
             "type": "object",
             "required": [
-                "identifier",
-                "user_agent"
+                "identifier"
             ],
             "properties": {
                 "cf_token": {
                     "type": "string"
                 },
                 "identifier": {
-                    "type": "string"
+                    "type": "string",
+                    "maxLength": 255
                 },
                 "invite": {
-                    "type": "string"
-                },
-                "user_agent": {
                     "type": "string"
                 }
             }

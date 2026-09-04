@@ -4764,42 +4764,6 @@
                 }
             }
         },
-        "/v1/admin/system/module": {
-            "get": {
-                "security": [
-                    {
-                        "BearerAuth": []
-                    }
-                ],
-                "produces": [
-                    "application/json"
-                ],
-                "tags": [
-                    "admin"
-                ],
-                "summary": "Get Module Config",
-                "responses": {
-                    "200": {
-                        "description": "OK",
-                        "schema": {
-                            "allOf": [
-                                {
-                                    "$ref": "#/definitions/result.ResponseSuccessBean"
-                                },
-                                {
-                                    "type": "object",
-                                    "properties": {
-                                        "data": {
-                                            "$ref": "#/definitions/dto.ModuleConfig"
-                                        }
-                                    }
-                                }
-                            ]
-                        }
-                    }
-                }
-            }
-        },
         "/v1/admin/system/node_config": {
             "get": {
                 "security": [
@@ -9174,23 +9138,6 @@
                     "type": "integer"
                 },
                 "user_agent": {
-                    "type": "string"
-                }
-            }
-        },
-        "dto.ModuleConfig": {
-            "type": "object",
-            "properties": {
-                "secret": {
-                    "description": "通讯密钥",
-                    "type": "string"
-                },
-                "service_name": {
-                    "description": "服务名称",
-                    "type": "string"
-                },
-                "service_version": {
-                    "description": "服务版本",
                     "type": "string"
                 }
             }
