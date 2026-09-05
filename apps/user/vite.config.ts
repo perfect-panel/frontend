@@ -5,6 +5,7 @@ import { devtools } from "@tanstack/devtools-vite";
 import { tanstackRouter } from "@tanstack/router-plugin/vite";
 import viteReact from "@vitejs/plugin-react";
 import { defineConfig, loadEnv, type Plugin } from "vite";
+import { createApiDevProxy } from "../../scripts/api-dev-proxy";
 import {
   exactRouteI18nNamespaces,
   fallbackLng,
@@ -109,13 +110,7 @@ export default defineConfig(({ mode }) => {
       },
     },
     server: {
-      proxy: {
-        "/api": {
-          target: env.VITE_API_BASE_URL || "https://api.ppanel.dev",
-          changeOrigin: true,
-          secure: false,
-        },
-      },
+      proxy: createApiDevProxy(env),
     },
     build: {
       assetsDir: "static",

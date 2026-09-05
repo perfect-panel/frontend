@@ -2,6 +2,23 @@
 
 This guide will help you independently deploy PPanel frontend applications and connect them to the deployed backend service.
 
+## Moving from the retired gateway
+
+Backend 1.20.2 removed gateway registration and gateway-managed upgrades. Deploy the frontend against the backend's `/v1` and `/v2` routes. The admin dashboard reads `/v1/admin/tool/version`; it no longer calls `/basic/*` or `/v1/admin/system/module`.
+
+For same-origin deployment, leave both settings empty when building the frontend:
+
+```sh
+VITE_API_BASE_URL=
+VITE_API_PREFIX=
+```
+
+Route `/v1/` and `/v2/` to the backend in your production reverse proxy. For separate API domains, set `VITE_API_BASE_URL` to the backend's public origin and configure CORS for the frontend origin.
+
+`VITE_API_PREFIX` remains optional for custom reverse proxies. If it is `/api`, the proxy must forward `/api/v1/...` as `/v1/...` and `/api/v2/...` as `/v2/...`. This prefix does not require the retired gateway service. Vite development proxies perform this rewrite and default to `http://127.0.0.1:8080` when no API base URL is configured.
+
+These values are applied at build time. Rebuild and redeploy both frontends after changing them. Existing gateway installations must also configure the backend's `Host` and `Port` and update upstream routing; the backend no longer registers its address with the gateway or reads `PPANEL_PORT`.
+
 ## Overview
 
 Frontend separation deployment allows you to deploy PPanel frontend applications on independent servers or CDN, communicating with backend services through APIs.

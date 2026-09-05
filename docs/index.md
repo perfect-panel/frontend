@@ -40,19 +40,18 @@ features:
     details: React 19 + TypeScript + TailwindCSS + shadcn/ui deliver a fast, themeable interface.
   - icon: 🛡️
     title: Hardened Backend
-    details: Go 1.21+ service built on go-zero, Gin, Gorm, and Asynq keeps gateways stable and private.
+    details: Go service built on Hertz, Gorm, and Asynq provides the backend APIs.
   - icon: 🐳
     title: Turnkey Deployments
-    details: Official `ppanel/ppanel` Docker images bundle the gateway and backend for amd64/arm64.
+    details: Official `ppanel/ppanel-server` Docker images run the backend on amd64 and arm64.
 ---
 
 ## Full Stack Overview
 
-PPanel spans three repositories working together:
+PPanel separates the frontend and backend:
 
 - **[Frontend](https://github.com/perfect-panel/frontend)** — React 19 UI + VitePress docs for both admin and user portals.
-- **[PPanel Server](https://github.com/perfect-panel/server)** — Go 1.21+ APIs focusing on privacy, observability, and multi-protocol orchestration.
-- **[ppanel](https://github.com/perfect-panel/ppanel)** — Docker image that ships the compiled gateway plus backend binaries so you can launch everything with one container.
+- **[PPanel Server](https://github.com/perfect-panel/backend)** — Go APIs focusing on privacy, observability, and multi-protocol orchestration.
 
 ### Frontend experience
 
@@ -62,29 +61,14 @@ PPanel spans three repositories working together:
 
 ### Backend foundation
 
-- Multi-protocol relay for Shadowsocks, V2Ray, Trojan, and Trojan-Go backed by go-zero generated APIs.
+- Multi-protocol relay for Shadowsocks, V2Ray, Trojan, and Trojan-Go managed through the backend APIs.
 - Node lifecycle automation (heartbeat, registration, version checks, rolling updates) to keep edges healthy.
 - Business domains such as subscriptions, billing, payments, orders, and tickets mirror what you configure in the UI.
 - Privacy-first defaults — user activity logs stay off unless explicitly enabled; configs live in `etc/ppanel.yaml`.
 - Flexible delivery: Go binaries per platform, Makefile targets, and CI-published Docker images like `ppanel/ppanel-server:latest`.
 
-### Gateway & deployment
+### Deployment
 
-The `ppanel/ppanel` image folds the gateway and backend into one container (amd64 + arm64). Mount `modules/<platform>/etc` from the repo and the UI immediately connects to the bundled services.
+Run the backend using the official `ppanel/ppanel-server` image or a [backend release binary](https://github.com/perfect-panel/backend/releases). Deploy the admin and user frontends separately, with a reverse proxy or an explicit API base URL connecting them to the backend.
 
-::: tip Docker quickstart
-```bash
-docker pull ppanel/ppanel:latest
-docker run -d --name ppanel \
-  -p 8080:8080 \
-  -v $(pwd)/ppanel-config:/app/etc \
-  ppanel/ppanel:latest
-```
-:::
-
-#### Recommended workflow
-
-1. Copy `modules/<arch>/etc` to a persistent folder (`ppanel-config`) and update `ppanel.yaml` plus secrets.
-2. Start with `docker run` for quick trials, then move to the Compose snippet in the repo for auto-restarts.
-3. Upgrade by pulling the new tag, restarting the container, and letting the gateway refresh nodes in-place.
-4. Troubleshoot with `docker exec -it ppanel /bin/sh` and `docker logs -f ppanel` — everything lives under `/app`.
+See the [frontend deployment guide](/guide/separation/frontend) for API routing. Existing gateway deployments need to [migrate before upgrading](/guide/separation/frontend#moving-from-the-retired-gateway) to backend 1.20.2 or later. The dashboard displays service versions and supports restarting the backend; upgrades are handled by your deployment tooling.

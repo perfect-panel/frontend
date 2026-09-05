@@ -1,9 +1,7 @@
 {
-  "adminUpdateSuccess": "管理端更新成功",
   "cancel": "取消",
   "confirmReboot": "确认重启",
   "confirmSystemReboot": "确认系统重启",
-  "confirmUpdate": "确认更新",
   "rebootDescription": "确定要重启系统吗？此操作无法撤销。",
   "rebooting": "重启中...",
   "refreshLogs": "刷新日志",
@@ -11,11 +9,5 @@
   "systemLogs": "系统日志",
   "systemReboot": "系统重启",
   "systemServices": "系统服务",
-  "update": "更新",
-  "updateFailed": "更新失败",
-  "updateServerDescription": "确定要将服务器版本从 {{current}} 更新到 {{latest}} 吗？",
-  "updateSuccess": "更新成功",
-  "updateWebDescription": "确定要将前端版本从 {{current}} 更新到 {{latest}} 吗？",
-  "userUpdateSuccess": "用户端更新成功",
   "webVersion": "前端版本"
 }

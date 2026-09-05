@@ -21,8 +21,8 @@ test("Swagger assets satisfy the frontend documentation contract", async () => {
     "docs/public/swagger must include ppanel.json as the aggregate API spec"
   );
   assert.ok(
-    !backendManifest.includes("gateway.json"),
-    "gateway.json is a legacy frontend dependency, not a backend-generated spec"
+    !jsonFiles.includes("gateway.json"),
+    "the retired gateway spec must not be published"
   );
 
   for (const fileName of backendManifest) {

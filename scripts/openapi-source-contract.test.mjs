@@ -8,7 +8,7 @@ test("openapi2ts reads frontend main Swagger assets", async () => {
     "utf8"
   );
 
-  for (const spec of ["common", "user", "admin", "gateway"]) {
+  for (const spec of ["common", "user", "admin"]) {
     assert.ok(
       config.includes(
         `https://raw.githubusercontent.com/perfect-panel/frontend/refs/heads/main/docs/public/swagger/${spec}.json`
@@ -16,6 +16,12 @@ test("openapi2ts reads frontend main Swagger assets", async () => {
       `openapi2ts must read ${spec}.json from frontend main`
     );
   }
+
+  assert.doesNotMatch(
+    config,
+    /gateway/,
+    "the retired gateway client must not be generated"
+  );
 
   console.log("OpenAPI source contract OK");
 });
