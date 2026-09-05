@@ -1017,15 +1017,6 @@ subscription URL does not carry them, in query-string form such as
     user_agent: string;
   };
 
-  type ModuleConfig = {
-    /** 通讯密钥 */
-    secret: string;
-    /** 服务名称 */
-    service_name: string;
-    /** 服务版本 */
-    service_version: string;
-  };
-
   type Node = {
     address: string;
     created_at: number;

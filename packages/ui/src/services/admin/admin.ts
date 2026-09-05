@@ -1773,17 +1773,6 @@ export async function putSystemInviteConfig(
   );
 }
 
-/** Get Module Config GET /v1/admin/system/module */
-export async function getSystemModule(options?: { [key: string]: any }) {
-  return request<API.ResponseSuccessBean & { data?: API.ModuleConfig }>(
-    `${import.meta.env.VITE_API_PREFIX || ""}/v1/admin/system/module`,
-    {
-      method: "GET",
-      ...(options || {}),
-    }
-  );
-}
-
 /** Get node config GET /v1/admin/system/node_config */
 export async function getSystemNodeConfig(options?: { [key: string]: any }) {
   return request<API.ResponseSuccessBean & { data?: API.NodeConfig }>(

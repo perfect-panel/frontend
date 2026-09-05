@@ -21,7 +21,7 @@ uname -m
 
 ### Step 2: Download Latest Release
 
-Visit the [GitHub Releases](https://github.com/perfect-panel/ppanel/releases) page or download directly:
+Visit the [GitHub Releases](https://github.com/perfect-panel/backend/releases) page or download directly:
 
 ::: tip Installation Directory
 You can install PPanel in any directory. This guide uses `/opt/ppanel` as an example. If you choose a different directory, adjust the paths in subsequent commands accordingly.
@@ -33,19 +33,19 @@ sudo mkdir -p /opt/ppanel
 cd /opt/ppanel
 
 # Download for Linux amd64
-wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-linux-amd64.tar.gz
+wget https://github.com/perfect-panel/backend/releases/latest/download/ppanel-server-linux-amd64.tar.gz
 
 # Or for Linux arm64
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-linux-arm64.tar.gz
+# wget https://github.com/perfect-panel/backend/releases/latest/download/ppanel-server-linux-arm64.tar.gz
 
 # Or for macOS amd64
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-darwin-amd64.tar.gz
+# wget https://github.com/perfect-panel/backend/releases/latest/download/ppanel-server-darwin-amd64.tar.gz
 
 # Or for macOS arm64 (Apple Silicon)
-# wget https://github.com/perfect-panel/ppanel/releases/latest/download/gateway-darwin-arm64.tar.gz
+# wget https://github.com/perfect-panel/backend/releases/latest/download/ppanel-server-darwin-arm64.tar.gz
 
 # Extract
-tar -xzf gateway-linux-amd64.tar.gz
+tar -xzf ppanel-server-linux-amd64.tar.gz
 
 # Verify extracted files
 ls -la
@@ -54,7 +54,7 @@ ls -la
 Expected files:
 ```
 /opt/ppanel/
-├── gateway          # Gateway executable
+├── ppanel-server    # Backend executable
 └── etc/             # Configuration directory
     └── ppanel.yaml  # Configuration file
 ```
@@ -160,11 +160,11 @@ For quick testing:
 
 ```bash
 # Make binary executable
-sudo chmod +x /opt/ppanel/gateway
+sudo chmod +x /opt/ppanel/ppanel-server
 
 # Run directly
 cd /opt/ppanel
-sudo ./gateway
+sudo ./ppanel-server run --config etc/ppanel.yaml
 ```
 
 Press `Ctrl+C` to stop.
@@ -184,7 +184,7 @@ sudo nano /etc/systemd/system/ppanel.service
 ```ini
 [Unit]
 Description=PPanel Server
-Documentation=https://github.com/perfect-panel/ppanel
+Documentation=https://github.com/perfect-panel/backend
 After=network-online.target
 Wants=network-online.target
 
@@ -192,7 +192,7 @@ Wants=network-online.target
 Type=simple
 User=root
 WorkingDirectory=/opt/ppanel
-ExecStart=/opt/ppanel/gateway
+ExecStart=/opt/ppanel/ppanel-server run --config /opt/ppanel/etc/ppanel.yaml
 Restart=always
 RestartSec=10
 
@@ -365,11 +365,9 @@ sudo systemctl reload nginx
 
 ## Upgrading
 
-Upgrade PPanel directly from the **Admin Dashboard**. On the dashboard homepage, you can check for new versions and upgrade with one click.
+Download the desired release from [backend releases](https://github.com/perfect-panel/backend/releases), preserve your configuration and database backup, stop the service, replace `ppanel-server`, and restart the service. Deploy frontend releases separately.
 
-::: tip
-The system will automatically handle the upgrade process, including downloading the new binary and restarting the service.
-:::
+The dashboard displays versions and can restart the backend. Backend 1.20.2 removed gateway-managed upgrades. Existing gateway installations must [migrate their frontend API routing](/guide/separation/frontend#moving-from-the-retired-gateway) before upgrading.
 
 ## Troubleshooting
 
@@ -407,14 +405,14 @@ sudo systemctl restart ppanel
 ```bash
 # Check architecture compatibility
 uname -m
-file /opt/ppanel/gateway
+file /opt/ppanel/ppanel-server
 
 # Check if executable
-ls -la /opt/ppanel/gateway
-sudo chmod +x /opt/ppanel/gateway
+ls -la /opt/ppanel/ppanel-server
+sudo chmod +x /opt/ppanel/ppanel-server
 
 # Check for missing libraries (should be none for static binary)
-ldd /opt/ppanel/gateway
+ldd /opt/ppanel/ppanel-server
 ```
 
 ### High Memory Usage
@@ -491,7 +489,7 @@ sudo nano /etc/systemd/system/ppanel.service
 # Change: User=ppanel
 
 # If binding to port < 1024, grant capability
-sudo setcap 'cap_net_bind_service=+ep' /opt/ppanel/gateway
+sudo setcap 'cap_net_bind_service=+ep' /opt/ppanel/ppanel-server
 
 sudo systemctl daemon-reload
 sudo systemctl restart ppanel
@@ -574,6 +572,6 @@ database:
 
 ## Need Help?
 
-- Check [GitHub Issues](https://github.com/perfect-panel/ppanel/issues)
+- Check [GitHub Issues](https://github.com/perfect-panel/backend/issues)
 - Review systemd logs: `sudo journalctl -u ppanel -f`
 - Check application logs: `tail -f /opt/ppanel/logs/ppanel.log`
