@@ -19,6 +19,16 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.21.0-dev.2](https://github.com/perfect-panel/frontend/compare/v1.21.0-dev.1...v1.21.0-dev.2) (2026-09-05)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **frontend:** remove retired gateway dependencies ([c038e9a](https://github.com/perfect-panel/frontend/commit/c038e9a55dad283860e95f77902673ddffaddfbb))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([1f8f1bc](https://github.com/perfect-panel/frontend/commit/1f8f1bc52c7807e0669a70f017aaef78727ec6ab))
+
 ## [1.21.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.20.0...v1.21.0-dev.1) (2026-08-29)
 
 ### ✨ Features / 新功能
