@@ -19,6 +19,31 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.21.0](https://github.com/perfect-panel/frontend/compare/v1.20.0...v1.21.0) (2026-09-05)
+
+### ✨ Features / 新功能
+
+* **admin:** add order creation log page ([9e71a98](https://github.com/perfect-panel/frontend/commit/9e71a9852ef2f5bf1b9599f2fdbd11b434429cd2))
+
+### 🐛 Bug Fixes / 问题修复
+
+* **admin:** correct timezone offset display ([94d477e](https://github.com/perfect-panel/frontend/commit/94d477e97f6740367d127875ae40542a608cf746))
+* **frontend:** remove retired gateway dependencies ([c038e9a](https://github.com/perfect-panel/frontend/commit/c038e9a55dad283860e95f77902673ddffaddfbb))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([1f8f1bc](https://github.com/perfect-panel/frontend/commit/1f8f1bc52c7807e0669a70f017aaef78727ec6ab))
+
+### 🔧 Chores / 其他变更
+
+* **api:** regenerate OpenAPI client ([6a0bb81](https://github.com/perfect-panel/frontend/commit/6a0bb81c74f5803bec0e7b17a34217d6ab0cfe55))
+* **release:** Release 1.19.0-dev.2 / 发布版本 1.19.0-dev.2 [skip ci] ([63e4eac](https://github.com/perfect-panel/frontend/commit/63e4eac4e4cb11594618fab411f89a9c8bf488ed))
+* **release:** Release 1.19.1-dev.1 / 发布版本 1.19.1-dev.1 [skip ci] ([9bfc10e](https://github.com/perfect-panel/frontend/commit/9bfc10ed41442bd6e2c3ba0d1a53bf281eae4af5))
+* **release:** Release 1.19.2-dev.1 / 发布版本 1.19.2-dev.1 [skip ci] ([fbd99dd](https://github.com/perfect-panel/frontend/commit/fbd99dd34957a004dc65658c861bca06e79ff445))
+* **release:** Release 1.20.0-dev.1 / 发布版本 1.20.0-dev.1 [skip ci] ([fafaa02](https://github.com/perfect-panel/frontend/commit/fafaa024b5e68f49d22788addba73dda6da698b0))
+* **release:** Release 1.21.0-dev.1 / 发布版本 1.21.0-dev.1 [skip ci] ([d32c456](https://github.com/perfect-panel/frontend/commit/d32c45683c5b2b87225274e9308397655996aacb))
+* **release:** Release 1.21.0-dev.2 / 发布版本 1.21.0-dev.2 [skip ci] ([457d446](https://github.com/perfect-panel/frontend/commit/457d446f84e728b98e5dfafe959a897a2a16c02f))
+
 ## [1.21.0-dev.2](https://github.com/perfect-panel/frontend/compare/v1.21.0-dev.1...v1.21.0-dev.2) (2026-09-05)
 
 ### 🐛 Bug Fixes / 问题修复
