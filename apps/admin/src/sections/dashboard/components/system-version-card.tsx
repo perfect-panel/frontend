@@ -1,6 +1,6 @@
 "use client";
 
-import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
+import { useQuery } from "@tanstack/react-query";
 import {
   AlertDialog,
   AlertDialogCancel,
@@ -21,115 +21,25 @@ import {
 } from "@workspace/ui/components/card";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
-  getSystemModule as getModuleConfig,
+  getToolVersion as getServerVersion,
   getToolRestart as restartSystem,
 } from "@workspace/ui/services/admin/admin";
-import { basicCheckServiceVersion } from "@workspace/ui/services/gateway/basicCheckServiceVersion";
-import { basicUpdateService } from "@workspace/ui/services/gateway/basicUpdateService";
 import { useState } from "react";
 import { useTranslation } from "react-i18next";
-import { toast } from "sonner";
 import packageJson from "../../../../../../package.json";
 
 export default function SystemVersionCard() {
   const { t } = useTranslation("tool");
-  const queryClient = useQueryClient();
   const [openRestart, setOpenRestart] = useState(false);
   const [isRestarting, setIsRestarting] = useState(false);
-  const [openUpdateWeb, setOpenUpdateWeb] = useState(false);
-  const [openUpdateServer, setOpenUpdateServer] = useState(false);
-  const [isUpdatingWeb, setIsUpdatingWeb] = useState(false);
-
-  const { data: moduleConfig } = useQuery({
-    queryKey: ["getModuleConfig"],
+  const { data: serverVersion } = useQuery({
+    queryKey: ["getServerVersion"],
     queryFn: async () => {
-      const { data } = await getModuleConfig({ skipErrorHandler: true });
-      return data.data;
+      const { data } = await getServerVersion({ skipErrorHandler: true });
+      return data.data?.version ?? null;
     },
-    staleTime: 0,
-  });
-
-  const { data: serverVersionInfo } = useQuery({
-    queryKey: ["checkServerVersion", moduleConfig?.secret],
-    queryFn: async () => {
-      const { data } = await basicCheckServiceVersion(
-        {
-          service_name: moduleConfig!.service_name,
-          secret: moduleConfig!.secret,
-        },
-        { skipErrorHandler: true }
-      );
-      return data.data;
-    },
-    enabled: !!moduleConfig?.secret,
-    staleTime: 0,
     retry: 1,
   });
-
-  const { data: webVersionInfo } = useQuery({
-    queryKey: ["checkWebVersion", moduleConfig?.secret],
-    queryFn: async () => {
-      const { data } = await basicCheckServiceVersion(
-        {
-          service_name: "admin-web-with-api",
-          secret: moduleConfig!.secret,
-        },
-        { skipErrorHandler: true }
-      );
-      return data.data;
-    },
-    enabled: !!moduleConfig?.secret,
-    staleTime: 0,
-    retry: 1,
-  });
-
-  const updateServerMutation = useMutation({
-    mutationFn: async (serviceName: string) => {
-      await basicUpdateService({
-        service_name: serviceName,
-        secret: moduleConfig!.secret,
-      });
-    },
-    onSuccess: () => {
-      toast.success(t("updateSuccess", "Update completed successfully"));
-      queryClient.invalidateQueries({ queryKey: ["checkServerVersion"] });
-      queryClient.invalidateQueries({ queryKey: ["getModuleConfig"] });
-      setOpenUpdateServer(false);
-    },
-    onError: () => {
-      toast.error(t("updateFailed", "Update failed"));
-    },
-  });
-
-  const handleUpdateWeb = async () => {
-    if (!moduleConfig?.secret) return;
-
-    setIsUpdatingWeb(true);
-    try {
-      await basicUpdateService({
-        service_name: "admin-web-with-api",
-        secret: moduleConfig.secret,
-      });
-      toast.success(t("adminUpdateSuccess", "Admin updated successfully"));
-
-      await basicUpdateService({
-        service_name: "user-web-with-api",
-        secret: moduleConfig.secret,
-      });
-      toast.success(t("userUpdateSuccess", "User updated successfully"));
-
-      setOpenUpdateWeb(false);
-      window.location.reload();
-    } catch {
-      toast.error(t("updateFailed", "Update failed"));
-    } finally {
-      setIsUpdatingWeb(false);
-    }
-  };
-
-  const hasServerNewVersion = serverVersionInfo?.has_update ?? false;
-  const hasWebNewVersion = webVersionInfo?.has_update ?? false;
-  const isUpdatingServer = updateServerMutation.isPending;
 
   return (
     <Card className="gap-0 p-3">
@@ -161,10 +71,17 @@ export default function SystemVersionCard() {
                     disabled={isRestarting}
                     onClick={async () => {
                       setIsRestarting(true);
-                      await restartSystem();
-                      await new Promise((resolve) => setTimeout(resolve, 5000));
-                      setIsRestarting(false);
-                      setOpenRestart(false);
+                      try {
+                        await restartSystem();
+                        await new Promise((resolve) =>
+                          setTimeout(resolve, 5000)
+                        );
+                        setOpenRestart(false);
+                      } catch {
+                        // The request layer reports the failure.
+                      } finally {
+                        setIsRestarting(false);
+                      }
                     }}
                   >
                     {isRestarting && (
@@ -190,52 +107,6 @@ export default function SystemVersionCard() {
           </div>
           <div className="flex items-center space-x-2">
             <Badge>V{packageJson.version}</Badge>
-            <AlertDialog onOpenChange={setOpenUpdateWeb} open={openUpdateWeb}>
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="h-6 px-2 text-xs"
-                  disabled={!hasWebNewVersion || isUpdatingWeb}
-                  size="sm"
-                  variant="outline"
-                >
-                  <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
-                  {hasWebNewVersion && webVersionInfo
-                    ? `${t("update", "Update")} ${webVersionInfo.latest_version}`
-                    : t("update", "Update")}
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {t("confirmUpdate", "Confirm Update")}
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {webVersionInfo
-                      ? t(
-                          "updateWebDescription",
-                          "Are you sure you want to update the web version from {{current}} to {{latest}}?",
-                          {
-                            current: webVersionInfo.current_version,
-                            latest: webVersionInfo.latest_version,
-                          }
-                        )
-                      : t(
-                          "updateDescription",
-                          "Are you sure you want to update?"
-                        )}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
-                  <Button disabled={isUpdatingWeb} onClick={handleUpdateWeb}>
-                    {isUpdatingWeb && (
-                      <Icon className="mr-2 animate-spin" icon="mdi:loading" />
-                    )}
-                    {t("confirmUpdate", "Confirm Update")}
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
           </div>
         </div>
 
@@ -247,69 +118,7 @@ export default function SystemVersionCard() {
             </span>
           </div>
           <div className="flex items-center space-x-2">
-            <Badge>
-              V
-              {moduleConfig?.service_version ||
-                serverVersionInfo?.current_version ||
-                "1.0.0"}
-            </Badge>
-            <AlertDialog
-              onOpenChange={setOpenUpdateServer}
-              open={openUpdateServer}
-            >
-              <AlertDialogTrigger asChild>
-                <Button
-                  className="h-6 px-2 text-xs"
-                  disabled={!hasServerNewVersion || isUpdatingServer}
-                  size="sm"
-                  variant="outline"
-                >
-                  <Icon className="mr-1 h-3 w-3" icon="mdi:download" />
-                  {hasServerNewVersion && serverVersionInfo
-                    ? `${t("update", "Update")} ${serverVersionInfo.latest_version}`
-                    : t("update", "Update")}
-                </Button>
-              </AlertDialogTrigger>
-              <AlertDialogContent>
-                <AlertDialogHeader>
-                  <AlertDialogTitle>
-                    {t("confirmUpdate", "Confirm Update")}
-                  </AlertDialogTitle>
-                  <AlertDialogDescription>
-                    {serverVersionInfo && moduleConfig
-                      ? t(
-                          "updateServerDescription",
-                          "Are you sure you want to update the server version from {{current}} to {{latest}}?",
-                          {
-                            current:
-                              moduleConfig.service_version ||
-                              serverVersionInfo.current_version,
-                            latest: serverVersionInfo.latest_version,
-                          }
-                        )
-                      : t(
-                          "updateDescription",
-                          "Are you sure you want to update?"
-                        )}
-                  </AlertDialogDescription>
-                </AlertDialogHeader>
-                <AlertDialogFooter>
-                  <AlertDialogCancel>{t("cancel", "Cancel")}</AlertDialogCancel>
-                  <Button
-                    disabled={isUpdatingServer || !moduleConfig}
-                    onClick={() =>
-                      moduleConfig &&
-                      updateServerMutation.mutate(moduleConfig.service_name)
-                    }
-                  >
-                    {isUpdatingServer && (
-                      <Icon className="mr-2 animate-spin" icon="mdi:loading" />
-                    )}
-                    {t("confirmUpdate", "Confirm Update")}
-                  </Button>
-                </AlertDialogFooter>
-              </AlertDialogContent>
-            </AlertDialog>
+            <Badge>{serverVersion ? `V${serverVersion}` : "—"}</Badge>
           </div>
         </div>
       </CardContent>

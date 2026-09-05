@@ -55,7 +55,7 @@ export async function postAuthLogin(
   );
 }
 
-/** Device Login POST /v1/auth/login/device */
+/** Device Login When device security is enabled, requests and response data use a signed data/time/sign envelope. Each request needs a fresh nonce; see docs/device-authentication.md. The User-Agent is read from the HTTP header. POST /v1/auth/login/device */
 export async function postAuthLoginDevice(
   body: API.DeviceLoginRequest,
   options?: { [key: string]: any }

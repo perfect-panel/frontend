@@ -2,4 +2,4 @@
 
 `perfect-panel/backend` is the authoritative source for the v1 API specifications. Its `master` workflow synchronizes every generated top-level `build/swagger/*.json` file into this directory.
 
-`gateway.json` is a legacy frontend dependency used to generate `packages/ui/src/services/gateway`. The backend generator does not own or overwrite it. It was migrated unchanged from the retired documentation repository at commit `67ff73b7` and must not be replaced with `edge.json`.
+The frontend generates clients from `admin.json`, `user.json`, and `common.json`. The retired gateway spec and client have been removed. `edge.json` describes the separate subscription edge service and remains backend-owned.

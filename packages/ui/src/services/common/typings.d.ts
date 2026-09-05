@@ -50,6 +50,7 @@ declare namespace API {
   type DeviceAuthticateConfig = {
     enable: boolean;
     enable_security: boolean;
+    /** Requires authenticated device transport, not hardware attestation. */
     only_real_device: boolean;
     show_ads: boolean;
   };
@@ -58,7 +59,6 @@ declare namespace API {
     cf_token?: string;
     identifier: string;
     invite?: string;
-    user_agent: string;
   };
 
   type DownloadLink = {
