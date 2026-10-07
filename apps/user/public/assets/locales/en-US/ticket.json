@@ -14,8 +14,8 @@
   "reply": "Reply",
   "status": {
     "0": "Status",
-    "1": "Pending Reply",
-    "2": "Pending Follow-up",
+    "1": "Awaiting Support",
+    "2": "Support Replied",
     "3": "Resolved",
     "4": "Closed"
   },
