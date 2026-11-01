@@ -111,6 +111,10 @@ export default function Content({
     });
   }, [params, navigate]);
 
+  const passwordLength = params.password?.length ?? 0;
+  const isPasswordInvalid =
+    passwordLength > 0 && (passwordLength < 8 || passwordLength > 128);
+
   if (!subscription) {
     return (
       <div className="p-6 text-center">
@@ -197,10 +201,18 @@ export default function Content({
                   onValueChange={(value: string) =>
                     handleChange("password", value)
                   }
-                  placeholder="Password"
+                  placeholder={t(
+                    "passwordPlaceholder",
+                    "Password (at least 8 characters, optional)"
+                  )}
                   type="password"
                   value={params.password || ""}
                 />
+                {isPasswordInvalid && (
+                  <p className="text-destructive text-xs">
+                    {t("passwordLength", "Password must be 8-128 characters")}
+                  </p>
+                )}
                 <p className="text-muted-foreground text-xs">
                   {t(
                     "passwordHint",
@@ -319,7 +331,7 @@ export default function Content({
 
         <Button
           className="w-full"
-          disabled={!isEmailValid.valid || loading}
+          disabled={!isEmailValid.valid || isPasswordInvalid || loading}
           onClick={handleSubmit}
           size="lg"
         >

@@ -40,6 +40,8 @@
   "NoLimit": "No Limit",
   "orBrowsePlans": "Or browse other plans",
   "passwordHint": "If you do not enter a password, we will automatically generate one and send it to your email.",
+  "passwordLength": "Password must be 8-128 characters",
+  "passwordPlaceholder": "Password (at least 8 characters, optional)",
   "paymentMethod": "Payment Method",
   "productDescription": "productDescription",
   "purchaseDuration": "Purchase Duration",

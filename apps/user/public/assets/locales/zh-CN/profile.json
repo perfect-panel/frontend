@@ -2,6 +2,8 @@
   "accountSettings": {
     "accountSettings": "账户设置",
     "newPassword": "新密码",
+    "newPasswordHint": "新密码（至少 8 位）",
+    "passwordLength": "密码长度需为 8–128 位",
     "passwordMismatch": "密码不匹配",
     "repeatNewPassword": "重复新密码",
     "updatePassword": "更新密码",
