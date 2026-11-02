@@ -51,6 +51,11 @@
   "rechargeNow": "Recharge Now",
   "renew": "Renew",
   "renewCurrent": "Renew your current subscription",
+  "renewReminder": {
+    "buyNew": "Buy {{name}} as a new subscription",
+    "description": "Renewing extends your current subscription and keeps its nodes and subscription link. Buying a new plan creates a separate subscription with its own time and traffic.",
+    "title": "You already have a subscription"
+  },
   "renewSubscription": "Renew Subscription",
   "resetPrice": "Reset Price",
   "resetTraffic": "Reset Traffic",

@@ -51,6 +51,11 @@
   "rechargeNow": "立即充值",
   "renew": "续订",
   "renewCurrent": "续订当前订阅",
+  "renewReminder": {
+    "buyNew": "仍要另购新订阅：{{name}}",
+    "description": "续订会延长您现有订阅的时长，节点和订阅链接都保持不变。购买新套餐会另外生成一个订阅，时长和流量与原订阅分开计算。",
+    "title": "您已有订阅，建议续订"
+  },
   "renewSubscription": "续订",
   "resetPrice": "重置价格",
   "resetTraffic": "重置流量",
