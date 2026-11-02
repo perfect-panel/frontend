@@ -321,7 +321,7 @@ export default function Subscribe() {
         }}
         open={!!pendingPlan}
       >
-        <DialogContent className="sm:max-w-lg">
+        <DialogContent className="flex max-h-[calc(100dvh-2rem)] flex-col sm:max-w-lg">
           <DialogHeader>
             <DialogTitle>
               {t("renewReminder.title", "You already have a subscription")}
@@ -333,15 +333,17 @@ export default function Subscribe() {
               )}
             </DialogDescription>
           </DialogHeader>
-          <div className="space-y-3">
+          <div className="-mx-1 min-h-0 flex-1 space-y-3 overflow-y-auto px-1">
             {matchingRenewable.map((sub) => (
               <div
                 className="flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"
                 key={sub.id}
               >
-                <div className="space-y-1">
+                <div className="min-w-0 space-y-1">
                   <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-medium">{sub.subscribe.name}</span>
+                    <span className="break-words font-medium">
+                      {sub.subscribe.name}
+                    </span>
                     {isExpiredSubscription(sub) && (
                       <Badge variant="destructive">
                         {t("expired", "Expired")}
