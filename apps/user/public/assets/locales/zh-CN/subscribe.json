@@ -40,6 +40,8 @@
   "NoLimit": "无限制",
   "orBrowsePlans": "或选购其他套餐",
   "passwordHint": "如果您不输入密码，我们将自动生成一个并发送到您的邮箱。",
+  "passwordLength": "密码长度需为 8–128 位",
+  "passwordPlaceholder": "密码（至少 8 位，可不填）",
   "paymentMethod": "支付方式",
   "productDescription": "商品描述",
   "purchaseDuration": "购买时长",

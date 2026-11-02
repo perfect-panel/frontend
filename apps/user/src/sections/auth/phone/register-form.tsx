@@ -41,7 +41,10 @@ export default function RegisterForm({
     .object({
       telephone_area_code: z.string(),
       telephone: z.string(),
-      password: z.string(),
+      password: z
+        .string()
+        .min(8, t("passwordLength", "Password must be 8-128 characters"))
+        .max(128, t("passwordLength", "Password must be 8-128 characters")),
       repeat_password: z.string(),
       code: z.string(),
       invite: invite.forced_invite ? z.string().min(1) : z.string().nullish(),
@@ -146,8 +149,8 @@ export default function RegisterForm({
                   <FormControl>
                     <Input
                       placeholder={t(
-                        "placeholders.password",
-                        "Enter your password..."
+                        "placeholders.passwordHint",
+                        "Enter your password (at least 8 characters)..."
                       )}
                       type="password"
                       {...field}

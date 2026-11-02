@@ -2,6 +2,8 @@
   "accountSettings": {
     "accountSettings": "Account Settings",
     "newPassword": "New Password",
+    "newPasswordHint": "New Password (at least 8 characters)",
+    "passwordLength": "Password must be 8-128 characters",
     "passwordMismatch": "Passwords do not match",
     "repeatNewPassword": "Repeat New Password",
     "updatePassword": "Update Password",
