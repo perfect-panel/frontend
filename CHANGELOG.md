@@ -19,6 +19,20 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.23.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.22.1-dev.2...v1.23.0-dev.1) (2026-11-03)
+
+### ✨ Features / 新功能
+
+* **subscribe:** 购买已持有的套餐时提示续订 ([91c4bbd](https://github.com/perfect-panel/frontend/commit/91c4bbdbe95c2e640bc0252cc92df055073e1d46))
+
+### 🐛 Bug Fixes / 问题修复
+
+* **subscribe:** 续订提醒弹窗限制高度并可滚动 ([65d85ec](https://github.com/perfect-panel/frontend/commit/65d85ec3c66c8b671fcbf979aa26566ce31663fd))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([7d7d0df](https://github.com/perfect-panel/frontend/commit/7d7d0dfcc4e6f89b9ef0a13e15878a8c1e9632a3))
+
 ## [1.22.1-dev.2](https://github.com/perfect-panel/frontend/compare/v1.22.1-dev.1...v1.22.1-dev.2) (2026-11-02)
 
 ### 🐛 Bug Fixes / 问题修复
