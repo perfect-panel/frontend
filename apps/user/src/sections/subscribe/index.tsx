@@ -9,6 +9,14 @@ import {
   CardFooter,
   CardHeader,
 } from "@workspace/ui/components/card";
+import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@workspace/ui/components/dialog";
 import { Separator } from "@workspace/ui/components/separator";
 import Empty from "@workspace/ui/composed/empty";
 import { Icon } from "@workspace/ui/composed/icon";
@@ -38,6 +46,7 @@ export default function Subscribe() {
   };
   const locale = i18n.language;
   const [subscribe, setSubscribe] = useState<API.Subscribe>();
+  const [pendingPlan, setPendingPlan] = useState<API.Subscribe>();
 
   const { data: subscribeList } = useQuery({
     queryKey: ["querySubscribeList", locale],
@@ -71,6 +80,9 @@ export default function Subscribe() {
       (sub) => sub.expire_time !== 0 && sub.subscribe?.sell
     ) ?? []
   ).sort((a, b) => a.expire_time - b.expire_time);
+  const matchingRenewable = pendingPlan
+    ? allRenewable.filter((sub) => sub.subscribe_id === pendingPlan.id)
+    : [];
   const RENEWAL_BANNER_LIMIT = 2;
   const renewableSubscriptions = allRenewable.slice(0, RENEWAL_BANNER_LIMIT);
   const hiddenRenewableCount =
@@ -286,7 +298,13 @@ export default function Subscribe() {
                 <Button
                   className="absolute bottom-0 w-full rounded-t-none rounded-b-xl"
                   onClick={() => {
-                    setSubscribe(item);
+                    if (
+                      allRenewable.some((sub) => sub.subscribe_id === item.id)
+                    ) {
+                      setPendingPlan(item);
+                    } else {
+                      setSubscribe(item);
+                    }
                   }}
                 >
                   {t("buy", "Buy")}
@@ -297,6 +315,68 @@ export default function Subscribe() {
         </div>
         {filteredData?.length === 0 && <Empty />}
       </div>
+      <Dialog
+        onOpenChange={(open) => {
+          if (!open) setPendingPlan(undefined);
+        }}
+        open={!!pendingPlan}
+      >
+        <DialogContent className="flex max-h-[calc(100dvh-2rem)] flex-col sm:max-w-lg">
+          <DialogHeader>
+            <DialogTitle>
+              {t("renewReminder.title", "You already have a subscription")}
+            </DialogTitle>
+            <DialogDescription>
+              {t(
+                "renewReminder.description",
+                "Renewing extends your current subscription and keeps its nodes and subscription link. Buying a new plan creates a separate subscription with its own time and traffic."
+              )}
+            </DialogDescription>
+          </DialogHeader>
+          <div className="-mx-1 min-h-0 flex-1 space-y-3 overflow-y-auto px-1">
+            {matchingRenewable.map((sub) => (
+              <div
+                className="flex flex-col gap-3 rounded-lg border p-4 sm:flex-row sm:items-center sm:justify-between"
+                key={sub.id}
+              >
+                <div className="min-w-0 space-y-1">
+                  <div className="flex flex-wrap items-center gap-2">
+                    <span className="break-words font-medium">
+                      {sub.subscribe.name}
+                    </span>
+                    {isExpiredSubscription(sub) && (
+                      <Badge variant="destructive">
+                        {t("expired", "Expired")}
+                      </Badge>
+                    )}
+                  </div>
+                  <p className="text-muted-foreground text-sm">
+                    {t("expireAt", "Expires At")}: {formatDate(sub.expire_time)}
+                  </p>
+                </div>
+                <Renewal
+                  className="w-full sm:w-auto sm:min-w-28"
+                  id={sub.id}
+                  subscribe={sub.subscribe}
+                />
+              </div>
+            ))}
+          </div>
+          <DialogFooter>
+            <Button
+              onClick={() => {
+                setSubscribe(pendingPlan);
+                setPendingPlan(undefined);
+              }}
+              variant="outline"
+            >
+              {t("renewReminder.buyNew", "Buy {{name}} as a new subscription", {
+                name: pendingPlan?.name,
+              })}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
       <Purchase setSubscribe={setSubscribe} subscribe={subscribe} />
     </>
   );
