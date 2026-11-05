@@ -62,13 +62,19 @@ interface SubscribeFormProps<T> {
   title: string;
 }
 
-// Backend returns subscribe nodes as numeric strings (e.g. ["3","4"])
+// Backend returns subscribe nodes as numeric strings (e.g. ["3","4"]) and
+// empty node_tags as [""]; a non-empty node_tags makes the backend drop nodes.
 function normalizeNodes(values: Record<string, any>) {
-  if (!Array.isArray(values.nodes)) return values;
-  return {
-    ...values,
-    nodes: values.nodes.map(Number).filter(Number.isFinite),
-  };
+  const result = { ...values };
+  if (Array.isArray(values.nodes)) {
+    result.nodes = values.nodes.map(Number).filter(Number.isFinite);
+  }
+  if (Array.isArray(values.node_tags)) {
+    result.node_tags = values.node_tags.filter(
+      (tag: unknown) => typeof tag === "string" && tag.trim() !== ""
+    );
+  }
+  return result;
 }
 
 const defaultValues = {
