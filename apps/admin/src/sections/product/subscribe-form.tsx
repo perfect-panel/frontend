@@ -62,6 +62,21 @@ interface SubscribeFormProps<T> {
   title: string;
 }
 
+// Backend returns subscribe nodes as numeric strings (e.g. ["3","4"]) and
+// empty node_tags as [""]; a non-empty node_tags makes the backend drop nodes.
+function normalizeNodes(values: Record<string, any>) {
+  const result = { ...values };
+  if (Array.isArray(values.nodes)) {
+    result.nodes = values.nodes.map(Number).filter(Number.isFinite);
+  }
+  if (Array.isArray(values.node_tags)) {
+    result.node_tags = values.node_tags.filter(
+      (tag: unknown) => typeof tag === "string" && tag.trim() !== ""
+    );
+  }
+  return result;
+}
+
 const defaultValues = {
   inventory: -1,
   speed_limit: 0,
@@ -128,7 +143,9 @@ export default function SubscribeForm<T extends Record<string, any>>({
     resolver: zodResolver(formSchema),
     defaultValues: assign(
       defaultValues,
-      shake(initialValues, (value) => value === null) as Record<string, any>
+      normalizeNodes(
+        shake(initialValues, (value) => value === null) as Record<string, any>
+      )
     ),
   });
 
@@ -237,7 +254,9 @@ export default function SubscribeForm<T extends Record<string, any>>({
     form?.reset(
       assign(
         defaultValues,
-        shake(initialValues, (value) => value === null) as Record<string, any>
+        normalizeNodes(
+          shake(initialValues, (value) => value === null) as Record<string, any>
+        )
       )
     );
     const discount = form.getValues("discount") || [];
@@ -997,7 +1016,10 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                     key={item.id}
                                   >
                                     <Checkbox
-                                      checked={value.includes(item.id!)}
+                                      checked={value.some(
+                                        (v: number) =>
+                                          Number(v) === Number(item.id)
+                                      )}
                                       onCheckedChange={(checked) =>
                                         checked
                                           ? form.setValue(field.name, [
@@ -1007,8 +1029,8 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                           : form.setValue(
                                               field.name,
                                               value.filter(
-                                                (value: number) =>
-                                                  value !== item.id
+                                                (v: number) =>
+                                                  Number(v) !== Number(item.id)
                                               )
                                             )
                                       }
