@@ -62,6 +62,15 @@ interface SubscribeFormProps<T> {
   title: string;
 }
 
+// Backend returns subscribe nodes as numeric strings (e.g. ["3","4"])
+function normalizeNodes(values: Record<string, any>) {
+  if (!Array.isArray(values.nodes)) return values;
+  return {
+    ...values,
+    nodes: values.nodes.map(Number).filter(Number.isFinite),
+  };
+}
+
 const defaultValues = {
   inventory: -1,
   speed_limit: 0,
@@ -128,7 +137,9 @@ export default function SubscribeForm<T extends Record<string, any>>({
     resolver: zodResolver(formSchema),
     defaultValues: assign(
       defaultValues,
-      shake(initialValues, (value) => value === null) as Record<string, any>
+      normalizeNodes(
+        shake(initialValues, (value) => value === null) as Record<string, any>
+      )
     ),
   });
 
@@ -237,7 +248,9 @@ export default function SubscribeForm<T extends Record<string, any>>({
     form?.reset(
       assign(
         defaultValues,
-        shake(initialValues, (value) => value === null) as Record<string, any>
+        normalizeNodes(
+          shake(initialValues, (value) => value === null) as Record<string, any>
+        )
       )
     );
     const discount = form.getValues("discount") || [];
@@ -997,7 +1010,10 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                     key={item.id}
                                   >
                                     <Checkbox
-                                      checked={value.includes(item.id!)}
+                                      checked={value.some(
+                                        (v: number) =>
+                                          Number(v) === Number(item.id)
+                                      )}
                                       onCheckedChange={(checked) =>
                                         checked
                                           ? form.setValue(field.name, [
@@ -1007,8 +1023,8 @@ export default function SubscribeForm<T extends Record<string, any>>({
                                           : form.setValue(
                                               field.name,
                                               value.filter(
-                                                (value: number) =>
-                                                  value !== item.id
+                                                (v: number) =>
+                                                  Number(v) !== Number(item.id)
                                               )
                                             )
                                       }
