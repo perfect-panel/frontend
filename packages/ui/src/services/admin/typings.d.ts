@@ -1315,7 +1315,7 @@ it was recorded. */
     accept_proxy_protocol: boolean;
     /** TLS client compatibility: allows skipping certificate verification; inbound configurations usually ignore it, and it is not a server certificate setting. */
     allow_insecure: boolean;
-    /** TLS/HTTP/QUIC protocols: the TLS ALPN list; Nowhere takes exactly one value, now/1 by default. */
+    /** TLS/HTTP/QUIC protocols: the TLS ALPN list; Nowhere requires exactly nw3. */
     alpn: string[];
     /** TLS protocols: the environment variables (credentials) passed to the DNS provider with cert_mode=dns. */
     cert_dns_env: string;
@@ -1371,7 +1371,7 @@ it was recorded. */
     multiplex: string;
     /** Listening network: tcp, udp or both; Nowhere normalizes it to mix, tcp or udp, and the other protocols check it against what each supports. */
     network: string;
-    /** Obfuscating protocols: Hysteria2's Salamander, Snell v5's obfs or SSR's obfs method. */
+    /** Obfuscating protocols: Hysteria2's Salamander, Snell v5's obfs, SSR's obfs method, or Nowhere's morph (default) / none. */
     obfs: string;
     /** Legacy obfuscation compatibility: the obfuscation Host; node inbounds currently ignore it, and Shadowsocks plugins take plugin_opts instead. */
     obfs_host: string;
@@ -1435,7 +1435,7 @@ it was recorded. */
     up_mbps: number;
     /** Mieru only: whether clients must send a user hint that identifies the user. */
     user_hint_is_mandatory: boolean;
-    /** Version: Snell accepts 5 or 6, TUIC 5 and Nowhere 1; 0 means the protocol's default. */
+    /** Version: Snell accepts 5 or 6, TUIC 5 and Nowhere 3; 0 means the protocol's default. */
     version: number;
     /** VLESS/VMess/Trojan XHTTP transport only: the XHTTP extra path and parameters. */
     xhttp_extra: string;

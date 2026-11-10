@@ -154,6 +154,18 @@ export function getProtocolDefaultConfig(proto: ProtocolType) {
         quic_congestion_control: "bbr",
         cert_mode: "self",
       } as any;
+    case "nowhere":
+      return {
+        ...base,
+        ...certificate,
+        type: "nowhere",
+        version: 3,
+        security: "tls",
+        alpn: ["nw3"],
+        network: "mix",
+        obfs: "morph",
+        cert_mode: "self",
+      } as any;
     case "mieru":
       return {
         ...base,

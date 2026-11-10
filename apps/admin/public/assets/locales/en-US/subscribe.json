@@ -71,7 +71,8 @@
         "subscribeName": "subscription name",
         "title": "Go Template Syntax",
         "userInfo": "user info (traffic, expiry, etc.)",
-        "variables": "Available variables:"
+        "variables": "Available variables:",
+        "nowhereKey": "NW3 shared key; other protocols continue to use .UserInfo.Password"
       },
       "userAgentPrefix": "Client identifier for distinguishing different clients"
     },

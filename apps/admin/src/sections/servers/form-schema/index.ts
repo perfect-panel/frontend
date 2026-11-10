@@ -33,3 +33,9 @@ export { formSchema, protocolApiScheme } from "./schemas";
 export type { FieldConfig, ProtocolType } from "./types";
 // Re-export hooks
 export { useProtocolFields } from "./useProtocolFields";
+
+export {
+  getProtocolFormValues,
+  getUneditableProtocols,
+  preserveUneditableProtocols,
+} from "./values";

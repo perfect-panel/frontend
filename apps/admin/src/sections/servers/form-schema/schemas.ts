@@ -10,6 +10,8 @@ import {
   MIERU_MULTIPLEX,
   multiplexLevels,
   NAIVE_CONGESTION,
+  NOWHERE_NETWORKS,
+  NOWHERE_OBFS,
   SECURITY,
   SHADOWSOCKS_PLUGINS,
   SNELL_OBFS,
@@ -201,6 +203,19 @@ const naive = z.object({
   quic_congestion_control: z.enum(NAIVE_CONGESTION).nullish(),
 });
 
+const nowhere = z.object({
+  ...common,
+  ...certificate,
+  type: z.literal("nowhere"),
+  version: z.literal(3).default(3),
+  security: z.literal("tls").default("tls"),
+  alpn: z.tuple([z.literal("nw3")]).default(["nw3"]),
+  network: z.enum(NOWHERE_NETWORKS).default("mix"),
+  obfs: z.enum(NOWHERE_OBFS).default("morph"),
+  allow_insecure: z.literal(false).default(false),
+  cert_mode: z.enum(["self", "http", "dns"]).default("self"),
+});
+
 const mieru = z.object({
   ...common,
   type: z.literal("mieru"),
@@ -323,6 +338,23 @@ function refineProtocol(
   const type = String(protocol.type ?? "");
   const security = lowered(protocol.security);
   const transport = lowered(protocol.transport);
+
+  if (type === "nowhere" && protocol.enable) {
+    if (typeof protocol.port !== "number" || protocol.port < 1) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Nowhere requires a listening port.",
+        path: ["port"],
+      });
+    }
+    if (!trimmed(protocol.sni)) {
+      ctx.addIssue({
+        code: "custom",
+        message: "Nowhere requires a TLS server name.",
+        path: ["sni"],
+      });
+    }
+  }
 
   if (type === "hysteria2") {
     const hopPorts = trimmed(protocol.hop_ports);
@@ -457,6 +489,7 @@ export const protocolApiScheme = z.discriminatedUnion("type", [
   mieru,
   shadowsocksr,
   snell,
+  nowhere,
 ]);
 
 export const formSchema = z.object({
