@@ -19,6 +19,31 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.23.0](https://github.com/perfect-panel/frontend/compare/v1.22.0...v1.23.0) (2026-11-10)
+
+### ✨ Features / 新功能
+
+* **nowhere:** add NW3 forms and preserve stored protocols ([4da813b](https://github.com/perfect-panel/frontend/commit/4da813b8825da61943c5c129f12abed74e91556d))
+* **subscribe:** 购买已持有的套餐时提示续订 ([91c4bbd](https://github.com/perfect-panel/frontend/commit/91c4bbdbe95c2e640bc0252cc92df055073e1d46))
+
+### 🐛 Bug Fixes / 问题修复
+
+* explain password rules and translate backend errors ([404a5a0](https://github.com/perfect-panel/frontend/commit/404a5a080d2f16f435ad2b0a3fe0c35a86c0ade1))
+* **subscribe:** 续订提醒弹窗限制高度并可滚动 ([65d85ec](https://github.com/perfect-panel/frontend/commit/65d85ec3c66c8b671fcbf979aa26566ce31663fd))
+* **ticket:** show users that support has replied ([bee2fe4](https://github.com/perfect-panel/frontend/commit/bee2fe47081d908d901106879a774ab4347964d1))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([4032016](https://github.com/perfect-panel/frontend/commit/40320162fa85c0ed29178ca4055264b7d30fc247))
+* **api:** sync Swagger from backend ([7d7d0df](https://github.com/perfect-panel/frontend/commit/7d7d0dfcc4e6f89b9ef0a13e15878a8c1e9632a3))
+
+### 🔧 Chores / 其他变更
+
+* **release:** Release 1.22.0-dev.3 / 发布版本 1.22.0-dev.3 [skip ci] ([ee62b33](https://github.com/perfect-panel/frontend/commit/ee62b33e70d189be7d9f484b512e073255545a1b))
+* **release:** Release 1.22.1-dev.1 / 发布版本 1.22.1-dev.1 [skip ci] ([6f8365c](https://github.com/perfect-panel/frontend/commit/6f8365c6113131d40df1fc15dae1c5b22ac0f315))
+* **release:** Release 1.22.1-dev.2 / 发布版本 1.22.1-dev.2 [skip ci] ([ab72415](https://github.com/perfect-panel/frontend/commit/ab724151edce5576a8cefe3cd7a30670e730457c))
+* **release:** Release 1.23.0-dev.1 / 发布版本 1.23.0-dev.1 [skip ci] ([26a6a64](https://github.com/perfect-panel/frontend/commit/26a6a64ba727ad7872daacfddb6382f983d9badc))
+
 ## [1.23.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.22.1-dev.2...v1.23.0-dev.1) (2026-11-03)
 
 ### ✨ Features / 新功能
