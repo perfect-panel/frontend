@@ -810,6 +810,16 @@ export function ProtocolForm() {
                                             "user info (traffic, expiry, etc.)"
                                           )}
                                         </li>
+                                        <li>
+                                          <code className="rounded px-1">
+                                            {"{{ .UserInfo.NowhereKey }}"}
+                                          </code>{" "}
+                                          -{" "}
+                                          {t(
+                                            "form.descriptions.template.nowhereKey",
+                                            "NW3 shared key; other protocols continue to use .UserInfo.Password"
+                                          )}
+                                        </li>
                                       </ul>
                                     </div>
 

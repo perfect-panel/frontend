@@ -69,7 +69,8 @@
         "subscribeName": "订阅名称",
         "title": "Go 模板语法",
         "userInfo": "用户信息（流量、到期等）",
-        "variables": "可用变量："
+        "variables": "可用变量：",
+        "nowhereKey": "NW3 专用密钥；其他协议继续使用 .UserInfo.Password"
       },
       "userAgentPrefix": "用于区分不同客户端的客户端标识符"
     },

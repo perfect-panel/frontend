@@ -10,6 +10,7 @@ export const protocols = [
   "mieru",
   "shadowsocksr",
   "snell",
+  "nowhere",
 ] as const;
 
 // Global label map for display; fallback to raw value if missing
@@ -18,6 +19,8 @@ export const LABELS = {
   tcp: "TCP",
   udp: "UDP",
   both: "TCP + UDP",
+  mix: "TLS + QUIC",
+  morph: "Morph",
   "tcp,udp": "TCP + UDP",
   ws: "WebSocket",
   websocket: "WebSocket",
@@ -197,3 +200,6 @@ export function getLabel(value: string): string {
   const label = (LABELS as Record<string, string>)[value];
   return label ?? value.toUpperCase();
 }
+
+export const NOWHERE_NETWORKS = ["mix", "tcp", "udp"] as const;
+export const NOWHERE_OBFS = ["morph", "none"] as const;

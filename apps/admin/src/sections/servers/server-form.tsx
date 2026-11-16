@@ -34,6 +34,7 @@ import {
 import {
   Sheet,
   SheetContent,
+  SheetDescription,
   SheetFooter,
   SheetHeader,
   SheetTitle,
@@ -53,8 +54,11 @@ import {
   formSchema,
   getLabel,
   getProtocolDefaultConfig,
+  getProtocolFormValues,
+  getUneditableProtocols,
   protocols as PROTOCOLS,
   type ProtocolType,
+  preserveUneditableProtocols,
   useProtocolFields,
 } from "./form-schema";
 
@@ -79,37 +83,6 @@ function getVisibleRequiredFields(
     (field) =>
       field.required && (!field.condition || field.condition(protocolData, {}))
   );
-}
-
-function normalizeMultiplexValue(
-  protocolType: ProtocolType,
-  value: unknown,
-  fallback: unknown
-) {
-  const raw = String(value || fallback || "").trim();
-  if (protocolType !== "mieru") {
-    return raw || "none";
-  }
-
-  switch (raw.toUpperCase()) {
-    case "NONE":
-    case "OFF":
-    case "MULTIPLEXING_OFF":
-      return "MULTIPLEXING_OFF";
-    case "":
-    case "LOW":
-    case "MULTIPLEXING_LOW":
-      return "MULTIPLEXING_LOW";
-    case "MIDDLE":
-    case "MEDIUM":
-    case "MULTIPLEXING_MIDDLE":
-      return "MULTIPLEXING_MIDDLE";
-    case "HIGH":
-    case "MULTIPLEXING_HIGH":
-      return "MULTIPLEXING_HIGH";
-    default:
-      return raw;
-  }
 }
 
 const PRESERVED_HIDDEN_PROTOCOL_FIELDS = new Set([
@@ -515,10 +488,11 @@ export default function ServerForm(props: {
   const { trigger, title, loading, initialValues, onSubmit } = props;
   const { t } = useTranslation("servers");
   const [open, setOpen] = useState(false);
-  const [accordionValue, setAccordionValue] = useState<string>();
+  const [accordionValue, setAccordionValue] = useState("");
 
   const { isProtocolUsedInNodes } = useNode();
   const PROTOCOL_FIELDS = useProtocolFields();
+  const uneditableProtocols = getUneditableProtocols(initialValues?.protocols);
 
   const form = useForm<Record<string, any>>({
     resolver: zodResolver(formSchema) as unknown as Resolver<
@@ -545,56 +519,7 @@ export default function ServerForm(props: {
         country: "",
         city: "",
         ...initialValues,
-        protocols: PROTOCOLS.map((type) => {
-          const existingProtocol = initialValues.protocols?.find(
-            (protocol) =>
-              protocol.type === type ||
-              (type === "hysteria2" && protocol.type === "hysteria")
-          );
-          const defaultConfig = getProtocolDefaultConfig(type);
-          if (!existingProtocol) return defaultConfig;
-
-          const merged = {
-            ...defaultConfig,
-            ...existingProtocol,
-            type,
-            transport:
-              existingProtocol.transport === "websocket"
-                ? "ws"
-                : existingProtocol.transport,
-            plugin: existingProtocol.plugin || "none",
-            multiplex: normalizeMultiplexValue(
-              type,
-              existingProtocol.multiplex,
-              defaultConfig.multiplex
-            ),
-          };
-          // Only these three are TLS-only. anytls and trojan also accept
-          // REALITY, so coercing them here would rewrite a stored REALITY node.
-          if (["hysteria2", "tuic", "naive"].includes(type)) {
-            merged.security = "tls";
-            if (!merged.cert_mode || merged.cert_mode === "none") {
-              merged.cert_mode = "self";
-            }
-          }
-          if (
-            ["anytls", "trojan"].includes(type) &&
-            !["tls", "reality"].includes(String(merged.security))
-          ) {
-            merged.security = "tls";
-            merged.cert_mode = "self";
-          }
-          if (merged.security === "reality") {
-            // Never overwrite a stored transport: REALITY rides any stream
-            // transport on vless, and rewriting it here made every edit — even
-            // a rename — silently destroy an xhttp node's configuration.
-            if (!merged.transport) {
-              merged.transport = "tcp";
-            }
-            merged.cert_mode = "none";
-          }
-          return merged;
-        }),
+        protocols: getProtocolFormValues(initialValues.protocols),
       });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -733,7 +658,10 @@ export default function ServerForm(props: {
       country: values.country,
       city: values.city,
       address: values.address,
-      protocols: filteredProtocols,
+      protocols: preserveUneditableProtocols(
+        filteredProtocols,
+        initialValues?.protocols
+      ) as API.Protocol[],
     };
 
     const ok = await onSubmit(result);
@@ -765,6 +693,12 @@ export default function ServerForm(props: {
       <SheetContent className="w-[700px] max-w-full gap-0 md:max-w-3xl">
         <SheetHeader>
           <SheetTitle>{title}</SheetTitle>
+          <SheetDescription className="sr-only">
+            {t(
+              "protocol_configurations_desc",
+              "Enable and configure the required protocol types"
+            )}
+          </SheetDescription>
         </SheetHeader>
         <ScrollArea className="h-[calc(100dvh-48px-36px-36px-env(safe-area-inset-top))]">
           <Form {...form}>
@@ -851,6 +785,19 @@ export default function ServerForm(props: {
                 </p>
               </div>
 
+              {uneditableProtocols.length > 0 && (
+                <p className="mb-3 text-muted-foreground text-xs">
+                  {t(
+                    "uneditable_protocols_preserved",
+                    "These protocols are not editable in this panel and will be preserved when saving: {{protocols}}",
+                    {
+                      protocols: uneditableProtocols
+                        .map((protocol) => protocol.type)
+                        .join(", "),
+                    }
+                  )}
+                </p>
+              )}
               <Accordion
                 className="w-full space-y-3"
                 collapsible
@@ -872,74 +819,96 @@ export default function ServerForm(props: {
                       key={type}
                       value={type}
                     >
-                      <AccordionTrigger className="px-4 py-3 hover:no-underline">
-                        <div className="flex w-full items-center justify-between">
-                          <div className="flex flex-col items-start gap-1">
-                            <div className="flex items-center gap-1">
-                              <span className="font-medium capitalize">
-                                {type}
-                              </span>
-                              {current.transport && (
-                                <Badge className="text-xs" variant="secondary">
-                                  {current.transport.toUpperCase()}
-                                </Badge>
-                              )}
-                              {current.security &&
-                                current.security !== "none" && (
-                                  <Badge className="text-xs" variant="outline">
-                                    {current.security.toUpperCase()}
-                                  </Badge>
-                                )}
-                              {current.port && (
-                                <Badge className="text-xs">
-                                  {current.port}
-                                </Badge>
-                              )}
+                      <div className="flex items-center pr-4">
+                        <div className="min-w-0 flex-1">
+                          <AccordionTrigger className="px-4 py-3 hover:no-underline">
+                            <div className="flex w-full items-center justify-between">
+                              <div className="flex flex-col items-start gap-1">
+                                <div className="flex items-center gap-1">
+                                  <span className="font-medium capitalize">
+                                    {type}
+                                  </span>
+                                  {current.transport && (
+                                    <Badge
+                                      className="text-xs"
+                                      variant="secondary"
+                                    >
+                                      {current.transport.toUpperCase()}
+                                    </Badge>
+                                  )}
+                                  {current.security &&
+                                    current.security !== "none" && (
+                                      <Badge
+                                        className="text-xs"
+                                        variant="outline"
+                                      >
+                                        {current.security.toUpperCase()}
+                                      </Badge>
+                                    )}
+                                  {current.port && (
+                                    <Badge className="text-xs">
+                                      {current.port}
+                                    </Badge>
+                                  )}
+                                </div>
+                                <div className="flex items-center gap-1">
+                                  <span
+                                    className={cn(
+                                      "text-xs",
+                                      isEnabled
+                                        ? "text-green-500"
+                                        : "text-muted-foreground"
+                                    )}
+                                  >
+                                    {isEnabled
+                                      ? t("enabled", "Enabled")
+                                      : t("disabled", "Disabled")}
+                                  </span>
+                                </div>
+                              </div>
                             </div>
-                            <div className="flex items-center gap-1">
-                              <span
-                                className={cn(
-                                  "text-xs",
-                                  isEnabled
-                                    ? "text-green-500"
-                                    : "text-muted-foreground"
-                                )}
-                              >
-                                {isEnabled
-                                  ? t("enabled", "Enabled")
-                                  : t("disabled", "Disabled")}
-                              </span>
-                            </div>
-                          </div>
-                          <Switch
-                            checked={!!isEnabled}
-                            className="mr-2"
-                            disabled={Boolean(
-                              initialValues?.id &&
-                                isProtocolUsedInNodes(
-                                  initialValues?.id || 0,
-                                  type
-                                ) &&
-                                isEnabled
-                            )}
-                            onCheckedChange={(checked) => {
-                              form.setValue(`protocols.${i}.enable`, checked);
-                              if (checked) {
-                                setAccordionValue(type);
-                                return;
-                              }
-
-                              if (accordionValue === type) {
-                                setAccordionValue(undefined);
-                              }
-                              form.clearErrors(`protocols.${i}` as any);
-                            }}
-                            onClick={(e) => e.stopPropagation()}
-                          />
+                          </AccordionTrigger>
                         </div>
-                      </AccordionTrigger>
+                        <Switch
+                          aria-label={t(
+                            "protocol_enabled",
+                            "Enable {{protocol}}",
+                            { protocol: type }
+                          )}
+                          checked={!!isEnabled}
+                          className="mr-2"
+                          disabled={Boolean(
+                            initialValues?.id &&
+                              isProtocolUsedInNodes(
+                                initialValues?.id || 0,
+                                type
+                              ) &&
+                              isEnabled
+                          )}
+                          onCheckedChange={(checked) => {
+                            form.setValue(`protocols.${i}.enable`, checked);
+                            if (checked) {
+                              setAccordionValue(type);
+                              return;
+                            }
+
+                            if (accordionValue === type) {
+                              setAccordionValue("");
+                            }
+                            form.clearErrors(`protocols.${i}` as any);
+                          }}
+                        />
+                      </div>
                       <AccordionContent className="px-4 pt-0 pb-4">
                         <div className="-mx-4 space-y-4 rounded-b-lg border-t px-4 pt-4">
+                          {type === "nowhere" && (
+                            <p className="text-muted-foreground text-xs">
+                              {t(
+                                "nowhere_description",
+                                "NW3 · TLS 1.3 · ALPN nw3. Use an NW3 client with the same Morph setting."
+                              )}
+                            </p>
+                          )}
                           {renderGroupCard(
                             t("basic", "Basic Configuration"),
                             fields,

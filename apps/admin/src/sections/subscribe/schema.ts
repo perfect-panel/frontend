@@ -11,6 +11,24 @@ export const subscribeSchema = {
         Server: { type: "string", description: "Server host" },
         Port: { type: "number", description: "Server port" },
         Type: { type: "string", description: "Proxy type" },
+        Version: {
+          type: "number",
+          description: "Protocol version; Nowhere uses NW3 (3)",
+        },
+        Network: {
+          type: "string",
+          description: "Listening network; Nowhere uses mix, tcp or udp",
+        },
+        ALPN: {
+          type: "array",
+          items: { type: "string" },
+          description: "TLS ALPN; Nowhere uses [nw3]",
+        },
+        Obfs: {
+          type: "string",
+          description:
+            "Obfuscation; Nowhere uses morph (morph=1) or none (morph=0)",
+        },
         Tags: {
           type: "array",
           description: "Node tags",
@@ -214,7 +232,16 @@ export const subscribeSchema = {
     type: "object",
     description: "User information",
     properties: {
-      Password: { type: "string", description: "User password" },
+      Password: {
+        type: "string",
+        description:
+          "Original subscription password for protocols other than Nowhere",
+      },
+      NowhereKey: {
+        type: "string",
+        description:
+          "NW3 shared key: 32 lowercase hexadecimal characters; use .UserInfo.NowhereKey for Nowhere only",
+      },
       ExpiredAt: { type: "string", description: "Expiration date" },
       Download: { type: "number", description: "Downloaded bytes" },
       Upload: { type: "number", description: "Uploaded bytes" },

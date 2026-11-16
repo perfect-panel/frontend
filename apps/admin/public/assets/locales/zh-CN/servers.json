@@ -209,5 +209,9 @@
   "quic_congestion_control": "QUIC 拥塞控制",
   "ssr_protocol": "SSR 协议",
   "protocol_param": "协议参数",
-  "obfs_param": "混淆参数"
+  "obfs_param": "混淆参数",
+  "nowhere_morph": "Morph 伪装",
+  "nowhere_description": "NW3 · TLS 1.3 · ALPN nw3。请使用 NW3 客户端，并保持客户端与节点的 Morph 设置一致。",
+  "uneditable_protocols_preserved": "当前面板暂不支持编辑以下协议，保存时将保留原配置：{{protocols}}",
+  "protocol_enabled": "启用 {{protocol}}"
 }

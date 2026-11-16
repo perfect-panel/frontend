@@ -17,6 +17,8 @@ import {
   MIERU_MULTIPLEX,
   multiplexLevels,
   NAIVE_CONGESTION,
+  NOWHERE_NETWORKS,
+  NOWHERE_OBFS,
   SECURITY,
   SHADOWSOCKS_PLUGINS,
   SNELL_OBFS,
@@ -651,6 +653,31 @@ export function useProtocolFields() {
         streamSecurity(SECURITY.naive),
         ...certificateFields(() => true),
         ...echFields(),
+      ],
+      nowhere: [
+        ratio(),
+        port(),
+        {
+          name: "network",
+          type: "select",
+          label: t("network", "Network"),
+          options: NOWHERE_NETWORKS,
+          defaultValue: "mix",
+          required: true,
+          group: "basic",
+        },
+        {
+          name: "obfs",
+          type: "select",
+          label: t("nowhere_morph", "Morph"),
+          options: NOWHERE_OBFS,
+          defaultValue: "morph",
+          required: true,
+          group: "obfs",
+        },
+        ...certificateFields(() => true).filter(
+          (field) => field.name !== "allow_insecure"
+        ),
       ],
       mieru: [
         ratio(),

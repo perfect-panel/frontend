@@ -209,5 +209,9 @@
   "quic_congestion_control": "QUIC Congestion Control",
   "ssr_protocol": "SSR Protocol",
   "protocol_param": "Protocol Param",
-  "obfs_param": "Obfuscation Param"
+  "obfs_param": "Obfuscation Param",
+  "nowhere_morph": "Morph",
+  "nowhere_description": "NW3 · TLS 1.3 · ALPN nw3. Use an NW3 client with the same Morph setting.",
+  "uneditable_protocols_preserved": "These protocols are not editable in this panel and will be preserved when saving: {{protocols}}",
+  "protocol_enabled": "Enable {{protocol}}"
 }
