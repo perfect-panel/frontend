@@ -27,6 +27,7 @@ import {
   getV1PublicUserAffiliateList as queryUserAffiliateList,
 } from "@workspace/ui/services/user/user";
 import { formatDate } from "@workspace/ui/utils/formatting";
+import { unitConversion } from "@workspace/ui/utils/unit-conversions";
 import { Copy } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { CopyToClipboard } from "react-copy-to-clipboard";
@@ -65,7 +66,7 @@ export default function Affiliate() {
 
   const handleWithdraw = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    const amount = Number(withdrawAmount);
+    const amount = unitConversion("dollarsToCents", withdrawAmount);
     const content = withdrawContent.trim();
 
     if (!Number.isFinite(amount) || amount <= 0) {
