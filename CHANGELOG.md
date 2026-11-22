@@ -29,6 +29,21 @@ This document records all notable changes to ShadCN Admin.
 
 * **api:** sync Swagger from backend ([f986065](https://github.com/perfect-panel/frontend/commit/f986065da9d0f3f83b7d7b764bd7cf5266637269))
 
+## [1.23.1](https://github.com/perfect-panel/frontend/compare/v1.23.0...v1.23.1) (2026-11-22)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **affiliate:** 佣金提现金额按分提交 ([45b9894](https://github.com/perfect-panel/frontend/commit/45b9894aa36f6419adf43f3450bee019f18eecc9))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([f986065](https://github.com/perfect-panel/frontend/commit/f986065da9d0f3f83b7d7b764bd7cf5266637269))
+
+### 🔧 Chores / 其他变更
+
+* **api:** sync generated Nowhere protocol descriptions ([6160a59](https://github.com/perfect-panel/frontend/commit/6160a59b03ae2ed3d79fbf3dc688b242df493170))
+* **release:** Release 1.23.1-dev.1 / 发布版本 1.23.1-dev.1 [skip ci] ([ab18da2](https://github.com/perfect-panel/frontend/commit/ab18da2ce99e4bb56eeeacda5513bff0ad0a7b62))
+
 ## [1.23.1-dev.1](https://github.com/perfect-panel/frontend/compare/v1.23.0...v1.23.1-dev.1) (2026-11-22)
 
 ### 🐛 Bug Fixes / 问题修复
