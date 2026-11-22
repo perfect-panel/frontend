@@ -19,6 +19,16 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.24.0-dev.1](https://github.com/perfect-panel/frontend/compare/v1.23.1-dev.1...v1.24.0-dev.1) (2026-11-22)
+
+### ✨ Features / 新功能
+
+* **mail:** configure Resend and Cloudflare delivery in admin ([5ce8278](https://github.com/perfect-panel/frontend/commit/5ce8278e34c1e9eef054e82c2fab4a0477009a34))
+
+### 📚 Documentation / 文档更新
+
+* **api:** sync Swagger from backend ([f986065](https://github.com/perfect-panel/frontend/commit/f986065da9d0f3f83b7d7b764bd7cf5266637269))
+
 ## [1.23.1-dev.1](https://github.com/perfect-panel/frontend/compare/v1.23.0...v1.23.1-dev.1) (2026-11-22)
 
 ### 🐛 Bug Fixes / 问题修复
