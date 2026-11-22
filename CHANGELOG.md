@@ -19,6 +19,16 @@ This document records all notable changes to ShadCN Admin.
 ---
 
 
+## [1.23.1-dev.1](https://github.com/perfect-panel/frontend/compare/v1.23.0...v1.23.1-dev.1) (2026-11-22)
+
+### 🐛 Bug Fixes / 问题修复
+
+* **affiliate:** 佣金提现金额按分提交 ([45b9894](https://github.com/perfect-panel/frontend/commit/45b9894aa36f6419adf43f3450bee019f18eecc9))
+
+### 🔧 Chores / 其他变更
+
+* **api:** sync generated Nowhere protocol descriptions ([6160a59](https://github.com/perfect-panel/frontend/commit/6160a59b03ae2ed3d79fbf3dc688b242df493170))
+
 ## [1.23.0](https://github.com/perfect-panel/frontend/compare/v1.22.0...v1.23.0) (2026-11-10)
 
 ### ✨ Features / 新功能
