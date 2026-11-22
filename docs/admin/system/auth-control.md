@@ -19,12 +19,12 @@ The following sections mirror the cards you see in the admin panel—work throug
    - `Email verification`: Forces new users or sensitive actions to complete email OTP first.
    - `Domain whitelist`: Only allow addresses from specific domains (one suffix per line, e.g. `gmail.com`).
 
-2. **SMTP platform**
-   - `Server` & `Port`: SMTP host/port (most providers use 25/465/587).
-   - `SSL/TLS`: Match the encryption required by your provider.
-   - `Account / Password`: SMTP credentials (app passwords recommended).
-   - `From address`: What recipients see in their inbox; must match an allowed sender.
-   - `Send test email`: Enter any inbox and send immediately to confirm deliverability.
+2. **Email delivery**
+   - Choose **SMTP**, **Resend**, or **Cloudflare Email Service**.
+   - For SMTP, enter the host, port, encryption setting and relay credentials.
+   - For Resend, enter an API key with sending access. For Cloudflare, enter the account ID and a token with **Email Sending Write** permission.
+   - Enter the From address and an optional Reply-To address. With either API provider, verify the sending domain first.
+   - Save, reopen Email Settings and use **Send Test Email** to check the selected account.
 
 3. **Template tabs** (`Verify / Expiration / Maintenance / Traffic`)
    - Templates are HTML-capable and support variables:
@@ -87,7 +87,7 @@ Best for client/TV apps that exchange a one-time device code.
 
 ## Operational Tips
 
-- Snapshot SMTP/SMS credentials before switching providers so you can roll back quickly.
+- Snapshot email and SMS credentials before switching providers so you can roll back quickly.
 - Always use “Send test email” or “Test SMS” after editing settings—production users should never be the first to try a new config.
 - Provider-specific SMS fields change dynamically; if a required field is missing, define it in the vendor console via template variables.
 - For OAuth flows (Apple/Google/etc.), rehearse the entire login in a sandbox account to confirm the redirect URI and scopes are correct.

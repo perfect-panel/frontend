@@ -61,7 +61,7 @@
     "sendFailure": "Email send failed",
     "sendSuccess": "Email sent successfully",
     "sendTestEmail": "Send Test Email",
-    "sendTestEmailDescription": "Send a test email to verify your SMTP configuration",
+    "sendTestEmailDescription": "Save your settings before sending a test email.",
     "smtpAccount": "SMTP Account",
     "smtpAccountDescription": "The SMTP authentication username",
     "smtpEncryptionMethod": "SSL/TLS Encryption",
@@ -72,7 +72,9 @@
     "smtpServerAddressDescription": "The SMTP server hostname",
     "smtpServerPort": "SMTP Server Port",
     "smtpServerPortDescription": "The SMTP server port (usually 25, 465, or 587)",
-    "smtpSettings": "SMTP Settings",
+    "deliverySettings": "Email delivery",
+    "provider": "Delivery provider",
+    "cloudflareTokenPermission": "The token needs Email Sending Write permission for this account.",
     "templateVariables": {
       "code": {
         "description": "Verification code"

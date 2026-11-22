@@ -12,6 +12,13 @@ import {
 } from "@workspace/ui/components/form";
 import { ScrollArea } from "@workspace/ui/components/scroll-area";
 import {
+  Select,
+  SelectContent,
+  SelectItem,
+  SelectTrigger,
+  SelectValue,
+} from "@workspace/ui/components/select";
+import {
   Sheet,
   SheetContent,
   SheetFooter,
@@ -32,6 +39,7 @@ import { EnhancedInput } from "@workspace/ui/composed/enhanced-input";
 import { Icon } from "@workspace/ui/composed/icon";
 import {
   getAuthMethodConfig,
+  getAuthMethodEmailPlatform,
   postAuthMethodTestEmailSend as testEmailSend,
   putAuthMethodConfig as updateAuthMethodConfig,
 } from "@workspace/ui/services/admin/admin";
@@ -42,7 +50,14 @@ import { toast } from "sonner";
 import {
   type EmailSettingsFormData,
   emailSettingsSchema,
+  initialEmailPlatformConfig,
 } from "./email-settings-schema";
+
+const providerNames: Record<string, string> = {
+  smtp: "SMTP",
+  resend: "Resend",
+  cloudflare: "Cloudflare Email Service",
+};
 
 export default function EmailSettingsForm() {
   const { t } = useTranslation("auth-control");
@@ -58,6 +73,12 @@ export default function EmailSettingsForm() {
       });
       return data.data;
     },
+    enabled: open,
+  });
+
+  const { data: platforms } = useQuery({
+    queryKey: ["getEmailPlatform"],
+    queryFn: async () => (await getAuthMethodEmailPlatform()).data.data?.list,
     enabled: open,
   });
 
@@ -80,35 +101,33 @@ export default function EmailSettingsForm() {
         traffic_exceed_email_subject: "",
         traffic_exceed_email_template: "",
         platform: "smtp",
-        platform_config: {
-          host: "",
-          port: 587,
-          ssl: false,
-          user: "",
-          pass: "",
-          from: "",
-          reply_to: "",
-        },
+        platform_config: initialEmailPlatformConfig("smtp"),
       },
     },
   });
 
+  const { isDirty } = form.formState;
+  const platform = form.watch("config.platform") || "smtp";
+
   useEffect(() => {
-    if (data) {
-      form.reset(data);
+    if (open && data) {
+      form.reset({
+        ...data,
+        config: {
+          ...data.config,
+          platform: data.config?.platform || "smtp",
+          platform_config:
+            data.config?.platform_config ??
+            initialEmailPlatformConfig(data.config?.platform || "smtp"),
+        },
+      });
     }
-  }, [data, form]);
+  }, [data, form, open]);
 
   async function onSubmit(values: EmailSettingsFormData) {
     setLoading(true);
     try {
-      await updateAuthMethodConfig({
-        ...values,
-        config: {
-          ...values.config,
-          platform: "smtp",
-        },
-      } as API.UpdateAuthMethodConfigRequest);
+      await updateAuthMethodConfig(values as API.UpdateAuthMethodConfigRequest);
       toast.success(t("common.saveSuccess", "Saved successfully"));
       refetch();
       setOpen(false);
@@ -158,8 +177,8 @@ export default function EmailSettingsForm() {
                   <TabsTrigger value="basic">
                     {t("email.basicSettings", "Basic Settings")}
                   </TabsTrigger>
-                  <TabsTrigger value="smtp">
-                    {t("email.smtpSettings", "SMTP Settings")}
+                  <TabsTrigger value="delivery">
+                    {t("email.deliverySettings", "Email delivery")}
                   </TabsTrigger>
                   <TabsTrigger value="verify">
                     {t("email.verifyTemplate", "Verify Template")}
@@ -286,153 +305,261 @@ export default function EmailSettingsForm() {
                   />
                 </TabsContent>
 
-                <TabsContent className="space-y-2" value="smtp">
+                <TabsContent className="space-y-2" value="delivery">
                   <FormField
                     control={form.control}
-                    name="config.platform_config.host"
+                    name="config.platform"
                     render={({ field }) => (
                       <FormItem>
                         <FormLabel>
-                          {t("email.smtpServerAddress", "SMTP Server Address")}
+                          {t("email.provider", "Delivery provider")}
                         </FormLabel>
-                        <FormControl>
-                          <EnhancedInput
-                            onValueChange={field.onChange}
-                            placeholder={t(
-                              "email.inputPlaceholder",
-                              "Please enter"
-                            )}
-                            value={field.value}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          {t(
-                            "email.smtpServerAddressDescription",
-                            "The SMTP server hostname"
-                          )}
-                        </FormDescription>
+                        <Select
+                          onValueChange={(next) => {
+                            if (next === platform) return;
+                            const config = initialEmailPlatformConfig(
+                              next,
+                              form.getValues("config.platform_config")
+                            );
+                            field.onChange(next);
+                            form.setValue("config.platform_config", config, {
+                              shouldDirty: true,
+                            });
+                          }}
+                          value={platform}
+                        >
+                          <FormControl>
+                            <SelectTrigger>
+                              <SelectValue />
+                            </SelectTrigger>
+                          </FormControl>
+                          <SelectContent>
+                            {(
+                              platforms?.map((item) => item.platform) ?? [
+                                platform,
+                              ]
+                            )
+                              .filter((id) => Object.hasOwn(providerNames, id))
+                              .map((id) => (
+                                <SelectItem key={id} value={id}>
+                                  {providerNames[id]}
+                                </SelectItem>
+                              ))}
+                          </SelectContent>
+                        </Select>
                         <FormMessage />
                       </FormItem>
                     )}
                   />
+                  {platform === "smtp" && (
+                    <>
+                      <FormField
+                        control={form.control}
+                        name="config.platform_config.host"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t(
+                                "email.smtpServerAddress",
+                                "SMTP Server Address"
+                              )}
+                            </FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                onValueChange={field.onChange}
+                                placeholder={t(
+                                  "email.inputPlaceholder",
+                                  "Please enter"
+                                )}
+                                value={field.value}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              {t(
+                                "email.smtpServerAddressDescription",
+                                "The SMTP server hostname"
+                              )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <FormField
-                    control={form.control}
-                    name="config.platform_config.port"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("email.smtpServerPort", "SMTP Server Port")}
-                        </FormLabel>
-                        <FormControl>
-                          <EnhancedInput
-                            onValueChange={(value) =>
-                              field.onChange(Number(value))
-                            }
-                            placeholder="587"
-                            type="number"
-                            value={field.value?.toString()}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          {t(
-                            "email.smtpServerPortDescription",
-                            "The SMTP server port (usually 25, 465, or 587)"
-                          )}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormField
+                        control={form.control}
+                        name="config.platform_config.port"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t("email.smtpServerPort", "SMTP Server Port")}
+                            </FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                onValueChange={(value) =>
+                                  field.onChange(Number(value))
+                                }
+                                placeholder="587"
+                                type="number"
+                                value={field.value?.toString()}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              {t(
+                                "email.smtpServerPortDescription",
+                                "The SMTP server port (usually 25, 465, or 587)"
+                              )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <FormField
-                    control={form.control}
-                    name="config.platform_config.ssl"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t(
-                            "email.smtpEncryptionMethod",
-                            "SSL/TLS Encryption"
-                          )}
-                        </FormLabel>
-                        <FormControl>
-                          <Switch
-                            checked={field.value}
-                            className="!mt-0 float-end"
-                            onCheckedChange={field.onChange}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          {t(
-                            "email.smtpEncryptionMethodDescription",
-                            "Enable SSL/TLS encryption for SMTP connection"
-                          )}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormField
+                        control={form.control}
+                        name="config.platform_config.ssl"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t(
+                                "email.smtpEncryptionMethod",
+                                "SSL/TLS Encryption"
+                              )}
+                            </FormLabel>
+                            <FormControl>
+                              <Switch
+                                checked={field.value}
+                                className="!mt-0 float-end"
+                                onCheckedChange={field.onChange}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              {t(
+                                "email.smtpEncryptionMethodDescription",
+                                "Enable SSL/TLS encryption for SMTP connection"
+                              )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <FormField
-                    control={form.control}
-                    name="config.platform_config.user"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("email.smtpAccount", "SMTP Account")}
-                        </FormLabel>
-                        <FormControl>
-                          <EnhancedInput
-                            onValueChange={field.onChange}
-                            placeholder={t(
-                              "email.inputPlaceholder",
-                              "Please enter"
-                            )}
-                            value={field.value}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          {t(
-                            "email.smtpAccountDescription",
-                            "The SMTP authentication username"
-                          )}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
+                      <FormField
+                        control={form.control}
+                        name="config.platform_config.user"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t("email.smtpAccount", "SMTP Account")}
+                            </FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                onValueChange={field.onChange}
+                                placeholder={t(
+                                  "email.inputPlaceholder",
+                                  "Please enter"
+                                )}
+                                value={field.value}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              {t(
+                                "email.smtpAccountDescription",
+                                "The SMTP authentication username"
+                              )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
 
-                  <FormField
-                    control={form.control}
-                    name="config.platform_config.pass"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormLabel>
-                          {t("email.smtpPassword", "SMTP Password")}
-                        </FormLabel>
-                        <FormControl>
-                          <EnhancedInput
-                            onValueChange={field.onChange}
-                            placeholder={t(
-                              "email.inputPlaceholder",
-                              "Please enter"
-                            )}
-                            type="password"
-                            value={field.value}
-                          />
-                        </FormControl>
-                        <FormDescription>
-                          {t(
-                            "email.smtpPasswordDescription",
-                            "The SMTP authentication password"
+                      <FormField
+                        control={form.control}
+                        name="config.platform_config.pass"
+                        render={({ field }) => (
+                          <FormItem>
+                            <FormLabel>
+                              {t("email.smtpPassword", "SMTP Password")}
+                            </FormLabel>
+                            <FormControl>
+                              <EnhancedInput
+                                onValueChange={field.onChange}
+                                placeholder={t(
+                                  "email.inputPlaceholder",
+                                  "Please enter"
+                                )}
+                                type="password"
+                                value={field.value}
+                              />
+                            </FormControl>
+                            <FormDescription>
+                              {t(
+                                "email.smtpPasswordDescription",
+                                "The SMTP authentication password"
+                              )}
+                            </FormDescription>
+                            <FormMessage />
+                          </FormItem>
+                        )}
+                      />
+                    </>
+                  )}
+                  {platform === "cloudflare" && (
+                    <FormField
+                      control={form.control}
+                      name="config.platform_config.account_id"
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>Cloudflare Account ID</FormLabel>
+                          <FormControl>
+                            <EnhancedInput
+                              onValueChange={field.onChange}
+                              required
+                              value={field.value ?? ""}
+                            />
+                          </FormControl>
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
+                  {(platform === "resend" || platform === "cloudflare") && (
+                    <FormField
+                      control={form.control}
+                      key={platform}
+                      name={
+                        platform === "resend"
+                          ? "config.platform_config.api_key"
+                          : "config.platform_config.api_token"
+                      }
+                      render={({ field }) => (
+                        <FormItem>
+                          <FormLabel>
+                            {platform === "resend"
+                              ? "Resend API Key"
+                              : "Cloudflare API Token"}
+                          </FormLabel>
+                          <FormControl>
+                            <EnhancedInput
+                              autoComplete="new-password"
+                              onValueChange={field.onChange}
+                              required
+                              type="password"
+                              value={field.value ?? ""}
+                            />
+                          </FormControl>
+                          {platform === "cloudflare" && (
+                            <FormDescription>
+                              {t(
+                                "email.cloudflareTokenPermission",
+                                "The token needs Email Sending Write permission for this account."
+                              )}
+                            </FormDescription>
                           )}
-                        </FormDescription>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-
+                          <FormMessage />
+                        </FormItem>
+                      )}
+                    />
+                  )}
                   <FormField
                     control={form.control}
                     name="config.platform_config.from"
@@ -448,6 +575,8 @@ export default function EmailSettingsForm() {
                               "email.inputPlaceholder",
                               "Please enter"
                             )}
+                            required={platform !== "smtp"}
+                            type={platform === "smtp" ? "text" : "email"}
                             value={field.value}
                           />
                         </FormControl>
@@ -503,7 +632,7 @@ export default function EmailSettingsForm() {
                         value={testEmail}
                       />
                       <Button
-                        disabled={!testEmail || isFetching}
+                        disabled={!testEmail || isFetching || isDirty}
                         onClick={async () => {
                           if (!testEmail) return;
                           try {
@@ -525,7 +654,7 @@ export default function EmailSettingsForm() {
                     <p className="text-muted-foreground text-xs">
                       {t(
                         "email.sendTestEmailDescription",
-                        "Send a test email to verify your SMTP configuration"
+                        "Save your settings before sending a test email."
                       )}
                     </p>
                   </div>
@@ -983,7 +1112,11 @@ export default function EmailSettingsForm() {
           >
             {t("common.cancel", "Cancel")}
           </Button>
-          <Button disabled={loading} form="email-settings-form" type="submit">
+          <Button
+            disabled={loading || !data}
+            form="email-settings-form"
+            type="submit"
+          >
             {loading && (
               <Icon className="mr-2 animate-spin" icon="mdi:loading" />
             )}

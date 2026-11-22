@@ -61,7 +61,7 @@
     "sendFailure": "邮件发送失败",
     "sendSuccess": "邮件发送成功",
     "sendTestEmail": "发送测试邮件",
-    "sendTestEmailDescription": "发送测试邮件以验证您的 SMTP 配置",
+    "sendTestEmailDescription": "请先保存设置，再发送测试邮件。",
     "smtpAccount": "SMTP 账户",
     "smtpAccountDescription": "SMTP 认证用户名",
     "smtpEncryptionMethod": "SSL/TLS 加密",
@@ -72,7 +72,9 @@
     "smtpServerAddressDescription": "SMTP 服务器主机名",
     "smtpServerPort": "SMTP 服务器端口",
     "smtpServerPortDescription": "SMTP 服务器端口（通常为 25、465 或 587）",
-    "smtpSettings": "SMTP 设置",
+    "deliverySettings": "邮件发送",
+    "provider": "发信服务",
+    "cloudflareTokenPermission": "令牌需要此账户的 Email Sending Write 权限。",
     "templateVariables": {
       "code": {
         "description": "验证码"
